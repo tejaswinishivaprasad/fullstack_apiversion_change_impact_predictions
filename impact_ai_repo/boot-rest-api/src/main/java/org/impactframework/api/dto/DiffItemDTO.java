@@ -9,7 +9,7 @@ public class DiffItemDTO {
     private String method;
     private String detail;
 
-    // --- getters & setters ---
+
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 

@@ -15,7 +15,7 @@ public class ReportDTO {
     private String newFile;
 
     @JsonProperty("risk_score")
-    private Double riskScore;             // boxed
+    private Double riskScore;             
 
     @JsonProperty("risk_band")
     private String riskBand;
@@ -36,12 +36,12 @@ public class ReportDTO {
     private List<ImpactItemDTO> frontendImpacts;
 
     @JsonProperty("predicted_risk")
-    private Double predictedRisk;         // boxed
+    private Double predictedRisk;         
 
     private Map<String, Double> confidence;
     private Map<String, Object> versioning;
 
-    // --- getters & setters ---
+
     public String getDataset() { return dataset; }
     public void setDataset(String dataset) { this.dataset = dataset; }
 

@@ -39,9 +39,7 @@ public class AnalysisController {
         }
     }
 
-    // ------------------------
-    // Report → typed DTO
-    // ------------------------
+    // Forward GET /analysis/report to AI Core /report and return the raw bytes
     @GetMapping("/report")
     public ResponseEntity<byte[]> report(
             @RequestParam(name= "old") String old,
@@ -49,7 +47,7 @@ public class AnalysisController {
             @RequestParam(name = "dataset", defaultValue = "openapi") String dataset,
             @RequestParam(required = false) String pairId
     ) {
-    	System.out.println("inside report");
+        System.out.println("inside report");
         StringBuilder url = new StringBuilder(aiCoreUrl + "/report?old=")
                 .append(URLEncoder.encode(old, StandardCharsets.UTF_8))
                 .append("&new=").append(URLEncoder.encode(newSpec, StandardCharsets.UTF_8))
@@ -89,11 +87,7 @@ public class AnalysisController {
         }
     }
 
-
-
-    // ------------------------
-    // Dataset passthroughs
-    // ------------------------
+    // Return datasets list from AI Core
     @GetMapping("/datasets")
     public ResponseEntity<String> listDatasets() {
         String url = aiCoreUrl + "/datasets";
@@ -103,11 +97,8 @@ public class AnalysisController {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("{\"error\":\"AI Core unavailable\"}");
         }
     }
-  
 
-
-    // ...
-
+    // Return files for a dataset. This forwards to /files?dataset=...
     @GetMapping("/datasets/{dataset:.+}")
     public ResponseEntity<Object> listDatasetFiles(@PathVariable("dataset") String dataset) {
         System.out.println("[AnalysisController] ENTER listDatasetFiles dataset=" + dataset);
@@ -143,12 +134,7 @@ public class AnalysisController {
         }
     }
 
-
-
-
-    // ------------------------
-    // Graph passthrough
-    // ------------------------
+    // Forward /graph to AI Core /graph
     @GetMapping("/graph")
     public ResponseEntity<String> graph() {
         String url = aiCoreUrl + "/graph";
@@ -159,9 +145,7 @@ public class AnalysisController {
         }
     }
 
-    // ------------------------
-    // Consumers passthrough
-    // ------------------------
+    // Forward consumers query to AI Core /api/v1/consumers
     @GetMapping("/consumers")
     public ResponseEntity<String> consumers(@RequestParam String service, @RequestParam(required = false) String path) {
         // Note: server expects /api/v1/consumers
@@ -176,9 +160,7 @@ public class AnalysisController {
         }
     }
 
-    // ------------------------
-    // Versioning passthrough
-    // ------------------------
+    // Forward versioning lookup to AI Core /versioning
     @GetMapping("/versioning")
     public ResponseEntity<String> versioning(@RequestParam String pairId) {
         // The server now exposes /versioning?pair_id=...
@@ -190,9 +172,7 @@ public class AnalysisController {
         }
     }
 
-    // ------------------------
-    // Train passthrough
-    // ------------------------
+    // Forward training payload to AI Core /train
     @PostMapping("/train")
     public ResponseEntity<String> train(@RequestBody String samplesJson) {
         String url = aiCoreUrl + "/train";

@@ -9,7 +9,7 @@ public class ImpactItemDTO {
     @JsonProperty("risk_score")
     private double riskScore;
 
-    // --- getters & setters ---
+
     public String getService() { return service; }
     public void setService(String service) { this.service = service; }
 
