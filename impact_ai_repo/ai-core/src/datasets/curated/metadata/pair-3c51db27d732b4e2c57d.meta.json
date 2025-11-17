@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:01Z",
+  "new_canonical": "openapi--apis-remove-bg-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "563b676e3488c4b5cea4",
+  "old_canonical": "openapi--apis-remove-bg-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "5e65b9abb7759c397e5f",
+  "pair_id": "pair-3c51db27d732b4e2c57d",
+  "seed": 891510643,
+  "service_name": "apis-remove-bg-1-0-0-openapi",
+  "warnings": []
+}

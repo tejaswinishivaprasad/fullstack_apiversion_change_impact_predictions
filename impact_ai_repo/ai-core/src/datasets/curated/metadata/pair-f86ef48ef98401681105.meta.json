@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:36:06Z",
+  "new_canonical": "openapi--apis-spectrocoin-com-1-0-0-swagger--v2.canonical.json",
+  "new_sha": "5a9199a63f045e7bbf37",
+  "old_canonical": "openapi--apis-spectrocoin-com-1-0-0-swagger--v1.canonical.json",
+  "old_sha": "8f4a8b81b2b7eacc68f4",
+  "pair_id": "pair-f86ef48ef98401681105",
+  "seed": 391576887,
+  "service_name": "apis-spectrocoin-com-1-0-0-swagger",
+  "warnings": []
+}

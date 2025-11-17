@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:37Z",
+  "new_canonical": "openapi--apis-vocadb-net-1-0-openapi--v2.canonical.json",
+  "new_sha": "1fdd834fca348bdc2e58",
+  "old_canonical": "openapi--apis-vocadb-net-1-0-openapi--v1.canonical.json",
+  "old_sha": "970ed31b3e7c8d966a10",
+  "pair_id": "pair-dfa6b7963d0e46b3fc14",
+  "seed": 160333311,
+  "service_name": "apis-vocadb-net-1-0-openapi",
+  "warnings": []
+}

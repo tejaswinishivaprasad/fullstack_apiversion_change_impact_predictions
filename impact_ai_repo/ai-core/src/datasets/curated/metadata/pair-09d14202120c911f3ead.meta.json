@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:19Z",
+  "new_canonical": "openapi--apis-adyen-com-terminalapi-v1-1-openapi--v2.canonical.json",
+  "new_sha": "d8016d9d95baacb2c66e",
+  "old_canonical": "openapi--apis-adyen-com-terminalapi-v1-1-openapi--v1.canonical.json",
+  "old_sha": "b4a24908f614b6751405",
+  "pair_id": "pair-09d14202120c911f3ead",
+  "seed": 390990980,
+  "service_name": "apis-adyen-com-terminalapi-v1-1-openapi",
+  "warnings": []
+}

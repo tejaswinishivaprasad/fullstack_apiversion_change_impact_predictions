@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:01Z",
+  "new_canonical": "openapi--apis-brainbi-net-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "740cb28973bf9c40e321",
+  "old_canonical": "openapi--apis-brainbi-net-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "a278b383da6a7fd3bfab",
+  "pair_id": "pair-03a156c8b704d8b1f9c2",
+  "seed": 477719740,
+  "service_name": "apis-brainbi-net-1-0-0-openapi",
+  "warnings": []
+}

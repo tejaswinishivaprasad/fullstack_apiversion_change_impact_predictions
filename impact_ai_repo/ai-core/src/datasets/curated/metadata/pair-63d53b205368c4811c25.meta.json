@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:48Z",
+  "new_canonical": "openapi--apis-mbus-local-0-3-5-openapi--v2.canonical.json",
+  "new_sha": "20f441b4ebea0ad83640",
+  "old_canonical": "openapi--apis-mbus-local-0-3-5-openapi--v1.canonical.json",
+  "old_sha": "7d9f90f343436a47e218",
+  "pair_id": "pair-63d53b205368c4811c25",
+  "seed": 319359879,
+  "service_name": "apis-mbus-local-0-3-5-openapi",
+  "warnings": []
+}

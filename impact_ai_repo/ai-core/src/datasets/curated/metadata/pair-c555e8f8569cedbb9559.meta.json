@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:45Z",
+  "new_canonical": "openapi--apis-vatapi-com-1-swagger--v2.canonical.json",
+  "new_sha": "a1501bc29ef71e560d72",
+  "old_canonical": "openapi--apis-vatapi-com-1-swagger--v1.canonical.json",
+  "old_sha": "91d91d85aa78ba3ed19b",
+  "pair_id": "pair-c555e8f8569cedbb9559",
+  "seed": 258763366,
+  "service_name": "apis-vatapi-com-1-swagger",
+  "warnings": []
+}

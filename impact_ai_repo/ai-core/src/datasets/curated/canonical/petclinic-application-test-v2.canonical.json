@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/application-test": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/application-test/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}

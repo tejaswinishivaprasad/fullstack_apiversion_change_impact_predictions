@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:49Z",
+  "new_canonical": "openapi--apis-clever-com-1-2-0-openapi--v2.canonical.json",
+  "new_sha": "6d2d6e4f8eec576d26b1",
+  "old_canonical": "openapi--apis-clever-com-1-2-0-openapi--v1.canonical.json",
+  "old_sha": "7b79fc24ad426ee16d4e",
+  "pair_id": "pair-d911356b4d417d2d2de8",
+  "seed": 2012956301,
+  "service_name": "apis-clever-com-1-2-0-openapi",
+  "warnings": []
+}

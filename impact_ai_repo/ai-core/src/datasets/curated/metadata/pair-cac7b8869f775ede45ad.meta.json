@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:22Z",
+  "new_canonical": "openapi--apis-ote-godaddy-com-aftermarket-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "544225efed58a0c97e23",
+  "old_canonical": "openapi--apis-ote-godaddy-com-aftermarket-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "e7ecb26858a08dcf7550",
+  "pair_id": "pair-cac7b8869f775ede45ad",
+  "seed": 439810201,
+  "service_name": "apis-ote-godaddy-com-aftermarket-1-0-0-openapi",
+  "warnings": []
+}

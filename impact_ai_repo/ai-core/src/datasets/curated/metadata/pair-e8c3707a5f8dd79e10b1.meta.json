@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:39Z",
+  "new_canonical": "openapi--apis-bikewise-org-v2-openapi--v2.canonical.json",
+  "new_sha": "7a1d3d67b150fdb1a2fe",
+  "old_canonical": "openapi--apis-bikewise-org-v2-openapi--v1.canonical.json",
+  "old_sha": "f1313508e26f80db6888",
+  "pair_id": "pair-e8c3707a5f8dd79e10b1",
+  "seed": 1813541583,
+  "service_name": "apis-bikewise-org-v2-openapi",
+  "warnings": []
+}

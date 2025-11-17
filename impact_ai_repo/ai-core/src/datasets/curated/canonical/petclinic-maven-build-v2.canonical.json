@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/maven-build": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/maven-build/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}

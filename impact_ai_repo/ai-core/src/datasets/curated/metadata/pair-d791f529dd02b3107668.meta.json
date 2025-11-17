@@ -1,0 +1,21 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:29Z",
+  "new_canonical": "openapi--apis-microsoft-com-cognitiveservices-computervision-2-1-openapi--v2.canonical.json",
+  "new_sha": "937b01853719342bb400",
+  "old_canonical": "openapi--apis-microsoft-com-cognitiveservices-computervision-2-1-openapi--v1.canonical.json",
+  "old_sha": "1d0d01ab9584195da636",
+  "pair_id": "pair-d791f529dd02b3107668",
+  "seed": 1978568818,
+  "service_name": "apis-microsoft-com-cognitiveservices-computervision-2-1-openapi",
+  "warnings": [
+    "cycle local #/components/schemas/ObjectHierarchy",
+    "cycle local #/components/schemas/ObjectHierarchy",
+    "cycle local #/components/schemas/ObjectHierarchy",
+    "cycle local #/components/schemas/ObjectHierarchy",
+    "cycle local #/components/schemas/ObjectHierarchy",
+    "cycle local #/components/schemas/ObjectHierarchy",
+    "cycle local #/components/schemas/ObjectHierarchy",
+    "cycle local #/components/schemas/ObjectHierarchy"
+  ]
+}

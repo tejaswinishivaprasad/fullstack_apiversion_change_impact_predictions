@@ -1,0 +1,1 @@
+{"pair_id": "pair-dac6061b02ce63b74afd", "ace_index": 0, "ace_id": "pair-dac6061b02ce63b74afd::ace::0", "type": "ENDPOINT_ADDED", "path": "/docker-compose/new", "method": "get", "detail": "/docker-compose/new", "confidence": 0.8, "side_effect": false, "calls_services": [], "shared_schemas": []}

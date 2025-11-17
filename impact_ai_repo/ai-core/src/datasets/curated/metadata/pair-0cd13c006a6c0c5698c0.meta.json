@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:39Z",
+  "new_canonical": "openapi--apis-restful4up-local-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "668cf8200d41a5f253f8",
+  "old_canonical": "openapi--apis-restful4up-local-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "3ea193d7d56acd6ccb54",
+  "pair_id": "pair-0cd13c006a6c0c5698c0",
+  "seed": 532078632,
+  "service_name": "apis-restful4up-local-1-0-0-openapi",
+  "warnings": []
+}

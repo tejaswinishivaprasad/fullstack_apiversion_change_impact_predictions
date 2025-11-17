@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:53Z",
+  "new_canonical": "openapi--apis-walletobjects-googleapis-com-pay-passes-v1-openapi--v2.canonical.json",
+  "new_sha": "f21a20123d71ebb6d291",
+  "old_canonical": "openapi--apis-walletobjects-googleapis-com-pay-passes-v1-openapi--v1.canonical.json",
+  "old_sha": "fe163f158e150e7e3977",
+  "pair_id": "pair-b548448fa6b812fa0f46",
+  "seed": 1226013478,
+  "service_name": "apis-walletobjects-googleapis-com-pay-passes-v1-openapi",
+  "warnings": []
+}

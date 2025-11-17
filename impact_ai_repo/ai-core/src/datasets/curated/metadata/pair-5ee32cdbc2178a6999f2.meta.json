@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:39Z",
+  "new_canonical": "openapi--apis-sms77-io-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "cc49ecea2bbf29c57a33",
+  "old_canonical": "openapi--apis-sms77-io-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "2f400720095f25a9f91e",
+  "pair_id": "pair-5ee32cdbc2178a6999f2",
+  "seed": 1156044301,
+  "service_name": "apis-sms77-io-1-0-0-openapi",
+  "warnings": []
+}

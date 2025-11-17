@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "/all": {
+      "get": {
+        "description": "orig"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:58Z",
+  "new_canonical": "openapi--apis-warwick-ac-uk-enterobase-v2-0-openapi--v2.canonical.json",
+  "new_sha": "0897fbaf21926592be6c",
+  "old_canonical": "openapi--apis-warwick-ac-uk-enterobase-v2-0-openapi--v1.canonical.json",
+  "old_sha": "618f1245b2325f1b72fa",
+  "pair_id": "pair-785d015c35ac5e448fed",
+  "seed": 140602885,
+  "service_name": "apis-warwick-ac-uk-enterobase-v2-0-openapi",
+  "warnings": []
+}

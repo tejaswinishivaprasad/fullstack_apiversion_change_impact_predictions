@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "/maven-build": {
+      "get": {
+        "description": "orig"
+      }
+    }
+  }
+}

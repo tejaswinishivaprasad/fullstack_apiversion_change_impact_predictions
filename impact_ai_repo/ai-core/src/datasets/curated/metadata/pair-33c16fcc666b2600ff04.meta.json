@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:03:29Z",
+  "new_canonical": "openapi--apis-parliament-uk-writtenquestions-v1-openapi--v2.canonical.json",
+  "new_sha": "883388e865c9a9acc62d",
+  "old_canonical": "openapi--apis-parliament-uk-writtenquestions-v1-openapi--v1.canonical.json",
+  "old_sha": "9373ba4d174c9e2bc4a8",
+  "pair_id": "pair-33c16fcc666b2600ff04",
+  "seed": 1974682479,
+  "service_name": "apis-parliament-uk-writtenquestions-v1-openapi",
+  "warnings": []
+}

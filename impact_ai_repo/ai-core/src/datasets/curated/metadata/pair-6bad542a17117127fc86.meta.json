@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:48Z",
+  "new_canonical": "openapi--apis-reversepp-com-1-0-swagger--v2.canonical.json",
+  "new_sha": "db6bf0c1401f7719606d",
+  "old_canonical": "openapi--apis-reversepp-com-1-0-swagger--v1.canonical.json",
+  "old_sha": "cb6ef01fb63ab7186652",
+  "pair_id": "pair-6bad542a17117127fc86",
+  "seed": 1381563059,
+  "service_name": "apis-reversepp-com-1-0-swagger",
+  "warnings": []
+}

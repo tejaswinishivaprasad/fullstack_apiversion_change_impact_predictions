@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:03:12Z",
+  "new_canonical": "openapi--apis-taxamo-com-1-swagger--v2.canonical.json",
+  "new_sha": "f7c29237b50cc3588940",
+  "old_canonical": "openapi--apis-taxamo-com-1-swagger--v1.canonical.json",
+  "old_sha": "9caf1c0a4d49c50a1cee",
+  "pair_id": "pair-43f65e21e611a85deba5",
+  "seed": 1445844321,
+  "service_name": "apis-taxamo-com-1-swagger",
+  "warnings": []
+}

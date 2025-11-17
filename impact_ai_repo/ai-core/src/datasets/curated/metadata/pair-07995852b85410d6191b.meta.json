@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:03:19Z",
+  "new_canonical": "openapi--apis-refugerestrooms-org-0-0-1-swagger--v2.canonical.json",
+  "new_sha": "1906293c49041101ac16",
+  "old_canonical": "openapi--apis-refugerestrooms-org-0-0-1-swagger--v1.canonical.json",
+  "old_sha": "661aec1f046686858b28",
+  "pair_id": "pair-07995852b85410d6191b",
+  "seed": 693002558,
+  "service_name": "apis-refugerestrooms-org-0-0-1-swagger",
+  "warnings": []
+}

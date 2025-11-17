@@ -1,0 +1,1 @@
+{"pair_id": "pair-0292dd3dadd5c9d61a84", "ace_index": 0, "ace_id": "pair-0292dd3dadd5c9d61a84::ace::0", "type": "ENDPOINT_ADDED", "path": "/auto865", "method": "get", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "1518ff65cc7307b3a2ba", "new_sha": "0b8a9e49ed78d4191c23"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

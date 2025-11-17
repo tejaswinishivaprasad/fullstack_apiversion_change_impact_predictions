@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:48Z",
+  "new_canonical": "openapi--apis-phila-gov-pollingplaces-1-0-swagger--v2.canonical.json",
+  "new_sha": "5e492a9df367b23c9333",
+  "old_canonical": "openapi--apis-phila-gov-pollingplaces-1-0-swagger--v1.canonical.json",
+  "old_sha": "69a3c546c6fddf655f7e",
+  "pair_id": "pair-2c309b3cfff272c30da5",
+  "seed": 1005455162,
+  "service_name": "apis-phila-gov-pollingplaces-1-0-swagger",
+  "warnings": []
+}

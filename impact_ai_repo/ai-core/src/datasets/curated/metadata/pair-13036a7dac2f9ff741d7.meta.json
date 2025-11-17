@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:16Z",
+  "new_canonical": "openapi--apis-transitfeeds-com-1-0-0-swagger--v2.canonical.json",
+  "new_sha": "eef82ea09ee39de1f730",
+  "old_canonical": "openapi--apis-transitfeeds-com-1-0-0-swagger--v1.canonical.json",
+  "old_sha": "9c4b45d5b2b03a8624d1",
+  "pair_id": "pair-13036a7dac2f9ff741d7",
+  "seed": 1142597454,
+  "service_name": "apis-transitfeeds-com-1-0-0-swagger",
+  "warnings": []
+}

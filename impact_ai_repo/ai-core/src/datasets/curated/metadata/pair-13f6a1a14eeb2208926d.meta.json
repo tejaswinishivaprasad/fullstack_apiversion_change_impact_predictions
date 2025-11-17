@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:20Z",
+  "new_canonical": "openapi--apis-adyen-com-disputeservice-v30-30-openapi--v2.canonical.json",
+  "new_sha": "d197fe80fa3c86f43197",
+  "old_canonical": "openapi--apis-adyen-com-disputeservice-v30-30-openapi--v1.canonical.json",
+  "old_sha": "ef3d9961f8f840b162e9",
+  "pair_id": "pair-13f6a1a14eeb2208926d",
+  "seed": 608424885,
+  "service_name": "apis-adyen-com-disputeservice-v30-30-openapi",
+  "warnings": []
+}

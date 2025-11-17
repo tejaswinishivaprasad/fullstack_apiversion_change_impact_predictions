@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:28Z",
+  "new_canonical": "openapi--apis-microsoft-com-cognitiveservices-ocr-2-1-openapi--v2.canonical.json",
+  "new_sha": "d97a0c066a1329659a4d",
+  "old_canonical": "openapi--apis-microsoft-com-cognitiveservices-ocr-2-1-openapi--v1.canonical.json",
+  "old_sha": "231a092764c8c6928eac",
+  "pair_id": "pair-eb2bda8429522445de84",
+  "seed": 253140689,
+  "service_name": "apis-microsoft-com-cognitiveservices-ocr-2-1-openapi",
+  "warnings": []
+}

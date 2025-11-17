@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:55Z",
+  "new_canonical": "openapi--apis-text2data-org-v3-4-swagger--v2.canonical.json",
+  "new_sha": "ef3584ece8ba5153a67e",
+  "old_canonical": "openapi--apis-text2data-org-v3-4-swagger--v1.canonical.json",
+  "old_sha": "445f3f2ccdbb65969eb5",
+  "pair_id": "pair-11429e88d01c9ec65f79",
+  "seed": 490677789,
+  "service_name": "apis-text2data-org-v3-4-swagger",
+  "warnings": []
+}

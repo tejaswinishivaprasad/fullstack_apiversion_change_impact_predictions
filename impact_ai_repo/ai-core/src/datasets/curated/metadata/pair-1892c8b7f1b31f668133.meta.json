@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:55Z",
+  "new_canonical": "openapi--apis-adyen-com-paymentservice-25-openapi--v2.canonical.json",
+  "new_sha": "6fa828afb9fab416f8dc",
+  "old_canonical": "openapi--apis-adyen-com-paymentservice-25-openapi--v1.canonical.json",
+  "old_sha": "b78553901c3b2d8d4941",
+  "pair_id": "pair-1892c8b7f1b31f668133",
+  "seed": 9836588,
+  "service_name": "apis-adyen-com-paymentservice-25-openapi",
+  "warnings": []
+}

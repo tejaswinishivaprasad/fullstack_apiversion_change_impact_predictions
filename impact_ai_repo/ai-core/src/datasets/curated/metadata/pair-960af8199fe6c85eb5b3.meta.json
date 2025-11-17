@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:22Z",
+  "new_canonical": "openapi--apis-ote-godaddy-com-shoppers-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "ee06c443b7aef66d2592",
+  "old_canonical": "openapi--apis-ote-godaddy-com-shoppers-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "43bad9ea7b63ddcb79ed",
+  "pair_id": "pair-960af8199fe6c85eb5b3",
+  "seed": 684670644,
+  "service_name": "apis-ote-godaddy-com-shoppers-1-0-0-openapi",
+  "warnings": []
+}

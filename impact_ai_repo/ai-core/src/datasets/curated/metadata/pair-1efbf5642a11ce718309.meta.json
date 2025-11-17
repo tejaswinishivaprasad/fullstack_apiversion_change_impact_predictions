@@ -1,0 +1,17 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:58Z",
+  "new_canonical": "openapi--apis-opendatasoft-com-2-1-0-swagger--v2.canonical.json",
+  "new_sha": "87b76d7438b355985096",
+  "old_canonical": "openapi--apis-opendatasoft-com-2-1-0-swagger--v1.canonical.json",
+  "old_sha": "50a65d2e5060b5a51938",
+  "pair_id": "pair-1efbf5642a11ce718309",
+  "seed": 206977971,
+  "service_name": "apis-opendatasoft-com-2-1-0-swagger",
+  "warnings": [
+    "cycle local #/definitions/facet_value_enumeration",
+    "cycle local #/definitions/facet_value_enumeration",
+    "cycle local #/definitions/facet_value_enumeration",
+    "cycle local #/definitions/facet_value_enumeration"
+  ]
+}

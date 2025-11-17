@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:42Z",
+  "new_canonical": "openapi--apis-adyen-com-payoutservice-49-openapi--v2.canonical.json",
+  "new_sha": "4a094dd7b354dc4e5e21",
+  "old_canonical": "openapi--apis-adyen-com-payoutservice-49-openapi--v1.canonical.json",
+  "old_sha": "06b6fd74943535459161",
+  "pair_id": "pair-d24008d64f0fcbaebec1",
+  "seed": 1890835168,
+  "service_name": "apis-adyen-com-payoutservice-49-openapi",
+  "warnings": []
+}

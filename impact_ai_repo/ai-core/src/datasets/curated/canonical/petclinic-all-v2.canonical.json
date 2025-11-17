@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/all": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/all/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}

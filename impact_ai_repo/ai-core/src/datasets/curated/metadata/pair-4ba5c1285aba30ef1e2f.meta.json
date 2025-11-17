@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:16Z",
+  "new_canonical": "openapi--apis-chompthis-com-1-0-0-oas3-openapi--v2.canonical.json",
+  "new_sha": "b5392407425423dee704",
+  "old_canonical": "openapi--apis-chompthis-com-1-0-0-oas3-openapi--v1.canonical.json",
+  "old_sha": "21e5ee9d593c6f0c906f",
+  "pair_id": "pair-4ba5c1285aba30ef1e2f",
+  "seed": 844930685,
+  "service_name": "apis-chompthis-com-1-0-0-oas3-openapi",
+  "warnings": []
+}

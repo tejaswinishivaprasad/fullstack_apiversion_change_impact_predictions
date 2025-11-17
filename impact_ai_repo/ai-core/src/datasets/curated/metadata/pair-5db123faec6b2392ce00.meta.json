@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:48Z",
+  "new_canonical": "openapi--apis-calorieninjas-com-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "5c0e210f0c57c15b16b4",
+  "old_canonical": "openapi--apis-calorieninjas-com-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "79d51616ab5b8b202aab",
+  "pair_id": "pair-5db123faec6b2392ce00",
+  "seed": 1704504984,
+  "service_name": "apis-calorieninjas-com-1-0-0-openapi",
+  "warnings": []
+}

@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/prometheus": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/prometheus/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:24Z",
+  "new_canonical": "openapi--apis-ote-godaddy-com-domains-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "b613be86d9013d0c4cc9",
+  "old_canonical": "openapi--apis-ote-godaddy-com-domains-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "e2df4b57eb2edf8f1bf7",
+  "pair_id": "pair-0a95affc6c919979adbe",
+  "seed": 997388170,
+  "service_name": "apis-ote-godaddy-com-domains-1-0-0-openapi",
+  "warnings": [
+    "cycle local #/components/schemas/JsonSchema",
+    "cycle local #/components/schemas/JsonSchema",
+    "cycle local #/components/schemas/JsonSchema",
+    "cycle local #/components/schemas/JsonSchema",
+    "cycle local #/components/schemas/JsonSchema",
+    "cycle local #/components/schemas/JsonSchema",
+    "cycle local #/components/schemas/JsonSchema",
+    "cycle local #/components/schemas/JsonSchema"
+  ]
+}

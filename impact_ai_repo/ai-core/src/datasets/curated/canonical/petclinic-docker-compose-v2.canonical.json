@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/docker-compose": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/docker-compose/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}

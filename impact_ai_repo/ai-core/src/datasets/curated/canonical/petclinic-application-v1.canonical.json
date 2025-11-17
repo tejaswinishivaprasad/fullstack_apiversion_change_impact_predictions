@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "/application": {
+      "get": {
+        "description": "orig"
+      }
+    }
+  }
+}

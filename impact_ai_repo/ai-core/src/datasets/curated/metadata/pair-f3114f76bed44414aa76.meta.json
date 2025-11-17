@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:54Z",
+  "new_canonical": "openapi--apis-amentum-space-gravity-1-1-1-openapi--v2.canonical.json",
+  "new_sha": "2d767ce76c17880762ad",
+  "old_canonical": "openapi--apis-amentum-space-gravity-1-1-1-openapi--v1.canonical.json",
+  "old_sha": "4479bc904fffc5e7b21f",
+  "pair_id": "pair-f3114f76bed44414aa76",
+  "seed": 133989761,
+  "service_name": "apis-amentum-space-gravity-1-1-1-openapi",
+  "warnings": []
+}

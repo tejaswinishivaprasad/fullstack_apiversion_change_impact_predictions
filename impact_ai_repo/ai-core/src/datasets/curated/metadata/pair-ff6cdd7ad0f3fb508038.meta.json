@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:29Z",
+  "new_canonical": "openapi--apis-microsoft-com-cognitiveservices-spellcheck-1-0-swagger--v2.canonical.json",
+  "new_sha": "42d3f9cf42da712d4b87",
+  "old_canonical": "openapi--apis-microsoft-com-cognitiveservices-spellcheck-1-0-swagger--v1.canonical.json",
+  "old_sha": "778431e3579c5e5b5342",
+  "pair_id": "pair-ff6cdd7ad0f3fb508038",
+  "seed": 910826856,
+  "service_name": "apis-microsoft-com-cognitiveservices-spellcheck-1-0-swagger",
+  "warnings": []
+}

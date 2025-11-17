@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "/docker-compose": {
+      "get": {
+        "description": "orig"
+      }
+    }
+  }
+}

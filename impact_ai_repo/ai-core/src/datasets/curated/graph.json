@@ -1,0 +1,3296 @@
+{
+  "edges": [
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-dropx-io-1-0-0-swagger",
+      "evidence": "curation",
+      "path": "/products/title-search",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-dropx-io-1-0-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/products/search-v2",
+      "src": "svc:apis-adyen-com-transferservice-1-openapi"
+    },
+    {
+      "confidence": 0.42,
+      "dst": "svc:apis-dropx-io-1-0-0-swagger",
+      "evidence": "curation",
+      "path": "/users/usage",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-dropx-io-1-0-0-swagger",
+      "evidence": "curation",
+      "path": "/products/",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.51,
+      "dst": "svc:apis-dropx-io-1-0-0-swagger",
+      "evidence": "curation",
+      "path": "/products/link-search-v2",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-restful4up-local-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/unpack",
+      "src": "svc:apis-dropx-io-1-0-0-swagger"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-restful4up-local-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/generate-partial-yara-rules",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.52,
+      "dst": "svc:apis-restful4up-local-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/apply-yara-rules",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-restful4up-local-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/clean",
+      "src": "svc:apis-abstractapi-com-geolocation-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.87,
+      "dst": "svc:apis-restful4up-local-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/emulation-output",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-bikewise-org-v2-openapi",
+      "evidence": "curation-svc",
+      "path": "/v2/locations",
+      "src": "svc:apis-izettle-com-products-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.75,
+      "dst": "svc:apis-bikewise-org-v2-openapi",
+      "evidence": "curation",
+      "path": "/v2/incidents",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.72,
+      "dst": "svc:apis-bikewise-org-v2-openapi",
+      "evidence": "curation-svc",
+      "path": "/v2/incidents/{*}",
+      "src": "svc:apis-warwick-ac-uk-enterobase-v2-0-openapi"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-bikewise-org-v2-openapi",
+      "evidence": "curation-svc",
+      "path": "/v2/locations/markers",
+      "src": "svc:apis-ote-godaddy-com-countries-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-ote-godaddy-com-shoppers-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/shoppers/{*}/factors/password",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.6,
+      "dst": "svc:apis-ote-godaddy-com-shoppers-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/shoppers/subaccount",
+      "src": "svc:apis-microsoft-com-cognitiveservices-computervision-2-1-openapi"
+    },
+    {
+      "confidence": 0.55,
+      "dst": "svc:apis-ote-godaddy-com-shoppers-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/shoppers/{*}/status",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-ote-godaddy-com-shoppers-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/shoppers/{*}",
+      "src": "svc:apis-walletobjects-googleapis-com-pay-passes-v1-openapi"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-ote-godaddy-com-aftermarket-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/aftermarket/listings",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.78,
+      "dst": "svc:apis-ote-godaddy-com-aftermarket-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/aftermarket/listings/expiry",
+      "src": "svc:apis-tsapi-net-v1-openapi"
+    },
+    {
+      "confidence": 0.43,
+      "dst": "svc:apis-ote-godaddy-com-countries-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/countries",
+      "src": "svc:apis-parliament-uk-now-v1-openapi"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-ote-godaddy-com-countries-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/countries/{*}",
+      "src": "svc:apis-parliament-uk-writtenquestions-v1-openapi"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-ote-godaddy-com-orders-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/orders/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.52,
+      "dst": "svc:apis-ote-godaddy-com-orders-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/orders",
+      "src": "svc:apis-naviplancentral-com-plan-v1-swagger"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-ote-godaddy-com-abuse-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/abuse/tickets/{*}",
+      "src": "svc:apis-walletobjects-googleapis-com-pay-passes-v1-openapi"
+    },
+    {
+      "confidence": 0.54,
+      "dst": "svc:apis-ote-godaddy-com-abuse-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/abuse/tickets",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.6,
+      "dst": "svc:apis-ote-godaddy-com-subscriptions-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/subscriptions/{*}",
+      "src": "svc:apis-firebrowse-org-1-1-38-swagger"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-ote-godaddy-com-subscriptions-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/subscriptions/productGroups",
+      "src": "svc:apis-microsoft-com-cognitiveservices-autosuggest-1-0-swagger"
+    },
+    {
+      "confidence": 0.43,
+      "dst": "svc:apis-ote-godaddy-com-subscriptions-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/subscriptions",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-ote-godaddy-com-certificates-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/certificates/{*}/siteSeal",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-ote-godaddy-com-certificates-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v2/customers/{*}/certificates/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-ote-godaddy-com-certificates-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/certificates/{*}/reissue",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.8,
+      "dst": "svc:apis-ote-godaddy-com-certificates-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/certificates/{*}/download",
+      "src": "svc:apis-salesforce-local-einstein-2-0-1-openapi"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-ote-godaddy-com-certificates-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/certificates/{*}/cancel",
+      "src": "svc:apis-adyen-com-dataprotectionservice-1-openapi"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-ote-godaddy-com-agreements-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/agreements",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-ote-godaddy-com-domains-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/domains/available",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-ote-godaddy-com-domains-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v2/customers/{*}/domains/notifications",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.51,
+      "dst": "svc:apis-ote-godaddy-com-domains-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/domains/{*}/records/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.49,
+      "dst": "svc:apis-ote-godaddy-com-domains-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/domains/contacts/validate",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.91,
+      "dst": "svc:apis-ote-godaddy-com-domains-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v2/customers/{*}/domains/register/schema/{*}",
+      "src": "svc:apis-adyen-com-tfmapiservice-1-openapi"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-zeno-fm-0-6-99cfdac-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/v2/podcasts/{*}/episodes/{*}",
+      "src": "svc:apis-parliament-uk-writtenquestions-v1-openapi"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-zeno-fm-0-6-99cfdac-openapi",
+      "evidence": "curation",
+      "path": "/api/v2/stations/search",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.8,
+      "dst": "svc:apis-zeno-fm-0-6-99cfdac-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/v2/podcasts/search",
+      "src": "svc:apis-ote-godaddy-com-agreements-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.69,
+      "dst": "svc:apis-zeno-fm-0-6-99cfdac-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/v2/podcasts/create",
+      "src": "svc:apis-parliament-uk-commonsvotes-v1-swagger"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-zeno-fm-0-6-99cfdac-openapi",
+      "evidence": "curation",
+      "path": "/api/v2/podcasts/languages",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-abstractapi-com-geolocation-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-entitysearch-1-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/entities",
+      "src": "svc:apis-adyen-com-transferservice-1-openapi"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/read/operations/{*}",
+      "src": "svc:apis-taxamo-com-1-swagger"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/recognizeText",
+      "src": "svc:apis-adyen-com-storedvalueservice-46-openapi"
+    },
+    {
+      "confidence": 0.59,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-0-openapi",
+      "evidence": "curation",
+      "path": "/textOperations/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-0-openapi",
+      "evidence": "curation",
+      "path": "/read/core/asyncBatchAnalyze",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-1-openapi",
+      "evidence": "curation",
+      "path": "/read/operations/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/read/core/asyncBatchAnalyze",
+      "src": "svc:apis-ote-godaddy-com-certificates-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-1-openapi",
+      "evidence": "curation",
+      "path": "/recognizeText",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.8,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-ocr-2-1-openapi",
+      "evidence": "curation",
+      "path": "/textOperations/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-autosuggest-1-0-swagger",
+      "evidence": "curation",
+      "path": "/Suggestions",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-localsearch-1-0-swagger",
+      "evidence": "curation",
+      "path": "/v7.0/localbusinesses/search",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.77,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/models/{*}/analyze",
+      "src": "svc:apis-ote-godaddy-com-orders-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.43,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/generateThumbnail",
+      "src": "svc:apis-zeno-fm-0-6-99cfdac-openapi"
+    },
+    {
+      "confidence": 0.87,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/describe",
+      "src": "svc:apis-parliament-uk-search-live-openapi"
+    },
+    {
+      "confidence": 0.5,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-0-openapi",
+      "evidence": "curation",
+      "path": "/analyze",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-0-openapi",
+      "evidence": "curation",
+      "path": "/models",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/analyze",
+      "src": "svc:apis-adyen-com-payoutservice-46-openapi"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/areaOfInterest",
+      "src": "svc:apis-adyen-com-transferservice-1-openapi"
+    },
+    {
+      "confidence": 0.87,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/generateThumbnail",
+      "src": "svc:apis-parliament-uk-erskine-may-v1-openapi"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-1-openapi",
+      "evidence": "curation",
+      "path": "/tag",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-computervision-2-1-openapi",
+      "evidence": "curation",
+      "path": "/detect",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.4,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-spellcheck-1-0-swagger",
+      "evidence": "curation",
+      "path": "/spellcheck",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.83,
+      "dst": "svc:apis-microsoft-com-cognitiveservices-visualsearch-1-0-swagger",
+      "evidence": "curation",
+      "path": "/images/visualsearch",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.52,
+      "dst": "svc:apis-clever-com-1-2-0-openapi",
+      "evidence": "curation",
+      "path": "/students/{*}/district",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.8,
+      "dst": "svc:apis-clever-com-1-2-0-openapi",
+      "evidence": "curation",
+      "path": "/sections/{*}/teacher",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-clever-com-1-2-0-openapi",
+      "evidence": "curation",
+      "path": "/sections",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-clever-com-1-2-0-openapi",
+      "evidence": "curation",
+      "path": "/districts/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.49,
+      "dst": "svc:apis-clever-com-1-2-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/teachers/{*}/school",
+      "src": "svc:apis-adyen-com-tfmapiservice-1-openapi"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-exhibitday-com-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/v1/financials/event_costs",
+      "src": "svc:apis-amentum-space-global-magnet-1-3-0-openapi"
+    },
+    {
+      "confidence": 0.54,
+      "dst": "svc:apis-exhibitday-com-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/v1/events/",
+      "src": "svc:apis-libretranslate-local-1-3-10-openapi"
+    },
+    {
+      "confidence": 0.74,
+      "dst": "svc:apis-exhibitday-com-v1-swagger",
+      "evidence": "curation",
+      "path": "/api/docs/Swagger",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.72,
+      "dst": "svc:apis-exhibitday-com-v1-swagger",
+      "evidence": "curation",
+      "path": "/v1/tasks/",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.91,
+      "dst": "svc:apis-exhibitday-com-v1-swagger",
+      "evidence": "curation",
+      "path": "/v1/tasks/comment",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-vocadb-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/api/entries",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.91,
+      "dst": "svc:apis-vocadb-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/api/tags/{*}/reports",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-vocadb-net-1-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/tags/categoryNames",
+      "src": "svc:apis-restful4up-local-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-vocadb-net-1-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/users/{*}/reports",
+      "src": "svc:apis-zeno-fm-0-6-99cfdac-openapi"
+    },
+    {
+      "confidence": 0.55,
+      "dst": "svc:apis-vocadb-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/api/artists/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.49,
+      "dst": "svc:apis-amentum-space-atmosphere-1-1-1-openapi",
+      "evidence": "curation",
+      "path": "/nrlmsise00",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-amentum-space-atmosphere-1-1-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/jb2008",
+      "src": "svc:apis-amadeus-com-amadeus-hotel-ratings-1-0-2-swagger"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-amentum-space-atmosphere-1-1-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/wam-ipe",
+      "src": "svc:apis-parliament-uk-writtenquestions-v1-openapi"
+    },
+    {
+      "confidence": 0.55,
+      "dst": "svc:apis-amentum-space-space_radiation-1-1-2-openapi",
+      "evidence": "curation-svc",
+      "path": "/gcr/flux_dlr",
+      "src": "svc:apis-microsoft-com-cognitiveservices-autosuggest-1-0-swagger"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-amentum-space-space_radiation-1-1-2-openapi",
+      "evidence": "curation-svc",
+      "path": "/trapped/flux_mean",
+      "src": "svc:apis-vectara-io-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-amentum-space-space_radiation-1-1-2-openapi",
+      "evidence": "curation",
+      "path": "/trapped/flux_percentile",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-amentum-space-aviation_radiation-1-5-0-openapi",
+      "evidence": "curation",
+      "path": "/cari7/effective_dose",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.75,
+      "dst": "svc:apis-amentum-space-aviation_radiation-1-5-0-openapi",
+      "evidence": "curation",
+      "path": "/cari7/ambient_dose",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.4,
+      "dst": "svc:apis-amentum-space-aviation_radiation-1-5-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/route/ambient_dose",
+      "src": "svc:apis-ote-godaddy-com-countries-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.94,
+      "dst": "svc:apis-amentum-space-aviation_radiation-1-5-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/parma/effective_dose",
+      "src": "svc:apis-tsapi-net-v1-openapi"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-amentum-space-aviation_radiation-1-5-0-openapi",
+      "evidence": "curation",
+      "path": "/parma/ambient_dose",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-amentum-space-gravity-1-1-1-openapi",
+      "evidence": "curation",
+      "path": "/egm2008/gravity_anomaly",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-amentum-space-gravity-1-1-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/egm2008/geoid_height",
+      "src": "svc:apis-microsoft-com-cognitiveservices-computervision-2-0-openapi"
+    },
+    {
+      "confidence": 0.48,
+      "dst": "svc:apis-amentum-space-global-magnet-1-3-0-openapi",
+      "evidence": "curation",
+      "path": "/magnetic_field",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.6,
+      "dst": "svc:apis-omdbapi-com-1-swagger",
+      "evidence": "curation",
+      "path": "/",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-text2data-org-v3-4-swagger",
+      "evidence": "curation-svc",
+      "path": "/v3/Analyze",
+      "src": "svc:apis-byautomata-io-1-0-1-openapi"
+    },
+    {
+      "confidence": 0.94,
+      "dst": "svc:apis-text2data-org-v3-4-swagger",
+      "evidence": "curation-svc",
+      "path": "/v3/Categorize",
+      "src": "svc:apis-transitfeeds-com-1-0-0-swagger"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-text2data-org-v3-4-swagger",
+      "evidence": "curation-svc",
+      "path": "/v3/Extract",
+      "src": "svc:apis-amentum-space-global-magnet-1-3-0-openapi"
+    },
+    {
+      "confidence": 0.84,
+      "dst": "svc:apis-sms77-io-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/analytics",
+      "src": "svc:apis-transitfeeds-com-1-0-0-swagger"
+    },
+    {
+      "confidence": 0.54,
+      "dst": "svc:apis-sms77-io-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/pricing",
+      "src": "svc:apis-parliament-uk-writtenquestions-v1-openapi"
+    },
+    {
+      "confidence": 0.79,
+      "dst": "svc:apis-sms77-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/lookup/cnam",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.42,
+      "dst": "svc:apis-sms77-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/validate_for_voice",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.51,
+      "dst": "svc:apis-sms77-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/lookup/hlr",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.51,
+      "dst": "svc:apis-obono-at-1-4-0-0-openapi",
+      "evidence": "curation",
+      "path": "/belege/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-obono-at-1-4-0-0-openapi",
+      "evidence": "curation",
+      "path": "/export/html/belege/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.59,
+      "dst": "svc:apis-obono-at-1-4-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/export/pdf/belege/{*}",
+      "src": "svc:apis-cybertaxonomy-eu-1-0-swagger"
+    },
+    {
+      "confidence": 0.77,
+      "dst": "svc:apis-obono-at-1-4-0-0-openapi",
+      "evidence": "curation",
+      "path": "/export/csv/registrierkassen/{*}/belege",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-obono-at-1-4-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/export/thermal-print/belege/{*}",
+      "src": "svc:apis-remove-bg-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-cybertaxonomy-eu-1-0-swagger",
+      "evidence": "curation",
+      "path": "/capabilities",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-cybertaxonomy-eu-1-0-swagger",
+      "evidence": "curation",
+      "path": "/search",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-reverb-com-3-0-openapi",
+      "evidence": "curation",
+      "path": "/my/refund_requests/selling/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.72,
+      "dst": "svc:apis-reverb-com-3-0-openapi",
+      "evidence": "curation",
+      "path": "/shops/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.79,
+      "dst": "svc:apis-reverb-com-3-0-openapi",
+      "evidence": "curation",
+      "path": "/shops/{*}/feedback",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.91,
+      "dst": "svc:apis-reverb-com-3-0-openapi",
+      "evidence": "curation",
+      "path": "/listings/{*}/similar_listings",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.8,
+      "dst": "svc:apis-reverb-com-3-0-openapi",
+      "evidence": "curation",
+      "path": "/my/follows/categories/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-keycloak-local-1-openapi",
+      "evidence": "curation",
+      "path": "/{*}/partialImport",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-keycloak-local-1-openapi",
+      "evidence": "curation",
+      "path": "/{*}/clients/{*}/certificates/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.77,
+      "dst": "svc:apis-keycloak-local-1-openapi",
+      "evidence": "curation",
+      "path": "/{*}/clients/{*}/installation/providers/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.78,
+      "dst": "svc:apis-keycloak-local-1-openapi",
+      "evidence": "curation",
+      "path": "/{*}/authentication/flows/{*}/executions/execution",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.51,
+      "dst": "svc:apis-keycloak-local-1-openapi",
+      "evidence": "curation",
+      "path": "/{*}/identity-provider/instances/{*}/management/permissions",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.4,
+      "dst": "svc:apis-opendatasoft-com-2-1-0-swagger",
+      "evidence": "curation",
+      "path": "/{*}/datasets/{*}/exports/csv",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-opendatasoft-com-2-1-0-swagger",
+      "evidence": "curation",
+      "path": "/{*}/datasets/{*}/reuses/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-opendatasoft-com-2-1-0-swagger",
+      "evidence": "curation",
+      "path": "/{*}/datasets/{*}/feedback",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-opendatasoft-com-2-1-0-swagger",
+      "evidence": "curation",
+      "path": "/{*}/exports/rdf",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-opendatasoft-com-2-1-0-swagger",
+      "evidence": "curation",
+      "path": "/{*}/datasets/{*}/exports/shp",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-pdfblocks-com-1-5-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/extract_pages",
+      "src": "svc:apis-parliament-uk-erskine-may-v1-openapi"
+    },
+    {
+      "confidence": 0.84,
+      "dst": "svc:apis-pdfblocks-com-1-5-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/remove_restrictions",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.43,
+      "dst": "svc:apis-pdfblocks-com-1-5-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/reverse_pages",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.87,
+      "dst": "svc:apis-pdfblocks-com-1-5-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/v1/add_restrictions",
+      "src": "svc:apis-reversepp-com-1-0-swagger"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-pdfblocks-com-1-5-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/add_watermark/image",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.48,
+      "dst": "svc:apis-naviplancentral-com-plan-v1-swagger",
+      "evidence": "curation",
+      "path": "/api/LivePlan/NetWorth/Accounts",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.87,
+      "dst": "svc:apis-naviplancentral-com-plan-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/Liabilities/{*}",
+      "src": "svc:apis-parliament-uk-erskine-may-v1-openapi"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-naviplancentral-com-plan-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/LivePlan/NetWorth/Liabilities",
+      "src": "svc:apis-parliament-uk-now-v1-openapi"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-naviplancentral-com-plan-v1-swagger",
+      "evidence": "curation",
+      "path": "/api/auth/Logout",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.43,
+      "dst": "svc:apis-naviplancentral-com-plan-v1-swagger",
+      "evidence": "curation",
+      "path": "/api/PlanInformation",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-naviplancentral-com-factfinder-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/StatesProvinces/{*}",
+      "src": "svc:apis-adyen-com-payoutservice-49-openapi"
+    },
+    {
+      "confidence": 0.74,
+      "dst": "svc:apis-naviplancentral-com-factfinder-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/Demographics/{*}/Dependents",
+      "src": "svc:apis-adyen-com-recurringservice-18-openapi"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-naviplancentral-com-factfinder-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/LifestyleAssetTypes",
+      "src": "svc:apis-adyen-com-binlookupservice-53-openapi"
+    },
+    {
+      "confidence": 0.89,
+      "dst": "svc:apis-naviplancentral-com-factfinder-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/DisabilityInsurancePolicies/{*}",
+      "src": "svc:apis-adyen-com-storedvalueservice-46-openapi"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-naviplancentral-com-factfinder-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/FactFinders/{*}/Modules",
+      "src": "svc:apis-adyen-com-paymentservice-30-openapi"
+    },
+    {
+      "confidence": 0.55,
+      "dst": "svc:apis-remove-bg-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/account",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.56,
+      "dst": "svc:apis-remove-bg-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/improve",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.58,
+      "dst": "svc:apis-remove-bg-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/removebg",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.48,
+      "dst": "svc:apis-brainbi-net-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/api/rule/ruleData/1/latest",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-brainbi-net-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/api/login",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-brainbi-net-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/api/orders/1137",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-brainbi-net-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/api/orders",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-brainbi-net-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/api/analyze/pricing",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-adobe-com-aem-3-7-1-pre-0-openapi",
+      "evidence": "curation",
+      "path": "/libs/granite/security/post/sslSetup.html",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-adobe-com-aem-3-7-1-pre-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/crx/packmgr/service/script.html",
+      "src": "svc:apis-wordnik-com-4-0-openapi"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-adobe-com-aem-3-7-1-pre-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/{*}/{*}/keystore/store.p12",
+      "src": "svc:apis-parliament-uk-search-live-openapi"
+    },
+    {
+      "confidence": 0.52,
+      "dst": "svc:apis-adobe-com-aem-3-7-1-pre-0-openapi",
+      "evidence": "curation",
+      "path": "/bin/querybuilder.json",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.42,
+      "dst": "svc:apis-adobe-com-aem-3-7-1-pre-0-openapi",
+      "evidence": "curation",
+      "path": "/apps/system/config/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.69,
+      "dst": "svc:apis-vatapi-com-1-swagger",
+      "evidence": "curation-svc",
+      "path": "/vat-price",
+      "src": "svc:apis-phila-gov-pollingplaces-1-0-swagger"
+    },
+    {
+      "confidence": 0.71,
+      "dst": "svc:apis-vatapi-com-1-swagger",
+      "evidence": "curation-svc",
+      "path": "/vat-rates",
+      "src": "svc:apis-hackathonwatch-com-0-1-openapi"
+    },
+    {
+      "confidence": 0.75,
+      "dst": "svc:apis-vatapi-com-1-swagger",
+      "evidence": "curation",
+      "path": "/currency-conversion",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-vatapi-com-1-swagger",
+      "evidence": "curation",
+      "path": "/usage-check",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-vatapi-com-1-swagger",
+      "evidence": "curation",
+      "path": "/vat-number-check",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-warwick-ac-uk-enterobase-v2-0-openapi",
+      "evidence": "curation",
+      "path": "/api/v2.0/{*}/schemes/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-warwick-ac-uk-enterobase-v2-0-openapi",
+      "evidence": "curation",
+      "path": "/api/v2.0/{*}/traces/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-warwick-ac-uk-enterobase-v2-0-openapi",
+      "evidence": "curation",
+      "path": "/api/v2.0/{*}/{*}/sts",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-warwick-ac-uk-enterobase-v2-0-openapi",
+      "evidence": "curation",
+      "path": "/api/v2.0/lookup/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-warwick-ac-uk-enterobase-v2-0-openapi",
+      "evidence": "curation",
+      "path": "/api/v2.0/{*}/{*}/loci",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-tokenjay-app-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/mosaik/boxconsolidation/",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-tokenjay-app-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/mosaik/tokenburn/prepare",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.78,
+      "dst": "svc:apis-tokenjay-app-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/sigrsv/exchange/",
+      "src": "svc:apis-adyen-com-checkoututilityservice-1-openapi"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-tokenjay-app-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/sigusd/exchange/{*}/info",
+      "src": "svc:apis-microsoft-com-cognitiveservices-spellcheck-1-0-swagger"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-tokenjay-app-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/mosaik/tokenburn/get/{*}",
+      "src": "svc:apis-amadeus-com-amadeus-hotel-name-autocomplete-1-0-3-swagger"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-izettle-com-products-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/organizations/{*}/import/status",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-izettle-com-products-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/taxes/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-izettle-com-products-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/organizations/{*}/library",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-izettle-com-products-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/organizations/{*}/categories/v2/{*}",
+      "src": "svc:apis-omdbapi-com-1-swagger"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-izettle-com-products-1-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/organizations/{*}/discounts/{*}",
+      "src": "svc:apis-salesforce-local-einstein-2-0-1-openapi"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-bluemix-net-containers-3-0-0-openapi",
+      "evidence": "curation",
+      "path": "/containers/usage",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-bluemix-net-containers-3-0-0-openapi",
+      "evidence": "curation",
+      "path": "/build",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-bluemix-net-containers-3-0-0-openapi",
+      "evidence": "curation",
+      "path": "/containers/{*}/floating-ips/{*}/bind",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.89,
+      "dst": "svc:apis-bluemix-net-containers-3-0-0-openapi",
+      "evidence": "curation",
+      "path": "/containers/floating-ips",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.48,
+      "dst": "svc:apis-bluemix-net-containers-3-0-0-openapi",
+      "evidence": "curation",
+      "path": "/images/{*}/json",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.85,
+      "dst": "svc:apis-chompthis-com-1-0-0-oas3-openapi",
+      "evidence": "curation",
+      "path": "/food/branded/name.php",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.58,
+      "dst": "svc:apis-chompthis-com-1-0-0-oas3-openapi",
+      "evidence": "curation",
+      "path": "/food/branded/search.php",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.91,
+      "dst": "svc:apis-chompthis-com-1-0-0-oas3-openapi",
+      "evidence": "curation",
+      "path": "/food/ingredient/search.php",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-chompthis-com-1-0-0-oas3-openapi",
+      "evidence": "curation",
+      "path": "/food/branded/barcode.php",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-firebrowse-org-1-1-38-swagger",
+      "evidence": "curation-svc",
+      "path": "/Analyses/mRNASeq/Quartiles",
+      "src": "svc:apis-clever-com-1-2-0-openapi"
+    },
+    {
+      "confidence": 0.54,
+      "dst": "svc:apis-firebrowse-org-1-1-38-swagger",
+      "evidence": "curation",
+      "path": "/Metadata/Dates",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-firebrowse-org-1-1-38-swagger",
+      "evidence": "curation",
+      "path": "/Metadata/SampleType/ShortLetterCode/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.41,
+      "dst": "svc:apis-firebrowse-org-1-1-38-swagger",
+      "evidence": "curation-svc",
+      "path": "/Analyses/CopyNumber/Genes/Focal",
+      "src": "svc:apis-adyen-com-payoutservice-49-openapi"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-firebrowse-org-1-1-38-swagger",
+      "evidence": "curation-svc",
+      "path": "/Samples/mRNASeq",
+      "src": "svc:apis-ote-godaddy-com-agreements-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-transitfeeds-com-1-0-0-swagger",
+      "evidence": "curation",
+      "path": "/getLocations",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.56,
+      "dst": "svc:apis-transitfeeds-com-1-0-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/getFeeds",
+      "src": "svc:apis-ote-godaddy-com-domains-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-transitfeeds-com-1-0-0-swagger",
+      "evidence": "curation",
+      "path": "/getFeedVersions",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-transitfeeds-com-1-0-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/getLatestFeedVersion",
+      "src": "svc:apis-tokenjay-app-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-wordnik-com-4-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/word.json/{*}/frequency",
+      "src": "svc:apis-obono-at-1-4-0-0-openapi"
+    },
+    {
+      "confidence": 0.8,
+      "dst": "svc:apis-wordnik-com-4-0-openapi",
+      "evidence": "curation",
+      "path": "/word.json/{*}/relatedWords",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-wordnik-com-4-0-openapi",
+      "evidence": "curation",
+      "path": "/word.json/{*}/phrases",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.5,
+      "dst": "svc:apis-wordnik-com-4-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/word.json/{*}/audio",
+      "src": "svc:apis-noosh-com-1-0-openapi"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-wordnik-com-4-0-openapi",
+      "evidence": "curation",
+      "path": "/word.json/{*}/scrabbleScore",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.5,
+      "dst": "svc:apis-useapi-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/account",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.69,
+      "dst": "svc:apis-useapi-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/jobs/imagine",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.94,
+      "dst": "svc:apis-useapi-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/jobs/blend",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.78,
+      "dst": "svc:apis-useapi-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/jobs",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-useapi-net-1-0-openapi",
+      "evidence": "curation",
+      "path": "/jobs/button",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.59,
+      "dst": "svc:apis-adyen-com-terminalapi-v1-1-openapi",
+      "evidence": "curation",
+      "path": "/reversal",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-adyen-com-terminalapi-v1-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/enableservice",
+      "src": "svc:apis-text2data-org-v3-4-swagger"
+    },
+    {
+      "confidence": 0.85,
+      "dst": "svc:apis-adyen-com-terminalapi-v1-1-openapi",
+      "evidence": "curation",
+      "path": "/cardreaderapdu",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-adyen-com-terminalapi-v1-1-openapi",
+      "evidence": "curation",
+      "path": "/diagnosis",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.43,
+      "dst": "svc:apis-adyen-com-terminalapi-v1-1-openapi",
+      "evidence": "curation",
+      "path": "/admin",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.54,
+      "dst": "svc:apis-adyen-com-recurringservice-18-openapi",
+      "evidence": "curation",
+      "path": "/disable",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-adyen-com-recurringservice-18-openapi",
+      "evidence": "curation",
+      "path": "/listRecurringDetails",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.87,
+      "dst": "svc:apis-adyen-com-storedvalueservice-46-openapi",
+      "evidence": "curation-svc",
+      "path": "/mergeBalance",
+      "src": "svc:apis-opendatasoft-com-2-1-0-swagger"
+    },
+    {
+      "confidence": 0.71,
+      "dst": "svc:apis-adyen-com-storedvalueservice-46-openapi",
+      "evidence": "curation-svc",
+      "path": "/load",
+      "src": "svc:apis-pdfblocks-com-1-5-0-openapi"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-adyen-com-storedvalueservice-46-openapi",
+      "evidence": "curation",
+      "path": "/checkBalance",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-adyen-com-storedvalueservice-46-openapi",
+      "evidence": "curation",
+      "path": "/voidTransaction",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.55,
+      "dst": "svc:apis-adyen-com-storedvalueservice-46-openapi",
+      "evidence": "curation",
+      "path": "/changeStatus",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-adyen-com-disputeservice-v30-30-openapi",
+      "evidence": "curation",
+      "path": "/acceptDispute",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.56,
+      "dst": "svc:apis-adyen-com-disputeservice-v30-30-openapi",
+      "evidence": "curation-svc",
+      "path": "/defendDispute",
+      "src": "svc:apis-adyen-com-paymentservice-30-openapi"
+    },
+    {
+      "confidence": 0.79,
+      "dst": "svc:apis-adyen-com-disputeservice-v30-30-openapi",
+      "evidence": "curation",
+      "path": "/supplyDefenseDocument",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-adyen-com-disputeservice-v30-30-openapi",
+      "evidence": "curation-svc",
+      "path": "/deleteDisputeDefenseDocument",
+      "src": "svc:apis-adyen-com-disputeservice-v30-30-openapi"
+    },
+    {
+      "confidence": 0.55,
+      "dst": "svc:apis-adyen-com-disputeservice-v30-30-openapi",
+      "evidence": "curation",
+      "path": "/retrieveApplicableDefenseReasons",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-adyen-com-checkoututilityservice-1-openapi",
+      "evidence": "curation",
+      "path": "/originKeys",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-adyen-com-paymentservice-30-openapi",
+      "evidence": "curation",
+      "path": "/technicalCancel",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.91,
+      "dst": "svc:apis-adyen-com-paymentservice-30-openapi",
+      "evidence": "curation-svc",
+      "path": "/capture",
+      "src": "svc:apis-libretranslate-local-1-3-10-openapi"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-adyen-com-paymentservice-30-openapi",
+      "evidence": "curation",
+      "path": "/cancelOrRefund",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-adyen-com-paymentservice-30-openapi",
+      "evidence": "curation",
+      "path": "/authorise",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-adyen-com-paymentservice-30-openapi",
+      "evidence": "curation",
+      "path": "/authorise3d",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.54,
+      "dst": "svc:apis-adyen-com-paymentservice-25-openapi",
+      "evidence": "curation-svc",
+      "path": "/authorise3d",
+      "src": "svc:apis-calorieninjas-com-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-adyen-com-paymentservice-25-openapi",
+      "evidence": "curation",
+      "path": "/cancel",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.72,
+      "dst": "svc:apis-adyen-com-paymentservice-25-openapi",
+      "evidence": "curation-svc",
+      "path": "/authorise",
+      "src": "svc:apis-e-conomic-com-v20-0-0-openapi"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-adyen-com-paymentservice-25-openapi",
+      "evidence": "curation",
+      "path": "/refund",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.42,
+      "dst": "svc:apis-adyen-com-paymentservice-25-openapi",
+      "evidence": "curation-svc",
+      "path": "/capture",
+      "src": "svc:apis-e-conomic-com-v20-0-0-openapi"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-adyen-com-binlookupservice-50-openapi",
+      "evidence": "curation",
+      "path": "/get3dsAvailability",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.95,
+      "dst": "svc:apis-adyen-com-binlookupservice-50-openapi",
+      "evidence": "curation",
+      "path": "/getCostEstimate",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.59,
+      "dst": "svc:apis-adyen-com-binlookupservice-54-openapi",
+      "evidence": "curation-svc",
+      "path": "/getCostEstimate",
+      "src": "svc:apis-adyen-com-paymentservice-30-openapi"
+    },
+    {
+      "confidence": 0.77,
+      "dst": "svc:apis-adyen-com-binlookupservice-54-openapi",
+      "evidence": "curation",
+      "path": "/get3dsAvailability",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-adyen-com-binlookupservice-53-openapi",
+      "evidence": "curation",
+      "path": "/get3dsAvailability",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.85,
+      "dst": "svc:apis-adyen-com-binlookupservice-53-openapi",
+      "evidence": "curation-svc",
+      "path": "/getCostEstimate",
+      "src": "svc:apis-firebrowse-org-1-1-38-swagger"
+    },
+    {
+      "confidence": 0.54,
+      "dst": "svc:apis-adyen-com-binlookupservice-52-openapi",
+      "evidence": "curation",
+      "path": "/get3dsAvailability",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-adyen-com-binlookupservice-52-openapi",
+      "evidence": "curation",
+      "path": "/getCostEstimate",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.5,
+      "dst": "svc:apis-adyen-com-binlookupservice-40-openapi",
+      "evidence": "curation",
+      "path": "/get3dsAvailability",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-adyen-com-binlookupservice-40-openapi",
+      "evidence": "curation",
+      "path": "/getCostEstimate",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-adyen-com-tfmapiservice-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/getTerminalDetails",
+      "src": "svc:apis-adyen-com-recurringservice-18-openapi"
+    },
+    {
+      "confidence": 0.42,
+      "dst": "svc:apis-adyen-com-tfmapiservice-1-openapi",
+      "evidence": "curation",
+      "path": "/assignTerminals",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.84,
+      "dst": "svc:apis-adyen-com-tfmapiservice-1-openapi",
+      "evidence": "curation",
+      "path": "/getTerminalsUnderAccount",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-adyen-com-tfmapiservice-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/findTerminal",
+      "src": "svc:apis-pdfblocks-com-1-5-0-openapi"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-adyen-com-tfmapiservice-1-openapi",
+      "evidence": "curation",
+      "path": "/getStoresUnderAccount",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-adyen-com-dataprotectionservice-1-openapi",
+      "evidence": "curation",
+      "path": "/requestSubjectErasure",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.55,
+      "dst": "svc:apis-adyen-com-transferservice-1-openapi",
+      "evidence": "curation",
+      "path": "/transactions",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-adyen-com-transferservice-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/transactions/{*}",
+      "src": "svc:apis-adyen-com-paymentservice-30-openapi"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-adyen-com-transferservice-1-openapi",
+      "evidence": "curation",
+      "path": "/transfers",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.83,
+      "dst": "svc:apis-adyen-com-payoutservice-46-openapi",
+      "evidence": "curation",
+      "path": "/submitThirdParty",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.4,
+      "dst": "svc:apis-adyen-com-payoutservice-46-openapi",
+      "evidence": "curation",
+      "path": "/payout",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.72,
+      "dst": "svc:apis-adyen-com-payoutservice-46-openapi",
+      "evidence": "curation-svc",
+      "path": "/storeDetail",
+      "src": "svc:apis-hackathonwatch-com-0-1-openapi"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-adyen-com-payoutservice-46-openapi",
+      "evidence": "curation-svc",
+      "path": "/declineThirdParty",
+      "src": "svc:apis-microsoft-com-cognitiveservices-computervision-2-0-openapi"
+    },
+    {
+      "confidence": 0.58,
+      "dst": "svc:apis-adyen-com-payoutservice-46-openapi",
+      "evidence": "curation",
+      "path": "/confirmThirdParty",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.71,
+      "dst": "svc:apis-adyen-com-payoutservice-49-openapi",
+      "evidence": "curation-svc",
+      "path": "/storeDetail",
+      "src": "svc:apis-amentum-space-global-magnet-1-3-0-openapi"
+    },
+    {
+      "confidence": 0.83,
+      "dst": "svc:apis-adyen-com-payoutservice-49-openapi",
+      "evidence": "curation",
+      "path": "/payout",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-adyen-com-payoutservice-49-openapi",
+      "evidence": "curation",
+      "path": "/submitThirdParty",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-adyen-com-payoutservice-49-openapi",
+      "evidence": "curation-svc",
+      "path": "/confirmThirdParty",
+      "src": "svc:apis-parliament-uk-writtenquestions-v1-openapi"
+    },
+    {
+      "confidence": 0.85,
+      "dst": "svc:apis-adyen-com-payoutservice-49-openapi",
+      "evidence": "curation-svc",
+      "path": "/declineThirdParty",
+      "src": "svc:apis-parliament-uk-bills-v1-openapi"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-libretranslate-local-1-3-10-openapi",
+      "evidence": "curation-svc",
+      "path": "/frontend/settings",
+      "src": "svc:apis-adyen-com-recurringservice-18-openapi"
+    },
+    {
+      "confidence": 0.8,
+      "dst": "svc:apis-libretranslate-local-1-3-10-openapi",
+      "evidence": "curation-svc",
+      "path": "/suggest",
+      "src": "svc:apis-restful4up-local-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.76,
+      "dst": "svc:apis-libretranslate-local-1-3-10-openapi",
+      "evidence": "curation",
+      "path": "/languages",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-libretranslate-local-1-3-10-openapi",
+      "evidence": "curation",
+      "path": "/detect",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.74,
+      "dst": "svc:apis-libretranslate-local-1-3-10-openapi",
+      "evidence": "curation-svc",
+      "path": "/translate",
+      "src": "svc:apis-brainbi-net-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.89,
+      "dst": "svc:apis-e-conomic-com-v20-0-0-openapi",
+      "evidence": "curation",
+      "path": "/project-customers/count",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-e-conomic-com-v20-0-0-openapi",
+      "evidence": "curation",
+      "path": "/costtypegroups",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-e-conomic-com-v20-0-0-openapi",
+      "evidence": "curation",
+      "path": "/mileages/paged",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.95,
+      "dst": "svc:apis-e-conomic-com-v20-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/costtypes",
+      "src": "svc:apis-reverb-com-3-0-openapi"
+    },
+    {
+      "confidence": 0.94,
+      "dst": "svc:apis-e-conomic-com-v20-0-0-openapi",
+      "evidence": "curation-svc",
+      "path": "/costtypes/paged",
+      "src": "svc:apis-adyen-com-terminalapi-v1-1-openapi"
+    },
+    {
+      "confidence": 0.84,
+      "dst": "svc:apis-mbus-local-0-3-5-openapi",
+      "evidence": "curation",
+      "path": "/mbus/hat",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-mbus-local-0-3-5-openapi",
+      "evidence": "curation",
+      "path": "/mbus/api",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.69,
+      "dst": "svc:apis-mbus-local-0-3-5-openapi",
+      "evidence": "curation",
+      "path": "/mbus/hat/off",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.84,
+      "dst": "svc:apis-mbus-local-0-3-5-openapi",
+      "evidence": "curation",
+      "path": "/mbus/hat/on",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-mbus-local-0-3-5-openapi",
+      "evidence": "curation",
+      "path": "/mbus/getMulti/{*}/{*}/{*}/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-hackathonwatch-com-0-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/swagger_doc/{*}.json",
+      "src": "svc:apis-microsoft-com-cognitiveservices-localsearch-1-0-swagger"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-hackathonwatch-com-0-1-openapi",
+      "evidence": "curation",
+      "path": "/swagger_doc.json",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-hackathonwatch-com-0-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/hackathons/coming.json",
+      "src": "svc:apis-parliament-uk-search-live-openapi"
+    },
+    {
+      "confidence": 0.7,
+      "dst": "svc:apis-hackathonwatch-com-0-1-openapi",
+      "evidence": "curation",
+      "path": "/hackathons/{*}.json",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-uscann-net-1-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/authentication/forgotPassword",
+      "src": "svc:apis-adyen-com-disputeservice-v30-30-openapi"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-uscann-net-1-0-swagger",
+      "evidence": "curation",
+      "path": "/authentication/token",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-uscann-net-1-0-swagger",
+      "evidence": "curation",
+      "path": "/authentication/register",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.72,
+      "dst": "svc:apis-uscann-net-1-0-swagger",
+      "evidence": "curation",
+      "path": "/authentication/setForgotPassword",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.41,
+      "dst": "svc:apis-uscann-net-1-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/authentication/validateMailToken",
+      "src": "svc:apis-keycloak-local-1-openapi"
+    },
+    {
+      "confidence": 0.71,
+      "dst": "svc:apis-calorieninjas-com-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/nutrition",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.5,
+      "dst": "svc:apis-reversepp-com-1-0-swagger",
+      "evidence": "curation",
+      "path": "/applicant_single",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-reversepp-com-1-0-swagger",
+      "evidence": "curation",
+      "path": "/proposal",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-reversepp-com-1-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/free",
+      "src": "svc:apis-salesforce-local-einstein-2-0-1-openapi"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-reversepp-com-1-0-swagger",
+      "evidence": "curation",
+      "path": "/postcode_multi",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-reversepp-com-1-0-swagger",
+      "evidence": "curation",
+      "path": "/partial_address_multi",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.6,
+      "dst": "svc:apis-phila-gov-pollingplaces-1-0-swagger",
+      "evidence": "curation",
+      "path": "/",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-cycat-org-0-9-swagger",
+      "evidence": "curation",
+      "path": "/namespace/getall",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-cycat-org-0-9-swagger",
+      "evidence": "curation",
+      "path": "/info",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-cycat-org-0-9-swagger",
+      "evidence": "curation",
+      "path": "/list/publisher/{*}/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-cycat-org-0-9-swagger",
+      "evidence": "curation-svc",
+      "path": "/list/project/{*}/{*}",
+      "src": "svc:apis-text2data-org-v3-4-swagger"
+    },
+    {
+      "confidence": 0.56,
+      "dst": "svc:apis-cycat-org-0-9-swagger",
+      "evidence": "curation-svc",
+      "path": "/lookup/{*}",
+      "src": "svc:apis-parliament-uk-writtenquestions-v1-openapi"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-tsapi-net-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/Surveys/{*}/Interviews",
+      "src": "svc:apis-microsoft-com-cognitiveservices-localsearch-1-0-swagger"
+    },
+    {
+      "confidence": 0.77,
+      "dst": "svc:apis-tsapi-net-v1-openapi",
+      "evidence": "curation",
+      "path": "/Surveys",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-tsapi-net-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/Surveys/{*}/Metadata",
+      "src": "svc:apis-chompthis-com-1-0-0-oas3-openapi"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-walletobjects-googleapis-com-pay-passes-v1-openapi",
+      "evidence": "curation",
+      "path": "/walletobjects/v1/transitClass/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-walletobjects-googleapis-com-pay-passes-v1-openapi",
+      "evidence": "curation",
+      "path": "/walletobjects/v1/transitObject/{*}/addMessage",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-walletobjects-googleapis-com-pay-passes-v1-openapi",
+      "evidence": "curation",
+      "path": "/walletobjects/v1/loyaltyObject/{*}/addMessage",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.6,
+      "dst": "svc:apis-walletobjects-googleapis-com-pay-passes-v1-openapi",
+      "evidence": "curation",
+      "path": "/walletobjects/v1/offerClass/{*}/addMessage",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.41,
+      "dst": "svc:apis-walletobjects-googleapis-com-pay-passes-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/walletobjects/v1/genericObject",
+      "src": "svc:apis-adyen-com-paymentservice-30-openapi"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-taxamo-com-1-swagger",
+      "evidence": "curation",
+      "path": "/api/v1/stats/settlement/by_taxation_type",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-taxamo-com-1-swagger",
+      "evidence": "curation-svc",
+      "path": "/api/v1/settlement/summary/{*}",
+      "src": "svc:apis-taxamo-com-1-swagger"
+    },
+    {
+      "confidence": 0.92,
+      "dst": "svc:apis-taxamo-com-1-swagger",
+      "evidence": "curation",
+      "path": "/api/v1/settlement/detailed_refunds",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-taxamo-com-1-swagger",
+      "evidence": "curation",
+      "path": "/api/v1/dictionaries/countries",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.89,
+      "dst": "svc:apis-taxamo-com-1-swagger",
+      "evidence": "curation",
+      "path": "/api/v1/dictionaries/product_types",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.6,
+      "dst": "svc:apis-extpose-com-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/user-extensions",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.74,
+      "dst": "svc:apis-byautomata-io-1-0-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/similar",
+      "src": "svc:apis-adyen-com-binlookupservice-50-openapi"
+    },
+    {
+      "confidence": 0.42,
+      "dst": "svc:apis-byautomata-io-1-0-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/search",
+      "src": "svc:apis-cybertaxonomy-eu-1-0-swagger"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-byautomata-io-1-0-1-openapi",
+      "evidence": "curation",
+      "path": "/contentpro-search",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-byautomata-io-1-0-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/contentpro-similar-text",
+      "src": "svc:apis-warwick-ac-uk-enterobase-v2-0-openapi"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-thetvdb-com-3-0-0-swagger",
+      "evidence": "curation",
+      "path": "/user/favorites",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-thetvdb-com-3-0-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/user/favorites/{*}",
+      "src": "svc:apis-adyen-com-disputeservice-v30-30-openapi"
+    },
+    {
+      "confidence": 0.75,
+      "dst": "svc:apis-thetvdb-com-3-0-0-swagger",
+      "evidence": "curation",
+      "path": "/series/{*}/filter",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.83,
+      "dst": "svc:apis-thetvdb-com-3-0-0-swagger",
+      "evidence": "curation-svc",
+      "path": "/search/series/params",
+      "src": "svc:apis-ote-godaddy-com-orders-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-thetvdb-com-3-0-0-swagger",
+      "evidence": "curation",
+      "path": "/series/{*}/images/query",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.58,
+      "dst": "svc:apis-salesforce-local-einstein-2-0-1-openapi",
+      "evidence": "curation-svc",
+      "path": "/v2/oauth2/tokens/{*}",
+      "src": "svc:apis-amentum-space-gravity-1-1-1-openapi"
+    },
+    {
+      "confidence": 0.9,
+      "dst": "svc:apis-salesforce-local-einstein-2-0-1-openapi",
+      "evidence": "curation",
+      "path": "/v2/language/retrain",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.87,
+      "dst": "svc:apis-salesforce-local-einstein-2-0-1-openapi",
+      "evidence": "curation",
+      "path": "/v2/oauth2/token",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-salesforce-local-einstein-2-0-1-openapi",
+      "evidence": "curation",
+      "path": "/v2/vision/datasets/upload/sync",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.5,
+      "dst": "svc:apis-salesforce-local-einstein-2-0-1-openapi",
+      "evidence": "curation",
+      "path": "/v2/language/intent",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.41,
+      "dst": "svc:apis-noosh-com-1-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/workgroups/{*}/workgroupMembers/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-noosh-com-1-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/workgroups/{*}/projects/{*}/teammembers",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.46,
+      "dst": "svc:apis-noosh-com-1-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/workgroups/{*}/supplierWorkgroups",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-noosh-com-1-0-openapi",
+      "evidence": "curation",
+      "path": "/1.1/workgroups/{*}/projects/{*}/files",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-noosh-com-1-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/workgroups/{*}/clientWorkgroups/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.69,
+      "dst": "svc:apis-refugerestrooms-org-0-0-1-swagger",
+      "evidence": "curation-svc",
+      "path": "/v1/restrooms/search",
+      "src": "svc:apis-extpose-com-1-0-0-openapi"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-refugerestrooms-org-0-0-1-swagger",
+      "evidence": "curation",
+      "path": "/v1/restrooms/by_location",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.66,
+      "dst": "svc:apis-refugerestrooms-org-0-0-1-swagger",
+      "evidence": "curation",
+      "path": "/v1/restrooms",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.78,
+      "dst": "svc:apis-refugerestrooms-org-0-0-1-swagger",
+      "evidence": "curation",
+      "path": "/v1/restrooms/by_date",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-amadeus-com-amadeus-hotel-ratings-1-0-2-swagger",
+      "evidence": "curation-svc",
+      "path": "/e-reputation/hotel-sentiments",
+      "src": "svc:apis-adyen-com-recurringservice-18-openapi"
+    },
+    {
+      "confidence": 0.48,
+      "dst": "svc:apis-amadeus-com-amadeus-hotel-name-autocomplete-1-0-3-swagger",
+      "evidence": "curation",
+      "path": "/reference-data/locations/hotel",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.75,
+      "dst": "svc:apis-amadeus-com-amadeus-travel-recommendations-1-0-3-openapi",
+      "evidence": "curation",
+      "path": "/reference-data/recommended-locations",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-amadeus-com-amadeus-location-score-1-0-2-openapi",
+      "evidence": "curation",
+      "path": "/location/analytics/category-rated-areas",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.73,
+      "dst": "svc:apis-spectrocoin-com-1-0-0-swagger",
+      "evidence": "curation",
+      "path": "/api/createOrder",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.53,
+      "dst": "svc:apis-vectara-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/create-corpus",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.65,
+      "dst": "svc:apis-vectara-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/reset-corpus",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.45,
+      "dst": "svc:apis-vectara-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/delete-doc",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.77,
+      "dst": "svc:apis-vectara-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/query",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.48,
+      "dst": "svc:apis-vectara-io-1-0-0-openapi",
+      "evidence": "curation",
+      "path": "/v1/index",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-parliament-uk-erskine-may-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/IndexTerm/browse",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.47,
+      "dst": "svc:apis-parliament-uk-erskine-may-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Section/{*},{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.93,
+      "dst": "svc:apis-parliament-uk-erskine-may-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Part/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.77,
+      "dst": "svc:apis-parliament-uk-erskine-may-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Search/Paragraph/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-parliament-uk-erskine-may-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Part",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-parliament-uk-commonsvotes-v1-swagger",
+      "evidence": "curation",
+      "path": "/data/divisions.{*}/search",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.67,
+      "dst": "svc:apis-parliament-uk-commonsvotes-v1-swagger",
+      "evidence": "curation",
+      "path": "/data/division/{*}.{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-parliament-uk-commonsvotes-v1-swagger",
+      "evidence": "curation-svc",
+      "path": "/data/divisions.{*}/groupedbyparty",
+      "src": "svc:apis-adobe-com-aem-3-7-1-pre-0-openapi"
+    },
+    {
+      "confidence": 0.82,
+      "dst": "svc:apis-parliament-uk-commonsvotes-v1-swagger",
+      "evidence": "curation",
+      "path": "/data/divisions.{*}/membervoting",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.84,
+      "dst": "svc:apis-parliament-uk-commonsvotes-v1-swagger",
+      "evidence": "curation",
+      "path": "/data/divisions.{*}/searchTotalResults",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.79,
+      "dst": "svc:apis-parliament-uk-members-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Posts/Departments/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.59,
+      "dst": "svc:apis-parliament-uk-members-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Members/{*}/Experience",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-parliament-uk-members-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Members/{*}/ContributionSummary",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-parliament-uk-members-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Members/{*}/Staff",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.75,
+      "dst": "svc:apis-parliament-uk-members-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Parties/LordsByType/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-parliament-uk-now-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/Message/message/{*}/current",
+      "src": "svc:apis-amentum-space-space_radiation-1-1-2-openapi"
+    },
+    {
+      "confidence": 0.49,
+      "dst": "svc:apis-parliament-uk-now-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/Message/message/{*}/{*}",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.81,
+      "dst": "svc:apis-parliament-uk-lordsvotes-v1-openapi",
+      "evidence": "curation",
+      "path": "/data/Divisions/search",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-parliament-uk-lordsvotes-v1-openapi",
+      "evidence": "curation",
+      "path": "/data/Divisions/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-parliament-uk-lordsvotes-v1-openapi",
+      "evidence": "curation",
+      "path": "/data/Divisions/searchTotalResults",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.63,
+      "dst": "svc:apis-parliament-uk-lordsvotes-v1-openapi",
+      "evidence": "curation",
+      "path": "/data/Divisions/groupedbyparty",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-parliament-uk-lordsvotes-v1-openapi",
+      "evidence": "curation",
+      "path": "/data/Divisions/membervoting",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.57,
+      "dst": "svc:apis-parliament-uk-bills-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/Bills/{*}/Stages",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.94,
+      "dst": "svc:apis-parliament-uk-bills-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/Rss/privatebills.rss",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.51,
+      "dst": "svc:apis-parliament-uk-bills-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/Bills/{*}/Stages/{*}/Amendments/{*}",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.48,
+      "dst": "svc:apis-parliament-uk-bills-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/v1/Bills",
+      "src": "svc:apis-parliament-uk-members-v1-openapi"
+    },
+    {
+      "confidence": 0.58,
+      "dst": "svc:apis-parliament-uk-bills-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/Stages",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.61,
+      "dst": "svc:apis-parliament-uk-search-live-openapi",
+      "evidence": "curation",
+      "path": "/description",
+      "src": "ui:portal-ui"
+    },
+    {
+      "confidence": 0.71,
+      "dst": "svc:apis-parliament-uk-search-live-openapi",
+      "evidence": "curation-svc",
+      "path": "/query",
+      "src": "svc:apis-adyen-com-binlookupservice-53-openapi"
+    },
+    {
+      "confidence": 0.44,
+      "dst": "svc:apis-parliament-uk-search-live-openapi",
+      "evidence": "curation-svc",
+      "path": "/query.{*}",
+      "src": "svc:apis-vatapi-com-1-swagger"
+    },
+    {
+      "confidence": 0.64,
+      "dst": "svc:apis-parliament-uk-writtenquestions-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/writtenquestions/questions/{*}/{*}",
+      "src": "svc:apis-e-conomic-com-v20-0-0-openapi"
+    },
+    {
+      "confidence": 0.75,
+      "dst": "svc:apis-parliament-uk-writtenquestions-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/writtenstatements/statements/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-parliament-uk-writtenquestions-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/writtenstatements/statements",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.84,
+      "dst": "svc:apis-parliament-uk-writtenquestions-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/writtenquestions/questions/{*}",
+      "src": "svc:apis-microsoft-com-cognitiveservices-spellcheck-1-0-swagger"
+    },
+    {
+      "confidence": 0.86,
+      "dst": "svc:apis-parliament-uk-writtenquestions-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/writtenstatements/statements/{*}/{*}",
+      "src": "ui:admin-ui"
+    },
+    {
+      "confidence": 0.62,
+      "dst": "svc:apis-parliament-uk-statutoryinstruments-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/LayingBody",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.88,
+      "dst": "svc:apis-parliament-uk-statutoryinstruments-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/ProposedNegativeStatutoryInstrument",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.58,
+      "dst": "svc:apis-parliament-uk-statutoryinstruments-v1-openapi",
+      "evidence": "curation-svc",
+      "path": "/api/v1/ProposedNegativeStatutoryInstrument/{*}",
+      "src": "svc:apis-amentum-space-aviation_radiation-1-5-0-openapi"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-parliament-uk-statutoryinstruments-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/ProposedNegativeStatutoryInstrument/{*}/BusinessItems",
+      "src": "ui:mobile-ui"
+    },
+    {
+      "confidence": 0.68,
+      "dst": "svc:apis-parliament-uk-statutoryinstruments-v1-openapi",
+      "evidence": "curation",
+      "path": "/api/v1/Procedure/{*}",
+      "src": "ui:mobile-ui"
+    }
+  ],
+  "producers": {
+    "apis-abstractapi-com-geolocation-1-0-0-openapi": [
+      "/v1/"
+    ],
+    "apis-adobe-com-aem-3-7-1-pre-0-openapi": [
+      "/libs/granite/security/post/sslSetup.html",
+      "/{*}/{*}/keystore/store.p12",
+      "/apps/system/config/{*}",
+      "/crx/packmgr/service/script.html",
+      "/bin/querybuilder.json"
+    ],
+    "apis-adyen-com-binlookupservice-40-openapi": [
+      "/get3dsAvailability",
+      "/getCostEstimate"
+    ],
+    "apis-adyen-com-binlookupservice-50-openapi": [
+      "/get3dsAvailability",
+      "/getCostEstimate"
+    ],
+    "apis-adyen-com-binlookupservice-52-openapi": [
+      "/get3dsAvailability",
+      "/getCostEstimate"
+    ],
+    "apis-adyen-com-binlookupservice-53-openapi": [
+      "/get3dsAvailability",
+      "/getCostEstimate"
+    ],
+    "apis-adyen-com-binlookupservice-54-openapi": [
+      "/get3dsAvailability",
+      "/getCostEstimate"
+    ],
+    "apis-adyen-com-checkoututilityservice-1-openapi": [
+      "/originKeys"
+    ],
+    "apis-adyen-com-dataprotectionservice-1-openapi": [
+      "/requestSubjectErasure"
+    ],
+    "apis-adyen-com-disputeservice-v30-30-openapi": [
+      "/acceptDispute",
+      "/defendDispute",
+      "/deleteDisputeDefenseDocument",
+      "/retrieveApplicableDefenseReasons",
+      "/supplyDefenseDocument"
+    ],
+    "apis-adyen-com-paymentservice-25-openapi": [
+      "/cancel",
+      "/capture",
+      "/authorise",
+      "/authorise3d",
+      "/refund"
+    ],
+    "apis-adyen-com-paymentservice-30-openapi": [
+      "/cancelOrRefund",
+      "/technicalCancel",
+      "/capture",
+      "/authorise",
+      "/authorise3d"
+    ],
+    "apis-adyen-com-payoutservice-46-openapi": [
+      "/storeDetail",
+      "/payout",
+      "/confirmThirdParty",
+      "/declineThirdParty",
+      "/submitThirdParty"
+    ],
+    "apis-adyen-com-payoutservice-49-openapi": [
+      "/declineThirdParty",
+      "/submitThirdParty",
+      "/confirmThirdParty",
+      "/payout",
+      "/storeDetail"
+    ],
+    "apis-adyen-com-recurringservice-18-openapi": [
+      "/disable",
+      "/listRecurringDetails"
+    ],
+    "apis-adyen-com-storedvalueservice-46-openapi": [
+      "/changeStatus",
+      "/load",
+      "/checkBalance",
+      "/voidTransaction",
+      "/mergeBalance"
+    ],
+    "apis-adyen-com-terminalapi-v1-1-openapi": [
+      "/enableservice",
+      "/diagnosis",
+      "/admin",
+      "/reversal",
+      "/cardreaderapdu"
+    ],
+    "apis-adyen-com-tfmapiservice-1-openapi": [
+      "/assignTerminals",
+      "/findTerminal",
+      "/getStoresUnderAccount",
+      "/getTerminalDetails",
+      "/getTerminalsUnderAccount"
+    ],
+    "apis-adyen-com-transferservice-1-openapi": [
+      "/transactions",
+      "/transactions/{*}",
+      "/transfers"
+    ],
+    "apis-amadeus-com-amadeus-hotel-name-autocomplete-1-0-3-swagger": [
+      "/reference-data/locations/hotel"
+    ],
+    "apis-amadeus-com-amadeus-hotel-ratings-1-0-2-swagger": [
+      "/e-reputation/hotel-sentiments"
+    ],
+    "apis-amadeus-com-amadeus-location-score-1-0-2-openapi": [
+      "/location/analytics/category-rated-areas"
+    ],
+    "apis-amadeus-com-amadeus-travel-recommendations-1-0-3-openapi": [
+      "/reference-data/recommended-locations"
+    ],
+    "apis-amentum-space-atmosphere-1-1-1-openapi": [
+      "/jb2008",
+      "/nrlmsise00",
+      "/wam-ipe"
+    ],
+    "apis-amentum-space-aviation_radiation-1-5-0-openapi": [
+      "/parma/ambient_dose",
+      "/cari7/ambient_dose",
+      "/cari7/effective_dose",
+      "/parma/effective_dose",
+      "/route/ambient_dose"
+    ],
+    "apis-amentum-space-global-magnet-1-3-0-openapi": [
+      "/magnetic_field"
+    ],
+    "apis-amentum-space-gravity-1-1-1-openapi": [
+      "/egm2008/geoid_height",
+      "/egm2008/gravity_anomaly"
+    ],
+    "apis-amentum-space-space_radiation-1-1-2-openapi": [
+      "/gcr/flux_dlr",
+      "/trapped/flux_mean",
+      "/trapped/flux_percentile"
+    ],
+    "apis-bikewise-org-v2-openapi": [
+      "/v2/incidents",
+      "/v2/incidents/{*}",
+      "/v2/locations",
+      "/v2/locations/markers"
+    ],
+    "apis-bluemix-net-containers-3-0-0-openapi": [
+      "/containers/usage",
+      "/containers/{*}/floating-ips/{*}/bind",
+      "/containers/floating-ips",
+      "/images/{*}/json",
+      "/build"
+    ],
+    "apis-brainbi-net-1-0-0-openapi": [
+      "/api/login",
+      "/api/analyze/pricing",
+      "/api/orders",
+      "/api/orders/1137",
+      "/api/rule/ruleData/1/latest"
+    ],
+    "apis-byautomata-io-1-0-1-openapi": [
+      "/contentpro-search",
+      "/contentpro-similar-text",
+      "/search",
+      "/similar"
+    ],
+    "apis-calorieninjas-com-1-0-0-openapi": [
+      "/v1/nutrition"
+    ],
+    "apis-chompthis-com-1-0-0-oas3-openapi": [
+      "/food/branded/barcode.php",
+      "/food/branded/name.php",
+      "/food/branded/search.php",
+      "/food/ingredient/search.php"
+    ],
+    "apis-clever-com-1-2-0-openapi": [
+      "/teachers/{*}/school",
+      "/sections",
+      "/sections/{*}/teacher",
+      "/students/{*}/district",
+      "/districts/{*}"
+    ],
+    "apis-cybertaxonomy-eu-1-0-swagger": [
+      "/capabilities",
+      "/search"
+    ],
+    "apis-cycat-org-0-9-swagger": [
+      "/info",
+      "/namespace/getall",
+      "/list/project/{*}/{*}",
+      "/lookup/{*}",
+      "/list/publisher/{*}/{*}"
+    ],
+    "apis-dropx-io-1-0-0-swagger": [
+      "/products/title-search",
+      "/products/",
+      "/users/usage",
+      "/products/link-search-v2",
+      "/products/search-v2"
+    ],
+    "apis-e-conomic-com-v20-0-0-openapi": [
+      "/costtypegroups",
+      "/mileages/paged",
+      "/costtypes",
+      "/project-customers/count",
+      "/costtypes/paged"
+    ],
+    "apis-exhibitday-com-v1-swagger": [
+      "/v1/events/",
+      "/v1/tasks/comment",
+      "/v1/tasks/",
+      "/api/docs/Swagger",
+      "/v1/financials/event_costs"
+    ],
+    "apis-extpose-com-1-0-0-openapi": [
+      "/user-extensions"
+    ],
+    "apis-firebrowse-org-1-1-38-swagger": [
+      "/Analyses/CopyNumber/Genes/Focal",
+      "/Metadata/SampleType/ShortLetterCode/{*}",
+      "/Samples/mRNASeq",
+      "/Analyses/mRNASeq/Quartiles",
+      "/Metadata/Dates"
+    ],
+    "apis-hackathonwatch-com-0-1-openapi": [
+      "/hackathons/coming.json",
+      "/hackathons/{*}.json",
+      "/swagger_doc.json",
+      "/swagger_doc/{*}.json"
+    ],
+    "apis-izettle-com-products-1-0-0-openapi": [
+      "/organizations/{*}/library",
+      "/organizations/{*}/import/status",
+      "/v1/taxes/{*}",
+      "/organizations/{*}/categories/v2/{*}",
+      "/organizations/{*}/discounts/{*}"
+    ],
+    "apis-keycloak-local-1-openapi": [
+      "/{*}/authentication/flows/{*}/executions/execution",
+      "/{*}/partialImport",
+      "/{*}/clients/{*}/certificates/{*}",
+      "/{*}/identity-provider/instances/{*}/management/permissions",
+      "/{*}/clients/{*}/installation/providers/{*}"
+    ],
+    "apis-libretranslate-local-1-3-10-openapi": [
+      "/languages",
+      "/frontend/settings",
+      "/detect",
+      "/suggest",
+      "/translate"
+    ],
+    "apis-mbus-local-0-3-5-openapi": [
+      "/mbus/hat",
+      "/mbus/hat/on",
+      "/mbus/getMulti/{*}/{*}/{*}/{*}",
+      "/mbus/api",
+      "/mbus/hat/off"
+    ],
+    "apis-microsoft-com-cognitiveservices-autosuggest-1-0-swagger": [
+      "/Suggestions"
+    ],
+    "apis-microsoft-com-cognitiveservices-computervision-2-0-openapi": [
+      "/models",
+      "/describe",
+      "/generateThumbnail",
+      "/models/{*}/analyze",
+      "/analyze"
+    ],
+    "apis-microsoft-com-cognitiveservices-computervision-2-1-openapi": [
+      "/generateThumbnail",
+      "/detect",
+      "/analyze",
+      "/areaOfInterest",
+      "/tag"
+    ],
+    "apis-microsoft-com-cognitiveservices-entitysearch-1-0-swagger": [
+      "/entities"
+    ],
+    "apis-microsoft-com-cognitiveservices-localsearch-1-0-swagger": [
+      "/v7.0/localbusinesses/search"
+    ],
+    "apis-microsoft-com-cognitiveservices-ocr-2-0-openapi": [
+      "/read/core/asyncBatchAnalyze",
+      "/read/operations/{*}",
+      "/recognizeText",
+      "/textOperations/{*}"
+    ],
+    "apis-microsoft-com-cognitiveservices-ocr-2-1-openapi": [
+      "/read/core/asyncBatchAnalyze",
+      "/read/operations/{*}",
+      "/recognizeText",
+      "/textOperations/{*}"
+    ],
+    "apis-microsoft-com-cognitiveservices-spellcheck-1-0-swagger": [
+      "/spellcheck"
+    ],
+    "apis-microsoft-com-cognitiveservices-visualsearch-1-0-swagger": [
+      "/images/visualsearch"
+    ],
+    "apis-naviplancentral-com-factfinder-v1-swagger": [
+      "/api/Demographics/{*}/Dependents",
+      "/api/StatesProvinces/{*}",
+      "/api/FactFinders/{*}/Modules",
+      "/api/DisabilityInsurancePolicies/{*}",
+      "/api/LifestyleAssetTypes"
+    ],
+    "apis-naviplancentral-com-plan-v1-swagger": [
+      "/api/PlanInformation",
+      "/api/Liabilities/{*}",
+      "/api/LivePlan/NetWorth/Liabilities",
+      "/api/auth/Logout",
+      "/api/LivePlan/NetWorth/Accounts"
+    ],
+    "apis-noosh-com-1-0-openapi": [
+      "/v1/workgroups/{*}/workgroupMembers/{*}",
+      "/v1/workgroups/{*}/projects/{*}/teammembers",
+      "/v1/workgroups/{*}/clientWorkgroups/{*}",
+      "/1.1/workgroups/{*}/projects/{*}/files",
+      "/v1/workgroups/{*}/supplierWorkgroups"
+    ],
+    "apis-obono-at-1-4-0-0-openapi": [
+      "/export/csv/registrierkassen/{*}/belege",
+      "/export/pdf/belege/{*}",
+      "/export/html/belege/{*}",
+      "/belege/{*}",
+      "/export/thermal-print/belege/{*}"
+    ],
+    "apis-omdbapi-com-1-swagger": [
+      "/"
+    ],
+    "apis-opendatasoft-com-2-1-0-swagger": [
+      "/{*}/datasets/{*}/exports/shp",
+      "/{*}/datasets/{*}/reuses/{*}",
+      "/{*}/datasets/{*}/feedback",
+      "/{*}/datasets/{*}/exports/csv",
+      "/{*}/exports/rdf"
+    ],
+    "apis-ote-godaddy-com-abuse-1-0-0-openapi": [
+      "/v1/abuse/tickets",
+      "/v1/abuse/tickets/{*}"
+    ],
+    "apis-ote-godaddy-com-aftermarket-1-0-0-openapi": [
+      "/v1/aftermarket/listings",
+      "/v1/aftermarket/listings/expiry"
+    ],
+    "apis-ote-godaddy-com-agreements-1-0-0-openapi": [
+      "/v1/agreements"
+    ],
+    "apis-ote-godaddy-com-certificates-1-0-0-openapi": [
+      "/v1/certificates/{*}/siteSeal",
+      "/v2/customers/{*}/certificates/{*}",
+      "/v1/certificates/{*}/reissue",
+      "/v1/certificates/{*}/cancel",
+      "/v1/certificates/{*}/download"
+    ],
+    "apis-ote-godaddy-com-countries-1-0-0-openapi": [
+      "/v1/countries",
+      "/v1/countries/{*}"
+    ],
+    "apis-ote-godaddy-com-domains-1-0-0-openapi": [
+      "/v2/customers/{*}/domains/notifications",
+      "/v1/domains/contacts/validate",
+      "/v1/domains/{*}/records/{*}",
+      "/v1/domains/available",
+      "/v2/customers/{*}/domains/register/schema/{*}"
+    ],
+    "apis-ote-godaddy-com-orders-1-0-0-openapi": [
+      "/v1/orders",
+      "/v1/orders/{*}"
+    ],
+    "apis-ote-godaddy-com-shoppers-1-0-0-openapi": [
+      "/v1/shoppers/subaccount",
+      "/v1/shoppers/{*}",
+      "/v1/shoppers/{*}/factors/password",
+      "/v1/shoppers/{*}/status"
+    ],
+    "apis-ote-godaddy-com-subscriptions-1-0-0-openapi": [
+      "/v1/subscriptions",
+      "/v1/subscriptions/productGroups",
+      "/v1/subscriptions/{*}"
+    ],
+    "apis-parliament-uk-bills-v1-openapi": [
+      "/api/v1/Bills/{*}/Stages/{*}/Amendments/{*}",
+      "/api/v1/Bills",
+      "/api/v1/Bills/{*}/Stages",
+      "/api/v1/Rss/privatebills.rss",
+      "/api/v1/Stages"
+    ],
+    "apis-parliament-uk-commonsvotes-v1-swagger": [
+      "/data/division/{*}.{*}",
+      "/data/divisions.{*}/groupedbyparty",
+      "/data/divisions.{*}/membervoting",
+      "/data/divisions.{*}/search",
+      "/data/divisions.{*}/searchTotalResults"
+    ],
+    "apis-parliament-uk-erskine-may-v1-openapi": [
+      "/api/Section/{*},{*}",
+      "/api/Part",
+      "/api/Search/Paragraph/{*}",
+      "/api/IndexTerm/browse",
+      "/api/Part/{*}"
+    ],
+    "apis-parliament-uk-lordsvotes-v1-openapi": [
+      "/data/Divisions/groupedbyparty",
+      "/data/Divisions/membervoting",
+      "/data/Divisions/search",
+      "/data/Divisions/searchTotalResults",
+      "/data/Divisions/{*}"
+    ],
+    "apis-parliament-uk-members-v1-openapi": [
+      "/api/Members/{*}/Experience",
+      "/api/Members/{*}/Staff",
+      "/api/Members/{*}/ContributionSummary",
+      "/api/Parties/LordsByType/{*}",
+      "/api/Posts/Departments/{*}"
+    ],
+    "apis-parliament-uk-now-v1-openapi": [
+      "/api/Message/message/{*}/current",
+      "/api/Message/message/{*}/{*}"
+    ],
+    "apis-parliament-uk-search-live-openapi": [
+      "/description",
+      "/query",
+      "/query.{*}"
+    ],
+    "apis-parliament-uk-statutoryinstruments-v1-openapi": [
+      "/api/v1/ProposedNegativeStatutoryInstrument",
+      "/api/v1/ProposedNegativeStatutoryInstrument/{*}",
+      "/api/v1/LayingBody",
+      "/api/v1/ProposedNegativeStatutoryInstrument/{*}/BusinessItems",
+      "/api/v1/Procedure/{*}"
+    ],
+    "apis-parliament-uk-writtenquestions-v1-openapi": [
+      "/api/writtenquestions/questions/{*}/{*}",
+      "/api/writtenquestions/questions/{*}",
+      "/api/writtenstatements/statements/{*}/{*}",
+      "/api/writtenstatements/statements/{*}",
+      "/api/writtenstatements/statements"
+    ],
+    "apis-pdfblocks-com-1-5-0-openapi": [
+      "/v1/remove_restrictions",
+      "/v1/extract_pages",
+      "/v1/add_restrictions",
+      "/v1/add_watermark/image",
+      "/v1/reverse_pages"
+    ],
+    "apis-phila-gov-pollingplaces-1-0-swagger": [
+      "/"
+    ],
+    "apis-refugerestrooms-org-0-0-1-swagger": [
+      "/v1/restrooms",
+      "/v1/restrooms/by_date",
+      "/v1/restrooms/by_location",
+      "/v1/restrooms/search"
+    ],
+    "apis-remove-bg-1-0-0-openapi": [
+      "/account",
+      "/improve",
+      "/removebg"
+    ],
+    "apis-restful4up-local-1-0-0-openapi": [
+      "/apply-yara-rules",
+      "/clean",
+      "/emulation-output",
+      "/generate-partial-yara-rules",
+      "/unpack"
+    ],
+    "apis-reverb-com-3-0-openapi": [
+      "/my/follows/categories/{*}",
+      "/listings/{*}/similar_listings",
+      "/shops/{*}",
+      "/my/refund_requests/selling/{*}",
+      "/shops/{*}/feedback"
+    ],
+    "apis-reversepp-com-1-0-swagger": [
+      "/applicant_single",
+      "/free",
+      "/partial_address_multi",
+      "/proposal",
+      "/postcode_multi"
+    ],
+    "apis-salesforce-local-einstein-2-0-1-openapi": [
+      "/v2/oauth2/token",
+      "/v2/language/retrain",
+      "/v2/vision/datasets/upload/sync",
+      "/v2/language/intent",
+      "/v2/oauth2/tokens/{*}"
+    ],
+    "apis-sms77-io-1-0-0-openapi": [
+      "/lookup/cnam",
+      "/analytics",
+      "/validate_for_voice",
+      "/pricing",
+      "/lookup/hlr"
+    ],
+    "apis-spectrocoin-com-1-0-0-swagger": [
+      "/api/createOrder"
+    ],
+    "apis-taxamo-com-1-swagger": [
+      "/api/v1/dictionaries/countries",
+      "/api/v1/dictionaries/product_types",
+      "/api/v1/settlement/summary/{*}",
+      "/api/v1/settlement/detailed_refunds",
+      "/api/v1/stats/settlement/by_taxation_type"
+    ],
+    "apis-text2data-org-v3-4-swagger": [
+      "/v3/Analyze",
+      "/v3/Categorize",
+      "/v3/Extract"
+    ],
+    "apis-thetvdb-com-3-0-0-swagger": [
+      "/series/{*}/filter",
+      "/search/series/params",
+      "/user/favorites",
+      "/series/{*}/images/query",
+      "/user/favorites/{*}"
+    ],
+    "apis-tokenjay-app-1-0-0-openapi": [
+      "/mosaik/boxconsolidation/",
+      "/mosaik/tokenburn/get/{*}",
+      "/sigusd/exchange/{*}/info",
+      "/sigrsv/exchange/",
+      "/mosaik/tokenburn/prepare"
+    ],
+    "apis-transitfeeds-com-1-0-0-swagger": [
+      "/getFeedVersions",
+      "/getFeeds",
+      "/getLatestFeedVersion",
+      "/getLocations"
+    ],
+    "apis-tsapi-net-v1-openapi": [
+      "/Surveys",
+      "/Surveys/{*}/Interviews",
+      "/Surveys/{*}/Metadata"
+    ],
+    "apis-uscann-net-1-0-swagger": [
+      "/authentication/forgotPassword",
+      "/authentication/register",
+      "/authentication/setForgotPassword",
+      "/authentication/token",
+      "/authentication/validateMailToken"
+    ],
+    "apis-useapi-net-1-0-openapi": [
+      "/jobs/blend",
+      "/jobs/button",
+      "/jobs/imagine",
+      "/jobs",
+      "/account"
+    ],
+    "apis-vatapi-com-1-swagger": [
+      "/usage-check",
+      "/vat-number-check",
+      "/vat-price",
+      "/vat-rates",
+      "/currency-conversion"
+    ],
+    "apis-vectara-io-1-0-0-openapi": [
+      "/v1/create-corpus",
+      "/v1/index",
+      "/v1/delete-doc",
+      "/v1/query",
+      "/v1/reset-corpus"
+    ],
+    "apis-vocadb-net-1-0-openapi": [
+      "/api/tags/categoryNames",
+      "/api/entries",
+      "/api/tags/{*}/reports",
+      "/api/artists/{*}",
+      "/api/users/{*}/reports"
+    ],
+    "apis-walletobjects-googleapis-com-pay-passes-v1-openapi": [
+      "/walletobjects/v1/loyaltyObject/{*}/addMessage",
+      "/walletobjects/v1/offerClass/{*}/addMessage",
+      "/walletobjects/v1/transitObject/{*}/addMessage",
+      "/walletobjects/v1/genericObject",
+      "/walletobjects/v1/transitClass/{*}"
+    ],
+    "apis-warwick-ac-uk-enterobase-v2-0-openapi": [
+      "/api/v2.0/{*}/{*}/loci",
+      "/api/v2.0/{*}/schemes/{*}",
+      "/api/v2.0/lookup/{*}",
+      "/api/v2.0/{*}/traces/{*}",
+      "/api/v2.0/{*}/{*}/sts"
+    ],
+    "apis-wordnik-com-4-0-openapi": [
+      "/word.json/{*}/scrabbleScore",
+      "/word.json/{*}/phrases",
+      "/word.json/{*}/relatedWords",
+      "/word.json/{*}/audio",
+      "/word.json/{*}/frequency"
+    ],
+    "apis-zeno-fm-0-6-99cfdac-openapi": [
+      "/api/v2/podcasts/create",
+      "/api/v2/podcasts/search",
+      "/api/v2/stations/search",
+      "/api/v2/podcasts/languages",
+      "/api/v2/podcasts/{*}/episodes/{*}"
+    ]
+  }
+}

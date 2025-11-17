@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:39Z",
+  "new_canonical": "openapi--apis-obono-at-1-4-0-0-openapi--v2.canonical.json",
+  "new_sha": "41b4d2132e285a73fbbf",
+  "old_canonical": "openapi--apis-obono-at-1-4-0-0-openapi--v1.canonical.json",
+  "old_sha": "cb5172f9b07f07080fd8",
+  "pair_id": "pair-2b96eb5dbf00d54fd683",
+  "seed": 1214679822,
+  "service_name": "apis-obono-at-1-4-0-0-openapi",
+  "warnings": []
+}

@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:16Z",
+  "new_canonical": "openapi--apis-firebrowse-org-1-1-38-swagger--v2.canonical.json",
+  "new_sha": "1c64bfec3311065dea4b",
+  "old_canonical": "openapi--apis-firebrowse-org-1-1-38-swagger--v1.canonical.json",
+  "old_sha": "07a2e8cdda826e51e3df",
+  "pair_id": "pair-060df4a77b6ef3a82022",
+  "seed": 487975982,
+  "service_name": "apis-firebrowse-org-1-1-38-swagger",
+  "warnings": []
+}

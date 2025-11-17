@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:03:24Z",
+  "new_canonical": "openapi--apis-amadeus-com-amadeus-travel-recommendations-1-0-3-openapi--v2.canonical.json",
+  "new_sha": "c7fe0a5669d1355dfb8c",
+  "old_canonical": "openapi--apis-amadeus-com-amadeus-travel-recommendations-1-0-3-openapi--v1.canonical.json",
+  "old_sha": "19f1e2b1c29450adfc8c",
+  "pair_id": "pair-87def75c4380aa9821dd",
+  "seed": 801585379,
+  "service_name": "apis-amadeus-com-amadeus-travel-recommendations-1-0-3-openapi",
+  "warnings": []
+}

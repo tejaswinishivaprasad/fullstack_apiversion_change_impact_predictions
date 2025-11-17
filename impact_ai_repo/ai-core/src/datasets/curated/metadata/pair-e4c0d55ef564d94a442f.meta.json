@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:33Z",
+  "new_canonical": "openapi--apis-exhibitday-com-v1-swagger--v2.canonical.json",
+  "new_sha": "6f9fbac4e964bb20ad46",
+  "old_canonical": "openapi--apis-exhibitday-com-v1-swagger--v1.canonical.json",
+  "old_sha": "59754e3d07ddfb564715",
+  "pair_id": "pair-e4c0d55ef564d94a442f",
+  "seed": 1931200087,
+  "service_name": "apis-exhibitday-com-v1-swagger",
+  "warnings": []
+}

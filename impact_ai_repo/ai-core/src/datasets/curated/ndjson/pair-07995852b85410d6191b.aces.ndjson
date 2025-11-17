@@ -1,0 +1,1 @@
+{"pair_id": "pair-07995852b85410d6191b", "ace_index": 0, "ace_id": "pair-07995852b85410d6191b::ace::0", "type": "ENDPOINT_ADDED", "path": "/auto675", "method": "get", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "661aec1f046686858b28", "new_sha": "1906293c49041101ac16"}, "side_effect": false, "calls_services": ["apis-cycat-org-0-9-swagger"], "shared_schemas": []}

@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:39Z",
+  "new_canonical": "openapi--apis-ote-godaddy-com-subscriptions-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "644d3814fcce881cf792",
+  "old_canonical": "openapi--apis-ote-godaddy-com-subscriptions-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "23172cd05c339172ee5e",
+  "pair_id": "pair-c8eb2d5da4e7bf9e879e",
+  "seed": 1752618505,
+  "service_name": "apis-ote-godaddy-com-subscriptions-1-0-0-openapi",
+  "warnings": []
+}

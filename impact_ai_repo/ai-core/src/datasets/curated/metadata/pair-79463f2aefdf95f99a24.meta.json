@@ -1,0 +1,15 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T10:26:10Z",
+  "new_canonical": "openapi--apis-parliament-uk-oralquestions-v1-openapi--v2.canonical.json",
+  "new_sha": "67e529a826c7c8f46b5e",
+  "old_canonical": "openapi--apis-parliament-uk-oralquestions-v1-openapi--v1.canonical.json",
+  "old_sha": "492507e7aaf507e688c9",
+  "pair_id": "pair-79463f2aefdf95f99a24",
+  "seed": 1414734832,
+  "service_name": "apis-parliament-uk-oralquestions-v1-openapi",
+  "warnings": [
+    "cycle local #/components/schemas/PublishedEarlyDayMotionDetails",
+    "cycle local #/components/schemas/PublishedEarlyDayMotionDetails"
+  ]
+}

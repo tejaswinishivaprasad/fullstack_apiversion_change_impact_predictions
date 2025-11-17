@@ -1,0 +1,86 @@
+{
+  "num_changes": {
+    "mean": 2.0,
+    "stdev": 0.0
+  },
+  "ct_endpoint_removed": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "ct_endpoint_added": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "ct_param_removed": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "ct_param_added": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "ct_param_changed": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "ct_response_schema_changed": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "ct_requestbody_schema_changed": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "centrality": {
+    "mean": 0.020926990834567307,
+    "stdev": 0.0
+  },
+  "ui_consumers": {
+    "mean": 1.0,
+    "stdev": 0.0
+  },
+  "two_hop": {
+    "mean": 6.0,
+    "stdev": 0.0
+  },
+  "backend_imp_count": {
+    "mean": 1.0,
+    "stdev": 0.0
+  },
+  "frontend_imp_count": {
+    "mean": 1.0,
+    "stdev": 0.0
+  },
+  "semantic_sim": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "recency_days": {
+    "mean": 9999.0,
+    "stdev": 0.0
+  },
+  "change_freq": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "breaking_vs_semver": {
+    "mean": 1.0,
+    "stdev": 0.0
+  },
+  "has_side_effects": {
+    "mean": 1.0,
+    "stdev": 0.0
+  },
+  "uses_shared_schema": {
+    "mean": 0.0,
+    "stdev": 0.0
+  },
+  "calls_other_services": {
+    "mean": 1.0,
+    "stdev": 0.0
+  },
+  "propagation_potential": {
+    "mean": 3.0,
+    "stdev": 0.0
+  }
+}

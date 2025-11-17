@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:54Z",
+  "new_canonical": "openapi--apis-extpose-com-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "648d3a9b395ebac7d67c",
+  "old_canonical": "openapi--apis-extpose-com-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "ffa2c0e9fdc9d193f51a",
+  "pair_id": "pair-42ed824fa523e4776c88",
+  "seed": 853004726,
+  "service_name": "apis-extpose-com-1-0-0-openapi",
+  "warnings": []
+}

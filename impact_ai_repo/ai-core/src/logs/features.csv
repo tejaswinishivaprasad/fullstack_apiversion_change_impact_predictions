@@ -1,0 +1,2 @@
+backend_imp_count,breaking_vs_semver,calls_other_services,centrality,change_freq,ct_endpoint_added,ct_endpoint_removed,ct_param_added,ct_param_changed,ct_param_removed,ct_requestbody_schema_changed,ct_response_schema_changed,frontend_imp_count,has_side_effects,num_changes,propagation_potential,recency_days,semantic_sim,two_hop,ui_consumers,uses_shared_schema
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0

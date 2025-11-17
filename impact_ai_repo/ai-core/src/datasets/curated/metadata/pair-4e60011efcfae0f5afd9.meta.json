@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:58Z",
+  "new_canonical": "openapi--apis-thetvdb-com-3-0-0-swagger--v2.canonical.json",
+  "new_sha": "052cb6946b295ed76a11",
+  "old_canonical": "openapi--apis-thetvdb-com-3-0-0-swagger--v1.canonical.json",
+  "old_sha": "6b4ef893433df577b47b",
+  "pair_id": "pair-4e60011efcfae0f5afd9",
+  "seed": 989540699,
+  "service_name": "apis-thetvdb-com-3-0-0-swagger",
+  "warnings": []
+}

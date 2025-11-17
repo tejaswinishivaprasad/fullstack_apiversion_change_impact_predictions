@@ -1,0 +1,15 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:01:56Z",
+  "new_canonical": "openapi--apis-cybertaxonomy-eu-1-0-swagger--v2.canonical.json",
+  "new_sha": "9c71a3bcb7796f571abb",
+  "old_canonical": "openapi--apis-cybertaxonomy-eu-1-0-swagger--v1.canonical.json",
+  "old_sha": "e4c93674eb752e29e33e",
+  "pair_id": "pair-3bf2380c5b9b7be96b79",
+  "seed": 1838210102,
+  "service_name": "apis-cybertaxonomy-eu-1-0-swagger",
+  "warnings": [
+    "cycle local #/definitions/ServiceProviderInfo",
+    "cycle local #/definitions/ServiceProviderInfo"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:01Z",
+  "new_canonical": "openapi--apis-naviplancentral-com-factfinder-v1-swagger--v2.canonical.json",
+  "new_sha": "c7726c271e6124945679",
+  "old_canonical": "openapi--apis-naviplancentral-com-factfinder-v1-swagger--v1.canonical.json",
+  "old_sha": "7acf1a4a9d330647c382",
+  "pair_id": "pair-958118fa73d9002057d5",
+  "seed": 836891371,
+  "service_name": "apis-naviplancentral-com-factfinder-v1-swagger",
+  "warnings": []
+}

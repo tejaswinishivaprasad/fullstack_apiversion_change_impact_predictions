@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:48Z",
+  "new_canonical": "openapi--apis-cycat-org-0-9-swagger--v2.canonical.json",
+  "new_sha": "a75f48a4d30e226c9a10",
+  "old_canonical": "openapi--apis-cycat-org-0-9-swagger--v1.canonical.json",
+  "old_sha": "2eebd9c45bfdb6b57532",
+  "pair_id": "pair-78a88dac5c73cb60637a",
+  "seed": 233136148,
+  "service_name": "apis-cycat-org-0-9-swagger",
+  "warnings": []
+}

@@ -1,0 +1,11 @@
+{
+  "generated_at": "2025-11-16T11:03:29Z",
+  "new": "datasets/curated/canonical/petclinic-application-v2.canonical.json",
+  "new_canonical": "petclinic-application-v2.canonical.json",
+  "new_sha": "483107d637f738b16c79",
+  "old": "datasets/curated/canonical/petclinic-application-v1.canonical.json",
+  "old_canonical": "petclinic-application-v1.canonical.json",
+  "old_sha": "467d63ed774d68f442a8",
+  "pair_id": "pair-6f8857b6039667c3a7b7",
+  "service_name": "petclinic-application"
+}

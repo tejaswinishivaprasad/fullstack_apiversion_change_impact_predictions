@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:38Z",
+  "new_canonical": "openapi--apis-amentum-space-global-magnet-1-3-0-openapi--v2.canonical.json",
+  "new_sha": "04a546ef89b6a2852f67",
+  "old_canonical": "openapi--apis-amentum-space-global-magnet-1-3-0-openapi--v1.canonical.json",
+  "old_sha": "a67932454bd03eeb9a7d",
+  "pair_id": "pair-782f1cfc90376a18ef98",
+  "seed": 1351816095,
+  "service_name": "apis-amentum-space-global-magnet-1-3-0-openapi",
+  "warnings": []
+}

@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:02:15Z",
+  "new_canonical": "openapi--apis-tokenjay-app-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "f5a3802c96dd751d4a86",
+  "old_canonical": "openapi--apis-tokenjay-app-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "61372497521e5115ed5c",
+  "pair_id": "pair-f5ad555323fa24554743",
+  "seed": 1803434900,
+  "service_name": "apis-tokenjay-app-1-0-0-openapi",
+  "warnings": []
+}

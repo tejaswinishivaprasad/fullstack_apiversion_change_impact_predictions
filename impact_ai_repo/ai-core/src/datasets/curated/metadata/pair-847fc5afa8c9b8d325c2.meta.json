@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:03:20Z",
+  "new_canonical": "openapi--apis-amadeus-com-amadeus-hotel-name-autocomplete-1-0-3-swagger--v2.canonical.json",
+  "new_sha": "a56c5d1dcc8003bf3777",
+  "old_canonical": "openapi--apis-amadeus-com-amadeus-hotel-name-autocomplete-1-0-3-swagger--v1.canonical.json",
+  "old_sha": "58ac6fdd14689e1ae702",
+  "pair_id": "pair-847fc5afa8c9b8d325c2",
+  "seed": 1088512690,
+  "service_name": "apis-amadeus-com-amadeus-hotel-name-autocomplete-1-0-3-swagger",
+  "warnings": []
+}

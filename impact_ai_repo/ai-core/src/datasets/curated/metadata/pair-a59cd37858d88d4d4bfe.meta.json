@@ -1,0 +1,17 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:36:08Z",
+  "new_canonical": "openapi--apis-vectara-io-1-0-0-openapi--v2.canonical.json",
+  "new_sha": "cdecb9ecfe5b52e03873",
+  "old_canonical": "openapi--apis-vectara-io-1-0-0-openapi--v1.canonical.json",
+  "old_sha": "3e21c20b7d52d815fe59",
+  "pair_id": "pair-a59cd37858d88d4d4bfe",
+  "seed": 2079407399,
+  "service_name": "apis-vectara-io-1-0-0-openapi",
+  "warnings": [
+    "cycle local #/components/schemas/indexingSection",
+    "cycle local #/components/schemas/indexingSection",
+    "cycle local #/components/schemas/indexingSection",
+    "cycle local #/components/schemas/indexingSection"
+  ]
+}

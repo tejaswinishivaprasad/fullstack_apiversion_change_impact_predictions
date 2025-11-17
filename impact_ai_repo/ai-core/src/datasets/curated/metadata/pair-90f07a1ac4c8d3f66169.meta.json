@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:38Z",
+  "new_canonical": "openapi--apis-omdbapi-com-1-swagger--v2.canonical.json",
+  "new_sha": "4463e1846ac7a93d6091",
+  "old_canonical": "openapi--apis-omdbapi-com-1-swagger--v1.canonical.json",
+  "old_sha": "9c639e5f5883210278f9",
+  "pair_id": "pair-90f07a1ac4c8d3f66169",
+  "seed": 1229053251,
+  "service_name": "apis-omdbapi-com-1-swagger",
+  "warnings": []
+}

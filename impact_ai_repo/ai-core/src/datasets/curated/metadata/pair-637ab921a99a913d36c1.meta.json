@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:35:38Z",
+  "new_canonical": "openapi--apis-adyen-com-binlookupservice-40-openapi--v2.canonical.json",
+  "new_sha": "8b1f24302e6ff1cf4944",
+  "old_canonical": "openapi--apis-adyen-com-binlookupservice-40-openapi--v1.canonical.json",
+  "old_sha": "e8b88400845b58d0f2fc",
+  "pair_id": "pair-637ab921a99a913d36c1",
+  "seed": 1206202183,
+  "service_name": "apis-adyen-com-binlookupservice-40-openapi",
+  "warnings": []
+}

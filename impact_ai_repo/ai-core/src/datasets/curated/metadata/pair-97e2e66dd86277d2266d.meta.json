@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T10:26:10Z",
+  "new_canonical": "openapi--apis-bridgedb-org-0-9-0-swagger--v2.canonical.json",
+  "new_sha": "8ef18061af8928aa3363",
+  "old_canonical": "openapi--apis-bridgedb-org-0-9-0-swagger--v1.canonical.json",
+  "old_sha": "0fef80bc2096ac3fb5d3",
+  "pair_id": "pair-97e2e66dd86277d2266d",
+  "seed": 40953356,
+  "service_name": "apis-bridgedb-org-0-9-0-swagger",
+  "warnings": []
+}

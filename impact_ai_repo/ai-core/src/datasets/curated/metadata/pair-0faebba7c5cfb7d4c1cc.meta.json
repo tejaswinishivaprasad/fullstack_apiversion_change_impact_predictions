@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T09:34:59Z",
+  "new_canonical": "openapi--apis-bluemix-net-containers-3-0-0-openapi--v2.canonical.json",
+  "new_sha": "c37d89e13e998504d7d2",
+  "old_canonical": "openapi--apis-bluemix-net-containers-3-0-0-openapi--v1.canonical.json",
+  "old_sha": "01241a0c7ceb1baed33c",
+  "pair_id": "pair-0faebba7c5cfb7d4c1cc",
+  "seed": 150109379,
+  "service_name": "apis-bluemix-net-containers-3-0-0-openapi",
+  "warnings": []
+}

@@ -1,0 +1,12 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-16T11:03:19Z",
+  "new_canonical": "openapi--apis-amadeus-com-amadeus-hotel-ratings-1-0-2-swagger--v2.canonical.json",
+  "new_sha": "e99482bb4fabad82b70d",
+  "old_canonical": "openapi--apis-amadeus-com-amadeus-hotel-ratings-1-0-2-swagger--v1.canonical.json",
+  "old_sha": "5b64b0dc15ed724a3f80",
+  "pair_id": "pair-5c3303364bc6c364e18d",
+  "seed": 913741243,
+  "service_name": "apis-amadeus-com-amadeus-hotel-ratings-1-0-2-swagger",
+  "warnings": []
+}
