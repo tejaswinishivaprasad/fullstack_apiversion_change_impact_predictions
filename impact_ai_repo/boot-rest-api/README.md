@@ -91,8 +91,4 @@ Environment used in the thesis demo
 - The Spring backend forwards to the AI Core.
 - The AI Core reads files under datasets/curated produced by curated_datasets.py.
 
-If you want, I can also:
-- add a sample application.properties snippet
-- provide a docker-compose file with AI Core + Spring + React wired together
-- create a minimal test script that runs curated_datasets.py, starts AI Core and Spring, then hits /analysis/report
-Pick one and I will add it.
+
