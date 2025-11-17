@@ -1,0 +1,30 @@
+name: Impact Analysis CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  impact-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install AI Core deps
+        run: |
+          pip install -r aicore/requirements.txt || true
+
+      - name: Run AI Core script
+        run: bash .github/scripts/ci_analyze_pr.sh
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: impact-report
+          path: pr-impact-report.json
