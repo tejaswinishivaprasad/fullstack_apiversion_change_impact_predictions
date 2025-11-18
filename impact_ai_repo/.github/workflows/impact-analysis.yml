@@ -1,58 +1,64 @@
-name: Impact Analysis
+name: Impact Analysis (PR annotation demo)
 
 on:
   pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+  actions: read
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.10"
 
-      - name: Install Python dependencies
+      - name: Make script executable
         run: |
-          cd impact_ai_repo/ai-core/src
-          pip install -r requirements.txt
+          chmod +x .github/ci/ci_analyze_pr.sh || true
+          chmod +x ai-core/src/ci_analyze_pr.sh || true
 
-      - name: Run Curated Dataset Builder
+      - name: Run CI analyze script (ai core)
+        # adjust the path if your script is somewhere else
         run: |
-          cd impact_ai_repo/ai-core/src
-          python3 curated_datasets.py --out datasets/curated --max 6 --seed 123
+          set -e
+          # if your script expects to be run from repo root, run it directly
+          if [ -x "./ai-core/src/ci_analyze_pr.sh" ]; then
+            ./ai-core/src/ci_analyze_pr.sh
+          elif [ -x "./.github/ci/ci_analyze_pr.sh" ]; then
+            ./.github/ci/ci_analyze_pr.sh
+          else
+            echo "ci script not found"
+            exit 1
+          fi
+        env:
+          CI: true
 
-      - name: Run AI Core Analysis
-        run: |
-          chmod +x impact_ai_repo/ci_analyze_pr.sh
-          ./impact_ai_repo/ci_analyze_pr.sh
-
-      - name: Upload PR Impact Report
+      - name: Upload generated report if present
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pr-impact-report
-          path: impact_ai_repo/ai-core/src/pr-impact-report.json
+          path: |
+            pr-impact-report.json
+            impact-report.json
 
-      - name: Post PR Comment With Summary
-        uses: marocchino/sticky-pull-request-comment@v2
+      - name: Create PR annotations (optional)
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v1
         with:
-          recreate: true
-          header: impact-analysis
+          # replace with your needs — this posts a comment, not a check-run annotation
           message: |
-            ## Impact Analysis Report
-            The AI Core ran successfully on this pull request.
-
-            A report was generated and uploaded as an artifact:
-            **pr-impact-report.json**
-
-            This includes:
-            - predicted service risk  
-            - change summary  
-            - backend and frontend impact  
-            - ACE-level explanations  
+            Impact analysis completed. Report attached as artifact.
