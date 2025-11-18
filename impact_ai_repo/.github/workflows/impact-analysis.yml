@@ -1,30 +1,58 @@
-name: Impact Analysis CI
+name: Impact Analysis
 
 on:
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  impact-analysis:
+  analyze:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install AI Core deps
+      - name: Install Python dependencies
         run: |
-          pip install -r aicore/requirements.txt || true
+          cd impact_ai_repo/ai-core/src
+          pip install -r requirements.txt
 
-      - name: Run AI Core script
-        run: bash .github/scripts/ci_analyze_pr.sh
+      - name: Run Curated Dataset Builder
+        run: |
+          cd impact_ai_repo/ai-core/src
+          python3 curated_datasets.py --out datasets/curated --max 6 --seed 123
 
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v3
+      - name: Run AI Core Analysis
+        run: |
+          chmod +x impact_ai_repo/ci_analyze_pr.sh
+          ./impact_ai_repo/ci_analyze_pr.sh
+
+      - name: Upload PR Impact Report
+        uses: actions/upload-artifact@v4
         with:
-          name: impact-report
-          path: pr-impact-report.json
+          name: pr-impact-report
+          path: impact_ai_repo/ai-core/src/pr-impact-report.json
+
+      - name: Post PR Comment With Summary
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          header: impact-analysis
+          message: |
+            ## Impact Analysis Report
+            The AI Core ran successfully on this pull request.
+
+            A report was generated and uploaded as an artifact:
+            **pr-impact-report.json**
+
+            This includes:
+            - predicted service risk  
+            - change summary  
+            - backend and frontend impact  
+            - ACE-level explanations  

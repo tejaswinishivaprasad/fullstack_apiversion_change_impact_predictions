@@ -1,13 +1,29 @@
 #!/bin/bash
-# Simple script to run server.py analysis for CI demo
+set -euo pipefail
 
-echo "Running AI Core analysis..."
+echo "=== Starting AI Core CI analysis ==="
 
-python3 aicore/server.py --ci-scan 2> /dev/null
+# Move into the ai-core/src folder so server.py sees datasets/curated correctly
+cd impact_ai_repo/ai-core/src
 
-if [ -f impact-report.json ]; then
-  mv impact-report.json pr-impact-report.json
-  echo "Report generated."
-else:
-  echo "No report generated."
+echo "Working directory: $(pwd)"
+
+echo "Installing Python requirements..."
+pip install -r requirements.txt
+
+# Optional but safe for demo: generate small curated dataset
+echo "Running curated dataset generator..."
+python3 curated_datasets.py --out datasets/curated --max 6 --seed 123
+
+# Now run analysis using helper script
+echo "Running PR impact analysis..."
+python3 run_analysis_ci.py
+
+if [ -f pr-impact-report.json ]; then
+    echo "PR impact report generated successfully."
+else
+    echo "ERROR: pr-impact-report.json not created"
+    exit 1
 fi
+
+echo "=== AI Core CI analysis done ==="
