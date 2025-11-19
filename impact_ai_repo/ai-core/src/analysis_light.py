@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """
-analysis_light.py
+analysis_light.py - improved schema change detection
 
 Lightweight PR analyzer that:
  - finds changed files (git)
  - detects OpenAPI / swagger (.yaml, .yml, .json) files changed in the PR
- - compares HEAD vs origin/main (if available) and emits simple ACEs:
+ - compares HEAD vs origin/main (if available) and emits ACEs:
     - endpoint.added / endpoint.removed
-    - endpoint.modified (method added/removed)
+    - endpoint.method_added / endpoint.method_removed
     - param.schema_changed (type/required)
-    - response.removed (response code removed)
+    - response.added / response.removed
+    - schema.property_type_changed (property type changes in request/response/components)
+    - schema.property_required_changed (required flag changes)
  - builds a tiny impact summary and writes JSON to --output
 
-Designed to run in CI without heavy deps. Uses PyYAML if available; falls back to a dumb parser.
+Designed to run in CI without heavy deps. Uses PyYAML if available; falls back to a crude JSON-only parser.
 """
 from __future__ import annotations
 import argparse
@@ -22,7 +24,7 @@ import subprocess
 import sys
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Optional
 
 # Try to import yaml if available; otherwise use json for json files and skip YAML parsing
 try:
@@ -36,7 +38,7 @@ def run_cmd(cmd: List[str]) -> Tuple[int, str]:
         out = subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
         return (0, out.decode())
     except subprocess.CalledProcessError as e:
-        return (e.returncode, (e.output.decode() if e.output else "")) 
+        return (e.returncode, (e.output.decode() if e.output else ""))
     except Exception:
         return (1, "")
 
@@ -49,25 +51,21 @@ def changed_files() -> List[str]:
          - if empty, attempt to fetch origin/main and retry
       2. git diff --name-only HEAD~1..HEAD (local test fallback)
       3. git ls-files --modified
-      4. curated canonical path specific diff (if the above didn't find anything)
+      4. curated canonical path specific diff
       5. fallback: empty list
     """
-    candidates: List[str] = []
-
     def try_cmd(cmd: List[str]) -> Tuple[int, str]:
         code, out = run_cmd(cmd)
         if code == 0 and out.strip():
             return (0, out)
         return (code, out)
 
-    # 1) try origin/main...HEAD
     code, out = try_cmd(["git", "diff", "--name-only", "origin/main...HEAD"])
     if code == 0 and out.strip():
         print("DEBUG: git diff origin/main...HEAD detected changes:", file=sys.stderr)
         print(out, file=sys.stderr)
         return [l.strip() for l in out.splitlines() if l.strip()]
 
-    # If nothing found, try to fetch origin/main then retry once (helps shallow checkouts)
     print("DEBUG: no changes found by origin/main...HEAD. Attempting to fetch origin/main and retry.", file=sys.stderr)
     _ = run_cmd(["git", "fetch", "origin", "main", "--depth=1"])
     code, out = try_cmd(["git", "diff", "--name-only", "origin/main...HEAD"])
@@ -76,33 +74,28 @@ def changed_files() -> List[str]:
         print(out, file=sys.stderr)
         return [l.strip() for l in out.splitlines() if l.strip()]
 
-    # 2) HEAD~1..HEAD (local dev fallback)
     code, out = try_cmd(["git", "diff", "--name-only", "HEAD~1..HEAD"])
     if code == 0 and out.strip():
         print("DEBUG: git diff HEAD~1..HEAD found:", file=sys.stderr)
         print(out, file=sys.stderr)
         return [l.strip() for l in out.splitlines() if l.strip()]
 
-    # 3) git ls-files --modified
     code, out = try_cmd(["git", "ls-files", "--modified"])
     if code == 0 and out.strip():
         print("DEBUG: git ls-files --modified found:", file=sys.stderr)
         print(out, file=sys.stderr)
         return [l.strip() for l in out.splitlines() if l.strip()]
 
-    # 4) curated canonical path specific diff (helpful if your curated files live under a known folder)
     curated_path = "impact_ai_repo/ai-core/src/datasets/curated/canonical"
     print(f"DEBUG: trying curated-path diff for {curated_path}", file=sys.stderr)
-    code, out = try_cmd(["git", "diff", "--name-only", f"origin/main...HEAD", "--", curated_path])
+    code, out = try_cmd(["git", "diff", "--name-only", "origin/main...HEAD", "--", curated_path])
     if code == 0 and out.strip():
         print("DEBUG: curated-path git diff found:", file=sys.stderr)
         print(out, file=sys.stderr)
         return [l.strip() for l in out.splitlines() if l.strip()]
 
-    # 5) nothing found
     print("DEBUG: no changed files detected by any strategy.", file=sys.stderr)
     return []
-
 
 def load_spec_from_fs(path: str) -> Dict[str, Any]:
     p = Path(path)
@@ -121,14 +114,12 @@ def load_spec_from_fs(path: str) -> Dict[str, Any]:
             except Exception:
                 return {}
         else:
-            # very crude fallback: try JSON parse, else empty
             try:
                 return json.loads(text)
             except Exception:
                 return {}
 
 def load_spec_from_git(ref_path: str) -> Dict[str, Any]:
-    # ref_path e.g. "origin/main:apis/petstore.yaml"
     code, out = run_cmd(["git", "show", ref_path])
     if code != 0 or not out:
         return {}
@@ -151,7 +142,6 @@ def load_spec_from_git(ref_path: str) -> Dict[str, Any]:
                 return {}
 
 def path_methods(spec: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
-    # returns dict: path -> method -> operation-object
     paths = spec.get("paths") or {}
     result: Dict[str, Dict[str, Any]] = {}
     for p, methods in (paths.items() if isinstance(paths, dict) else []):
@@ -167,11 +157,9 @@ def path_methods(spec: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     return result
 
 def param_key(p: Dict[str, Any]) -> str:
-    # unique key to identify param: in+name
     return f"{p.get('in','')}.{p.get('name','')}"
 
 def compare_params(base_params: List[Dict[str, Any]], head_params: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    # returns list of detected param changes (type/required)
     changes = []
     base_map = {param_key(p): p for p in (base_params or [])}
     head_map = {param_key(p): p for p in (head_params or [])}
@@ -183,7 +171,6 @@ def compare_params(base_params: List[Dict[str, Any]], head_params: List[Dict[str
         elif h and not b:
             changes.append({"type":"param.added", "param":k, "before": None, "after": h})
         elif b and h:
-            # compare schema/type/required
             b_schema = (b.get("schema") or {})
             h_schema = (h.get("schema") or {})
             b_type = b_schema.get("type")
@@ -216,20 +203,151 @@ def make_ace(kind: str, details: Dict[str, Any]) -> Dict[str, Any]:
         "details": details
     }
 
+def _pick_first_media_schema(op_or_resp: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """
+    Given an operation or response object, try to extract the first content schema dict
+    (e.g. responses['200'].content['application/json'].schema). Returns the schema dict or None.
+    """
+    if not isinstance(op_or_resp, dict):
+        return None
+    content = op_or_resp.get("content") or {}
+    if not isinstance(content, dict):
+        return None
+    # pick first media type available
+    for mt, spec in content.items():
+        if isinstance(spec, dict) and "schema" in spec:
+            return spec.get("schema")
+    return None
+
+def compare_schemas(base_schema: Dict[str, Any], head_schema: Dict[str, Any], context_path: str) -> List[Dict[str, Any]]:
+    """
+    Very small schema comparator: looks for property-level type changes and required flag changes.
+    context_path is a human-friendly prefix (e.g. "paths./pets.get.requestBody" or "components.schemas.User")
+    """
+    aces: List[Dict[str, Any]] = []
+    if not isinstance(base_schema, dict) or not isinstance(head_schema, dict):
+        return aces
+
+    # Simple: if both are primitive type declarations, compare top-level type change
+    b_type = base_schema.get("type")
+    h_type = head_schema.get("type")
+    if b_type and h_type and b_type != h_type:
+        aces.append(make_ace("schema.type_changed", {
+            "context": context_path,
+            "before": b_type,
+            "after": h_type,
+            "breaking": True
+        }))
+        # type changed at top-level is already a strong signal; still continue to look for properties if object
+    # If object properties exist, walk them
+    b_props = base_schema.get("properties") or {}
+    h_props = head_schema.get("properties") or {}
+    if isinstance(b_props, dict) and isinstance(h_props, dict):
+        # required lists
+        b_req = set(base_schema.get("required") or [])
+        h_req = set(head_schema.get("required") or [])
+        # newly required properties (added to required) are breaking
+        for prop in sorted(list(h_req - b_req)):
+            aces.append(make_ace("schema.property_required_changed", {
+                "context": context_path,
+                "property": prop,
+                "before_required": False,
+                "after_required": True,
+                "breaking": True
+            }))
+        # removed required properties (became optional) are non-breaking (or less breaking)
+        for prop in sorted(list(b_req - h_req)):
+            aces.append(make_ace("schema.property_required_changed", {
+                "context": context_path,
+                "property": prop,
+                "before_required": True,
+                "after_required": False,
+                "breaking": False
+            }))
+
+        # compare each property type if present
+        for prop in sorted(set(list(b_props.keys()) + list(h_props.keys()))):
+            b_prop = b_props.get(prop)
+            h_prop = h_props.get(prop)
+            if b_prop is None and h_prop is not None:
+                aces.append(make_ace("schema.property_added", {
+                    "context": context_path,
+                    "property": prop,
+                    "before": None,
+                    "after": h_prop,
+                    "breaking": False
+                }))
+                continue
+            if b_prop is not None and h_prop is None:
+                aces.append(make_ace("schema.property_removed", {
+                    "context": context_path,
+                    "property": prop,
+                    "before": b_prop,
+                    "after": None,
+                    "breaking": True
+                }))
+                continue
+            # both exist — compare basic type and if it's an array compare items.type
+            try:
+                bp_type = b_prop.get("type")
+                hp_type = h_prop.get("type")
+                if bp_type != hp_type:
+                    # arrays: check item type if both arrays
+                    if bp_type == "array" and hp_type == "array":
+                        b_items = (b_prop.get("items") or {})
+                        h_items = (h_prop.get("items") or {})
+                        bi_type = b_items.get("type")
+                        hi_type = h_items.get("type")
+                        if bi_type and hi_type and bi_type != hi_type:
+                            aces.append(make_ace("schema.property_type_changed", {
+                                "context": context_path,
+                                "property": prop,
+                                "before": {"type": bp_type, "items_type": bi_type},
+                                "after": {"type": hp_type, "items_type": hi_type},
+                                "breaking": True
+                            }))
+                            continue
+                    # generic type change
+                    aces.append(make_ace("schema.property_type_changed", {
+                        "context": context_path,
+                        "property": prop,
+                        "before": {"type": bp_type},
+                        "after": {"type": hp_type},
+                        "breaking": True
+                    }))
+                else:
+                    # same top-level type; for objects, recurse one level (avoid deep recursion to stay fast)
+                    if bp_type == "object":
+                        nested = compare_schemas(b_prop, h_prop, context_path + f".{prop}")
+                        aces.extend(nested)
+                    elif bp_type == "array":
+                        b_items = (b_prop.get("items") or {})
+                        h_items = (h_prop.get("items") or {})
+                        bi_type = b_items.get("type")
+                        hi_type = h_items.get("type")
+                        if bi_type and hi_type and bi_type != hi_type:
+                            aces.append(make_ace("schema.property_type_changed", {
+                                "context": context_path,
+                                "property": prop,
+                                "before": {"type": "array", "items_type": bi_type},
+                                "after": {"type": "array", "items_type": hi_type},
+                                "breaking": True
+                            }))
+            except Exception:
+                continue
+    return aces
+
 def analyze_file_change(fname: str) -> List[Dict[str, Any]]:
     aces: List[Dict[str, Any]] = []
     # Load head spec from file system
     head_spec = load_spec_from_fs(fname)
     # Try to load base spec from origin/main:<fname>
     base_spec = load_spec_from_git(f"origin/main:{fname}")
-    # If base_spec empty, try to fetch from main branch name (main/master fallback)
     if not base_spec:
-        # already tried origin/main, try origin/master
         base_spec = load_spec_from_git(f"origin/master:{fname}")
 
     head_paths = path_methods(head_spec)
     base_paths = path_methods(base_spec)
-
     head_set = set(head_paths.keys())
     base_set = set(base_paths.keys())
 
@@ -238,7 +356,6 @@ def analyze_file_change(fname: str) -> List[Dict[str, Any]]:
     common_paths = sorted(list(head_set & base_set))
 
     for p in added_paths:
-        # list methods added
         methods = list(head_paths.get(p, {}).keys())
         for m in methods:
             aces.append(make_ace("endpoint.added", {"path": p, "method": m, "desc": f"Added {m.upper()} {p}"}))
@@ -254,7 +371,6 @@ def analyze_file_change(fname: str) -> List[Dict[str, Any]]:
         b_mset = set(b_methods.keys())
         h_mset = set(h_methods.keys())
 
-        # method-level adds/removes
         added_m = sorted(list(h_mset - b_mset))
         removed_m = sorted(list(b_mset - h_mset))
         for m in added_m:
@@ -262,18 +378,16 @@ def analyze_file_change(fname: str) -> List[Dict[str, Any]]:
         for m in removed_m:
             aces.append(make_ace("endpoint.method_removed", {"path": p, "method": m, "desc": f"Removed method {m.upper()} on {p}"}))
 
-        # for shared methods, compare params & responses
         for m in sorted(list(b_mset & h_mset)):
             b_op = b_methods.get(m, {}) or {}
             h_op = h_methods.get(m, {}) or {}
 
-            # params: in OpenAPI both operation-level and path-level params possible
+            # params: both operation-level and path-level parameters
             b_params = (b_op.get("parameters") or []) + (base_spec.get("paths", {}).get(p, {}).get("parameters") or [])
             h_params = (h_op.get("parameters") or []) + (head_spec.get("paths", {}).get(p, {}).get("parameters") or [])
 
             param_changes = compare_params(b_params, h_params)
             for pc in param_changes:
-                # mark breaking if type changed or required became true->true/false? We'll flag type changes as breaking
                 breaking = False
                 if pc["type"] == "param.schema_changed":
                     before = pc.get("before", {})
@@ -284,10 +398,9 @@ def analyze_file_change(fname: str) -> List[Dict[str, Any]]:
                 details["breaking"] = breaking
                 aces.append(make_ace(pc["type"], details))
 
-            # responses
+            # responses (structural)
             resp_changes = compare_responses(b_op, h_op)
             for rc in resp_changes:
-                # if a 2xx code was removed, mark as potentially breaking
                 breaking = False
                 try:
                     code = int(rc.get("code", "0"))
@@ -298,6 +411,49 @@ def analyze_file_change(fname: str) -> List[Dict[str, Any]]:
                 details = {"path": p, "method": m, **rc, "breaking": breaking}
                 aces.append(make_ace(rc["type"], details))
 
+            # response body schema diffs for common response codes
+            b_res_map = b_op.get("responses", {}) or {}
+            h_res_map = h_op.get("responses", {}) or {}
+            for code in sorted(set(b_res_map.keys()) & set(h_res_map.keys())):
+                b_resp = b_res_map.get(code) or {}
+                h_resp = h_res_map.get(code) or {}
+                b_schema = _pick_first_media_schema(b_resp) or {}
+                h_schema = _pick_first_media_schema(h_resp) or {}
+                if b_schema and h_schema:
+                    schema_aces = compare_schemas(b_schema, h_schema, f"paths.{p}.{m}.responses.{code}")
+                    for s in schema_aces:
+                        # include path/method context
+                        s["details"].update({"path": p, "method": m, "response_code": code})
+                        aces.append(s)
+
+            # requestBody schema diffs
+            b_req_schema = _pick_first_media_schema(b_op.get("requestBody", {}) or {}) or {}
+            h_req_schema = _pick_first_media_schema(h_op.get("requestBody", {}) or {}) or {}
+            if b_req_schema and h_req_schema:
+                r_aces = compare_schemas(b_req_schema, h_req_schema, f"paths.{p}.{m}.requestBody")
+                for ra in r_aces:
+                    ra["details"].update({"path": p, "method": m, "location": "requestBody"})
+                    aces.append(ra)
+
+    # components/schemas: compare top-level component schema definitions if present
+    try:
+        b_comps = base_spec.get("components", {}).get("schemas", {}) or {}
+        h_comps = head_spec.get("components", {}).get("schemas", {}) or {}
+        for comp in sorted(set(list(b_comps.keys()) + list(h_comps.keys()))):
+            b_schema = b_comps.get(comp)
+            h_schema = h_comps.get(comp)
+            if b_schema is None and h_schema is not None:
+                aces.append(make_ace("schema.component_added", {"component": comp, "breaking": False}))
+            elif b_schema is not None and h_schema is None:
+                aces.append(make_ace("schema.component_removed", {"component": comp, "breaking": True}))
+            elif b_schema is not None and h_schema is not None:
+                comp_aces = compare_schemas(b_schema, h_schema, f"components.schemas.{comp}")
+                for ca in comp_aces:
+                    ca["details"].update({"component": comp})
+                    aces.append(ca)
+    except Exception:
+        pass
+
     return aces
 
 def compute_simple_impact(aces: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -305,7 +461,6 @@ def compute_simple_impact(aces: List[Dict[str, Any]]) -> Dict[str, Any]:
     risk = 0.0
     breaking_count = 0
     for a in aces:
-        t = a.get("type", "")
         d = a.get("details", {}) or {}
         if d.get("breaking"):
             breaking_count += 1
@@ -330,9 +485,7 @@ def main():
     files = changed_files()
     # Filter for API-looking files
     api_files = [f for f in files if f.lower().endswith(('.yaml', '.yml', '.json')) and ('openapi' in f.lower() or 'swagger' in f.lower() or 'api' in f.lower())]
-    # Also include specific path if a named file like 'apis/petstore.yaml' was changed
     if not api_files:
-        # attempt looser match
         api_files = [f for f in files if f.lower().endswith(('.yaml', '.yml', '.json'))]
 
     aces_total: List[Dict[str, Any]] = []
@@ -343,7 +496,6 @@ def main():
                 a["source_file"] = f
             aces_total.extend(aces)
         except Exception as e:
-            # non-fatal: log to stderr for CI
             print(f"analysis error for {f}: {e}", file=sys.stderr)
 
     impact = compute_simple_impact(aces_total)
@@ -353,11 +505,10 @@ def main():
         "pr": args.pr,
         "files_changed": files,
         "api_files_changed": api_files,
-        "atomic_change_events": aces_total,
+        "atomic_change_events": [ { "id": a.get("id"), "type": a.get("type"), "details": a.get("details") } for a in aces_total ],
         "impact_assessment": impact
     }
 
-    # write output
     outpath = Path(args.output)
     outpath.parent.mkdir(parents=True, exist_ok=True)
     outpath.write_text(json.dumps(report, indent=2), encoding="utf8")
