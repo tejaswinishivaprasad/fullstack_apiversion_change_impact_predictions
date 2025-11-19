@@ -27,6 +27,23 @@ jobs:
         with:
           python-version: "3.x"
 
+      # Install python deps for ai-core (safe: only if requirements.txt exists)
+      - name: Install AI Core Python deps (venv)
+        shell: bash
+        run: |
+          AI_CORE_DIR="impact_ai_repo/ai-core/src"
+          REQ="${AI_CORE_DIR}/requirements.txt"
+          echo "CI: checking for ${REQ}"
+          if [ -f "${REQ}" ]; then
+            python3 -m venv ./.ci-venv
+            source ./.ci-venv/bin/activate
+            python -m pip install --upgrade pip setuptools wheel
+            python -m pip install -r "${REQ}"
+            echo "CI: installed ai-core requirements into ./.ci-venv"
+          else
+            echo "CI: no requirements.txt found at ${REQ} — skipping pip install"
+          fi
+
       - name: Make CI script executable
         run: |
           chmod +x .github/scripts/ci_analyze_pr.sh || true
@@ -35,6 +52,8 @@ jobs:
         id: run_analysis
         env:
           AI_CORE_DIR: "impact_ai_repo/ai-core/src"
+          # If you want the script to force install inside the script, set:
+          # FORCE_INSTALL: "0"
         run: |
           .github/scripts/ci_analyze_pr.sh
         continue-on-error: true
