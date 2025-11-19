@@ -31,6 +31,7 @@ jobs:
       - name: Ensure base branch is fetched (helps some checkout setups)
         if: ${{ github.event.pull_request.base.ref != '' }}
         run: |
+          echo "Fetching base branch: ${{ github.event.pull_request.base.ref }}"
           git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1 || true
 
       - name: Set up Python (stable runtime)
@@ -54,8 +55,22 @@ jobs:
             python -m pip install --prefer-binary -r impact_ai_repo/ai-core/src/requirements-ci.txt
           else
             echo "No requirements-ci.txt found. Skipping heavy installs for PR run."
-            echo "If server.py needs a tiny runtime, create requirements-ci.txt next to requirements.txt"
           fi
+
+      - name: Debug git state (helpful when files_changed == 0)
+        run: |
+          echo "=== git branch/ref ==="
+          git rev-parse --abbrev-ref HEAD || true
+          git show --no-patch --pretty=format:'HEAD: %H' HEAD || true
+          echo "=== recent commits ==="
+          git --no-pager log --oneline -n 10 || true
+          echo "=== remote heads (top) ==="
+          git ls-remote --heads origin | sed -n '1,20p' || true
+          echo "=== try diff origin/main...HEAD ==="
+          git fetch origin main --depth=1 || true
+          git diff --name-only origin/main...HEAD || true
+          echo "=== list curated canonical folder (if present) ==="
+          ls -la impact_ai_repo/ai-core/src/datasets/curated/canonical || true
 
       - name: Make CI script executable
         run: chmod +x .github/scripts/ci_analyze_pr.sh || true
@@ -87,10 +102,9 @@ jobs:
             echo "summary=No report produced" >> $GITHUB_OUTPUT
             exit 0
           fi
-          # Compose a short summary line
-          RISK=$(jq -r '.predicted_risk // .risk_score // .predictedRisk // .risk_summary // "n/a"' "$OUT" 2>/dev/null || echo "n/a")
+          RISK=$(jq -r '.impact_assessment.score // .predicted_risk // .risk_score // .predictedRisk // .risk_summary // "n/a"' "$OUT" 2>/dev/null || echo "n/a")
           FILES=$(jq -r '.files_changed | length // 0' "$OUT" 2>/dev/null || echo 0)
-          API=$(jq -r '.api_endpoint_changes // .api_changes // 0' "$OUT" 2>/dev/null || echo 0)
+          API=$(jq -r '.api_endpoint_changes // .api_changes // (.atomic_change_events | length) // 0' "$OUT" 2>/dev/null || echo 0)
           echo "summary=Risk: ${RISK} | Files: ${FILES} | API changes: ${API}" >> $GITHUB_OUTPUT
 
       - name: Update or create single PR comment (replace previous bot comment)
@@ -102,6 +116,6 @@ jobs:
             <!-- pr-impact-bot -->
             ### PR Impact Analysis — Summary
             ${{ steps.summary.outputs.summary }}
-            
+
             Artifact: pr-impact-report-${{ github.event.pull_request.number }}
           edit-mode: replace

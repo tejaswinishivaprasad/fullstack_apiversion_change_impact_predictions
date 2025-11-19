@@ -41,25 +41,68 @@ def run_cmd(cmd: List[str]) -> Tuple[int, str]:
         return (1, "")
 
 def changed_files() -> List[str]:
-    # Try a few strategies to list changed files in PR context
-    candidates = []
-    # strategy 1: origin/main...HEAD (requires fetch-depth=0)
-    code, out = run_cmd(["git", "diff", "--name-only", "origin/main...HEAD"])
+    """
+    Return a list of changed files for the PR.
+
+    Strategies (in order):
+      1. git diff --name-only origin/main...HEAD
+         - if empty, attempt to fetch origin/main and retry
+      2. git diff --name-only HEAD~1..HEAD (local test fallback)
+      3. git ls-files --modified
+      4. curated canonical path specific diff (if the above didn't find anything)
+      5. fallback: empty list
+    """
+    candidates: List[str] = []
+
+    def try_cmd(cmd: List[str]) -> Tuple[int, str]:
+        code, out = run_cmd(cmd)
+        if code == 0 and out.strip():
+            return (0, out)
+        return (code, out)
+
+    # 1) try origin/main...HEAD
+    code, out = try_cmd(["git", "diff", "--name-only", "origin/main...HEAD"])
     if code == 0 and out.strip():
-        candidates = [l.strip() for l in out.splitlines() if l.strip()]
-        return candidates
-    # strategy 2: HEAD~1..HEAD (useful in local tests)
-    code, out = run_cmd(["git", "diff", "--name-only", "HEAD~1..HEAD"])
+        print("DEBUG: git diff origin/main...HEAD detected changes:", file=sys.stderr)
+        print(out, file=sys.stderr)
+        return [l.strip() for l in out.splitlines() if l.strip()]
+
+    # If nothing found, try to fetch origin/main then retry once (helps shallow checkouts)
+    print("DEBUG: no changes found by origin/main...HEAD. Attempting to fetch origin/main and retry.", file=sys.stderr)
+    _ = run_cmd(["git", "fetch", "origin", "main", "--depth=1"])
+    code, out = try_cmd(["git", "diff", "--name-only", "origin/main...HEAD"])
     if code == 0 and out.strip():
-        candidates = [l.strip() for l in out.splitlines() if l.strip()]
-        return candidates
-    # strategy 3: git ls-files --modified
-    code, out = run_cmd(["git", "ls-files", "--modified"])
+        print("DEBUG: After fetching, git diff origin/main...HEAD found:", file=sys.stderr)
+        print(out, file=sys.stderr)
+        return [l.strip() for l in out.splitlines() if l.strip()]
+
+    # 2) HEAD~1..HEAD (local dev fallback)
+    code, out = try_cmd(["git", "diff", "--name-only", "HEAD~1..HEAD"])
     if code == 0 and out.strip():
-        candidates = [l.strip() for l in out.splitlines() if l.strip()]
-        return candidates
-    # fallback: empty
+        print("DEBUG: git diff HEAD~1..HEAD found:", file=sys.stderr)
+        print(out, file=sys.stderr)
+        return [l.strip() for l in out.splitlines() if l.strip()]
+
+    # 3) git ls-files --modified
+    code, out = try_cmd(["git", "ls-files", "--modified"])
+    if code == 0 and out.strip():
+        print("DEBUG: git ls-files --modified found:", file=sys.stderr)
+        print(out, file=sys.stderr)
+        return [l.strip() for l in out.splitlines() if l.strip()]
+
+    # 4) curated canonical path specific diff (helpful if your curated files live under a known folder)
+    curated_path = "impact_ai_repo/ai-core/src/datasets/curated/canonical"
+    print(f"DEBUG: trying curated-path diff for {curated_path}", file=sys.stderr)
+    code, out = try_cmd(["git", "diff", "--name-only", f"origin/main...HEAD", "--", curated_path])
+    if code == 0 and out.strip():
+        print("DEBUG: curated-path git diff found:", file=sys.stderr)
+        print(out, file=sys.stderr)
+        return [l.strip() for l in out.splitlines() if l.strip()]
+
+    # 5) nothing found
+    print("DEBUG: no changed files detected by any strategy.", file=sys.stderr)
     return []
+
 
 def load_spec_from_fs(path: str) -> Dict[str, Any]:
     p = Path(path)
