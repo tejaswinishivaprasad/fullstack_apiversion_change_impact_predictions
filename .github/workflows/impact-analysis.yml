@@ -22,26 +22,26 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Set up Python
+      - name: Set up Python (use stable runtime with wheels)
         uses: actions/setup-python@v4
         with:
-          python-version: "3.x"
+          python-version: "3.11"
 
-      # Install python deps for ai-core (safe: only if requirements.txt exists)
-      - name: Install AI Core Python deps (venv)
-        shell: bash
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/impact_ai_repo/ai-core/src/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install AI Core Python deps (prefer binary wheels)
         run: |
-          AI_CORE_DIR="impact_ai_repo/ai-core/src"
-          REQ="${AI_CORE_DIR}/requirements.txt"
-          echo "CI: checking for ${REQ}"
-          if [ -f "${REQ}" ]; then
-            python3 -m venv ./.ci-venv
-            source ./.ci-venv/bin/activate
-            python -m pip install --upgrade pip setuptools wheel
-            python -m pip install -r "${REQ}"
-            echo "CI: installed ai-core requirements into ./.ci-venv"
+          python -m pip install --upgrade pip setuptools wheel
+          if [ -f impact_ai_repo/ai-core/src/requirements.txt ]; then
+            pip install --prefer-binary -r impact_ai_repo/ai-core/src/requirements.txt
           else
-            echo "CI: no requirements.txt found at ${REQ} — skipping pip install"
+            echo "No requirements.txt found at impact_ai_repo/ai-core/src/requirements.txt"
           fi
 
       - name: Make CI script executable
@@ -52,8 +52,6 @@ jobs:
         id: run_analysis
         env:
           AI_CORE_DIR: "impact_ai_repo/ai-core/src"
-          # If you want the script to force install inside the script, set:
-          # FORCE_INSTALL: "0"
         run: |
           .github/scripts/ci_analyze_pr.sh
         continue-on-error: true
