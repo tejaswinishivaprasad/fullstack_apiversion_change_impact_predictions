@@ -383,19 +383,19 @@
         "properties": {
           "accountCode": {
             "description": "The code of the account.",
-            "type": "string"
+            "type": "number"
           },
           "beneficiaryAccount": {
             "description": "The beneficiary of the account.",
-            "type": "string"
+            "type": "number"
           },
           "beneficiaryMerchantReference": {
             "description": "The reason that a beneficiary has been set up for this account. This may have been supplied during the setup of a beneficiary at the discretion of the executing user.",
-            "type": "string"
+            "type": "number"
           },
           "description": {
             "description": "A description of the account.",
-            "type": "string",
+            "type": "number",
             "x-addedInVersion": "4"
           },
           "payoutSchedule": {
@@ -403,7 +403,7 @@
               "nextScheduledPayout": {
                 "description": "The date of the next scheduled payout.",
                 "format": "date-time",
-                "type": "string"
+                "type": "number"
               },
               "schedule": {
                 "description": "The payout schedule of the account.\nPermitted values: `DEFAULT`, `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.",
