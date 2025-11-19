@@ -67,7 +67,6 @@ copy_report() {
   if [ -n "${REPORT_SUM}" ]; then
     cp "${REPORT_SUM}" "${REPO_ROOT}/pr-impact-report.json" || true
     echo "CI: copied summary ${REPORT_SUM} -> ${REPO_ROOT}/pr-impact-report.json"
-    # set github output (modern Actions)
     if [ -n "${GITHUB_OUTPUT:-}" ]; then
       echo "report=pr-impact-report.json" >> "${GITHUB_OUTPUT}" || true
     else
@@ -76,8 +75,13 @@ copy_report() {
     HANDLED=1
   fi
 
-  return "${HANDLED}"
+  if [ "${HANDLED}" -gt 0 ]; then
+    return 0
+  else
+    return 1
+  fi
 }
+
 
 # Activate venv if exists
 if [ -d ".ci-venv" ]; then
