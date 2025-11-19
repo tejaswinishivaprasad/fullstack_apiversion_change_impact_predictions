@@ -129,6 +129,68 @@ jobs:
           else
             echo "summary=Risk: ${RISK} | Files: ${FILES} | API changes: ${API}" >> $GITHUB_OUTPUT
           fi
+      - name: Read detailed summary for comment
+        id: detailed_summary
+        if: always()
+        shell: bash
+        run: |
+          OUT="./pr-impact-report.json"
+          if [ ! -f "$OUT" ]; then
+            echo "body=**PR Impact Analysis — No report produced**" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # extract top-level metrics (support both compact summary and server report shapes)
+          RISK=$(jq -r '.impact_assessment.score // .impact_assessment.score // .predicted_risk // .impact_assessment.score // .risk_score // .predicted_risk // 0' "$OUT" 2>/dev/null)
+          FILES=$(jq -r '.files_changed | length // .files_changed | length // 0' "$OUT" 2>/dev/null || echo 0)
+          API=$(jq -r '.atomic_change_events | length // .api_files_changed | length // .api_changes // 0' "$OUT" 2>/dev/null || echo 0)
+
+          # try to get the list of ACEs (supports both compact atomic_change_events and entries/results)
+          ACE_LINES=""
+          if jq -e '.atomic_change_events' "$OUT" >/dev/null 2>&1; then
+            ACE_LINES=$(jq -r '.atomic_change_events[] | "\(.type) \(.method // "") `\(.path // "-")` — \(.detail // .description // "")"' "$OUT" 2>/dev/null | sed -n '1,20p' || true)
+          else
+            # try parsing entries[].result.diffs or entries[].result.analyze.predictions
+            ACE_LINES=$(jq -r '.entries[]?.result?.diffs[]? | "\(.type) \(.method // "") `\(.path // "-")` — \(.detail // "")"' "$OUT" 2>/dev/null | sed -n '1,20p' || true)
+          fi
+
+          # backend/frontend impacts (if present)
+          BE=$(jq -r '.backend_impacts // (.entries[]?.result?.analyze?.predictions? // []) | if type=="array" and .[0]!=null then (.[] | "\(.service // .producer // \"-\") (risk:\(.risk // .risk_score // 0))") | select(.) else empty end' "$OUT" 2>/dev/null | sed -n '1,8p' || true)
+          FE=$(jq -r '.frontend_impacts // (.entries[]?.result?.analyze?.summary? // []) | if type=="array" and .[0]!=null then (.[] | "\(.service // \"-\") (risk:\(.risk_score // 0))") | select(.) else empty end' "$OUT" 2>/dev/null | sed -n '1,8p' || true)
+
+          # create body (truncate lists for brevity)
+          BODY="<!-- pr-impact-bot -->\n### PR Impact Analysis — Summary\n\n**Risk:** ${RISK}  |  **Files:** ${FILES}  |  **API changes:** ${API}\n\n**Artifact:** pr-impact-report-${{ github.event.pull_request.number }}\n\n"
+
+          if [ -n "$ACE_LINES" ]; then
+            BODY="${BODY}**Top change items (up to 20):**\n"
+            while IFS= read -r line; do
+              BODY="${BODY}- ${line}\n"
+            done <<< "$ACE_LINES"
+            BODY="${BODY}\n"
+          fi
+
+          if [ -n "$BE" ]; then
+            BODY="${BODY}**Backend impacts (sample):**\n"
+            while IFS= read -r line; do
+              BODY="${BODY}- ${line}\n"
+            done <<< "$BE"
+            BODY="${BODY}\n"
+          fi
+
+          if [ -n "$FE" ]; then
+            BODY="${BODY}**Frontend impacts (sample):**\n"
+            while IFS= read -r line; do
+              BODY="${BODY}- ${line}\n"
+            done <<< "$FE"
+            BODY="${BODY}\n"
+          fi
+
+          BODY="${BODY}---\n_If you need full ACE JSON or full report, download the artifact attached to this run._"
+
+          # write to GITHUB_OUTPUT so the comment step can use it
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Update or create single PR comment (replace previous bot comment)
         uses: peter-evans/create-or-update-comment@v4
@@ -137,8 +199,8 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             <!-- pr-impact-bot -->
-            ### PR Impact Analysis — Summary
-            ${{ steps.summary.outputs.summary }}
+            **Quick:** ${{ steps.summary.outputs.summary }}
 
-            Artifact: pr-impact-report-${{ github.event.pull_request.number }}
+            ${{ steps.detailed_summary.outputs.body }}
           edit-mode: replace
+
