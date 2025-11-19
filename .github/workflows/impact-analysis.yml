@@ -15,44 +15,59 @@ jobs:
   run-impact-analysis:
     name: Run AI Core analysis (PR)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHON_VERSION: "3.11"
+      AI_CORE_DIR: "impact_ai_repo/ai-core/src"
+      CI_SCRIPT: ".github/scripts/ci_analyze_pr.sh"
 
     steps:
-      - name: Checkout code
+      - name: Checkout code (full history needed for diffs)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
+          persist-credentials: true
 
-      - name: Set up Python (use stable runtime with wheels)
+      - name: Ensure base branch is fetched (helps some checkout setups)
+        if: ${{ github.event.pull_request.base.ref != '' }}
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1 || true
+
+      - name: Set up Python (stable runtime)
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Cache pip
+      - name: Cache pip (based on light requirements file if present)
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/impact_ai_repo/ai-core/src/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/impact_ai_repo/ai-core/src/requirements-ci.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install AI Core Python deps (prefer binary wheels)
+      - name: Install minimal CI deps (requirements-ci.txt if present)
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          if [ -f impact_ai_repo/ai-core/src/requirements.txt ]; then
-            pip install --prefer-binary -r impact_ai_repo/ai-core/src/requirements.txt
+          if [ -f impact_ai_repo/ai-core/src/requirements-ci.txt ]; then
+            echo "Using requirements-ci.txt (fast deps for PR runs)"
+            python -m pip install --prefer-binary -r impact_ai_repo/ai-core/src/requirements-ci.txt
           else
-            echo "No requirements.txt found at impact_ai_repo/ai-core/src/requirements.txt"
+            echo "No requirements-ci.txt found. Skipping heavy installs for PR run."
+            echo "If server.py needs a tiny runtime, create requirements-ci.txt next to requirements.txt"
           fi
 
       - name: Make CI script executable
-        run: |
-          chmod +x .github/scripts/ci_analyze_pr.sh || true
+        run: chmod +x .github/scripts/ci_analyze_pr.sh || true
 
       - name: Run CI analysis script
         id: run_analysis
         env:
-          AI_CORE_DIR: "impact_ai_repo/ai-core/src"
+          AI_CORE_DIR: ${{ env.AI_CORE_DIR }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
+          set -x
           .github/scripts/ci_analyze_pr.sh
         continue-on-error: true
 
@@ -60,53 +75,33 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: pr-impact-report
+          name: pr-impact-report-${{ github.event.pull_request.number }}
           path: pr-impact-report.json
 
-      - name: Read short summary from report and comment on PR
+      - name: Read short summary for comment
+        id: summary
         if: always()
-        uses: actions/github-script@v7
+        run: |
+          OUT="./pr-impact-report.json"
+          if [ ! -f "$OUT" ]; then
+            echo "summary=No report produced" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # Compose a short summary line
+          RISK=$(jq -r '.predicted_risk // .risk_score // .predictedRisk // .risk_summary // "n/a"' "$OUT" 2>/dev/null || echo "n/a")
+          FILES=$(jq -r '.files_changed | length // 0' "$OUT" 2>/dev/null || echo 0)
+          API=$(jq -r '.api_endpoint_changes // .api_changes // 0' "$OUT" 2>/dev/null || echo 0)
+          echo "summary=Risk: ${RISK} | Files: ${FILES} | API changes: ${API}" >> $GITHUB_OUTPUT
+
+      - name: Update or create single PR comment (replace previous bot comment)
+        uses: peter-evans/create-or-update-comment@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const path = './pr-impact-report.json';
-            if (!fs.existsSync(path)) {
-              core.info('No pr-impact-report.json found to summarize');
-              return;
-            }
-            const raw = fs.readFileSync(path, 'utf8');
-            let parsed = {};
-            try { parsed = JSON.parse(raw); } catch (e) { parsed = {}; }
-
-            const risk = (parsed.predicted_risk ?? parsed.risk_score ?? parsed.predictedRisk ?? null);
-            const summaryLines = [];
-
-            if (risk !== null && risk !== undefined) {
-              summaryLines.push(`**Impact AI** predicted risk: \`${Number(risk).toFixed(2)}\``);
-            } else {
-              summaryLines.push('**Impact AI**: no risk score found in report.');
-            }
-
-            if (parsed && parsed.backend_impacts && parsed.backend_impacts.length) {
-              const top = parsed.backend_impacts.slice(0,3)
-                .map(x => `${x.service} (${(x.risk_score ?? x.risk ?? 0).toFixed(2)})`);
-              summaryLines.push('Top backend impacts: ' + top.join(', '));
-            }
-
-            if (parsed && parsed.details && parsed.details.length) {
-              summaryLines.push(`Detected ${parsed.details.length} change items (showing up to 3)`);
-            }
-
-            const pr = context.payload.pull_request;
-            if (!pr) {
-              core.info('Not a PR context; skipping comment.');
-              return;
-            }
-
-            await github.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number,
-              body: summaryLines.join('\n\n') + '\n\nReport artifact: pr-impact-report.json'
-            });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <!-- pr-impact-bot -->
+            ### PR Impact Analysis — Summary
+            ${{ steps.summary.outputs.summary }}
+            
+            Artifact: pr-impact-report-${{ github.event.pull_request.number }}
+          edit-mode: replace
