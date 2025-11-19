@@ -387,7 +387,7 @@
           },
           "beneficiaryAccount": {
             "description": "The beneficiary of the account.",
-            "type": "integer"
+            "type": "string"
           },
           "beneficiaryMerchantReference": {
             "description": "The reason that a beneficiary has been set up for this account. This may have been supplied during the setup of a beneficiary at the discretion of the executing user.",
