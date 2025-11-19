@@ -29,14 +29,14 @@ jobs:
 
       - name: Make CI script executable
         run: |
-          chmod +x scripts/ci/ci_analyze_pr.sh || true
+          chmod +x scripts/ci_analyze_pr.sh || true
 
       - name: Run CI analysis script
         id: run_analysis
         env:
           AI_CORE_DIR: "impact_ai_repo/ai-core/src" # override if needed
         run: |
-          ./scripts/ci/ci_analyze_pr.sh
+          ./scripts/ci_analyze_pr.sh
         continue-on-error: true
 
       - name: Upload report artifact (if produced)
