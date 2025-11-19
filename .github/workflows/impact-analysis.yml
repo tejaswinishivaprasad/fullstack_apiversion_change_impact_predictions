@@ -1,21 +1,21 @@
 name: PR impact analysis
 
-# run on PR open, synchronize (new commits), or workflow_dispatch for manual runs
 on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
-  contents: read        # read the repo
-  checks: write         # allow posting check run / annotations if needed
-  issues: write         # allow posting PR comment (we'll use this)
+  contents: read
+  checks: write
+  issues: write
   pull-requests: write
 
 jobs:
   run-impact-analysis:
     name: Run AI Core analysis (PR)
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,14 +29,14 @@ jobs:
 
       - name: Make CI script executable
         run: |
-          chmod +x scripts/ci_analyze_pr.sh || true
+          chmod +x .github/scripts/ci_analyze_pr.sh || true
 
       - name: Run CI analysis script
         id: run_analysis
         env:
-          AI_CORE_DIR: "impact_ai_repo/ai-core/src" # override if needed
+          AI_CORE_DIR: "impact_ai_repo/ai-core/src"
         run: |
-          ./scripts/ci_analyze_pr.sh
+          .github/scripts/ci_analyze_pr.sh
         continue-on-error: true
 
       - name: Upload report artifact (if produced)
@@ -61,30 +61,35 @@ jobs:
             const raw = fs.readFileSync(path, 'utf8');
             let parsed = {};
             try { parsed = JSON.parse(raw); } catch (e) { parsed = {}; }
+
             const risk = (parsed.predicted_risk ?? parsed.risk_score ?? parsed.predictedRisk ?? null);
             const summaryLines = [];
+
             if (risk !== null && risk !== undefined) {
               summaryLines.push(`**Impact AI** predicted risk: \`${Number(risk).toFixed(2)}\``);
             } else {
               summaryLines.push('**Impact AI**: no risk score found in report.');
             }
+
             if (parsed && parsed.backend_impacts && parsed.backend_impacts.length) {
-              const top = parsed.backend_impacts.slice(0,3).map(x => `${x.service} (${(x.risk_score ?? x.risk ?? 0).toFixed(2)})`);
+              const top = parsed.backend_impacts.slice(0,3)
+                .map(x => `${x.service} (${(x.risk_score ?? x.risk ?? 0).toFixed(2)})`);
               summaryLines.push('Top backend impacts: ' + top.join(', '));
             }
+
             if (parsed && parsed.details && parsed.details.length) {
               summaryLines.push(`Detected ${parsed.details.length} change items (showing up to 3)`);
             }
-            const body = summaryLines.join('\n\n') + '\n\nReport artifact: pr-impact-report.json';
+
             const pr = context.payload.pull_request;
             if (!pr) {
               core.info('Not a PR context; skipping comment.');
               return;
             }
+
             await github.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: pr.number,
-              body: body
+              body: summaryLines.join('\n\n') + '\n\nReport artifact: pr-impact-report.json'
             });
-
