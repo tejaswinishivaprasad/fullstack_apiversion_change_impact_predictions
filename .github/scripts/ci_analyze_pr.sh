@@ -1,37 +1,37 @@
 #!/usr/bin/env bash
-# CI runner for AI Core analysis — robust to runner cwd and fetch-depth issues.
+# CI runner for AI Core analysis — prefer in-process server wrapper (ci_server_run.py)
 # - runs from repo root so git diff paths and filesystem paths align
 # - creates a tiny venv for minimal deps if needed (uses requirements-ci.txt if present)
-# - runs analysis_light.py (fast) or server.py --ci-scan as fallback
-# - copies any generated impact-report*.json to $GITHUB_WORKSPACE/pr-impact-report.json
+# - runs ci_server_run.py (recommended). Falls back to analysis_light.py or server.py if present.
+# - copies any generated impact-report*.json / pr-impact-full.json to $GITHUB_WORKSPACE/pr-impact-report.json
 set -euo pipefail
 
 echo "CI: starting ai-core analysis runner"
 
-# allow override from workflow or environment; default path used in your repo
 AI_CORE_DIR="${AI_CORE_DIR:-impact_ai_repo/ai-core/src}"
 REPO_ROOT="${GITHUB_WORKSPACE:-$(pwd)}"
 
 echo "CI: AI_CORE_DIR=${AI_CORE_DIR}"
 echo "CI: repo root = ${REPO_ROOT}"
 
-# ensure we run from repo root (git diffs produced by checkout are repo-root-relative)
 cd "${REPO_ROOT}"
 
-# sanity: confirm the AI_CORE_DIR exists (relative to repo root)
 if [ ! -d "${AI_CORE_DIR}" ]; then
   echo "ERROR: AI core directory not found: ${AI_CORE_DIR}" >&2
-  echo "CI: listing repo root for debugging:"
   ls -la "${REPO_ROOT}" || true
   exit 1
 fi
 
-# Prefer a fast "analysis_light.py" if present; otherwise fallback to server.py --ci-scan
+CI_WRAPPER="${AI_CORE_DIR}/ci_server_run.py"
 ANALYSIS_LIGHT="${AI_CORE_DIR}/analysis_light.py"
 SERVER_PY="${AI_CORE_DIR}/server.py"
 
-# create minimal venv to avoid trying to build heavy ML deps in PR
-if ! python -c "import yaml,uvicorn,fastapi,networkx" 2>/dev/null; then
+# Create minimal venv to avoid heavy installs in PR runs
+create_venv_if_needed() {
+  # quick check: try importing pyyaml and networkx which our wrapper may need
+  if python -c "import yaml, json, sys" 2>/dev/null; then
+    return 0
+  fi
   echo "CI: creating local venv for minimal runtime deps"
   python -m venv .ci-venv
   # shellcheck disable=SC1091
@@ -41,49 +41,80 @@ if ! python -c "import yaml,uvicorn,fastapi,networkx" 2>/dev/null; then
     echo "CI: installing requirements-ci.txt (fast deps)"
     pip install --prefer-binary -r "${AI_CORE_DIR}/requirements-ci.txt" || true
   else
-    # install just the tiny parser/runtime deps we need
-    pip install --prefer-binary pyyaml || true
+    # minimal installs we need: PyYAML and networkx for graph helpers
+    pip install --prefer-binary pyyaml networkx || true
   fi
-fi
+}
 
-# Helper to capture any generated report
+# copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
-  # search repo for any impact-report JSON with reasonable depth
-  REPORT_FILE="$(find "${REPO_ROOT}" -maxdepth 3 -type f -iname 'pr-impact-report.json' -o -iname 'impact-report*.json' -print -quit || true)"
-  if [ -n "${REPORT_FILE}" ]; then
-    OUTPUT_PATH="${REPO_ROOT}/pr-impact-report.json"
-    cp "${REPORT_FILE}" "${OUTPUT_PATH}"
-    echo "CI: copied ${REPORT_FILE} -> ${OUTPUT_PATH}"
-    # set GITHUB_OUTPUT if available (modern actions)
+  # prefer explicit names we expect
+  REPORT_FULL="$(find "${REPO_ROOT}" -maxdepth 4 -type f -name 'pr-impact-full.json' -print -quit || true)"
+  REPORT_SUM="$(find "${REPO_ROOT}" -maxdepth 4 -type f -name 'pr-impact-report.json' -print -quit || true)"
+
+  # fallback to any impact-report* files (older naming)
+  if [ -z "${REPORT_SUM}" ]; then
+    REPORT_SUM="$(find "${REPO_ROOT}" -maxdepth 4 -type f -iname 'impact-report*.json' -print -quit || true)"
+  fi
+
+  HANDLED=0
+  if [ -n "${REPORT_FULL}" ]; then
+    cp "${REPORT_FULL}" "${REPO_ROOT}/pr-impact-full.json" || true
+    echo "CI: copied full report ${REPORT_FULL} -> ${REPO_ROOT}/pr-impact-full.json"
+    HANDLED=1
+  fi
+
+  if [ -n "${REPORT_SUM}" ]; then
+    cp "${REPORT_SUM}" "${REPO_ROOT}/pr-impact-report.json" || true
+    echo "CI: copied summary ${REPORT_SUM} -> ${REPO_ROOT}/pr-impact-report.json"
+    # set github output (modern Actions)
     if [ -n "${GITHUB_OUTPUT:-}" ]; then
       echo "report=pr-impact-report.json" >> "${GITHUB_OUTPUT}" || true
     else
       echo "::set-output name=report::pr-impact-report.json" || true
     fi
-    return 0
+    HANDLED=1
   fi
-  return 1
+
+  return "${HANDLED}"
 }
 
-# Run the lightweight analyzer first (recommended). Run from repo root so git paths align.
-if [ -f "${ANALYSIS_LIGHT}" ]; then
-  echo "CI: running analysis_light.py (repo-root execution)"
-  # make sure it's executable
-  chmod +x "${ANALYSIS_LIGHT}" || true
+# Activate venv if exists
+if [ -d ".ci-venv" ]; then
+  # shellcheck disable=SC1091
+  source .ci-venv/bin/activate || true
+fi
 
-  # run with explicit python so venv is respected if activated
-  if python3 "${ANALYSIS_LIGHT}" --pr "${PR_NUMBER:-unknown}" --output "${REPO_ROOT}/pr-impact-report.json"; then
-    echo "CI: analysis_light.py finished"
+# create venv if wrapper exists and dependencies look missing
+if [ -f "${CI_WRAPPER}" ]; then
+  create_venv_if_needed
+  chmod +x "${CI_WRAPPER}" || true
+  echo "CI: running ci_server_run.py (preferred wrapper)"
+  if python -u "${CI_WRAPPER}" --pr "${PR_NUMBER:-unknown}" --output-full "${REPO_ROOT}/pr-impact-full.json" --output-summary "${REPO_ROOT}/pr-impact-report.json"; then
+    echo "CI: ci_server_run.py finished"
+    copy_report || true
     exit 0
   else
-    echo "CI: analysis_light.py returned non-zero; will attempt server.py fallback"
+    echo "CI: ci_server_run.py returned non-zero; will attempt fallbacks" >&2
   fi
 fi
 
-# Fallback: try server.py --ci-scan (run from AI_CORE_DIR but still referencing repo root for files)
+# Fallback 1: analysis_light.py (old fast script)
+if [ -f "${ANALYSIS_LIGHT}" ]; then
+  echo "CI: running analysis_light.py (repo-root execution)"
+  chmod +x "${ANALYSIS_LIGHT}" || true
+  if python3 "${ANALYSIS_LIGHT}" --pr "${PR_NUMBER:-unknown}" --output "${REPO_ROOT}/pr-impact-report.json"; then
+    echo "CI: analysis_light.py finished"
+    copy_report || true
+    exit 0
+  else
+    echo "CI: analysis_light.py returned non-zero; will attempt server.py fallback" >&2
+  fi
+fi
+
+# Fallback 2: server.py --ci-scan (if you implemented that interface)
 if [ -f "${SERVER_PY}" ]; then
   echo "CI: attempting fallback server.py --ci-scan"
-  # run from AI_CORE_DIR but preserve repo-root env var so server can find datasets if needed
   pushd "${AI_CORE_DIR}" > /dev/null || true
   if python3 -u server.py --ci-scan --output "${REPO_ROOT}/pr-impact-report.json"; then
     echo "CI: server.py --ci-scan completed"
@@ -91,19 +122,18 @@ if [ -f "${SERVER_PY}" ]; then
     copy_report || true
     exit 0
   else
-    echo "CI: server.py --ci-scan failed"
+    echo "CI: server.py --ci-scan failed" >&2
     popd > /dev/null || true
   fi
 fi
 
-# If we reach here, try to copy any generated report (maybe analysis wrote somewhere unexpected)
+# final attempt to copy any report
 if copy_report; then
   echo "CI: found report after fallback attempts"
   exit 0
 fi
 
-echo "CI: no impact report generated"
-# produce a minimal placeholder for tooling so workflow steps downstream see something
+echo "CI: no impact report generated, writing placeholder"
 cat > "${REPO_ROOT}/pr-impact-report.json" <<'JSON'
 {
   "status": "partial",

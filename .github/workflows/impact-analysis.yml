@@ -63,7 +63,7 @@ jobs:
           git rev-parse --abbrev-ref HEAD || true
           git show --no-patch --pretty=format:'HEAD: %H' HEAD || true
           echo "=== recent commits ==="
-          git --no-pager log --oneline -n 10 || true
+          git --no-pager log --oneline -n 20 || true
           echo "=== remote heads (top) ==="
           git ls-remote --heads origin | sed -n '1,20p' || true
           echo "=== try diff origin/main...HEAD ==="
@@ -86,26 +86,49 @@ jobs:
           .github/scripts/ci_analyze_pr.sh
         continue-on-error: true
 
-      - name: Upload report artifact (if produced)
+      - name: Upload report artifacts (summary + full if present)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pr-impact-report-${{ github.event.pull_request.number }}
-          path: pr-impact-report.json
+          # upload both summary and full if they exist; upload-artifact accepts newline-separated paths
+          path: |
+            pr-impact-report.json
+            pr-impact-full.json
 
       - name: Read short summary for comment
         id: summary
         if: always()
         run: |
+          # prefer summary file; fallback to full or any impact-report file
           OUT="./pr-impact-report.json"
           if [ ! -f "$OUT" ]; then
+            if [ -f "./pr-impact-full.json" ]; then
+              OUT="./pr-impact-full.json"
+            else
+              # fuzzy fallback
+              OUT="$(ls impact-report*.json 2>/dev/null | head -n1 || true)"
+            fi
+          fi
+
+          if [ -z "$OUT" ] || [ ! -f "$OUT" ]; then
             echo "summary=No report produced" >> $GITHUB_OUTPUT
             exit 0
           fi
-          RISK=$(jq -r '.impact_assessment.score // .predicted_risk // .risk_score // .predictedRisk // .risk_summary // "n/a"' "$OUT" 2>/dev/null || echo "n/a")
-          FILES=$(jq -r '.files_changed | length // 0' "$OUT" 2>/dev/null || echo 0)
-          API=$(jq -r '.api_endpoint_changes // .api_changes // (.atomic_change_events | length) // 0' "$OUT" 2>/dev/null || echo 0)
-          echo "summary=Risk: ${RISK} | Files: ${FILES} | API changes: ${API}" >> $GITHUB_OUTPUT
+
+          # Try common fields across versions of the report JSON
+          RISK=$(jq -r '.impact_assessment.score // .predicted_risk // .risk_score // .predictedRisk // .predictedRiskScore // "n/a"' "$OUT" 2>/dev/null || echo "n/a")
+          FILES=$(jq -r '.files_changed | length // (.files_changed // 0 | if type=="array" then length else . end) // 0' "$OUT" 2>/dev/null || echo 0)
+          API=$(jq -r '.api_endpoint_changes // .api_changes // (.atomic_change_events | length) // (.atomic_changes | length) // 0' "$OUT" 2>/dev/null || echo 0)
+
+          # Some older outputs may store a "summary" string — include it when available
+          SUMSTR=$(jq -r '.summary // .short_summary // empty' "$OUT" 2>/dev/null || echo "")
+
+          if [ -n "$SUMSTR" ]; then
+            echo "summary=Risk: ${RISK} | Files: ${FILES} | API changes: ${API} | ${SUMSTR}" >> $GITHUB_OUTPUT
+          else
+            echo "summary=Risk: ${RISK} | Files: ${FILES} | API changes: ${API}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Update or create single PR comment (replace previous bot comment)
         uses: peter-evans/create-or-update-comment@v4
