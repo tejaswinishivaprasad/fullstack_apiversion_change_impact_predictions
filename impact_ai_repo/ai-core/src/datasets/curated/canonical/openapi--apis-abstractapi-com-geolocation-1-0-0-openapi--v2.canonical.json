@@ -178,7 +178,7 @@
         "summary": "synthetic diff"
       }
     },
-    "/v1/": {
+    "/v2/": {
       "get": {
         "description": "modified get /v1/",
         "parameters": [
