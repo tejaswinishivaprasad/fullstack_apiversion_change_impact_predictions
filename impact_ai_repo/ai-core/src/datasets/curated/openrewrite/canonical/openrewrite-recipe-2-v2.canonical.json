@@ -1,0 +1,10 @@
+{
+  "recipeList": [
+    {
+      "config": {
+        "opt": "a"
+      },
+      "name": "org.demo.Recipe2"
+    }
+  ]
+}

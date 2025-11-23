@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-dac6061b02ce63b74afd",
+  "service_name": "petclinic-docker-compose",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic-docker-compose-v1.canonical.json",
+  "new_canonical": "petclinic-docker-compose-v2.canonical.json",
+  "old": "datasets/curated/petclinic/canonical/petclinic-docker-compose-v1.canonical.json",
+  "new": "datasets/curated/petclinic/canonical/petclinic-docker-compose-v2.canonical.json",
+  "old_sha": "c3a49267d91aba08ba71",
+  "new_sha": "b55e567532ec729744d4",
+  "generated_at": "2025-11-23T09:23:12+00:00"
+}

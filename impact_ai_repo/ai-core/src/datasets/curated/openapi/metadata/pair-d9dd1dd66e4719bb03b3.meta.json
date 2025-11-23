@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-d9dd1dd66e4719bb03b3",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-trip-purpose-prediction-1-1-4-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-trip-purpose-prediction-1-1-4-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-trip-purpose-prediction-1-1-4-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-trip-purpose-prediction-1-1-4-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-trip-purpose-prediction-1-1-4-swagger--v2.canonical.json",
+  "old_sha": "969dcaef49389224a1ab",
+  "new_sha": "4425c820adfefb977bea",
+  "warnings": [],
+  "seed": 2104906511,
+  "generated_at": "2025-11-23T09:22:13+00:00"
+}

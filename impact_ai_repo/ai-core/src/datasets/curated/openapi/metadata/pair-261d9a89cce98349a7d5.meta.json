@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-261d9a89cce98349a7d5",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-balancecontrolservice-1-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-balancecontrolservice-1-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-balancecontrolservice-1-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-balancecontrolservice-1-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-balancecontrolservice-1-openapi--v2.canonical.json",
+  "old_sha": "7ff30638f3c2458d51d9",
+  "new_sha": "1fe4a8ec9df6bbe355d9",
+  "warnings": [],
+  "seed": 1060187004,
+  "generated_at": "2025-11-23T09:21:04+00:00"
+}

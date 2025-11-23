@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-b9f8d0e091c320c3d102",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-chime-sdk-voice-2022-08-03-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-chime-sdk-voice-2022-08-03-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-chime-sdk-voice-2022-08-03-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-chime-sdk-voice-2022-08-03-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-chime-sdk-voice-2022-08-03-openapi--v2.canonical.json",
+  "old_sha": "cffad32804a6c3f955bb",
+  "new_sha": "abcdb2883332605a9fe2",
+  "warnings": [],
+  "seed": 1215722449,
+  "generated_at": "2025-11-23T09:22:49+00:00"
+}

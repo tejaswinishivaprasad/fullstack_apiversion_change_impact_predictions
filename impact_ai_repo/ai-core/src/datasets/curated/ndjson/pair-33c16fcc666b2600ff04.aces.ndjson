@@ -1,1 +1,0 @@
-{"pair_id": "pair-33c16fcc666b2600ff04", "ace_index": 0, "ace_id": "pair-33c16fcc666b2600ff04::ace::0", "type": "ENDPOINT_ADDED", "path": "/auto709", "method": "post", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "9373ba4d174c9e2bc4a8", "new_sha": "883388e865c9a9acc62d"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

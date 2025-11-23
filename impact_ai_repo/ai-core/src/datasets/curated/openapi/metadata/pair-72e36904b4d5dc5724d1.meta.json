@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-72e36904b4d5dc5724d1",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-check-in-links-2-1-2-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-check-in-links-2-1-2-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-check-in-links-2-1-2-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-check-in-links-2-1-2-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-check-in-links-2-1-2-swagger--v2.canonical.json",
+  "old_sha": "2ad2e40b48695a942333",
+  "new_sha": "0f9ff94351279ab44b69",
+  "warnings": [],
+  "seed": 1286178537,
+  "generated_at": "2025-11-23T09:22:08+00:00"
+}

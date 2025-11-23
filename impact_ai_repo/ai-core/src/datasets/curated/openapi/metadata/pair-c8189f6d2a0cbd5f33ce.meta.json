@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-c8189f6d2a0cbd5f33ce",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-applicationcostprofiler-2020-09-10-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-applicationcostprofiler-2020-09-10-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-applicationcostprofiler-2020-09-10-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-applicationcostprofiler-2020-09-10-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-applicationcostprofiler-2020-09-10-openapi--v2.canonical.json",
+  "old_sha": "2523ba7fa7c29d9c556d",
+  "new_sha": "8423379bd4a2aa90208c",
+  "warnings": [],
+  "seed": 1641898420,
+  "generated_at": "2025-11-23T09:22:26+00:00"
+}

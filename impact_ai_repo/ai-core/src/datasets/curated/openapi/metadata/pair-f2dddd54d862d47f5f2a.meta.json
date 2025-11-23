@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-f2dddd54d862d47f5f2a",
+  "service_name": "datasets-raw-openapi_repo-apis-airbyte-local-config-1-0-0-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-airbyte-local-config-1-0-0-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-airbyte-local-config-1-0-0-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-airbyte-local-config-1-0-0-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-airbyte-local-config-1-0-0-openapi--v2.canonical.json",
+  "old_sha": "730d96160156ad8434fd",
+  "new_sha": "29f2c1d6be4745c5ff8d",
+  "warnings": [],
+  "seed": 704673693,
+  "generated_at": "2025-11-23T09:22:02+00:00"
+}

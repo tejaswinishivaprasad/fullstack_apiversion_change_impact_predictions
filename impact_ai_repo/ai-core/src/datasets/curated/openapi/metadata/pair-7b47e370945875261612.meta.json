@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-7b47e370945875261612",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-payoutservice-40-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-payoutservice-40-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-payoutservice-40-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-payoutservice-40-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-payoutservice-40-openapi--v2.canonical.json",
+  "old_sha": "2f27b5bad27dcbdd7186",
+  "new_sha": "979a91a77f6f8b5d0823",
+  "warnings": [],
+  "seed": 830802539,
+  "generated_at": "2025-11-23T09:21:54+00:00"
+}

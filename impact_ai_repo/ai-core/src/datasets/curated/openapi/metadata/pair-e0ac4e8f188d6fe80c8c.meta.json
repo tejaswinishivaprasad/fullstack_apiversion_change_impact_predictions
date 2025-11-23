@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-e0ac4e8f188d6fe80c8c",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-binlookupservice-54-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-binlookupservice-54-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-binlookupservice-54-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-binlookupservice-54-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-binlookupservice-54-openapi--v2.canonical.json",
+  "old_sha": "3d65bd4c98fcca111d58",
+  "new_sha": "64ef1371b67f55cf5280",
+  "warnings": [],
+  "seed": 2056575768,
+  "generated_at": "2025-11-23T09:21:07+00:00"
+}

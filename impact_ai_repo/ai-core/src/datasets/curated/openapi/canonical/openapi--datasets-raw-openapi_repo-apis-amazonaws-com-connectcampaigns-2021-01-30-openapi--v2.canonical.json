@@ -1,0 +1,5756 @@
+{
+  "components": {
+    "parameters": {
+      "X-Amz-Algorithm": {
+        "in": "header",
+        "name": "X-Amz-Algorithm",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Content-Sha256": {
+        "in": "header",
+        "name": "X-Amz-Content-Sha256",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Credential": {
+        "in": "header",
+        "name": "X-Amz-Credential",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Date": {
+        "in": "header",
+        "name": "X-Amz-Date",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Security-Token": {
+        "in": "header",
+        "name": "X-Amz-Security-Token",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Signature": {
+        "in": "header",
+        "name": "X-Amz-Signature",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-SignedHeaders": {
+        "in": "header",
+        "name": "X-Amz-SignedHeaders",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "AccessDeniedException": {},
+      "AnswerMachineDetectionConfig": {
+        "description": "Answering Machine Detection config",
+        "properties": {
+          "enableAnswerMachineDetection": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "description": "Enable or disable answering machine detection"
+              }
+            ]
+          }
+        },
+        "required": [
+          "enableAnswerMachineDetection"
+        ],
+        "type": "object"
+      },
+      "Arn": {
+        "description": "Arn",
+        "maxLength": 500,
+        "minLength": 20,
+        "pattern": "^arn:.*",
+        "type": "string"
+      },
+      "AttributeName": {
+        "description": "The key of the attribute. Attribute keys can include only alphanumeric, dash, and underscore characters.",
+        "maxLength": 32767,
+        "minLength": 0,
+        "pattern": "^[a-zA-Z0-9\\-_]+$",
+        "type": "string"
+      },
+      "AttributeValue": {
+        "description": "The value of the attribute.",
+        "maxLength": 32767,
+        "minLength": 0,
+        "type": "string"
+      },
+      "Attributes": {
+        "additionalProperties": {
+          "description": "The value of the attribute.",
+          "maxLength": 32767,
+          "minLength": 0,
+          "type": "string"
+        },
+        "description": "A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.",
+        "type": "object"
+      },
+      "BandwidthAllocation": {
+        "description": "The bandwidth allocation of a queue resource.",
+        "format": "double",
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "Boolean": {
+        "type": "boolean"
+      },
+      "Campaign": {
+        "description": "An Amazon Connect campaign.",
+        "properties": {
+          "arn": {
+            "description": "The resource name of an Amazon Connect campaign.",
+            "maxLength": 500,
+            "minLength": 20,
+            "type": "string"
+          },
+          "connectInstanceId": {
+            "description": "Amazon Connect Instance Id",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "dialerConfig": {
+            "description": "The possible types of dialer config parameters",
+            "properties": {
+              "predictiveDialerConfig": {
+                "description": "Predictive Dialer config",
+                "properties": {
+                  "bandwidthAllocation": {
+                    "description": "The bandwidth allocation of a queue resource.",
+                    "format": "double",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "bandwidthAllocation"
+                ],
+                "type": "object"
+              },
+              "progressiveDialerConfig": {
+                "description": "Progressive Dialer config",
+                "properties": {
+                  "bandwidthAllocation": {
+                    "description": "The bandwidth allocation of a queue resource.",
+                    "format": "double",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "bandwidthAllocation"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "description": "Identifier representing a Campaign",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of an Amazon Connect Campaign name.",
+            "maxLength": 127,
+            "minLength": 1,
+            "type": "string"
+          },
+          "outboundCallConfig": {
+            "description": "The configuration used for outbound calls.",
+            "properties": {
+              "answerMachineDetectionConfig": {
+                "description": "Answering Machine Detection config",
+                "properties": {
+                  "enableAnswerMachineDetection": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "description": "Enable or disable answering machine detection"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "enableAnswerMachineDetection"
+                ],
+                "type": "object"
+              },
+              "connectContactFlowId": {
+                "description": "The identifier of the contact flow for the outbound call.",
+                "maxLength": 500,
+                "minLength": 0,
+                "type": "string"
+              },
+              "connectQueueId": {
+                "description": "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+                "maxLength": 500,
+                "minLength": 0,
+                "type": "string"
+              },
+              "connectSourcePhoneNumber": {
+                "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+                "maxLength": 100,
+                "minLength": 0,
+                "type": "string"
+              }
+            },
+            "required": [
+              "connectContactFlowId",
+              "connectQueueId"
+            ],
+            "type": "object"
+          },
+          "tags": {
+            "additionalProperties": {
+              "description": "Tag value.",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "description": "Tag map with key and value.",
+            "type": "object"
+          }
+        },
+        "required": [
+          "arn",
+          "connectInstanceId",
+          "dialerConfig",
+          "id",
+          "name",
+          "outboundCallConfig"
+        ],
+        "type": "object"
+      },
+      "CampaignArn": {
+        "description": "The resource name of an Amazon Connect campaign.",
+        "maxLength": 500,
+        "minLength": 20,
+        "type": "string"
+      },
+      "CampaignFilters": {
+        "description": "Filter model by type",
+        "properties": {
+          "instanceIdFilter": {
+            "description": "Connect instance identifier filter",
+            "properties": {
+              "operator": {
+                "description": "Operators for Connect instance identifier filter",
+                "enum": [
+                  "Eq"
+                ],
+                "type": "string"
+              },
+              "value": {
+                "description": "Amazon Connect Instance Id",
+                "maxLength": 256,
+                "minLength": 0,
+                "type": "string"
+              }
+            },
+            "required": [
+              "operator",
+              "value"
+            ],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "CampaignId": {
+        "description": "Identifier representing a Campaign",
+        "maxLength": 256,
+        "minLength": 0,
+        "type": "string"
+      },
+      "CampaignName": {
+        "description": "The name of an Amazon Connect Campaign name.",
+        "maxLength": 127,
+        "minLength": 1,
+        "type": "string"
+      },
+      "CampaignState": {
+        "description": "State of a campaign",
+        "enum": [
+          "Initialized",
+          "Running",
+          "Paused",
+          "Stopped",
+          "Failed"
+        ],
+        "type": "string"
+      },
+      "CampaignSummary": {
+        "description": "An Amazon Connect campaign summary.",
+        "properties": {
+          "arn": {
+            "description": "The resource name of an Amazon Connect campaign.",
+            "maxLength": 500,
+            "minLength": 20,
+            "type": "string"
+          },
+          "connectInstanceId": {
+            "description": "Amazon Connect Instance Id",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier representing a Campaign",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of an Amazon Connect Campaign name.",
+            "maxLength": 127,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "arn",
+          "connectInstanceId",
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
+      "CampaignSummaryList": {
+        "description": "A list of Amazon Connect campaigns.",
+        "items": {
+          "description": "An Amazon Connect campaign summary.",
+          "properties": {
+            "arn": {
+              "description": "The resource name of an Amazon Connect campaign.",
+              "maxLength": 500,
+              "minLength": 20,
+              "type": "string"
+            },
+            "connectInstanceId": {
+              "description": "Amazon Connect Instance Id",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "id": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "name": {
+              "description": "The name of an Amazon Connect Campaign name.",
+              "maxLength": 127,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "arn",
+            "connectInstanceId",
+            "id",
+            "name"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "ClientToken": {
+        "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+        "maxLength": 64,
+        "minLength": 0,
+        "type": "string"
+      },
+      "ConflictException": {},
+      "ContactFlowId": {
+        "description": "The identifier of the contact flow for the outbound call.",
+        "maxLength": 500,
+        "minLength": 0,
+        "type": "string"
+      },
+      "CreateCampaignRequest": {
+        "description": "The request for Create Campaign API.",
+        "properties": {
+          "connectInstanceId": {
+            "description": "Amazon Connect Instance Id",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "dialerConfig": {
+            "description": "The possible types of dialer config parameters",
+            "properties": {
+              "predictiveDialerConfig": {
+                "description": "Predictive Dialer config",
+                "properties": {
+                  "bandwidthAllocation": {
+                    "description": "The bandwidth allocation of a queue resource.",
+                    "format": "double",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "bandwidthAllocation"
+                ],
+                "type": "object"
+              },
+              "progressiveDialerConfig": {
+                "description": "Progressive Dialer config",
+                "properties": {
+                  "bandwidthAllocation": {
+                    "description": "The bandwidth allocation of a queue resource.",
+                    "format": "double",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "bandwidthAllocation"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "name": {
+            "description": "The name of an Amazon Connect Campaign name.",
+            "maxLength": 127,
+            "minLength": 1,
+            "type": "string"
+          },
+          "outboundCallConfig": {
+            "description": "The configuration used for outbound calls.",
+            "properties": {
+              "answerMachineDetectionConfig": {
+                "description": "Answering Machine Detection config",
+                "properties": {
+                  "enableAnswerMachineDetection": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "description": "Enable or disable answering machine detection"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "enableAnswerMachineDetection"
+                ],
+                "type": "object"
+              },
+              "connectContactFlowId": {
+                "description": "The identifier of the contact flow for the outbound call.",
+                "maxLength": 500,
+                "minLength": 0,
+                "type": "string"
+              },
+              "connectQueueId": {
+                "description": "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+                "maxLength": 500,
+                "minLength": 0,
+                "type": "string"
+              },
+              "connectSourcePhoneNumber": {
+                "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+                "maxLength": 100,
+                "minLength": 0,
+                "type": "string"
+              }
+            },
+            "required": [
+              "connectContactFlowId",
+              "connectQueueId"
+            ],
+            "type": "object"
+          },
+          "tags": {
+            "additionalProperties": {
+              "description": "Tag value.",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "description": "Tag map with key and value.",
+            "type": "object"
+          }
+        },
+        "required": [
+          "connectInstanceId",
+          "dialerConfig",
+          "name",
+          "outboundCallConfig"
+        ],
+        "title": "CreateCampaignRequest",
+        "type": "object"
+      },
+      "CreateCampaignResponse": {
+        "description": "The response for Create Campaign API",
+        "properties": {
+          "arn": {
+            "description": "The resource name of an Amazon Connect campaign.",
+            "maxLength": 500,
+            "minLength": 20,
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier representing a Campaign",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "tags": {
+            "additionalProperties": {
+              "description": "Tag value.",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "description": "Tag map with key and value.",
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "DeleteCampaignRequest": {
+        "description": "DeleteCampaignRequest",
+        "properties": {},
+        "title": "DeleteCampaignRequest",
+        "type": "object"
+      },
+      "DeleteConnectInstanceConfigRequest": {
+        "description": "DeleteCampaignRequest",
+        "properties": {},
+        "title": "DeleteConnectInstanceConfigRequest",
+        "type": "object"
+      },
+      "DeleteInstanceOnboardingJobRequest": {
+        "description": "The request for DeleteInstanceOnboardingJob API.",
+        "properties": {},
+        "title": "DeleteInstanceOnboardingJobRequest",
+        "type": "object"
+      },
+      "DescribeCampaignRequest": {
+        "description": "DescribeCampaignRequests",
+        "properties": {},
+        "title": "DescribeCampaignRequest",
+        "type": "object"
+      },
+      "DescribeCampaignResponse": {
+        "description": "DescribeCampaignResponse",
+        "properties": {
+          "campaign": {
+            "description": "An Amazon Connect campaign.",
+            "properties": {
+              "arn": {
+                "description": "The resource name of an Amazon Connect campaign.",
+                "maxLength": 500,
+                "minLength": 20,
+                "type": "string"
+              },
+              "connectInstanceId": {
+                "description": "Amazon Connect Instance Id",
+                "maxLength": 256,
+                "minLength": 0,
+                "type": "string"
+              },
+              "dialerConfig": {
+                "description": "The possible types of dialer config parameters",
+                "properties": {
+                  "predictiveDialerConfig": {
+                    "description": "Predictive Dialer config",
+                    "properties": {
+                      "bandwidthAllocation": {
+                        "description": "The bandwidth allocation of a queue resource.",
+                        "format": "double",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "bandwidthAllocation"
+                    ],
+                    "type": "object"
+                  },
+                  "progressiveDialerConfig": {
+                    "description": "Progressive Dialer config",
+                    "properties": {
+                      "bandwidthAllocation": {
+                        "description": "The bandwidth allocation of a queue resource.",
+                        "format": "double",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "bandwidthAllocation"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              },
+              "id": {
+                "description": "Identifier representing a Campaign",
+                "maxLength": 256,
+                "minLength": 0,
+                "type": "string"
+              },
+              "name": {
+                "description": "The name of an Amazon Connect Campaign name.",
+                "maxLength": 127,
+                "minLength": 1,
+                "type": "string"
+              },
+              "outboundCallConfig": {
+                "description": "The configuration used for outbound calls.",
+                "properties": {
+                  "answerMachineDetectionConfig": {
+                    "description": "Answering Machine Detection config",
+                    "properties": {
+                      "enableAnswerMachineDetection": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "description": "Enable or disable answering machine detection"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "enableAnswerMachineDetection"
+                    ],
+                    "type": "object"
+                  },
+                  "connectContactFlowId": {
+                    "description": "The identifier of the contact flow for the outbound call.",
+                    "maxLength": 500,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "connectQueueId": {
+                    "description": "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+                    "maxLength": 500,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "connectSourcePhoneNumber": {
+                    "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "connectContactFlowId",
+                  "connectQueueId"
+                ],
+                "type": "object"
+              },
+              "tags": {
+                "additionalProperties": {
+                  "description": "Tag value.",
+                  "maxLength": 256,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "description": "Tag map with key and value.",
+                "type": "object"
+              }
+            },
+            "required": [
+              "arn",
+              "connectInstanceId",
+              "dialerConfig",
+              "id",
+              "name",
+              "outboundCallConfig"
+            ],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "DestinationPhoneNumber": {
+        "description": "The phone number of the customer, in E.164 format.",
+        "format": "password",
+        "maxLength": 20,
+        "minLength": 0,
+        "type": "string"
+      },
+      "DialRequest": {
+        "description": "A dial request for a campaign.",
+        "properties": {
+          "attributes": {
+            "additionalProperties": {
+              "description": "The value of the attribute.",
+              "maxLength": 32767,
+              "minLength": 0,
+              "type": "string"
+            },
+            "description": "A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.",
+            "type": "object"
+          },
+          "clientToken": {
+            "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "expirationTime": {
+            "description": "Timestamp with no UTC offset or timezone",
+            "format": "date-time",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "description": "The phone number of the customer, in E.164 format.",
+            "format": "password",
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "required": [
+          "attributes",
+          "clientToken",
+          "expirationTime",
+          "phoneNumber"
+        ],
+        "type": "object"
+      },
+      "DialRequestId": {
+        "description": "Identifier representing a Dial request",
+        "type": "string"
+      },
+      "DialRequestList": {
+        "description": "A list of dial requests.",
+        "items": {
+          "description": "A dial request for a campaign.",
+          "properties": {
+            "attributes": {
+              "additionalProperties": {
+                "description": "The value of the attribute.",
+                "maxLength": 32767,
+                "minLength": 0,
+                "type": "string"
+              },
+              "description": "A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.",
+              "type": "object"
+            },
+            "clientToken": {
+              "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+              "maxLength": 64,
+              "minLength": 0,
+              "type": "string"
+            },
+            "expirationTime": {
+              "description": "Timestamp with no UTC offset or timezone",
+              "format": "date-time",
+              "type": "string"
+            },
+            "phoneNumber": {
+              "description": "The phone number of the customer, in E.164 format.",
+              "format": "password",
+              "maxLength": 20,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          "required": [
+            "attributes",
+            "clientToken",
+            "expirationTime",
+            "phoneNumber"
+          ],
+          "type": "object"
+        },
+        "maxItems": 25,
+        "minItems": 1,
+        "type": "array"
+      },
+      "DialerConfig": {
+        "description": "The possible types of dialer config parameters",
+        "properties": {
+          "predictiveDialerConfig": {
+            "description": "Predictive Dialer config",
+            "properties": {
+              "bandwidthAllocation": {
+                "description": "The bandwidth allocation of a queue resource.",
+                "format": "double",
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "bandwidthAllocation"
+            ],
+            "type": "object"
+          },
+          "progressiveDialerConfig": {
+            "description": "Progressive Dialer config",
+            "properties": {
+              "bandwidthAllocation": {
+                "description": "The bandwidth allocation of a queue resource.",
+                "format": "double",
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "bandwidthAllocation"
+            ],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "Enabled": {
+        "description": "Boolean to indicate if custom encryption has been enabled.",
+        "type": "boolean"
+      },
+      "EncryptionConfig": {
+        "description": "Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported",
+        "properties": {
+          "enabled": {
+            "description": "Boolean to indicate if custom encryption has been enabled.",
+            "type": "boolean"
+          },
+          "encryptionType": {
+            "description": "Server-side encryption type.",
+            "enum": [
+              "KMS"
+            ],
+            "type": "string"
+          },
+          "keyArn": {
+            "description": "KMS key id/arn for encryption config.",
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "EncryptionKey": {
+        "description": "KMS key id/arn for encryption config.",
+        "maxLength": 500,
+        "minLength": 0,
+        "type": "string"
+      },
+      "EncryptionType": {
+        "description": "Server-side encryption type.",
+        "enum": [
+          "KMS"
+        ],
+        "type": "string"
+      },
+      "FailedCampaignStateResponse": {
+        "description": "Failed response of campaign state",
+        "properties": {
+          "campaignId": {
+            "description": "Identifier representing a Campaign",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "failureCode": {
+            "description": "A predefined code indicating the error that caused the failure in getting state of campaigns",
+            "enum": [
+              "ResourceNotFound",
+              "UnknownError"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "FailedCampaignStateResponseList": {
+        "description": "List of failed requests of campaign state",
+        "items": {
+          "description": "Failed response of campaign state",
+          "properties": {
+            "campaignId": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "failureCode": {
+              "description": "A predefined code indicating the error that caused the failure in getting state of campaigns",
+              "enum": [
+                "ResourceNotFound",
+                "UnknownError"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "maxItems": 25,
+        "minItems": 0,
+        "type": "array"
+      },
+      "FailedRequest": {
+        "description": "A failed request identified by the unique client token.",
+        "properties": {
+          "clientToken": {
+            "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "failureCode": {
+            "description": "A predefined code indicating the error that caused the failure.",
+            "enum": [
+              "InvalidInput",
+              "RequestThrottled",
+              "UnknownError"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier representing a Dial request",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "FailedRequestList": {
+        "description": "A list of failed requests.",
+        "items": {
+          "description": "A failed request identified by the unique client token.",
+          "properties": {
+            "clientToken": {
+              "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+              "maxLength": 64,
+              "minLength": 0,
+              "type": "string"
+            },
+            "failureCode": {
+              "description": "A predefined code indicating the error that caused the failure.",
+              "enum": [
+                "InvalidInput",
+                "RequestThrottled",
+                "UnknownError"
+              ],
+              "type": "string"
+            },
+            "id": {
+              "description": "Identifier representing a Dial request",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "maxItems": 25,
+        "minItems": 0,
+        "type": "array"
+      },
+      "FailureCode": {
+        "description": "A predefined code indicating the error that caused the failure.",
+        "enum": [
+          "InvalidInput",
+          "RequestThrottled",
+          "UnknownError"
+        ],
+        "type": "string"
+      },
+      "GetCampaignStateBatchFailureCode": {
+        "description": "A predefined code indicating the error that caused the failure in getting state of campaigns",
+        "enum": [
+          "ResourceNotFound",
+          "UnknownError"
+        ],
+        "type": "string"
+      },
+      "GetCampaignStateBatchRequest": {
+        "description": "GetCampaignStateBatchRequest",
+        "properties": {
+          "campaignIds": {
+            "description": "List of CampaignId",
+            "items": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "maxItems": 25,
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "campaignIds"
+        ],
+        "title": "GetCampaignStateBatchRequest",
+        "type": "object"
+      },
+      "GetCampaignStateBatchRequestCampaignIdsList": {
+        "description": "List of CampaignId",
+        "items": {
+          "description": "Identifier representing a Campaign",
+          "maxLength": 256,
+          "minLength": 0,
+          "type": "string"
+        },
+        "maxItems": 25,
+        "minItems": 1,
+        "type": "array"
+      },
+      "GetCampaignStateBatchResponse": {
+        "description": "GetCampaignStateBatchResponse",
+        "properties": {
+          "failedRequests": {
+            "description": "List of failed requests of campaign state",
+            "items": {
+              "description": "Failed response of campaign state",
+              "properties": {
+                "campaignId": {
+                  "description": "Identifier representing a Campaign",
+                  "maxLength": 256,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "failureCode": {
+                  "description": "A predefined code indicating the error that caused the failure in getting state of campaigns",
+                  "enum": [
+                    "ResourceNotFound",
+                    "UnknownError"
+                  ],
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "maxItems": 25,
+            "minItems": 0,
+            "type": "array"
+          },
+          "successfulRequests": {
+            "description": "List of successful response of campaign state",
+            "items": {
+              "description": "Successful response of campaign state",
+              "properties": {
+                "campaignId": {
+                  "description": "Identifier representing a Campaign",
+                  "maxLength": 256,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "state": {
+                  "description": "State of a campaign",
+                  "enum": [
+                    "Initialized",
+                    "Running",
+                    "Paused",
+                    "Stopped",
+                    "Failed"
+                  ],
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "maxItems": 25,
+            "minItems": 0,
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "GetCampaignStateRequest": {
+        "description": "GetCampaignStateRequest",
+        "properties": {},
+        "title": "GetCampaignStateRequest",
+        "type": "object"
+      },
+      "GetCampaignStateResponse": {
+        "description": "GetCampaignStateResponse",
+        "properties": {
+          "state": {
+            "description": "State of a campaign",
+            "enum": [
+              "Initialized",
+              "Running",
+              "Paused",
+              "Stopped",
+              "Failed"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GetConnectInstanceConfigRequest": {
+        "description": "GetConnectInstanceConfigRequest",
+        "properties": {},
+        "title": "GetConnectInstanceConfigRequest",
+        "type": "object"
+      },
+      "GetConnectInstanceConfigResponse": {
+        "description": "GetConnectInstanceConfigResponse",
+        "properties": {
+          "connectInstanceConfig": {
+            "description": "Instance config object",
+            "properties": {
+              "connectInstanceId": {
+                "description": "Amazon Connect Instance Id",
+                "maxLength": 256,
+                "minLength": 0,
+                "type": "string"
+              },
+              "encryptionConfig": {
+                "description": "Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported",
+                "properties": {
+                  "enabled": {
+                    "description": "Boolean to indicate if custom encryption has been enabled.",
+                    "type": "boolean"
+                  },
+                  "encryptionType": {
+                    "description": "Server-side encryption type.",
+                    "enum": [
+                      "KMS"
+                    ],
+                    "type": "string"
+                  },
+                  "keyArn": {
+                    "description": "KMS key id/arn for encryption config.",
+                    "maxLength": 500,
+                    "minLength": 0,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "enabled"
+                ],
+                "type": "object"
+              },
+              "serviceLinkedRoleArn": {
+                "description": "Service linked role arn",
+                "maxLength": 256,
+                "minLength": 0,
+                "type": "string"
+              }
+            },
+            "required": [
+              "connectInstanceId",
+              "encryptionConfig",
+              "serviceLinkedRoleArn"
+            ],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "GetInstanceOnboardingJobStatusRequest": {
+        "description": "GetInstanceOnboardingJobStatusRequest",
+        "properties": {},
+        "title": "GetInstanceOnboardingJobStatusRequest",
+        "type": "object"
+      },
+      "GetInstanceOnboardingJobStatusResponse": {
+        "description": "GetInstanceOnboardingJobStatusResponse",
+        "properties": {
+          "connectInstanceOnboardingJobStatus": {
+            "description": "Instance onboarding job status object",
+            "properties": {
+              "connectInstanceId": {
+                "description": "Amazon Connect Instance Id",
+                "maxLength": 256,
+                "minLength": 0,
+                "type": "string"
+              },
+              "failureCode": {
+                "description": "Enumeration of the possible failure codes for instance onboarding job",
+                "enum": [
+                  "EVENT_BRIDGE_ACCESS_DENIED",
+                  "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED",
+                  "IAM_ACCESS_DENIED",
+                  "KMS_ACCESS_DENIED",
+                  "KMS_KEY_NOT_FOUND",
+                  "INTERNAL_FAILURE"
+                ],
+                "type": "string"
+              },
+              "status": {
+                "description": "Enumeration of the possible states for instance onboarding job",
+                "enum": [
+                  "IN_PROGRESS",
+                  "SUCCEEDED",
+                  "FAILED"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "connectInstanceId",
+              "status"
+            ],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "InstanceConfig": {
+        "description": "Instance config object",
+        "properties": {
+          "connectInstanceId": {
+            "description": "Amazon Connect Instance Id",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "encryptionConfig": {
+            "description": "Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported",
+            "properties": {
+              "enabled": {
+                "description": "Boolean to indicate if custom encryption has been enabled.",
+                "type": "boolean"
+              },
+              "encryptionType": {
+                "description": "Server-side encryption type.",
+                "enum": [
+                  "KMS"
+                ],
+                "type": "string"
+              },
+              "keyArn": {
+                "description": "KMS key id/arn for encryption config.",
+                "maxLength": 500,
+                "minLength": 0,
+                "type": "string"
+              }
+            },
+            "required": [
+              "enabled"
+            ],
+            "type": "object"
+          },
+          "serviceLinkedRoleArn": {
+            "description": "Service linked role arn",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "required": [
+          "connectInstanceId",
+          "encryptionConfig",
+          "serviceLinkedRoleArn"
+        ],
+        "type": "object"
+      },
+      "InstanceId": {
+        "description": "Amazon Connect Instance Id",
+        "maxLength": 256,
+        "minLength": 0,
+        "type": "string"
+      },
+      "InstanceIdFilter": {
+        "description": "Connect instance identifier filter",
+        "properties": {
+          "operator": {
+            "description": "Operators for Connect instance identifier filter",
+            "enum": [
+              "Eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "description": "Amazon Connect Instance Id",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "InstanceIdFilterOperator": {
+        "description": "Operators for Connect instance identifier filter",
+        "enum": [
+          "Eq"
+        ],
+        "type": "string"
+      },
+      "InstanceOnboardingJobFailureCode": {
+        "description": "Enumeration of the possible failure codes for instance onboarding job",
+        "enum": [
+          "EVENT_BRIDGE_ACCESS_DENIED",
+          "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED",
+          "IAM_ACCESS_DENIED",
+          "KMS_ACCESS_DENIED",
+          "KMS_KEY_NOT_FOUND",
+          "INTERNAL_FAILURE"
+        ],
+        "type": "string"
+      },
+      "InstanceOnboardingJobStatus": {
+        "description": "Instance onboarding job status object",
+        "properties": {
+          "connectInstanceId": {
+            "description": "Amazon Connect Instance Id",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "failureCode": {
+            "description": "Enumeration of the possible failure codes for instance onboarding job",
+            "enum": [
+              "EVENT_BRIDGE_ACCESS_DENIED",
+              "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED",
+              "IAM_ACCESS_DENIED",
+              "KMS_ACCESS_DENIED",
+              "KMS_KEY_NOT_FOUND",
+              "INTERNAL_FAILURE"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "description": "Enumeration of the possible states for instance onboarding job",
+            "enum": [
+              "IN_PROGRESS",
+              "SUCCEEDED",
+              "FAILED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "connectInstanceId",
+          "status"
+        ],
+        "type": "object"
+      },
+      "InstanceOnboardingJobStatusCode": {
+        "description": "Enumeration of the possible states for instance onboarding job",
+        "enum": [
+          "IN_PROGRESS",
+          "SUCCEEDED",
+          "FAILED"
+        ],
+        "type": "string"
+      },
+      "InternalServerException": {},
+      "InvalidCampaignStateException": {},
+      "InvalidStateException": {},
+      "ListCampaignsRequest": {
+        "description": "ListCampaignsRequest",
+        "properties": {
+          "filters": {
+            "description": "Filter model by type",
+            "properties": {
+              "instanceIdFilter": {
+                "description": "Connect instance identifier filter",
+                "properties": {
+                  "operator": {
+                    "description": "Operators for Connect instance identifier filter",
+                    "enum": [
+                      "Eq"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "Amazon Connect Instance Id",
+                    "maxLength": 256,
+                    "minLength": 0,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "operator",
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "maxResults": {
+            "description": "The maximum number of results to return per page.",
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "nextToken": {
+            "description": "The token for the next set of results.",
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "title": "ListCampaignsRequest",
+        "type": "object"
+      },
+      "ListCampaignsResponse": {
+        "description": "ListCampaignsResponse",
+        "properties": {
+          "campaignSummaryList": {
+            "description": "A list of Amazon Connect campaigns.",
+            "items": {
+              "description": "An Amazon Connect campaign summary.",
+              "properties": {
+                "arn": {
+                  "description": "The resource name of an Amazon Connect campaign.",
+                  "maxLength": 500,
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "connectInstanceId": {
+                  "description": "Amazon Connect Instance Id",
+                  "maxLength": 256,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "id": {
+                  "description": "Identifier representing a Campaign",
+                  "maxLength": 256,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name of an Amazon Connect Campaign name.",
+                  "maxLength": 127,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "arn",
+                "connectInstanceId",
+                "id",
+                "name"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "nextToken": {
+            "description": "The token for the next set of results.",
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListTagsForResourceRequest": {
+        "description": "ListTagsForResource",
+        "properties": {},
+        "title": "ListTagsForResourceRequest",
+        "type": "object"
+      },
+      "ListTagsForResourceResponse": {
+        "description": "ListTagsForResponse",
+        "properties": {
+          "tags": {
+            "additionalProperties": {
+              "description": "Tag value.",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "description": "Tag map with key and value.",
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "MaxResults": {
+        "description": "The maximum number of results to return per page.",
+        "maximum": 50,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "NextToken": {
+        "description": "The token for the next set of results.",
+        "maxLength": 1000,
+        "minLength": 0,
+        "type": "string"
+      },
+      "OutboundCallConfig": {
+        "description": "The configuration used for outbound calls.",
+        "properties": {
+          "answerMachineDetectionConfig": {
+            "description": "Answering Machine Detection config",
+            "properties": {
+              "enableAnswerMachineDetection": {
+                "_polymorphic_marker": {
+                  "allOf": true
+                },
+                "allOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "description": "Enable or disable answering machine detection"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "enableAnswerMachineDetection"
+            ],
+            "type": "object"
+          },
+          "connectContactFlowId": {
+            "description": "The identifier of the contact flow for the outbound call.",
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          },
+          "connectQueueId": {
+            "description": "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          },
+          "connectSourcePhoneNumber": {
+            "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "required": [
+          "connectContactFlowId",
+          "connectQueueId"
+        ],
+        "type": "object"
+      },
+      "PauseCampaignRequest": {
+        "description": "PauseCampaignRequest",
+        "properties": {},
+        "title": "PauseCampaignRequest",
+        "type": "object"
+      },
+      "PredictiveDialerConfig": {
+        "description": "Predictive Dialer config",
+        "properties": {
+          "bandwidthAllocation": {
+            "description": "The bandwidth allocation of a queue resource.",
+            "format": "double",
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "bandwidthAllocation"
+        ],
+        "type": "object"
+      },
+      "ProgressiveDialerConfig": {
+        "description": "Progressive Dialer config",
+        "properties": {
+          "bandwidthAllocation": {
+            "description": "The bandwidth allocation of a queue resource.",
+            "format": "double",
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "bandwidthAllocation"
+        ],
+        "type": "object"
+      },
+      "PutDialRequestBatchRequest": {
+        "description": "PutDialRequestBatchRequest",
+        "properties": {
+          "dialRequests": {
+            "description": "A list of dial requests.",
+            "items": {
+              "description": "A dial request for a campaign.",
+              "properties": {
+                "attributes": {
+                  "additionalProperties": {
+                    "description": "The value of the attribute.",
+                    "maxLength": 32767,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "description": "A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.",
+                  "type": "object"
+                },
+                "clientToken": {
+                  "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+                  "maxLength": 64,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "expirationTime": {
+                  "description": "Timestamp with no UTC offset or timezone",
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "phoneNumber": {
+                  "description": "The phone number of the customer, in E.164 format.",
+                  "format": "password",
+                  "maxLength": 20,
+                  "minLength": 0,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "attributes",
+                "clientToken",
+                "expirationTime",
+                "phoneNumber"
+              ],
+              "type": "object"
+            },
+            "maxItems": 25,
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "dialRequests"
+        ],
+        "title": "PutDialRequestBatchRequest",
+        "type": "object"
+      },
+      "PutDialRequestBatchResponse": {
+        "description": "PutDialRequestBatchResponse",
+        "properties": {
+          "failedRequests": {
+            "description": "A list of failed requests.",
+            "items": {
+              "description": "A failed request identified by the unique client token.",
+              "properties": {
+                "clientToken": {
+                  "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+                  "maxLength": 64,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "failureCode": {
+                  "description": "A predefined code indicating the error that caused the failure.",
+                  "enum": [
+                    "InvalidInput",
+                    "RequestThrottled",
+                    "UnknownError"
+                  ],
+                  "type": "string"
+                },
+                "id": {
+                  "description": "Identifier representing a Dial request",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "maxItems": 25,
+            "minItems": 0,
+            "type": "array"
+          },
+          "successfulRequests": {
+            "description": "A list of successful requests identified by the unique client token.",
+            "items": {
+              "description": "A successful request identified by the unique client token.",
+              "properties": {
+                "clientToken": {
+                  "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+                  "maxLength": 64,
+                  "minLength": 0,
+                  "type": "string"
+                },
+                "id": {
+                  "description": "Identifier representing a Dial request",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "maxItems": 25,
+            "minItems": 0,
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "QueueId": {
+        "description": "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+        "maxLength": 500,
+        "minLength": 0,
+        "type": "string"
+      },
+      "ResourceNotFoundException": {},
+      "ResumeCampaignRequest": {
+        "description": "ResumeCampaignRequest",
+        "properties": {},
+        "title": "ResumeCampaignRequest",
+        "type": "object"
+      },
+      "ServiceLinkedRoleArn": {
+        "description": "Service linked role arn",
+        "maxLength": 256,
+        "minLength": 0,
+        "type": "string"
+      },
+      "ServiceQuotaExceededException": {},
+      "SourcePhoneNumber": {
+        "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+        "maxLength": 100,
+        "minLength": 0,
+        "type": "string"
+      },
+      "StartCampaignRequest": {
+        "description": "StartCampaignRequest",
+        "properties": {},
+        "title": "StartCampaignRequest",
+        "type": "object"
+      },
+      "StartInstanceOnboardingJobRequest": {
+        "description": "The request for StartInstanceOnboardingJob API.",
+        "properties": {
+          "encryptionConfig": {
+            "description": "Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported",
+            "properties": {
+              "enabled": {
+                "description": "Boolean to indicate if custom encryption has been enabled.",
+                "type": "boolean"
+              },
+              "encryptionType": {
+                "description": "Server-side encryption type.",
+                "enum": [
+                  "KMS"
+                ],
+                "type": "string"
+              },
+              "keyArn": {
+                "description": "KMS key id/arn for encryption config.",
+                "maxLength": 500,
+                "minLength": 0,
+                "type": "string"
+              }
+            },
+            "required": [
+              "enabled"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "encryptionConfig"
+        ],
+        "title": "StartInstanceOnboardingJobRequest",
+        "type": "object"
+      },
+      "StartInstanceOnboardingJobResponse": {
+        "description": "The response for StartInstanceOnboardingJob API.",
+        "properties": {
+          "connectInstanceOnboardingJobStatus": {
+            "description": "Instance onboarding job status object",
+            "properties": {
+              "connectInstanceId": {
+                "description": "Amazon Connect Instance Id",
+                "maxLength": 256,
+                "minLength": 0,
+                "type": "string"
+              },
+              "failureCode": {
+                "description": "Enumeration of the possible failure codes for instance onboarding job",
+                "enum": [
+                  "EVENT_BRIDGE_ACCESS_DENIED",
+                  "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED",
+                  "IAM_ACCESS_DENIED",
+                  "KMS_ACCESS_DENIED",
+                  "KMS_KEY_NOT_FOUND",
+                  "INTERNAL_FAILURE"
+                ],
+                "type": "string"
+              },
+              "status": {
+                "description": "Enumeration of the possible states for instance onboarding job",
+                "enum": [
+                  "IN_PROGRESS",
+                  "SUCCEEDED",
+                  "FAILED"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "connectInstanceId",
+              "status"
+            ],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "StopCampaignRequest": {
+        "description": "StopCampaignRequest",
+        "properties": {},
+        "title": "StopCampaignRequest",
+        "type": "object"
+      },
+      "SuccessfulCampaignStateResponse": {
+        "description": "Successful response of campaign state",
+        "properties": {
+          "campaignId": {
+            "description": "Identifier representing a Campaign",
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "state": {
+            "description": "State of a campaign",
+            "enum": [
+              "Initialized",
+              "Running",
+              "Paused",
+              "Stopped",
+              "Failed"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SuccessfulCampaignStateResponseList": {
+        "description": "List of successful response of campaign state",
+        "items": {
+          "description": "Successful response of campaign state",
+          "properties": {
+            "campaignId": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "state": {
+              "description": "State of a campaign",
+              "enum": [
+                "Initialized",
+                "Running",
+                "Paused",
+                "Stopped",
+                "Failed"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "maxItems": 25,
+        "minItems": 0,
+        "type": "array"
+      },
+      "SuccessfulRequest": {
+        "description": "A successful request identified by the unique client token.",
+        "properties": {
+          "clientToken": {
+            "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier representing a Dial request",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SuccessfulRequestList": {
+        "description": "A list of successful requests identified by the unique client token.",
+        "items": {
+          "description": "A successful request identified by the unique client token.",
+          "properties": {
+            "clientToken": {
+              "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+              "maxLength": 64,
+              "minLength": 0,
+              "type": "string"
+            },
+            "id": {
+              "description": "Identifier representing a Dial request",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "maxItems": 25,
+        "minItems": 0,
+        "type": "array"
+      },
+      "TagKey": {
+        "description": "Tag key.",
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^(?!aws:)[a-zA-Z+-=._:/]+$",
+        "type": "string"
+      },
+      "TagKeyList": {
+        "description": "List of tag keys.",
+        "items": {
+          "description": "Tag key.",
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^(?!aws:)[a-zA-Z+-=._:/]+$",
+          "type": "string"
+        },
+        "maxItems": 50,
+        "minItems": 0,
+        "type": "array"
+      },
+      "TagMap": {
+        "additionalProperties": {
+          "description": "Tag value.",
+          "maxLength": 256,
+          "minLength": 0,
+          "type": "string"
+        },
+        "description": "Tag map with key and value.",
+        "type": "object"
+      },
+      "TagResourceRequest": {
+        "description": "TagResourceRequest",
+        "properties": {
+          "tags": {
+            "additionalProperties": {
+              "description": "Tag value.",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            },
+            "description": "Tag map with key and value.",
+            "type": "object"
+          }
+        },
+        "required": [
+          "tags"
+        ],
+        "title": "TagResourceRequest",
+        "type": "object"
+      },
+      "TagValue": {
+        "description": "Tag value.",
+        "maxLength": 256,
+        "minLength": 0,
+        "type": "string"
+      },
+      "ThrottlingException": {},
+      "TimeStamp": {
+        "description": "Timestamp with no UTC offset or timezone",
+        "format": "date-time",
+        "type": "string"
+      },
+      "UntagResourceRequest": {
+        "description": "UntagResourceRequest",
+        "properties": {},
+        "title": "UntagResourceRequest",
+        "type": "object"
+      },
+      "UpdateCampaignDialerConfigRequest": {
+        "description": "UpdateCampaignDialerConfigRequest",
+        "properties": {
+          "dialerConfig": {
+            "description": "The possible types of dialer config parameters",
+            "properties": {
+              "predictiveDialerConfig": {
+                "description": "Predictive Dialer config",
+                "properties": {
+                  "bandwidthAllocation": {
+                    "description": "The bandwidth allocation of a queue resource.",
+                    "format": "double",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "bandwidthAllocation"
+                ],
+                "type": "object"
+              },
+              "progressiveDialerConfig": {
+                "description": "Progressive Dialer config",
+                "properties": {
+                  "bandwidthAllocation": {
+                    "description": "The bandwidth allocation of a queue resource.",
+                    "format": "double",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "bandwidthAllocation"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "dialerConfig"
+        ],
+        "title": "UpdateCampaignDialerConfigRequest",
+        "type": "object"
+      },
+      "UpdateCampaignNameRequest": {
+        "description": "UpdateCampaignNameRequest",
+        "properties": {
+          "name": {
+            "description": "The name of an Amazon Connect Campaign name.",
+            "maxLength": 127,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "UpdateCampaignNameRequest",
+        "type": "object"
+      },
+      "UpdateCampaignOutboundCallConfigRequest": {
+        "description": "UpdateCampaignOutboundCallConfigRequest",
+        "properties": {
+          "answerMachineDetectionConfig": {
+            "description": "Answering Machine Detection config",
+            "properties": {
+              "enableAnswerMachineDetection": {
+                "_polymorphic_marker": {
+                  "allOf": true
+                },
+                "allOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "description": "Enable or disable answering machine detection"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "enableAnswerMachineDetection"
+            ],
+            "type": "object"
+          },
+          "connectContactFlowId": {
+            "description": "The identifier of the contact flow for the outbound call.",
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          },
+          "connectSourcePhoneNumber": {
+            "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "title": "UpdateCampaignOutboundCallConfigRequest",
+        "type": "object"
+      },
+      "ValidationException": {}
+    },
+    "securitySchemes": {
+      "hmac": {
+        "description": "Amazon Signature authorization v4",
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/connect-campaigns/"
+  },
+  "info": {
+    "contact": {
+      "email": "mike.ralphson@gmail.com",
+      "name": "Mike Ralphson",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "description": "Provide APIs to create and manage Amazon Connect Campaigns.",
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "title": "AmazonConnectCampaignService",
+    "version": "2021-01-30",
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-aws-signingName": "connect-campaigns",
+    "x-logo": {
+      "backgroundColor": "#FFFFFF",
+      "url": "https://twitter.com/awscloud/profile_image?size=original"
+    },
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/connectcampaigns-2021-01-30.normal.json",
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-preferred": true,
+    "x-providerName": "amazonaws.com",
+    "x-release": "v4",
+    "x-serviceName": "connectcampaigns"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/auto8278": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "summary": "synthetic diff"
+      }
+    },
+    "/campaigns": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "description": "modified put /campaigns",
+        "operationId": "CreateCampaign",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "added_6",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "connectInstanceId": {
+                    "description": "Amazon Connect Instance Id",
+                    "maxLength": 256,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "dialerConfig": {
+                    "description": "The possible types of dialer config parameters",
+                    "properties": {
+                      "predictiveDialerConfig": {
+                        "description": "Predictive Dialer config",
+                        "properties": {
+                          "bandwidthAllocation": {
+                            "description": "The bandwidth allocation of a queue resource.",
+                            "format": "double",
+                            "maximum": 1,
+                            "minimum": 0,
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "bandwidthAllocation"
+                        ],
+                        "type": "object"
+                      },
+                      "progressiveDialerConfig": {
+                        "description": "Progressive Dialer config",
+                        "properties": {
+                          "bandwidthAllocation": {
+                            "description": "The bandwidth allocation of a queue resource.",
+                            "format": "double",
+                            "maximum": 1,
+                            "minimum": 0,
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "bandwidthAllocation"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "name": {
+                    "description": "The name of an Amazon Connect Campaign name.",
+                    "maxLength": 127,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "outboundCallConfig": {
+                    "description": "The configuration used for outbound calls.",
+                    "properties": {
+                      "answerMachineDetectionConfig": {
+                        "description": "Answering Machine Detection config",
+                        "properties": {
+                          "enableAnswerMachineDetection": {
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            },
+                            "allOf": [
+                              {
+                                "type": "boolean"
+                              },
+                              {
+                                "description": "Enable or disable answering machine detection"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "enableAnswerMachineDetection"
+                        ],
+                        "type": "object"
+                      },
+                      "connectContactFlowId": {
+                        "description": "The identifier of the contact flow for the outbound call.",
+                        "maxLength": 500,
+                        "minLength": 0,
+                        "type": "string"
+                      },
+                      "connectQueueId": {
+                        "description": "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+                        "maxLength": 500,
+                        "minLength": 0,
+                        "type": "string"
+                      },
+                      "connectSourcePhoneNumber": {
+                        "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "tags": {
+                    "additionalProperties": {
+                      "description": "Tag value.",
+                      "maxLength": 256,
+                      "minLength": 0,
+                      "type": "string"
+                    },
+                    "description": "Tag map with key and value.",
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "connectInstanceId",
+                  "dialerConfig",
+                  "name",
+                  "outboundCallConfig"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "The response for Create Campaign API",
+                  "properties": {
+                    "arn": {
+                      "description": "The resource name of an Amazon Connect campaign.",
+                      "maxLength": 500,
+                      "minLength": 20,
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Identifier representing a Campaign",
+                      "maxLength": 256,
+                      "minLength": 0,
+                      "type": "string"
+                    },
+                    "tags": {
+                      "additionalProperties": {
+                        "description": "Tag value.",
+                        "maxLength": 256,
+                        "minLength": 0,
+                        "type": "string"
+                      },
+                      "description": "Tag map with key and value.",
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ServiceQuotaExceededException"
+          },
+          "486": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/campaigns-state": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Get state of campaigns for the specified Amazon Connect account.",
+        "operationId": "GetCampaignStateBatch",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "campaignIds": {
+                    "description": "List of CampaignId",
+                    "items": {
+                      "description": "Identifier representing a Campaign",
+                      "maxLength": 256,
+                      "minLength": 0,
+                      "type": "string"
+                    },
+                    "maxItems": 25,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "campaignIds"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "GetCampaignStateBatchResponse",
+                  "properties": {
+                    "failedRequests": {
+                      "description": "List of failed requests of campaign state",
+                      "items": {
+                        "description": "Failed response of campaign state",
+                        "properties": {
+                          "campaignId": {
+                            "description": "Identifier representing a Campaign",
+                            "maxLength": 256,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "failureCode": {
+                            "description": "A predefined code indicating the error that caused the failure in getting state of campaigns",
+                            "enum": [
+                              "ResourceNotFound",
+                              "UnknownError"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "maxItems": 25,
+                      "minItems": 0,
+                      "type": "array"
+                    },
+                    "successfulRequests": {
+                      "description": "List of successful response of campaign state",
+                      "items": {
+                        "description": "Successful response of campaign state",
+                        "properties": {
+                          "campaignId": {
+                            "description": "Identifier representing a Campaign",
+                            "maxLength": 256,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "state": {
+                            "description": "State of a campaign",
+                            "enum": [
+                              "Initialized",
+                              "Running",
+                              "Paused",
+                              "Stopped",
+                              "Failed"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "maxItems": 25,
+                      "minItems": 0,
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/campaigns-summary": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Provides summary information about the campaigns under the specified Amazon Connect account.",
+        "operationId": "ListCampaigns",
+        "parameters": [
+          {
+            "description": "Pagination limit",
+            "in": "query",
+            "name": "maxResults",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination token",
+            "in": "query",
+            "name": "nextToken",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "filters": {
+                    "description": "Filter model by type",
+                    "properties": {
+                      "instanceIdFilter": {
+                        "description": "Connect instance identifier filter",
+                        "properties": {
+                          "operator": {
+                            "description": "Operators for Connect instance identifier filter",
+                            "enum": [
+                              "Eq"
+                            ],
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "Amazon Connect Instance Id",
+                            "maxLength": 256,
+                            "minLength": 0,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "operator",
+                          "value"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "maxResults": {
+                    "description": "The maximum number of results to return per page.",
+                    "maximum": 50,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "nextToken": {
+                    "description": "The token for the next set of results.",
+                    "maxLength": 1000,
+                    "minLength": 0,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "ListCampaignsResponse",
+                  "properties": {
+                    "campaignSummaryList": {
+                      "description": "A list of Amazon Connect campaigns.",
+                      "items": {
+                        "description": "An Amazon Connect campaign summary.",
+                        "properties": {
+                          "arn": {
+                            "description": "The resource name of an Amazon Connect campaign.",
+                            "maxLength": 500,
+                            "minLength": 20,
+                            "type": "string"
+                          },
+                          "connectInstanceId": {
+                            "description": "Amazon Connect Instance Id",
+                            "maxLength": 256,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "Identifier representing a Campaign",
+                            "maxLength": 256,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The name of an Amazon Connect Campaign name.",
+                            "maxLength": 127,
+                            "minLength": 1,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "arn",
+                          "connectInstanceId",
+                          "id",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "nextToken": {
+                      "description": "The token for the next set of results.",
+                      "maxLength": 1000,
+                      "minLength": 0,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}": {
+      "delete": {
+        "description": "Deletes a campaign from the specified Amazon Connect account.",
+        "operationId": "DeleteCampaign",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          }
+        }
+      },
+      "get": {
+        "description": "Describes the specific campaign.",
+        "operationId": "DescribeCampaign",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "DescribeCampaignResponse",
+                  "properties": {
+                    "campaign": {
+                      "description": "An Amazon Connect campaign.",
+                      "properties": {
+                        "arn": {
+                          "description": "The resource name of an Amazon Connect campaign.",
+                          "maxLength": 500,
+                          "minLength": 20,
+                          "type": "string"
+                        },
+                        "connectInstanceId": {
+                          "description": "Amazon Connect Instance Id",
+                          "maxLength": 256,
+                          "minLength": 0,
+                          "type": "string"
+                        },
+                        "dialerConfig": {
+                          "description": "The possible types of dialer config parameters",
+                          "properties": {
+                            "predictiveDialerConfig": {
+                              "description": "Predictive Dialer config",
+                              "properties": {
+                                "bandwidthAllocation": {
+                                  "description": "The bandwidth allocation of a queue resource.",
+                                  "format": "double",
+                                  "maximum": 1,
+                                  "minimum": 0,
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "bandwidthAllocation"
+                              ],
+                              "type": "object"
+                            },
+                            "progressiveDialerConfig": {
+                              "description": "Progressive Dialer config",
+                              "properties": {
+                                "bandwidthAllocation": {
+                                  "description": "The bandwidth allocation of a queue resource.",
+                                  "format": "double",
+                                  "maximum": 1,
+                                  "minimum": 0,
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "bandwidthAllocation"
+                              ],
+                              "type": "object"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "id": {
+                          "description": "Identifier representing a Campaign",
+                          "maxLength": 256,
+                          "minLength": 0,
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "The name of an Amazon Connect Campaign name.",
+                          "maxLength": 127,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "outboundCallConfig": {
+                          "description": "The configuration used for outbound calls.",
+                          "properties": {
+                            "answerMachineDetectionConfig": {
+                              "description": "Answering Machine Detection config",
+                              "properties": {
+                                "enableAnswerMachineDetection": {
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  },
+                                  "allOf": [
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "description": "Enable or disable answering machine detection"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "enableAnswerMachineDetection"
+                              ],
+                              "type": "object"
+                            },
+                            "connectContactFlowId": {
+                              "description": "The identifier of the contact flow for the outbound call.",
+                              "maxLength": 500,
+                              "minLength": 0,
+                              "type": "string"
+                            },
+                            "connectQueueId": {
+                              "description": "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+                              "maxLength": 500,
+                              "minLength": 0,
+                              "type": "string"
+                            },
+                            "connectSourcePhoneNumber": {
+                              "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+                              "maxLength": 100,
+                              "minLength": 0,
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "connectContactFlowId",
+                            "connectQueueId"
+                          ],
+                          "type": "object"
+                        },
+                        "tags": {
+                          "additionalProperties": {
+                            "description": "Tag value.",
+                            "maxLength": 256,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "description": "Tag map with key and value.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "arn",
+                        "connectInstanceId",
+                        "dialerConfig",
+                        "id",
+                        "name",
+                        "outboundCallConfig"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/campaigns/{id}/dial-requests": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "description": "Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.",
+        "operationId": "PutDialRequestBatch",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "dialRequests": {
+                    "description": "A list of dial requests.",
+                    "items": {
+                      "description": "A dial request for a campaign.",
+                      "properties": {
+                        "attributes": {
+                          "additionalProperties": {
+                            "description": "The value of the attribute.",
+                            "maxLength": 32767,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "description": "A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.",
+                          "type": "object"
+                        },
+                        "clientToken": {
+                          "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+                          "maxLength": 64,
+                          "minLength": 0,
+                          "type": "string"
+                        },
+                        "expirationTime": {
+                          "description": "Timestamp with no UTC offset or timezone",
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "phoneNumber": {
+                          "description": "The phone number of the customer, in E.164 format.",
+                          "format": "password",
+                          "maxLength": 20,
+                          "minLength": 0,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "attributes",
+                        "clientToken",
+                        "expirationTime",
+                        "phoneNumber"
+                      ],
+                      "type": "object"
+                    },
+                    "maxItems": 25,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "dialRequests"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "PutDialRequestBatchResponse",
+                  "properties": {
+                    "failedRequests": {
+                      "description": "A list of failed requests.",
+                      "items": {
+                        "description": "A failed request identified by the unique client token.",
+                        "properties": {
+                          "clientToken": {
+                            "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+                            "maxLength": 64,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "failureCode": {
+                            "description": "A predefined code indicating the error that caused the failure.",
+                            "enum": [
+                              "InvalidInput",
+                              "RequestThrottled",
+                              "UnknownError"
+                            ],
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "Identifier representing a Dial request",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "maxItems": 25,
+                      "minItems": 0,
+                      "type": "array"
+                    },
+                    "successfulRequests": {
+                      "description": "A list of successful requests identified by the unique client token.",
+                      "items": {
+                        "description": "A successful request identified by the unique client token.",
+                        "properties": {
+                          "clientToken": {
+                            "description": "Client provided parameter used for idempotency. Its value must be unique for each request.",
+                            "maxLength": 64,
+                            "minLength": 0,
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "Identifier representing a Dial request",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "maxItems": 25,
+                      "minItems": 0,
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InvalidCampaignStateException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "486": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/dialer-config": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Updates the dialer config of a campaign. This API is idempotent.",
+        "operationId": "UpdateCampaignDialerConfig",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "dialerConfig": {
+                    "description": "The possible types of dialer config parameters",
+                    "properties": {
+                      "predictiveDialerConfig": {
+                        "description": "Predictive Dialer config",
+                        "properties": {
+                          "bandwidthAllocation": {
+                            "description": "The bandwidth allocation of a queue resource.",
+                            "format": "double",
+                            "maximum": 1,
+                            "minimum": 0,
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "bandwidthAllocation"
+                        ],
+                        "type": "object"
+                      },
+                      "progressiveDialerConfig": {
+                        "description": "Progressive Dialer config",
+                        "properties": {
+                          "bandwidthAllocation": {
+                            "description": "The bandwidth allocation of a queue resource.",
+                            "format": "double",
+                            "maximum": 1,
+                            "minimum": 0,
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "bandwidthAllocation"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "dialerConfig"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/name": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Updates the name of a campaign. This API is idempotent.",
+        "operationId": "UpdateCampaignName",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "description": "The name of an Amazon Connect Campaign name.",
+                    "maxLength": 127,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/outbound-call-config": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "modified post /campaigns/{id}/outbound-call-config",
+        "operationId": "UpdateCampaignOutboundCallConfig",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "answerMachineDetectionConfig": {
+                    "description": "Answering Machine Detection config",
+                    "properties": {
+                      "enableAnswerMachineDetection": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "description": "Enable or disable answering machine detection"
+                          }
+                        ]
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "connectContactFlowId": {
+                    "description": "The identifier of the contact flow for the outbound call.",
+                    "maxLength": 500,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "connectSourcePhoneNumber": {
+                    "description": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/pause": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Pauses a campaign for the specified Amazon Connect account.",
+        "operationId": "PauseCampaign",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InvalidCampaignStateException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "486": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/resume": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Stops a campaign for the specified Amazon Connect account.",
+        "operationId": "ResumeCampaign",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InvalidCampaignStateException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "486": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/start": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Starts a campaign for the specified Amazon Connect account.",
+        "operationId": "StartCampaign",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InvalidCampaignStateException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "486": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/state": {
+      "get": {
+        "description": "modified get /campaigns/{id}/state",
+        "operationId": "GetCampaignState",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "GetCampaignStateResponse",
+                  "properties": {
+                    "state": {
+                      "description": "State of a campaign",
+                      "enum": [
+                        "Initialized",
+                        "Running",
+                        "Paused",
+                        "Stopped",
+                        "Failed"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/campaigns/{id}/stop": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Stops a campaign for the specified Amazon Connect account.",
+        "operationId": "StopCampaign",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Identifier representing a Campaign",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InvalidCampaignStateException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "486": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/connect-instance/{connectInstanceId}/config": {
+      "delete": {
+        "description": "modified delete /connect-instance/{connectInstanceId}/config",
+        "operationId": "DeleteConnectInstanceConfig",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "connectInstanceId",
+            "required": true,
+            "schema": {
+              "description": "Amazon Connect Instance Id",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "added_19",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InvalidStateException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      },
+      "get": {
+        "description": "Get the specific Connect instance config.",
+        "operationId": "GetConnectInstanceConfig",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "connectInstanceId",
+            "required": true,
+            "schema": {
+              "description": "Amazon Connect Instance Id",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "GetConnectInstanceConfigResponse",
+                  "properties": {
+                    "connectInstanceConfig": {
+                      "description": "Instance config object",
+                      "properties": {
+                        "connectInstanceId": {
+                          "description": "Amazon Connect Instance Id",
+                          "maxLength": 256,
+                          "minLength": 0,
+                          "type": "string"
+                        },
+                        "encryptionConfig": {
+                          "description": "Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported",
+                          "properties": {
+                            "enabled": {
+                              "description": "Boolean to indicate if custom encryption has been enabled.",
+                              "type": "boolean"
+                            },
+                            "encryptionType": {
+                              "description": "Server-side encryption type.",
+                              "enum": [
+                                "KMS"
+                              ],
+                              "type": "string"
+                            },
+                            "keyArn": {
+                              "description": "KMS key id/arn for encryption config.",
+                              "maxLength": 500,
+                              "minLength": 0,
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "enabled"
+                          ],
+                          "type": "object"
+                        },
+                        "serviceLinkedRoleArn": {
+                          "description": "Service linked role arn",
+                          "maxLength": 256,
+                          "minLength": 0,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "connectInstanceId",
+                        "encryptionConfig",
+                        "serviceLinkedRoleArn"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/connect-instance/{connectInstanceId}/onboarding": {
+      "delete": {
+        "description": "Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.",
+        "operationId": "DeleteInstanceOnboardingJob",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "connectInstanceId",
+            "required": true,
+            "schema": {
+              "description": "Amazon Connect Instance Id",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InvalidStateException"
+          }
+        }
+      },
+      "get": {
+        "description": "Get the specific instance onboarding job status.",
+        "operationId": "GetInstanceOnboardingJobStatus",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "connectInstanceId",
+            "required": true,
+            "schema": {
+              "description": "Amazon Connect Instance Id",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "GetInstanceOnboardingJobStatusResponse",
+                  "properties": {
+                    "connectInstanceOnboardingJobStatus": {
+                      "description": "Instance onboarding job status object",
+                      "properties": {
+                        "connectInstanceId": {
+                          "description": "Amazon Connect Instance Id",
+                          "maxLength": 256,
+                          "minLength": 0,
+                          "type": "string"
+                        },
+                        "failureCode": {
+                          "description": "Enumeration of the possible failure codes for instance onboarding job",
+                          "enum": [
+                            "EVENT_BRIDGE_ACCESS_DENIED",
+                            "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED",
+                            "IAM_ACCESS_DENIED",
+                            "KMS_ACCESS_DENIED",
+                            "KMS_KEY_NOT_FOUND",
+                            "INTERNAL_FAILURE"
+                          ],
+                          "type": "string"
+                        },
+                        "status": {
+                          "description": "Enumeration of the possible states for instance onboarding job",
+                          "enum": [
+                            "IN_PROGRESS",
+                            "SUCCEEDED",
+                            "FAILED"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "connectInstanceId",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "description": "Onboard the specific Amazon Connect instance to Connect Campaigns.",
+        "operationId": "StartInstanceOnboardingJob",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "connectInstanceId",
+            "required": true,
+            "schema": {
+              "description": "Amazon Connect Instance Id",
+              "maxLength": 256,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "encryptionConfig": {
+                    "description": "Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryption with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported",
+                    "properties": {
+                      "enabled": {
+                        "description": "Boolean to indicate if custom encryption has been enabled.",
+                        "type": "boolean"
+                      },
+                      "encryptionType": {
+                        "description": "Server-side encryption type.",
+                        "enum": [
+                          "KMS"
+                        ],
+                        "type": "string"
+                      },
+                      "keyArn": {
+                        "description": "KMS key id/arn for encryption config.",
+                        "maxLength": 500,
+                        "minLength": 0,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "encryptionConfig"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "The response for StartInstanceOnboardingJob API.",
+                  "properties": {
+                    "connectInstanceOnboardingJobStatus": {
+                      "description": "Instance onboarding job status object",
+                      "properties": {
+                        "connectInstanceId": {
+                          "description": "Amazon Connect Instance Id",
+                          "maxLength": 256,
+                          "minLength": 0,
+                          "type": "string"
+                        },
+                        "failureCode": {
+                          "description": "Enumeration of the possible failure codes for instance onboarding job",
+                          "enum": [
+                            "EVENT_BRIDGE_ACCESS_DENIED",
+                            "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED",
+                            "IAM_ACCESS_DENIED",
+                            "KMS_ACCESS_DENIED",
+                            "KMS_KEY_NOT_FOUND",
+                            "INTERNAL_FAILURE"
+                          ],
+                          "type": "string"
+                        },
+                        "status": {
+                          "description": "Enumeration of the possible states for instance onboarding job",
+                          "enum": [
+                            "IN_PROGRESS",
+                            "SUCCEEDED",
+                            "FAILED"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "connectInstanceId",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          }
+        }
+      }
+    },
+    "/tags/{arn}": {
+      "get": {
+        "description": "List tags for a resource.",
+        "operationId": "ListTagsForResource",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "arn",
+            "required": true,
+            "schema": {
+              "description": "Arn",
+              "maxLength": 500,
+              "minLength": 20,
+              "pattern": "^arn:.*",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "ListTagsForResponse",
+                  "properties": {
+                    "tags": {
+                      "additionalProperties": {
+                        "description": "Tag value.",
+                        "maxLength": 256,
+                        "minLength": 0,
+                        "type": "string"
+                      },
+                      "description": "Tag map with key and value.",
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Tag a resource.",
+        "operationId": "TagResource",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "arn",
+            "required": true,
+            "schema": {
+              "description": "Arn",
+              "maxLength": 500,
+              "minLength": 20,
+              "pattern": "^arn:.*",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tags": {
+                    "additionalProperties": {
+                      "description": "Tag value.",
+                      "maxLength": 256,
+                      "minLength": 0,
+                      "type": "string"
+                    },
+                    "description": "Tag map with key and value.",
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tags"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      }
+    },
+    "/tags/{arn}#tagKeys": {
+      "delete": {
+        "description": "Untag a resource.",
+        "operationId": "UntagResource",
+        "parameters": [
+          {
+            "description": "",
+            "in": "path",
+            "name": "arn",
+            "required": true,
+            "schema": {
+              "description": "Arn",
+              "maxLength": 500,
+              "minLength": 20,
+              "pattern": "^arn:.*",
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "tagKeys",
+            "required": true,
+            "schema": {
+              "description": "List of tag keys.",
+              "items": {
+                "description": "Tag key.",
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^(?!aws:)[a-zA-Z+-=._:/]+$",
+                "type": "string"
+              },
+              "maxItems": 50,
+              "minItems": 0,
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ResourceNotFoundException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ],
+  "servers": [
+    {
+      "description": "The AmazonConnectCampaignService multi-region endpoint",
+      "url": "http://connect-campaigns.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "default": "us-east-1",
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ]
+        }
+      }
+    },
+    {
+      "description": "The AmazonConnectCampaignService multi-region endpoint",
+      "url": "https://connect-campaigns.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "default": "us-east-1",
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ]
+        }
+      }
+    },
+    {
+      "description": "The AmazonConnectCampaignService endpoint for China (Beijing) and China (Ningxia)",
+      "url": "http://connect-campaigns.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "default": "cn-north-1",
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ]
+        }
+      }
+    },
+    {
+      "description": "The AmazonConnectCampaignService endpoint for China (Beijing) and China (Ningxia)",
+      "url": "https://connect-campaigns.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "default": "cn-north-1",
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ]
+        }
+      }
+    }
+  ],
+  "x-hasEquivalentPaths": true
+}

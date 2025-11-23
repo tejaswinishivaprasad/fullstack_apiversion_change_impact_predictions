@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-a9eee4b56cbcda54eeff",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-cleanrooms-2022-02-17-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cleanrooms-2022-02-17-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cleanrooms-2022-02-17-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cleanrooms-2022-02-17-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cleanrooms-2022-02-17-openapi--v2.canonical.json",
+  "old_sha": "ddf9b81a3a5a6c88ac4a",
+  "new_sha": "e417d48a0e8fc53c2c87",
+  "warnings": [],
+  "seed": 327215038,
+  "generated_at": "2025-11-23T09:22:49+00:00"
+}

@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-60c393d5fb548efb5ad3",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-paymentservice-64-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-paymentservice-64-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-paymentservice-64-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-paymentservice-64-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-paymentservice-64-openapi--v2.canonical.json",
+  "old_sha": "20463e05c0360d7a3718",
+  "new_sha": "8c8f69a35ec7fd9f2f55",
+  "warnings": [],
+  "seed": 1147251713,
+  "generated_at": "2025-11-23T09:21:51+00:00"
+}

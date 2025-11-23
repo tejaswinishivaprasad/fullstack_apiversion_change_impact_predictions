@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-d0092e2ef13ad5625461",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-inspiration-search-1-0-6-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-inspiration-search-1-0-6-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-inspiration-search-1-0-6-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-inspiration-search-1-0-6-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-inspiration-search-1-0-6-swagger--v2.canonical.json",
+  "old_sha": "7946567c0a44dc57630f",
+  "new_sha": "9197abd7ae57ab0a622a",
+  "warnings": [],
+  "seed": 1415354916,
+  "generated_at": "2025-11-23T09:22:09+00:00"
+}

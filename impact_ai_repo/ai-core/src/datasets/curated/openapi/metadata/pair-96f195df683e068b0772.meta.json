@@ -1,0 +1,14 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-23T09:14:31+00:00",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codestar-notifications-2019-10-15-openapi--v2.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codestar-notifications-2019-10-15-openapi--v2.canonical.json",
+  "new_sha": "3a9860560056568f5778",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codestar-notifications-2019-10-15-openapi--v1.canonical.json",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codestar-notifications-2019-10-15-openapi--v1.canonical.json",
+  "old_sha": "d172c75a429dae136a23",
+  "pair_id": "pair-96f195df683e068b0772",
+  "seed": 61823606,
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-codestar-notifications-2019-10-15-openapi",
+  "warnings": []
+}

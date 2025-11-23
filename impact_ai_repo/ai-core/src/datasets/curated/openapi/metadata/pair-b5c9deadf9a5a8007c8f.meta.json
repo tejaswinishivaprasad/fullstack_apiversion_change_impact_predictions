@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-b5c9deadf9a5a8007c8f",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-most-traveled-destinations-1-1-1-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-most-traveled-destinations-1-1-1-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-most-traveled-destinations-1-1-1-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-most-traveled-destinations-1-1-1-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-most-traveled-destinations-1-1-1-swagger--v2.canonical.json",
+  "old_sha": "969a3f1ae5d50d96c937",
+  "new_sha": "a495d22f762bf579e3ba",
+  "warnings": [],
+  "seed": 971928039,
+  "generated_at": "2025-11-23T09:22:10+00:00"
+}

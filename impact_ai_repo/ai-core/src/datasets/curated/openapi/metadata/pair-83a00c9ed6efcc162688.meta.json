@@ -1,0 +1,14 @@
+{
+  "dataset": "openapi",
+  "generated_at": "2025-11-23T09:16:02+00:00",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-connectcampaigns-2021-01-30-openapi--v2.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-connectcampaigns-2021-01-30-openapi--v2.canonical.json",
+  "new_sha": "2a45f8123893d5eb6ccf",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-connectcampaigns-2021-01-30-openapi--v1.canonical.json",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-connectcampaigns-2021-01-30-openapi--v1.canonical.json",
+  "old_sha": "77cc27c96b26bdbb7876",
+  "pair_id": "pair-83a00c9ed6efcc162688",
+  "seed": 165818719,
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-connectcampaigns-2021-01-30-openapi",
+  "warnings": []
+}

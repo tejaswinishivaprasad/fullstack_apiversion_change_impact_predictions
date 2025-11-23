@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-1d7fc0e4170e87a38bf8",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-appsync-2017-07-25-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-appsync-2017-07-25-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-appsync-2017-07-25-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-appsync-2017-07-25-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-appsync-2017-07-25-openapi--v2.canonical.json",
+  "old_sha": "9fe53955e2bbeb9dbd9e",
+  "new_sha": "a144f45180b290c2b4dd",
+  "warnings": [],
+  "seed": 1096105351,
+  "generated_at": "2025-11-23T09:22:31+00:00"
+}

@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-9e1083e5484da38c6716",
+  "service_name": "datasets-raw-openapi_repo-apis-abstractapi-com-geolocation-1-0-0-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-abstractapi-com-geolocation-1-0-0-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-abstractapi-com-geolocation-1-0-0-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-abstractapi-com-geolocation-1-0-0-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-abstractapi-com-geolocation-1-0-0-openapi--v2.canonical.json",
+  "old_sha": "f685dccae2c9625a6482",
+  "new_sha": "37a16e75a5cd8de8378d",
+  "warnings": [],
+  "seed": 563269359,
+  "generated_at": "2025-11-23T09:21:02+00:00"
+}

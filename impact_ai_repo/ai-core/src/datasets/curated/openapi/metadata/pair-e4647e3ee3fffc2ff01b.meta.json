@@ -1,0 +1,28 @@
+{
+  "pair_id": "pair-e4647e3ee3fffc2ff01b",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-athena-2017-05-18-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-athena-2017-05-18-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-athena-2017-05-18-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-athena-2017-05-18-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-athena-2017-05-18-openapi--v2.canonical.json",
+  "old_sha": "43e5bcb98438062dc01e",
+  "new_sha": "3b956c98f3a83ce88056",
+  "warnings": [
+    "cycle local #/components/schemas/QueryStagePlanNode",
+    "cycle local #/components/schemas/QueryStage",
+    "cycle local #/components/schemas/QueryStagePlanNode",
+    "cycle local #/components/schemas/QueryStage",
+    "cycle local #/components/schemas/QueryStagePlanNode",
+    "cycle local #/components/schemas/QueryStage",
+    "cycle local #/components/schemas/QueryStagePlanNode",
+    "cycle local #/components/schemas/QueryStagePlanNode",
+    "cycle local #/components/schemas/QueryStages",
+    "cycle local #/components/schemas/QueryStagePlanNodes",
+    "cycle local #/components/schemas/QueryStagePlanNode",
+    "cycle local #/components/schemas/QueryStage",
+    "cycle local #/components/schemas/QueryStagePlanNode"
+  ],
+  "seed": 447211424,
+  "generated_at": "2025-11-23T09:22:33+00:00"
+}

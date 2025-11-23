@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-7b8b537bf654f4a98fe2",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-disputeservice-v30-30-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-disputeservice-v30-30-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-disputeservice-v30-30-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-disputeservice-v30-30-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-disputeservice-v30-30-openapi--v2.canonical.json",
+  "old_sha": "ef3d9961f8f840b162e9",
+  "new_sha": "fb7235ba7c73efe1a1e4",
+  "warnings": [],
+  "seed": 695431559,
+  "generated_at": "2025-11-23T09:21:34+00:00"
+}

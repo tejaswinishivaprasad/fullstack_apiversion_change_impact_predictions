@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-e0366bbc394dbca0b4fa",
+  "service_name": "petclinic-maven-build",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic-maven-build-v1.canonical.json",
+  "new_canonical": "petclinic-maven-build-v2.canonical.json",
+  "old": "datasets/curated/petclinic/canonical/petclinic-maven-build-v1.canonical.json",
+  "new": "datasets/curated/petclinic/canonical/petclinic-maven-build-v2.canonical.json",
+  "old_sha": "0085d21f61e4b2b3b127",
+  "new_sha": "4c961a8810f859f88dd5",
+  "generated_at": "2025-11-23T09:23:12+00:00"
+}

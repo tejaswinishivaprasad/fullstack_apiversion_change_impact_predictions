@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-3107981990397275b7e3",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-codeartifact-2018-09-22-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codeartifact-2018-09-22-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codeartifact-2018-09-22-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codeartifact-2018-09-22-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-codeartifact-2018-09-22-openapi--v2.canonical.json",
+  "old_sha": "83472d8e80110365595d",
+  "new_sha": "961c049691a9d0c1147f",
+  "warnings": [],
+  "seed": 1107211424,
+  "generated_at": "2025-11-23T09:23:11+00:00"
+}

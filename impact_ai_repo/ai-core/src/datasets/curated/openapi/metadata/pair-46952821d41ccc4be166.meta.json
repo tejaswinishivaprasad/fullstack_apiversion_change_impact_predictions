@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-46952821d41ccc4be166",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-transferservice-3-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-transferservice-3-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-transferservice-3-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-transferservice-3-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-transferservice-3-openapi--v2.canonical.json",
+  "old_sha": "bda265a57fc3f8370ad1",
+  "new_sha": "b8e628b9eab244af30ae",
+  "warnings": [],
+  "seed": 1834001756,
+  "generated_at": "2025-11-23T09:21:59+00:00"
+}

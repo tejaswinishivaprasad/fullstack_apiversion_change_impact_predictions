@@ -1,0 +1,1 @@
+{"pair_id": "pair-e0366bbc394dbca0b4fa", "ace_index": 0, "ace_id": "pair-e0366bbc394dbca0b4fa::ace::0", "type": "ENDPOINT_ADDED", "path": "/maven-build/new", "method": "get", "detail": "/maven-build/new", "confidence": 0.8, "provenance": {"old_sha": "0085d21f61e4b2b3b127", "new_sha": "4c961a8810f859f88dd5"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

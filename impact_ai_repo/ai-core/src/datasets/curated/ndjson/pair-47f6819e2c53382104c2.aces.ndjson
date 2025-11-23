@@ -1,1 +1,0 @@
-{"pair_id": "pair-47f6819e2c53382104c2", "ace_index": 0, "ace_id": "pair-47f6819e2c53382104c2::ace::0", "type": "ENDPOINT_ADDED", "path": "/auto728", "method": "post", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "55ef34a64aaaba992318", "new_sha": "b49a4d92b08adcbf959e"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

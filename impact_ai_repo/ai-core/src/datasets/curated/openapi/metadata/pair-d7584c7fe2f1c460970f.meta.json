@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-d7584c7fe2f1c460970f",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-backup-2018-11-15-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-backup-2018-11-15-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-backup-2018-11-15-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-backup-2018-11-15-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-backup-2018-11-15-openapi--v2.canonical.json",
+  "old_sha": "9f3fc67b5d40b98f9da6",
+  "new_sha": "ce6968ff97b581155ad7",
+  "warnings": [],
+  "seed": 1395235622,
+  "generated_at": "2025-11-23T09:22:37+00:00"
+}

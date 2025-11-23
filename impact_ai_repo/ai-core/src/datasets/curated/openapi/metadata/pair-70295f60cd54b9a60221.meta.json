@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-70295f60cd54b9a60221",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-points-of-interest-1-1-1-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-points-of-interest-1-1-1-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-points-of-interest-1-1-1-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-points-of-interest-1-1-1-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-points-of-interest-1-1-1-swagger--v2.canonical.json",
+  "old_sha": "3bf3bdafd119905f87a5",
+  "new_sha": "e8173abc2929cf7fe91c",
+  "warnings": [],
+  "seed": 2103241253,
+  "generated_at": "2025-11-23T09:22:11+00:00"
+}

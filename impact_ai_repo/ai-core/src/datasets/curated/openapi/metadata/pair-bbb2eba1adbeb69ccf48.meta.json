@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-bbb2eba1adbeb69ccf48",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-fundservice-3-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-fundservice-3-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-fundservice-3-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-fundservice-3-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-fundservice-3-openapi--v2.canonical.json",
+  "old_sha": "e49672725864a164df8a",
+  "new_sha": "a034492a40d6610da7d7",
+  "warnings": [],
+  "seed": 221895481,
+  "generated_at": "2025-11-23T09:21:34+00:00"
+}

@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-eed0360e8f235efd8f81",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-cheapest-date-search-1-0-6-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-cheapest-date-search-1-0-6-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-cheapest-date-search-1-0-6-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-cheapest-date-search-1-0-6-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-cheapest-date-search-1-0-6-swagger--v2.canonical.json",
+  "old_sha": "2bf82df6efa06b0a2d8b",
+  "new_sha": "786e6461172a2d2b926e",
+  "warnings": [],
+  "seed": 1943639290,
+  "generated_at": "2025-11-23T09:22:08+00:00"
+}

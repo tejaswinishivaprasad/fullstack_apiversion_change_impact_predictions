@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-d4f46fbe159434151db3",
+  "service_name": "petclinic-all",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic-all-v1.canonical.json",
+  "new_canonical": "petclinic-all-v2.canonical.json",
+  "old": "datasets/curated/petclinic/canonical/petclinic-all-v1.canonical.json",
+  "new": "datasets/curated/petclinic/canonical/petclinic-all-v2.canonical.json",
+  "old_sha": "7a4374b12f0c0da86b1f",
+  "new_sha": "70f4c1222f018b194355",
+  "generated_at": "2025-11-23T09:23:12+00:00"
+}

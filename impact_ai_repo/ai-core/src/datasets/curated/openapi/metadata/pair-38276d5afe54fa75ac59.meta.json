@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-38276d5afe54fa75ac59",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-availabilities-search-1-0-2-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-availabilities-search-1-0-2-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-availabilities-search-1-0-2-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-availabilities-search-1-0-2-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-flight-availabilities-search-1-0-2-swagger--v2.canonical.json",
+  "old_sha": "b66c239c2307624f190e",
+  "new_sha": "57a19ccd903f3acad604",
+  "warnings": [],
+  "seed": 1674507809,
+  "generated_at": "2025-11-23T09:22:07+00:00"
+}

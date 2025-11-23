@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-b569fff3398fa2605f2c",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-checkoutservice-67-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-checkoutservice-67-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-checkoutservice-67-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-checkoutservice-67-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-checkoutservice-67-openapi--v2.canonical.json",
+  "old_sha": "0db2853ddefaadfe0584",
+  "new_sha": "b4f3a570afcc29025784",
+  "warnings": [],
+  "seed": 566002639,
+  "generated_at": "2025-11-23T09:21:27+00:00"
+}

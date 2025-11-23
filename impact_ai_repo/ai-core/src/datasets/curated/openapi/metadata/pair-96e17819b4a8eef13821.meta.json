@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-96e17819b4a8eef13821",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-cloudtrail-data-2021-08-11-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cloudtrail-data-2021-08-11-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cloudtrail-data-2021-08-11-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cloudtrail-data-2021-08-11-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-cloudtrail-data-2021-08-11-openapi--v2.canonical.json",
+  "old_sha": "1b3a25021b59bd6ae553",
+  "new_sha": "7881bcff3325be44127a",
+  "warnings": [],
+  "seed": 840859495,
+  "generated_at": "2025-11-23T09:23:10+00:00"
+}

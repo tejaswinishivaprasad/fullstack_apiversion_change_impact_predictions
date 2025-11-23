@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-c6b5458116aced92d01f",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-notificationconfigurationservice-5-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-notificationconfigurationservice-5-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-notificationconfigurationservice-5-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-notificationconfigurationservice-5-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-notificationconfigurationservice-5-openapi--v2.canonical.json",
+  "old_sha": "271082bf5fd97083a2d4",
+  "new_sha": "216eec57b01977b67c29",
+  "warnings": [],
+  "seed": 245730822,
+  "generated_at": "2025-11-23T09:21:45+00:00"
+}

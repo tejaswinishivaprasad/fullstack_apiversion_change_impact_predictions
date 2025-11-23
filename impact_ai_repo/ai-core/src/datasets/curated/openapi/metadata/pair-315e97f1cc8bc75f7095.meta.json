@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-315e97f1cc8bc75f7095",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-safe-place--1-0-0-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-safe-place--1-0-0-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-safe-place--1-0-0-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-safe-place--1-0-0-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-safe-place--1-0-0-swagger--v2.canonical.json",
+  "old_sha": "7f0b7768f6ea0398c9b1",
+  "new_sha": "e975256eab4c582e65f7",
+  "warnings": [],
+  "seed": 2033307644,
+  "generated_at": "2025-11-23T09:22:11+00:00"
+}

@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-2de4d96790d88cdc6d3d",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-airport---city-search-1-2-3-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-airport---city-search-1-2-3-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-airport---city-search-1-2-3-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-airport---city-search-1-2-3-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-airport---city-search-1-2-3-swagger--v2.canonical.json",
+  "old_sha": "f8521687cb7a05e0409f",
+  "new_sha": "4dd80bf0a270ea80b6e9",
+  "warnings": [],
+  "seed": 1583545415,
+  "generated_at": "2025-11-23T09:22:06+00:00"
+}

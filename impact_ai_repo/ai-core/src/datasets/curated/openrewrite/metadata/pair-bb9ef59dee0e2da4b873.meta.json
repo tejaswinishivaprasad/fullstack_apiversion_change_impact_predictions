@@ -1,0 +1,12 @@
+{
+  "dataset": "openrewrite",
+  "generated_at": "2025-11-23T08:26:24+00:00",
+  "new": "datasets/curated/openrewrite/canonical/openrewrite-recipe-88-v2.canonical.json",
+  "new_canonical": "openrewrite-recipe-88-v2.canonical.json",
+  "new_sha": "6dfe1d3267a1664c12c1",
+  "old": "datasets/curated/openrewrite/canonical/openrewrite-recipe-88-v1.canonical.json",
+  "old_canonical": "openrewrite-recipe-88-v1.canonical.json",
+  "old_sha": "c12c453d06cb6d2c9764",
+  "pair_id": "pair-bb9ef59dee0e2da4b873",
+  "service_name": "openrewrite-recipe-88"
+}

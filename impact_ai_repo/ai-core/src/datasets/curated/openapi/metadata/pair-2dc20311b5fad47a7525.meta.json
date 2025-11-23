@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-2dc20311b5fad47a7525",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-tours-and-activities-1-0-2-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-tours-and-activities-1-0-2-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-tours-and-activities-1-0-2-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-tours-and-activities-1-0-2-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-tours-and-activities-1-0-2-swagger--v2.canonical.json",
+  "old_sha": "04024edd49e75310e1db",
+  "new_sha": "3aa6104a734cc0c3884c",
+  "warnings": [],
+  "seed": 1780087521,
+  "generated_at": "2025-11-23T09:22:13+00:00"
+}

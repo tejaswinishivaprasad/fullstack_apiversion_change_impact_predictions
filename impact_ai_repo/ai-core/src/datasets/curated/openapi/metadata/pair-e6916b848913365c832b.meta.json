@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-e6916b848913365c832b",
+  "service_name": "datasets-raw-openapi_repo-apis-adyen-com-recurringservice-30-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-recurringservice-30-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-adyen-com-recurringservice-30-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-recurringservice-30-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-adyen-com-recurringservice-30-openapi--v2.canonical.json",
+  "old_sha": "79c620419016e89978a1",
+  "new_sha": "fe21a0ff3df3e4f9cd4e",
+  "warnings": [],
+  "seed": 1887434374,
+  "generated_at": "2025-11-23T09:21:56+00:00"
+}

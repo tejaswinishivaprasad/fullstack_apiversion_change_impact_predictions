@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-3dcc043ff693876ef687",
+  "service_name": "datasets-raw-openapi_repo-apis-amadeus-com-amadeus-seatmap-display-1-9-2-swagger",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-seatmap-display-1-9-2-swagger--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-seatmap-display-1-9-2-swagger--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-seatmap-display-1-9-2-swagger--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amadeus-com-amadeus-seatmap-display-1-9-2-swagger--v2.canonical.json",
+  "old_sha": "d75089e08ad0aa6f9df1",
+  "new_sha": "078e9e2fba9714866945",
+  "warnings": [],
+  "seed": 637022297,
+  "generated_at": "2025-11-23T09:22:13+00:00"
+}

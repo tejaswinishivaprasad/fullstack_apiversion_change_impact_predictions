@@ -1,2 +1,0 @@
-{"pair_id": "pair-c90b3e366c6884a64f32", "ace_index": 0, "ace_id": "pair-c90b3e366c6884a64f32::ace::0", "type": "ENDPOINT_ADDED", "path": "/auto474", "method": "get", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "f685dccae2c9625a6482", "new_sha": "5809cf8a2a66170adf51"}}
-{"pair_id": "pair-c90b3e366c6884a64f32", "ace_index": 1, "ace_id": "pair-c90b3e366c6884a64f32::ace::1", "type": "ENDPOINT_ADDED", "path": "/auto658", "method": "get", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "f685dccae2c9625a6482", "new_sha": "5809cf8a2a66170adf51"}}

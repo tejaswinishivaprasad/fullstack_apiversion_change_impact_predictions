@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-61f56e948ebf8f0f0795",
+  "service_name": "datasets-raw-openapi_repo-apis-amazonaws-com-amplifybackend-2020-08-11-openapi",
+  "dataset": "openapi",
+  "old_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-amplifybackend-2020-08-11-openapi--v1.canonical.json",
+  "new_canonical": "openapi--datasets-raw-openapi_repo-apis-amazonaws-com-amplifybackend-2020-08-11-openapi--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-amplifybackend-2020-08-11-openapi--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--datasets-raw-openapi_repo-apis-amazonaws-com-amplifybackend-2020-08-11-openapi--v2.canonical.json",
+  "old_sha": "4a414a4385355336eb3b",
+  "new_sha": "10ed7d3f388849d1f1c5",
+  "warnings": [],
+  "seed": 1519898542,
+  "generated_at": "2025-11-23T09:22:18+00:00"
+}

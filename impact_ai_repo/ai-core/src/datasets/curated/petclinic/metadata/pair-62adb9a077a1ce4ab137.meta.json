@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-62adb9a077a1ce4ab137",
+  "service_name": "petclinic-prometheus",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic-prometheus-v1.canonical.json",
+  "new_canonical": "petclinic-prometheus-v2.canonical.json",
+  "old": "datasets/curated/petclinic/canonical/petclinic-prometheus-v1.canonical.json",
+  "new": "datasets/curated/petclinic/canonical/petclinic-prometheus-v2.canonical.json",
+  "old_sha": "e6edde4679bd6c2ae5c2",
+  "new_sha": "ca325cf11ccb01fecbd8",
+  "generated_at": "2025-11-23T09:23:12+00:00"
+}

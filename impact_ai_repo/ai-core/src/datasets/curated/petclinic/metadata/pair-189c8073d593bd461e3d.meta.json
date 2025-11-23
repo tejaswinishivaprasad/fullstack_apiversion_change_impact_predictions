@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-189c8073d593bd461e3d",
+  "service_name": "petclinic-application-test",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic-application-test-v1.canonical.json",
+  "new_canonical": "petclinic-application-test-v2.canonical.json",
+  "old": "datasets/curated/petclinic/canonical/petclinic-application-test-v1.canonical.json",
+  "new": "datasets/curated/petclinic/canonical/petclinic-application-test-v2.canonical.json",
+  "old_sha": "717eaeee293e8a316e6f",
+  "new_sha": "aae4ed139b143f59fea5",
+  "generated_at": "2025-11-23T09:23:12+00:00"
+}

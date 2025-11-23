@@ -1,0 +1,4736 @@
+{
+  "components": {
+    "parameters": {
+      "X-Amz-Algorithm": {
+        "in": "header",
+        "name": "X-Amz-Algorithm",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Content-Sha256": {
+        "in": "header",
+        "name": "X-Amz-Content-Sha256",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Credential": {
+        "in": "header",
+        "name": "X-Amz-Credential",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Date": {
+        "in": "header",
+        "name": "X-Amz-Date",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Security-Token": {
+        "in": "header",
+        "name": "X-Amz-Security-Token",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-Signature": {
+        "in": "header",
+        "name": "X-Amz-Signature",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Amz-SignedHeaders": {
+        "in": "header",
+        "name": "X-Amz-SignedHeaders",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "AccessDeniedException": {},
+      "ArtifactId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ArtifactStatus": {
+        "enum": [
+          "APPROVED",
+          "REJECTED",
+          "IN_PROGRESS"
+        ],
+        "type": "string"
+      },
+      "AttachmentIdList": {
+        "items": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        "maxItems": 1,
+        "minItems": 1,
+        "type": "array"
+      },
+      "AttachmentItem": {
+        "description": "The case-insensitive input to indicate standard MIME type that describes the format of the file that will be uploaded.",
+        "properties": {
+          "AttachmentId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "A unique identifier for the attachment."
+              }
+            ]
+          },
+          "AttachmentName": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "A case-sensitive name of the attachment being uploaded."
+              }
+            ]
+          },
+          "ContentType": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>."
+              }
+            ]
+          },
+          "Status": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "enum": [
+                  "APPROVED",
+                  "REJECTED",
+                  "IN_PROGRESS"
+                ],
+                "type": "string"
+              },
+              {
+                "description": "Status of the attachment."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "AttachmentName": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "AttachmentSizeInBytes": {
+        "minimum": 1,
+        "type": "integer"
+      },
+      "Attachments": {
+        "items": {
+          "description": "The case-insensitive input to indicate standard MIME type that describes the format of the file that will be uploaded.",
+          "properties": {
+            "AttachmentId": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "A unique identifier for the attachment."
+                }
+              ]
+            },
+            "AttachmentName": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "A case-sensitive name of the attachment being uploaded."
+                }
+              ]
+            },
+            "ContentType": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 255,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>."
+                }
+              ]
+            },
+            "Status": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "enum": [
+                    "APPROVED",
+                    "REJECTED",
+                    "IN_PROGRESS"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "description": "Status of the attachment."
+                }
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "Bool": {
+        "type": "boolean"
+      },
+      "ChatContent": {
+        "maxLength": 16384,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ChatContentType": {
+        "maxLength": 100,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ChatItemId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ChatItemType": {
+        "enum": [
+          "TYPING",
+          "PARTICIPANT_JOINED",
+          "PARTICIPANT_LEFT",
+          "CHAT_ENDED",
+          "TRANSFER_SUCCEEDED",
+          "TRANSFER_FAILED",
+          "MESSAGE",
+          "EVENT",
+          "ATTACHMENT",
+          "CONNECTION_ACK",
+          "MESSAGE_DELIVERED",
+          "MESSAGE_READ"
+        ],
+        "type": "string"
+      },
+      "ClientToken": {
+        "maxLength": 500,
+        "type": "string"
+      },
+      "CompleteAttachmentUploadRequest": {
+        "properties": {
+          "AttachmentIds": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "items": {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "description": "A list of unique identifiers for the attachments."
+              }
+            ]
+          },
+          "ClientToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 500,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>."
+              }
+            ]
+          }
+        },
+        "required": [
+          "AttachmentIds",
+          "ClientToken"
+        ],
+        "title": "CompleteAttachmentUploadRequest",
+        "type": "object"
+      },
+      "CompleteAttachmentUploadResponse": {
+        "properties": {},
+        "type": "object"
+      },
+      "ConflictException": {},
+      "ConnectionCredentials": {
+        "description": "Connection credentials. ",
+        "properties": {
+          "ConnectionToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 1000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The connection token."
+              }
+            ]
+          },
+          "Expiry": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "<p>The expiration of the token.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "ConnectionType": {
+        "enum": [
+          "WEBSOCKET",
+          "CONNECTION_CREDENTIALS"
+        ],
+        "type": "string"
+      },
+      "ConnectionTypeList": {
+        "items": {
+          "enum": [
+            "WEBSOCKET",
+            "CONNECTION_CREDENTIALS"
+          ],
+          "type": "string"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "ContactId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ContentType": {
+        "maxLength": 255,
+        "minLength": 1,
+        "type": "string"
+      },
+      "CreateParticipantConnectionRequest": {
+        "properties": {
+          "ConnectParticipant": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "description": "Amazon Connect Participant is used to mark the participant as connected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats."
+              }
+            ]
+          },
+          "Type": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "items": {
+                  "enum": [
+                    "WEBSOCKET",
+                    "CONNECTION_CREDENTIALS"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "description": "Type of connection information required. This can be omitted if <code>ConnectParticipant</code> is <code>true</code>."
+              }
+            ]
+          }
+        },
+        "title": "CreateParticipantConnectionRequest",
+        "type": "object"
+      },
+      "CreateParticipantConnectionResponse": {
+        "properties": {
+          "ConnectionCredentials": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "description": "Connection credentials. ",
+                "properties": {
+                  "ConnectionToken": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      {
+                        "description": "The connection token."
+                      }
+                    ]
+                  },
+                  "Expiry": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "description": "<p>The expiration of the token.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                      }
+                    ]
+                  }
+                },
+                "type": "object"
+              },
+              {
+                "description": "Creates the participant's connection credentials. The authentication token associated with the participant's connection."
+              }
+            ]
+          },
+          "Websocket": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "description": "The websocket for the participant's connection.",
+                "properties": {
+                  "ConnectionExpiry": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "description": "<p>The URL expiration timestamp in ISO date format.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                      }
+                    ]
+                  },
+                  "Url": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      {
+                        "description": "The URL of the websocket."
+                      }
+                    ]
+                  }
+                },
+                "type": "object"
+              },
+              {
+                "description": "Creates the participant's websocket connection."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "DisconnectParticipantRequest": {
+        "properties": {
+          "ClientToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>."
+              }
+            ]
+          }
+        },
+        "title": "DisconnectParticipantRequest",
+        "type": "object"
+      },
+      "DisconnectParticipantResponse": {
+        "properties": {},
+        "type": "object"
+      },
+      "DisplayName": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "GetAttachmentRequest": {
+        "properties": {
+          "AttachmentId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "A unique identifier for the attachment."
+              }
+            ]
+          }
+        },
+        "required": [
+          "AttachmentId"
+        ],
+        "title": "GetAttachmentRequest",
+        "type": "object"
+      },
+      "GetAttachmentResponse": {
+        "properties": {
+          "Url": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 2000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to <a href=\"https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html\">StartAttachmentUpload</a>."
+              }
+            ]
+          },
+          "UrlExpiry": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "GetTranscriptRequest": {
+        "properties": {
+          "ContactId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The contactId from the current contact chain for which transcript is needed."
+              }
+            ]
+          },
+          "MaxResults": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maximum": 100,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "description": "The maximum number of results to return in the page. Default: 10. "
+              }
+            ]
+          },
+          "NextToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 1000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results."
+              }
+            ]
+          },
+          "ScanDirection": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "enum": [
+                  "FORWARD",
+                  "BACKWARD"
+                ],
+                "type": "string"
+              },
+              {
+                "description": "The direction from StartPosition from which to retrieve message. Default: BACKWARD when no StartPosition is provided, FORWARD with StartPosition. "
+              }
+            ]
+          },
+          "SortOrder": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "enum": [
+                  "DESCENDING",
+                  "ASCENDING"
+                ],
+                "type": "string"
+              },
+              {
+                "description": "The sort order for the records. Default: DESCENDING."
+              }
+            ]
+          },
+          "StartPosition": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "description": "A filtering option for where to start. For example, if you sent 100 messages, start with message 50. ",
+                "properties": {
+                  "AbsoluteTime": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      {
+                        "description": "<p>The time in ISO format where to start.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                      }
+                    ]
+                  },
+                  "Id": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      {
+                        "description": "The ID of the message or event where to start. "
+                      }
+                    ]
+                  },
+                  "MostRecent": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "maximum": 100,
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "description": "The start position of the most recent message where you want to start. "
+                      }
+                    ]
+                  }
+                },
+                "type": "object"
+              },
+              {
+                "description": "A filtering option for where to start."
+              }
+            ]
+          }
+        },
+        "title": "GetTranscriptRequest",
+        "type": "object"
+      },
+      "GetTranscriptResponse": {
+        "properties": {
+          "InitialContactId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The initial contact ID for the contact. "
+              }
+            ]
+          },
+          "NextToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 1000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results."
+              }
+            ]
+          },
+          "Transcript": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "items": {
+                  "description": "An item - message or event - that has been sent. ",
+                  "properties": {
+                    "AbsoluteTime": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 100,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "<p>The time when the message or event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                        }
+                      ]
+                    },
+                    "Attachments": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "items": {
+                            "description": "The case-insensitive input to indicate standard MIME type that describes the format of the file that will be uploaded.",
+                            "properties": {
+                              "AttachmentId": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "A unique identifier for the attachment."
+                                  }
+                                ]
+                              },
+                              "AttachmentName": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "A case-sensitive name of the attachment being uploaded."
+                                  }
+                                ]
+                              },
+                              "ContentType": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>."
+                                  }
+                                ]
+                              },
+                              "Status": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "enum": [
+                                      "APPROVED",
+                                      "REJECTED",
+                                      "IN_PROGRESS"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "Status of the attachment."
+                                  }
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        {
+                          "description": "Provides information about the attachments."
+                        }
+                      ]
+                    },
+                    "ContactId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The contactId on which the transcript item was originally sent. This field is populated only when the transcript item is from the current chat session."
+                        }
+                      ]
+                    },
+                    "Content": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 16384,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The content of the message or event."
+                        }
+                      ]
+                    },
+                    "ContentType": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 100,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The type of content of the item."
+                        }
+                      ]
+                    },
+                    "DisplayName": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The chat display name of the sender."
+                        }
+                      ]
+                    },
+                    "Id": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ID of the item."
+                        }
+                      ]
+                    },
+                    "MessageMetadata": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "description": "Contains metadata related to a message.",
+                          "properties": {
+                            "MessageId": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "maxLength": 256,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "The identifier of the message that contains the metadata information. "
+                                }
+                              ]
+                            },
+                            "Receipts": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "items": {
+                                    "description": "The receipt for the message delivered to the recipient.",
+                                    "properties": {
+                                      "DeliveredTimestamp": {
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        },
+                                        "allOf": [
+                                          {
+                                            "maxLength": 100,
+                                            "minLength": 1,
+                                            "type": "string"
+                                          },
+                                          {
+                                            "description": "The time when the message was delivered to the recipient."
+                                          }
+                                        ]
+                                      },
+                                      "ReadTimestamp": {
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        },
+                                        "allOf": [
+                                          {
+                                            "maxLength": 100,
+                                            "minLength": 1,
+                                            "type": "string"
+                                          },
+                                          {
+                                            "description": "The time when the message was read by the recipient."
+                                          }
+                                        ]
+                                      },
+                                      "RecipientParticipantId": {
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        },
+                                        "allOf": [
+                                          {
+                                            "maxLength": 256,
+                                            "minLength": 1,
+                                            "type": "string"
+                                          },
+                                          {
+                                            "description": "The identifier of the recipient of the message. "
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                {
+                                  "description": "The list of receipt information for a message for different recipients."
+                                }
+                              ]
+                            }
+                          },
+                          "type": "object"
+                        },
+                        {
+                          "description": "The metadata related to the message. Currently this supports only information related to message receipts."
+                        }
+                      ]
+                    },
+                    "ParticipantId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ID of the sender in the session."
+                        }
+                      ]
+                    },
+                    "ParticipantRole": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "enum": [
+                            "AGENT",
+                            "CUSTOMER",
+                            "SYSTEM"
+                          ],
+                          "type": "string"
+                        },
+                        {
+                          "description": "The role of the sender. For example, is it a customer, agent, or system."
+                        }
+                      ]
+                    },
+                    "RelatedContactId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The contactId on which the transcript item was originally sent. This field is only populated for persistent chats when the transcript item is from the past chat session. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html\">Enable persistent chat</a>."
+                        }
+                      ]
+                    },
+                    "Type": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "enum": [
+                            "TYPING",
+                            "PARTICIPANT_JOINED",
+                            "PARTICIPANT_LEFT",
+                            "CHAT_ENDED",
+                            "TRANSFER_SUCCEEDED",
+                            "TRANSFER_FAILED",
+                            "MESSAGE",
+                            "EVENT",
+                            "ATTACHMENT",
+                            "CONNECTION_ACK",
+                            "MESSAGE_DELIVERED",
+                            "MESSAGE_READ"
+                          ],
+                          "type": "string"
+                        },
+                        {
+                          "description": "Type of the item: message or event. "
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "description": "The list of messages in the session."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "ISO8601Datetime": {
+        "type": "string"
+      },
+      "Instant": {
+        "maxLength": 100,
+        "minLength": 1,
+        "type": "string"
+      },
+      "InternalServerException": {},
+      "Item": {
+        "description": "An item - message or event - that has been sent. ",
+        "properties": {
+          "AbsoluteTime": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "<p>The time when the message or event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+              }
+            ]
+          },
+          "Attachments": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "items": {
+                  "description": "The case-insensitive input to indicate standard MIME type that describes the format of the file that will be uploaded.",
+                  "properties": {
+                    "AttachmentId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "A unique identifier for the attachment."
+                        }
+                      ]
+                    },
+                    "AttachmentName": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "A case-sensitive name of the attachment being uploaded."
+                        }
+                      ]
+                    },
+                    "ContentType": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 255,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>."
+                        }
+                      ]
+                    },
+                    "Status": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "enum": [
+                            "APPROVED",
+                            "REJECTED",
+                            "IN_PROGRESS"
+                          ],
+                          "type": "string"
+                        },
+                        {
+                          "description": "Status of the attachment."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "description": "Provides information about the attachments."
+              }
+            ]
+          },
+          "ContactId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The contactId on which the transcript item was originally sent. This field is populated only when the transcript item is from the current chat session."
+              }
+            ]
+          },
+          "Content": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 16384,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The content of the message or event."
+              }
+            ]
+          },
+          "ContentType": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The type of content of the item."
+              }
+            ]
+          },
+          "DisplayName": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The chat display name of the sender."
+              }
+            ]
+          },
+          "Id": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The ID of the item."
+              }
+            ]
+          },
+          "MessageMetadata": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "description": "Contains metadata related to a message.",
+                "properties": {
+                  "MessageId": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      {
+                        "description": "The identifier of the message that contains the metadata information. "
+                      }
+                    ]
+                  },
+                  "Receipts": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "items": {
+                          "description": "The receipt for the message delivered to the recipient.",
+                          "properties": {
+                            "DeliveredTimestamp": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "maxLength": 100,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "The time when the message was delivered to the recipient."
+                                }
+                              ]
+                            },
+                            "ReadTimestamp": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "maxLength": 100,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "The time when the message was read by the recipient."
+                                }
+                              ]
+                            },
+                            "RecipientParticipantId": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "maxLength": 256,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "The identifier of the recipient of the message. "
+                                }
+                              ]
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "description": "The list of receipt information for a message for different recipients."
+                      }
+                    ]
+                  }
+                },
+                "type": "object"
+              },
+              {
+                "description": "The metadata related to the message. Currently this supports only information related to message receipts."
+              }
+            ]
+          },
+          "ParticipantId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The ID of the sender in the session."
+              }
+            ]
+          },
+          "ParticipantRole": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "enum": [
+                  "AGENT",
+                  "CUSTOMER",
+                  "SYSTEM"
+                ],
+                "type": "string"
+              },
+              {
+                "description": "The role of the sender. For example, is it a customer, agent, or system."
+              }
+            ]
+          },
+          "RelatedContactId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The contactId on which the transcript item was originally sent. This field is only populated for persistent chats when the transcript item is from the past chat session. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html\">Enable persistent chat</a>."
+              }
+            ]
+          },
+          "Type": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "enum": [
+                  "TYPING",
+                  "PARTICIPANT_JOINED",
+                  "PARTICIPANT_LEFT",
+                  "CHAT_ENDED",
+                  "TRANSFER_SUCCEEDED",
+                  "TRANSFER_FAILED",
+                  "MESSAGE",
+                  "EVENT",
+                  "ATTACHMENT",
+                  "CONNECTION_ACK",
+                  "MESSAGE_DELIVERED",
+                  "MESSAGE_READ"
+                ],
+                "type": "string"
+              },
+              {
+                "description": "Type of the item: message or event. "
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "MaxResults": {
+        "maximum": 100,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "MessageMetadata": {
+        "description": "Contains metadata related to a message.",
+        "properties": {
+          "MessageId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The identifier of the message that contains the metadata information. "
+              }
+            ]
+          },
+          "Receipts": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "items": {
+                  "description": "The receipt for the message delivered to the recipient.",
+                  "properties": {
+                    "DeliveredTimestamp": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 100,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The time when the message was delivered to the recipient."
+                        }
+                      ]
+                    },
+                    "ReadTimestamp": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 100,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The time when the message was read by the recipient."
+                        }
+                      ]
+                    },
+                    "RecipientParticipantId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The identifier of the recipient of the message. "
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "description": "The list of receipt information for a message for different recipients."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "MostRecent": {
+        "maximum": 100,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "NextToken": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "NonEmptyClientToken": {
+        "maxLength": 500,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ParticipantId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ParticipantRole": {
+        "enum": [
+          "AGENT",
+          "CUSTOMER",
+          "SYSTEM"
+        ],
+        "type": "string"
+      },
+      "ParticipantToken": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "PreSignedAttachmentUrl": {
+        "maxLength": 2000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "PreSignedConnectionUrl": {
+        "maxLength": 2000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "Receipt": {
+        "description": "The receipt for the message delivered to the recipient.",
+        "properties": {
+          "DeliveredTimestamp": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The time when the message was delivered to the recipient."
+              }
+            ]
+          },
+          "ReadTimestamp": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The time when the message was read by the recipient."
+              }
+            ]
+          },
+          "RecipientParticipantId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The identifier of the recipient of the message. "
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "Receipts": {
+        "items": {
+          "description": "The receipt for the message delivered to the recipient.",
+          "properties": {
+            "DeliveredTimestamp": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 100,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The time when the message was delivered to the recipient."
+                }
+              ]
+            },
+            "ReadTimestamp": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 100,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The time when the message was read by the recipient."
+                }
+              ]
+            },
+            "RecipientParticipantId": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The identifier of the recipient of the message. "
+                }
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "ScanDirection": {
+        "enum": [
+          "FORWARD",
+          "BACKWARD"
+        ],
+        "type": "string"
+      },
+      "SendEventRequest": {
+        "properties": {
+          "ClientToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>."
+              }
+            ]
+          },
+          "Content": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 16384,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "<p>The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string.</p> <p>Sample Content: \"{\\\"messageId\\\":\\\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\\\"}\"</p>"
+              }
+            ]
+          },
+          "ContentType": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "<p>The content type of the request. Supported types are:</p> <ul> <li> <p>application/vnd.amazonaws.connect.event.typing</p> </li> <li> <p>application/vnd.amazonaws.connect.event.connection.acknowledged</p> </li> <li> <p>application/vnd.amazonaws.connect.event.message.delivered</p> </li> <li> <p>application/vnd.amazonaws.connect.event.message.read</p> </li> </ul>"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ContentType"
+        ],
+        "title": "SendEventRequest",
+        "type": "object"
+      },
+      "SendEventResponse": {
+        "properties": {
+          "AbsoluteTime": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "<p>The time when the event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+              }
+            ]
+          },
+          "Id": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The ID of the response."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "SendMessageRequest": {
+        "properties": {
+          "ClientToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>."
+              }
+            ]
+          },
+          "Content": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 16384,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "<p>The content of the message. </p> <ul> <li> <p>For <code>text/plain</code> and <code>text/markdown</code>, the Length Constraints are Minimum of 1, Maximum of 1024. </p> </li> <li> <p>For <code>application/json</code>, the Length Constraints are Minimum of 1, Maximum of 12000. </p> </li> <li> <p>For <code>application/vnd.amazonaws.connect.message.interactive.response</code>, the Length Constraints are Minimum of 1, Maximum of 12288.</p> </li> </ul>"
+              }
+            ]
+          },
+          "ContentType": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The type of the content. Supported types are <code>text/plain</code>, <code>text/markdown</code>, <code>application/json</code>, and <code>application/vnd.amazonaws.connect.message.interactive.response</code>."
+              }
+            ]
+          }
+        },
+        "required": [
+          "ContentType",
+          "Content"
+        ],
+        "title": "SendMessageRequest",
+        "type": "object"
+      },
+      "SendMessageResponse": {
+        "properties": {
+          "AbsoluteTime": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "<p>The time when the message was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+              }
+            ]
+          },
+          "Id": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The ID of the message."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "ServiceQuotaExceededException": {},
+      "SortKey": {
+        "enum": [
+          "DESCENDING",
+          "ASCENDING"
+        ],
+        "type": "string"
+      },
+      "StartAttachmentUploadRequest": {
+        "properties": {
+          "AttachmentName": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "A case-sensitive name of the attachment being uploaded."
+              }
+            ]
+          },
+          "AttachmentSizeInBytes": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "minimum": 1,
+                "type": "integer"
+              },
+              {
+                "description": "The size of the attachment in bytes."
+              }
+            ]
+          },
+          "ClientToken": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 500,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>."
+              }
+            ]
+          },
+          "ContentType": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>."
+              }
+            ]
+          }
+        },
+        "required": [
+          "ContentType",
+          "AttachmentSizeInBytes",
+          "AttachmentName",
+          "ClientToken"
+        ],
+        "title": "StartAttachmentUploadRequest",
+        "type": "object"
+      },
+      "StartAttachmentUploadResponse": {
+        "properties": {
+          "AttachmentId": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "A unique identifier for the attachment."
+              }
+            ]
+          },
+          "UploadMetadata": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "description": "Fields to be used while uploading the attachment.",
+                "properties": {
+                  "HeadersToInclude": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "additionalProperties": {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "type": "object"
+                      },
+                      {
+                        "description": "The headers to be provided while uploading the file to the URL."
+                      }
+                    ]
+                  },
+                  "Url": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      {
+                        "description": "This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to <a href=\"https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html\">StartAttachmentUpload</a>."
+                      }
+                    ]
+                  },
+                  "UrlExpiry": {
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    },
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "description": "The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z."
+                      }
+                    ]
+                  }
+                },
+                "type": "object"
+              },
+              {
+                "description": "Fields to be used while uploading the attachment."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "StartPosition": {
+        "description": "A filtering option for where to start. For example, if you sent 100 messages, start with message 50. ",
+        "properties": {
+          "AbsoluteTime": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "<p>The time in ISO format where to start.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+              }
+            ]
+          },
+          "Id": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The ID of the message or event where to start. "
+              }
+            ]
+          },
+          "MostRecent": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maximum": 100,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "description": "The start position of the most recent message where you want to start. "
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "ThrottlingException": {},
+      "Transcript": {
+        "items": {
+          "description": "An item - message or event - that has been sent. ",
+          "properties": {
+            "AbsoluteTime": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 100,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "<p>The time when the message or event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                }
+              ]
+            },
+            "Attachments": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "items": {
+                    "description": "The case-insensitive input to indicate standard MIME type that describes the format of the file that will be uploaded.",
+                    "properties": {
+                      "AttachmentId": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          {
+                            "description": "A unique identifier for the attachment."
+                          }
+                        ]
+                      },
+                      "AttachmentName": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          {
+                            "description": "A case-sensitive name of the attachment being uploaded."
+                          }
+                        ]
+                      },
+                      "ContentType": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "maxLength": 255,
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          {
+                            "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>."
+                          }
+                        ]
+                      },
+                      "Status": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "enum": [
+                              "APPROVED",
+                              "REJECTED",
+                              "IN_PROGRESS"
+                            ],
+                            "type": "string"
+                          },
+                          {
+                            "description": "Status of the attachment."
+                          }
+                        ]
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                {
+                  "description": "Provides information about the attachments."
+                }
+              ]
+            },
+            "ContactId": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The contactId on which the transcript item was originally sent. This field is populated only when the transcript item is from the current chat session."
+                }
+              ]
+            },
+            "Content": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The content of the message or event."
+                }
+              ]
+            },
+            "ContentType": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 100,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The type of content of the item."
+                }
+              ]
+            },
+            "DisplayName": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The chat display name of the sender."
+                }
+              ]
+            },
+            "Id": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The ID of the item."
+                }
+              ]
+            },
+            "MessageMetadata": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "description": "Contains metadata related to a message.",
+                  "properties": {
+                    "MessageId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The identifier of the message that contains the metadata information. "
+                        }
+                      ]
+                    },
+                    "Receipts": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "items": {
+                            "description": "The receipt for the message delivered to the recipient.",
+                            "properties": {
+                              "DeliveredTimestamp": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 100,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The time when the message was delivered to the recipient."
+                                  }
+                                ]
+                              },
+                              "ReadTimestamp": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 100,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The time when the message was read by the recipient."
+                                  }
+                                ]
+                              },
+                              "RecipientParticipantId": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The identifier of the recipient of the message. "
+                                  }
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        {
+                          "description": "The list of receipt information for a message for different recipients."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                {
+                  "description": "The metadata related to the message. Currently this supports only information related to message receipts."
+                }
+              ]
+            },
+            "ParticipantId": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The ID of the sender in the session."
+                }
+              ]
+            },
+            "ParticipantRole": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "enum": [
+                    "AGENT",
+                    "CUSTOMER",
+                    "SYSTEM"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "description": "The role of the sender. For example, is it a customer, agent, or system."
+                }
+              ]
+            },
+            "RelatedContactId": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "description": "The contactId on which the transcript item was originally sent. This field is only populated for persistent chats when the transcript item is from the past chat session. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html\">Enable persistent chat</a>."
+                }
+              ]
+            },
+            "Type": {
+              "_polymorphic_marker": {
+                "allOf": true
+              },
+              "allOf": [
+                {
+                  "enum": [
+                    "TYPING",
+                    "PARTICIPANT_JOINED",
+                    "PARTICIPANT_LEFT",
+                    "CHAT_ENDED",
+                    "TRANSFER_SUCCEEDED",
+                    "TRANSFER_FAILED",
+                    "MESSAGE",
+                    "EVENT",
+                    "ATTACHMENT",
+                    "CONNECTION_ACK",
+                    "MESSAGE_DELIVERED",
+                    "MESSAGE_READ"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "description": "Type of the item: message or event. "
+                }
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "UploadMetadata": {
+        "description": "Fields to be used while uploading the attachment.",
+        "properties": {
+          "HeadersToInclude": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "additionalProperties": {
+                  "maxLength": 256,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "description": "The headers to be provided while uploading the file to the URL."
+              }
+            ]
+          },
+          "Url": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 2000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to <a href=\"https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html\">StartAttachmentUpload</a>."
+              }
+            ]
+          },
+          "UrlExpiry": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "UploadMetadataSignedHeaders": {
+        "additionalProperties": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "UploadMetadataSignedHeadersKey": {
+        "maxLength": 128,
+        "minLength": 1,
+        "type": "string"
+      },
+      "UploadMetadataSignedHeadersValue": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "UploadMetadataUrl": {
+        "maxLength": 2000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "ValidationException": {},
+      "Websocket": {
+        "description": "The websocket for the participant's connection.",
+        "properties": {
+          "ConnectionExpiry": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "<p>The URL expiration timestamp in ISO date format.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+              }
+            ]
+          },
+          "Url": {
+            "_polymorphic_marker": {
+              "allOf": true
+            },
+            "allOf": [
+              {
+                "maxLength": 2000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "description": "The URL of the websocket."
+              }
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "description": "Amazon Signature authorization v4",
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/connect/"
+  },
+  "info": {
+    "contact": {
+      "email": "mike.ralphson@gmail.com",
+      "name": "Mike Ralphson",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "description": "<p>Amazon Connect is an easy-to-use omnichannel cloud contact center service that enables companies of any size to deliver superior customer service at a lower cost. Amazon Connect communications capabilities make it easy for companies to deliver personalized interactions across communication channels, including chat. </p> <p>Use the Amazon Connect Participant Service to manage participants (for example, agents, customers, and managers listening in), and to send messages and events within a chat contact. The APIs in the service enable the following: sending chat messages, attachment sharing, managing a participant's connection state and message events, and retrieving chat transcripts.</p>",
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "title": "Amazon Connect Participant Service",
+    "version": "2018-09-07",
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-aws-signingName": "execute-api",
+    "x-logo": {
+      "backgroundColor": "#FFFFFF",
+      "url": "https://twitter.com/awscloud/profile_image?size=original"
+    },
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/connectparticipant-2018-09-07.normal.json",
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-preferred": true,
+    "x-providerName": "amazonaws.com",
+    "x-release": "v4",
+    "x-serviceName": "connectparticipant"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/participant/attachment#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts.</p> <note> <p> <code>ConnectionToken</code> is used for invoking this API instead of <code>ParticipantToken</code>.</p> </note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>",
+        "operationId": "GetAttachment",
+        "parameters": [
+          {
+            "description": "The authentication token associated with the participant's connection.",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "AttachmentId": {
+                    "description": "A unique identifier for the attachment.",
+                    "maxLength": 256,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "AttachmentId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "Url": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 2000,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to <a href=\"https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html\">StartAttachmentUpload</a>."
+                        }
+                      ]
+                    },
+                    "UrlExpiry": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          }
+        }
+      }
+    },
+    "/participant/complete-attachment-upload#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. </p> <note> <p> <code>ConnectionToken</code> is used for invoking this API instead of <code>ParticipantToken</code>.</p> </note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>",
+        "operationId": "CompleteAttachmentUpload",
+        "parameters": [
+          {
+            "description": "The authentication token associated with the participant's connection.",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "AttachmentIds": {
+                    "description": "A list of unique identifiers for the attachments.",
+                    "items": {
+                      "maxLength": 256,
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "ClientToken": {
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>.",
+                    "maxLength": 500,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "AttachmentIds",
+                  "ClientToken"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {},
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ServiceQuotaExceededException"
+          },
+          "485": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ConflictException"
+          }
+        }
+      }
+    },
+    "/participant/connection#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Creates the participant's connection. </p> <note> <p> <code>ParticipantToken</code> is used for invoking this API instead of <code>ConnectionToken</code>.</p> </note> <p>The participant token is valid for the lifetime of the participant – until they are part of a contact.</p> <p>The response URL for <code>WEBSOCKET</code> Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic. </p> <p>For chat, you need to publish the following on the established websocket connection:</p> <p> <code>{\"topic\":\"aws/subscribe\",\"content\":{\"topics\":[\"aws/chat\"]}}</code> </p> <p>Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.</p> <p> <b>Message streaming support</b>: This API can also be used together with the <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html\">StartContactStreaming</a> API to create a participant connection for chat contacts that are not using a websocket. For more information about message streaming, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html\">Enable real-time chat message streaming</a> in the <i>Amazon Connect Administrator Guide</i>.</p> <p> <b>Feature specifications</b>: For information about feature specifications, such as the allowed number of open websocket connections per participant, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>. </p> <note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p> </note>",
+        "operationId": "CreateParticipantConnection",
+        "parameters": [
+          {
+            "description": "<p>This is a header parameter.</p> <p>The ParticipantToken as obtained from <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html\">StartChatContact</a> API response.</p>",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "ConnectParticipant": {
+                    "description": "Amazon Connect Participant is used to mark the participant as connected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.",
+                    "type": "boolean"
+                  },
+                  "Type": {
+                    "description": "Type of connection information required. This can be omitted if <code>ConnectParticipant</code> is <code>true</code>.",
+                    "items": {
+                      "enum": [
+                        "WEBSOCKET",
+                        "CONNECTION_CREDENTIALS"
+                      ],
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "ConnectionCredentials": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "description": "Connection credentials. ",
+                          "properties": {
+                            "ConnectionToken": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "maxLength": 1000,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "The connection token."
+                                }
+                              ]
+                            },
+                            "Expiry": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "<p>The expiration of the token.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                                }
+                              ]
+                            }
+                          },
+                          "type": "object"
+                        },
+                        {
+                          "description": "Creates the participant's connection credentials. The authentication token associated with the participant's connection."
+                        }
+                      ]
+                    },
+                    "Websocket": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "description": "The websocket for the participant's connection.",
+                          "properties": {
+                            "ConnectionExpiry": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "<p>The URL expiration timestamp in ISO date format.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                                }
+                              ]
+                            },
+                            "Url": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "maxLength": 2000,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "The URL of the websocket."
+                                }
+                              ]
+                            }
+                          },
+                          "type": "object"
+                        },
+                        {
+                          "description": "Creates the participant's websocket connection."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          }
+        }
+      }
+    },
+    "/participant/disconnect#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Disconnects a participant. </p> <note> <p> <code>ConnectionToken</code> is used for invoking this API instead of <code>ParticipantToken</code>.</p> </note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>",
+        "operationId": "DisconnectParticipant",
+        "parameters": [
+          {
+            "description": "The authentication token associated with the participant's connection.",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "ClientToken": {
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>.",
+                    "maxLength": 500,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {},
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          }
+        }
+      }
+    },
+    "/participant/event#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Sends an event. </p> <note> <p> <code>ConnectionToken</code> is used for invoking this API instead of <code>ParticipantToken</code>.</p> </note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>",
+        "operationId": "SendEvent",
+        "parameters": [
+          {
+            "description": "The authentication token associated with the participant's connection.",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "ClientToken": {
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>.",
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Content": {
+                    "description": "<p>The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string.</p> <p>Sample Content: \"{\\\"messageId\\\":\\\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\\\"}\"</p>",
+                    "maxLength": 16384,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "ContentType": {
+                    "description": "<p>The content type of the request. Supported types are:</p> <ul> <li> <p>application/vnd.amazonaws.connect.event.typing</p> </li> <li> <p>application/vnd.amazonaws.connect.event.connection.acknowledged</p> </li> <li> <p>application/vnd.amazonaws.connect.event.message.delivered</p> </li> <li> <p>application/vnd.amazonaws.connect.event.message.read</p> </li> </ul>",
+                    "maxLength": 100,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ContentType"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "AbsoluteTime": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 100,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "<p>The time when the event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                        }
+                      ]
+                    },
+                    "Id": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ID of the response."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          }
+        }
+      }
+    },
+    "/participant/message#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Sends a message.</p> <note> <p> <code>ConnectionToken</code> is used for invoking this API instead of <code>ParticipantToken</code>.</p> </note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>",
+        "operationId": "SendMessage",
+        "parameters": [
+          {
+            "description": "The authentication token associated with the connection.",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "ClientToken": {
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>.",
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Content": {
+                    "description": "<p>The content of the message. </p> <ul> <li> <p>For <code>text/plain</code> and <code>text/markdown</code>, the Length Constraints are Minimum of 1, Maximum of 1024. </p> </li> <li> <p>For <code>application/json</code>, the Length Constraints are Minimum of 1, Maximum of 12000. </p> </li> <li> <p>For <code>application/vnd.amazonaws.connect.message.interactive.response</code>, the Length Constraints are Minimum of 1, Maximum of 12288.</p> </li> </ul>",
+                    "maxLength": 16384,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "ContentType": {
+                    "description": "The type of the content. Supported types are <code>text/plain</code>, <code>text/markdown</code>, <code>application/json</code>, and <code>application/vnd.amazonaws.connect.message.interactive.response</code>.",
+                    "maxLength": 100,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ContentType",
+                  "Content"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "AbsoluteTime": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 100,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "<p>The time when the message was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                        }
+                      ]
+                    },
+                    "Id": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ID of the message."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          }
+        }
+      }
+    },
+    "/participant/start-attachment-upload#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3.</p> <note> <p> <code>ConnectionToken</code> is used for invoking this API instead of <code>ParticipantToken</code>.</p> </note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>",
+        "operationId": "StartAttachmentUpload",
+        "parameters": [
+          {
+            "description": "The authentication token associated with the participant's connection.",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "AttachmentName": {
+                    "description": "A case-sensitive name of the attachment being uploaded.",
+                    "maxLength": 256,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "AttachmentSizeInBytes": {
+                    "description": "The size of the attachment in bytes.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "ClientToken": {
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>.",
+                    "maxLength": 500,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "ContentType": {
+                    "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>.",
+                    "maxLength": 255,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ContentType",
+                  "AttachmentSizeInBytes",
+                  "AttachmentName",
+                  "ClientToken"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "AttachmentId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "A unique identifier for the attachment."
+                        }
+                      ]
+                    },
+                    "UploadMetadata": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "description": "Fields to be used while uploading the attachment.",
+                          "properties": {
+                            "HeadersToInclude": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "additionalProperties": {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  "type": "object"
+                                },
+                                {
+                                  "description": "The headers to be provided while uploading the file to the URL."
+                                }
+                              ]
+                            },
+                            "Url": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "maxLength": 2000,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to <a href=\"https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html\">StartAttachmentUpload</a>."
+                                }
+                              ]
+                            },
+                            "UrlExpiry": {
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              },
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z."
+                                }
+                              ]
+                            }
+                          },
+                          "type": "object"
+                        },
+                        {
+                          "description": "Fields to be used while uploading the attachment."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          },
+          "484": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ServiceQuotaExceededException"
+          }
+        }
+      }
+    },
+    "/participant/transcript#X-Amz-Bearer": {
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Amz-Content-Sha256",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Date",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Algorithm",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Credential",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Security-Token",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-Signature",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Amz-SignedHeaders",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "<p>Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html\">Enable persistent chat</a>. </p> <note> <p> <code>ConnectionToken</code> is used for invoking this API instead of <code>ParticipantToken</code>.</p> </note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>",
+        "operationId": "GetTranscript",
+        "parameters": [
+          {
+            "description": "The authentication token associated with the participant's connection.",
+            "in": "header",
+            "name": "X-Amz-Bearer",
+            "required": true,
+            "schema": {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination limit",
+            "in": "query",
+            "name": "MaxResults",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination token",
+            "in": "query",
+            "name": "NextToken",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "ContactId": {
+                    "description": "The contactId from the current contact chain for which transcript is needed.",
+                    "maxLength": 256,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "MaxResults": {
+                    "description": "The maximum number of results to return in the page. Default: 10. ",
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "NextToken": {
+                    "description": "The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results.",
+                    "maxLength": 1000,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "ScanDirection": {
+                    "description": "The direction from StartPosition from which to retrieve message. Default: BACKWARD when no StartPosition is provided, FORWARD with StartPosition. ",
+                    "enum": [
+                      "FORWARD",
+                      "BACKWARD"
+                    ],
+                    "type": "string"
+                  },
+                  "SortOrder": {
+                    "description": "The sort order for the records. Default: DESCENDING.",
+                    "enum": [
+                      "DESCENDING",
+                      "ASCENDING"
+                    ],
+                    "type": "string"
+                  },
+                  "StartPosition": {
+                    "description": "A filtering option for where to start. For example, if you sent 100 messages, start with message 50. ",
+                    "properties": {
+                      "AbsoluteTime": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          {
+                            "description": "<p>The time in ISO format where to start.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                          }
+                        ]
+                      },
+                      "Id": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          {
+                            "description": "The ID of the message or event where to start. "
+                          }
+                        ]
+                      },
+                      "MostRecent": {
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        },
+                        "allOf": [
+                          {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          {
+                            "description": "The start position of the most recent message where you want to start. "
+                          }
+                        ]
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "InitialContactId": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The initial contact ID for the contact. "
+                        }
+                      ]
+                    },
+                    "NextToken": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "maxLength": 1000,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        {
+                          "description": "The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results."
+                        }
+                      ]
+                    },
+                    "Transcript": {
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      },
+                      "allOf": [
+                        {
+                          "items": {
+                            "description": "An item - message or event - that has been sent. ",
+                            "properties": {
+                              "AbsoluteTime": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 100,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "<p>The time when the message or event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+                                  }
+                                ]
+                              },
+                              "Attachments": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "items": {
+                                      "description": "The case-insensitive input to indicate standard MIME type that describes the format of the file that will be uploaded.",
+                                      "properties": {
+                                        "AttachmentId": {
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          },
+                                          "allOf": [
+                                            {
+                                              "maxLength": 256,
+                                              "minLength": 1,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "description": "A unique identifier for the attachment."
+                                            }
+                                          ]
+                                        },
+                                        "AttachmentName": {
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          },
+                                          "allOf": [
+                                            {
+                                              "maxLength": 256,
+                                              "minLength": 1,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "description": "A case-sensitive name of the attachment being uploaded."
+                                            }
+                                          ]
+                                        },
+                                        "ContentType": {
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          },
+                                          "allOf": [
+                                            {
+                                              "maxLength": 255,
+                                              "minLength": 1,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "description": "Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>."
+                                            }
+                                          ]
+                                        },
+                                        "Status": {
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          },
+                                          "allOf": [
+                                            {
+                                              "enum": [
+                                                "APPROVED",
+                                                "REJECTED",
+                                                "IN_PROGRESS"
+                                              ],
+                                              "type": "string"
+                                            },
+                                            {
+                                              "description": "Status of the attachment."
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  },
+                                  {
+                                    "description": "Provides information about the attachments."
+                                  }
+                                ]
+                              },
+                              "ContactId": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The contactId on which the transcript item was originally sent. This field is populated only when the transcript item is from the current chat session."
+                                  }
+                                ]
+                              },
+                              "Content": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 16384,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The content of the message or event."
+                                  }
+                                ]
+                              },
+                              "ContentType": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 100,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The type of content of the item."
+                                  }
+                                ]
+                              },
+                              "DisplayName": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The chat display name of the sender."
+                                  }
+                                ]
+                              },
+                              "Id": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The ID of the item."
+                                  }
+                                ]
+                              },
+                              "MessageMetadata": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "description": "Contains metadata related to a message.",
+                                    "properties": {
+                                      "MessageId": {
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        },
+                                        "allOf": [
+                                          {
+                                            "maxLength": 256,
+                                            "minLength": 1,
+                                            "type": "string"
+                                          },
+                                          {
+                                            "description": "The identifier of the message that contains the metadata information. "
+                                          }
+                                        ]
+                                      },
+                                      "Receipts": {
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        },
+                                        "allOf": [
+                                          {
+                                            "items": {
+                                              "description": "The receipt for the message delivered to the recipient.",
+                                              "properties": {
+                                                "DeliveredTimestamp": {
+                                                  "_polymorphic_marker": {
+                                                    "allOf": true
+                                                  },
+                                                  "allOf": [
+                                                    {
+                                                      "maxLength": 100,
+                                                      "minLength": 1,
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "description": "The time when the message was delivered to the recipient."
+                                                    }
+                                                  ]
+                                                },
+                                                "ReadTimestamp": {
+                                                  "_polymorphic_marker": {
+                                                    "allOf": true
+                                                  },
+                                                  "allOf": [
+                                                    {
+                                                      "maxLength": 100,
+                                                      "minLength": 1,
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "description": "The time when the message was read by the recipient."
+                                                    }
+                                                  ]
+                                                },
+                                                "RecipientParticipantId": {
+                                                  "_polymorphic_marker": {
+                                                    "allOf": true
+                                                  },
+                                                  "allOf": [
+                                                    {
+                                                      "maxLength": 256,
+                                                      "minLength": 1,
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "description": "The identifier of the recipient of the message. "
+                                                    }
+                                                  ]
+                                                }
+                                              },
+                                              "type": "object"
+                                            },
+                                            "type": "array"
+                                          },
+                                          {
+                                            "description": "The list of receipt information for a message for different recipients."
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "description": "The metadata related to the message. Currently this supports only information related to message receipts."
+                                  }
+                                ]
+                              },
+                              "ParticipantId": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The ID of the sender in the session."
+                                  }
+                                ]
+                              },
+                              "ParticipantRole": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "enum": [
+                                      "AGENT",
+                                      "CUSTOMER",
+                                      "SYSTEM"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The role of the sender. For example, is it a customer, agent, or system."
+                                  }
+                                ]
+                              },
+                              "RelatedContactId": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "maxLength": 256,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The contactId on which the transcript item was originally sent. This field is only populated for persistent chats when the transcript item is from the past chat session. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html\">Enable persistent chat</a>."
+                                  }
+                                ]
+                              },
+                              "Type": {
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                },
+                                "allOf": [
+                                  {
+                                    "enum": [
+                                      "TYPING",
+                                      "PARTICIPANT_JOINED",
+                                      "PARTICIPANT_LEFT",
+                                      "CHAT_ENDED",
+                                      "TRANSFER_SUCCEEDED",
+                                      "TRANSFER_FAILED",
+                                      "MESSAGE",
+                                      "EVENT",
+                                      "ATTACHMENT",
+                                      "CONNECTION_ACK",
+                                      "MESSAGE_DELIVERED",
+                                      "MESSAGE_READ"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "Type of the item: message or event. "
+                                  }
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        {
+                          "description": "The list of messages in the session."
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "480": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "AccessDeniedException"
+          },
+          "481": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "InternalServerException"
+          },
+          "482": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ThrottlingException"
+          },
+          "483": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "ValidationException"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ],
+  "servers": [
+    {
+      "description": "The Amazon Connect Participant multi-region endpoint",
+      "url": "http://participant.connect.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "default": "us-east-1",
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ]
+        }
+      }
+    },
+    {
+      "description": "The Amazon Connect Participant multi-region endpoint",
+      "url": "https://participant.connect.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "default": "us-east-1",
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ]
+        }
+      }
+    },
+    {
+      "description": "The Amazon Connect Participant endpoint for China (Beijing) and China (Ningxia)",
+      "url": "http://participant.connect.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "default": "cn-north-1",
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ]
+        }
+      }
+    },
+    {
+      "description": "The Amazon Connect Participant endpoint for China (Beijing) and China (Ningxia)",
+      "url": "https://participant.connect.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "default": "cn-north-1",
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ]
+        }
+      }
+    }
+  ]
+}
