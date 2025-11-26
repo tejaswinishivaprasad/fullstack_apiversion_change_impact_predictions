@@ -1,6 +1,6 @@
 package org.impactframework.api;
 
-import org.impactframework.api.dto.ReportDTO;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpHeaders;
+
+
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.InputStreamResource;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/analysis")
@@ -39,7 +49,7 @@ public class AnalysisController {
         }
     }
 
-    // Forward GET /analysis/report to AI Core /report and return the raw bytes
+    // Forward GET /analysis/report to AI Core /report and return the raw bytesx
     @GetMapping("/report")
     public ResponseEntity<byte[]> report(
             @RequestParam(name= "old") String old,
@@ -185,4 +195,33 @@ public class AnalysisController {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("{\"error\":\"AI Core unavailable\"}");
         }
     }
+ // Forward single ACE JSON to UI: /analysis/ace?pair_id=...&ace_id=...
+    @GetMapping("/ace")
+    public ResponseEntity<byte[]> ace(
+            @RequestParam(required = false, name = "pair_id") String pairId,
+            @RequestParam(name = "ace_id") String aceId) {
+
+        StringBuilder url = new StringBuilder(aiCoreUrl + "/ace?ace_id=" + aceId);
+        if (pairId != null && !pairId.isEmpty()) {
+            url.append("&pair_id=").append(pairId);
+        }
+
+        try {
+            ResponseEntity<byte[]> resp = rest.exchange(url.toString(), HttpMethod.GET, null, byte[].class);
+            HttpHeaders outHeaders = new HttpHeaders();
+            MediaType ct = resp.getHeaders().getContentType();
+            if (ct != null) outHeaders.setContentType(ct);
+            return new ResponseEntity<>(resp.getBody(), outHeaders, resp.getStatusCode());
+        } catch (RestClientResponseException rce) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body(("{\"error\":\"AI Core returned " + rce.getRawStatusCode() + "\"}").getBytes(StandardCharsets.UTF_8));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body(("{\"error\":\"AI Core unavailable\",\"message\":\"" + ex.getMessage() + "\"}").getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+
+
+
 }

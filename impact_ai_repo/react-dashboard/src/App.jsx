@@ -5,10 +5,11 @@ import {
   fetchDatasets,
   fetchFiles,
   fetchConsumers,
-  trainModel,
   fetchVersioning,
-  fetchReportsBatch,
+  fetchAce,
+  exportAceFromServer,
 } from "./services/api.js";
+
 import {
   Container,
   Grid,
@@ -27,22 +28,19 @@ import {
   Switch,
   FormControlLabel,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Menu,
 } from "@mui/material";
+
 import DownloadIcon from "@mui/icons-material/Download";
 import ReplayIcon from "@mui/icons-material/Replay";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CsvFileIcon from "@mui/icons-material/Article";
-import CodeIcon from "@mui/icons-material/Code";
 import NdjsonIcon from "@mui/icons-material/Storage";
+
 import {
   ResponsiveContainer,
   BarChart,
@@ -56,7 +54,7 @@ import {
   Legend,
 } from "recharts";
 
-// basic helpers
+// parse maybe JSON returned as string
 const parseMaybeJson = (v, fallback) => {
   if (v == null) return fallback;
   if (typeof v === "string") {
@@ -69,6 +67,7 @@ const parseMaybeJson = (v, fallback) => {
   return v;
 };
 
+// format service names for charts
 const formatServiceName = (n = "") => {
   if (!n) return "";
   let s = String(n).replace(/^svc:/i, "").replace(/^ui:/i, "");
@@ -76,26 +75,40 @@ const formatServiceName = (n = "") => {
   return s.length > 24 ? s.slice(0, 24) + "…" : s;
 };
 
-// small tick renderer for charts
-const CustomizedAxisTick = ({ x, y, payload }) => {
-  const short = String(payload?.value ?? "");
-  const fullName = (payload && payload.payload && payload.payload.fullName) || short;
+// tick renderer for charts
+function CustomizedAxisTick({ x, y, payload, maxChars = 18 }) {
+  const fullName = (payload && payload.payload && payload.payload.fullName) || payload?.value || "";
+  const words = fullName.split(/\s+/);
+  let line1 = "";
+  let line2 = "";
+
+  for (let w of words) {
+    if ((line1 + " " + w).trim().length <= maxChars || !line1) {
+      line1 = (line1 + " " + w).trim();
+    } else {
+      line2 = (line2 + " " + w).trim();
+    }
+  }
+
+  if (!line2 && line1.length > maxChars) {
+    line1 = line1.slice(0, maxChars - 1) + "…";
+  } else if (line2 && line2.length > maxChars) {
+    line2 = line2.slice(0, maxChars - 1) + "…";
+  }
+
+  const finalLine1 = line1 || fullName.slice(0, maxChars) + (fullName.length > maxChars ? "…" : "");
+  const finalLine2 = line2 || "";
+
   return (
     <g transform={`translate(${x},${y})`}>
       <title>{fullName}</title>
-      <text
-        x={0}
-        y={0}
-        dy={16}
-        textAnchor="end"
-        transform="rotate(-35)"
-        style={{ fontSize: 12, fill: "#333" }}
-      >
-        {short}
+      <text x={0} y={0} textAnchor="middle" style={{ fontSize: 12, fill: "#222" }}>
+        <tspan x={0} dy="0" style={{ fontWeight: 500 }}>{finalLine1}</tspan>
+        {finalLine2 ? <tspan x={0} dy="1.2em" style={{ fontWeight: 400 }}>{finalLine2}</tspan> : null}
       </text>
     </g>
   );
-};
+}
 
 const toTop = (arr = []) =>
   (arr || [])
@@ -106,7 +119,6 @@ const toTop = (arr = []) =>
       risk: Number(x.risk_score ?? x.riskScore ?? x.risk ?? 0),
     }));
 
-// human readable mapping for ace types
 const HUMAN_TYPE = {
   ENDPOINT_ADDED: "Endpoint added",
   ENDPOINT_REMOVED: "Endpoint removed",
@@ -120,43 +132,41 @@ const HUMAN_TYPE = {
   UNKNOWN: "Change",
 };
 
-// short human explanations for change types
 const explainChange = (d, rpt = {}) => {
   const t = (d.type || "").toUpperCase();
-  const path = d.path || d.detail || "";
+  const path = d.path || (typeof d.detail === "string" ? d.detail : "");
   switch (t) {
     case "ENDPOINT_ADDED":
     case "endpoint_added":
-      return `This adds a new API endpoint (${path}). New endpoints are normally non-breaking, but they increase the public surface area. New consumers may start depending on this endpoint, which raises maintenance and compatibility risk for future changes; verify if new endpoints require auth or shared DTOs that other services rely on.`;
+      return `This adds a new API endpoint (${path}). New endpoints are normally non-breaking, but increase surface area; check auth and shared DTOs.`;
     case "ENDPOINT_REMOVED":
     case "endpoint_removed":
-      return `This removes an endpoint (${path}). Removing endpoints is breaking for any client that used it. Check versioning and consumer usage; migrating clients may need updates, and CI gate should block such removals unless a replacement exists.`;
+      return `This removes an endpoint (${path}). Removing endpoints is breaking for clients that used it; check consumers and replacement paths.`;
     case "PARAM_REQUIRED_ADDED":
     case "param_required_added":
-      return `A parameter became required (${path}). Clients that don't send this parameter will fail. This is a classic breaking change; confirm semantic versioning and communicate to consumers.`;
+      return `A parameter became required (${path}). Clients omitting this will fail; this is a breaking change unless defaults exist.`;
     case "ENUM_NARROWED":
-      return `An enum or allowed-value set was narrowed (${path}). Clients that previously used removed values may fail; this can be breaking if clients send the excluded values.`;
+      return `An enum or allowed-value set was narrowed (${path}). Clients using removed values may fail.`;
     case "RESPONSE_CODE_REMOVED":
     case "response_code_removed":
-      return `A response code was removed (${path}). Clients handling that specific response may behave incorrectly; check client-side error handling and fallback logic.`;
+      return `A response code was removed (${path}). Clients expecting that code may behave incorrectly; check client logic.`;
     case "PARAM_ADDED":
-      return `A parameter was added (${path}). If the parameter is optional this is non-breaking; if clients must supply it, it becomes breaking. Check whether it’s required and whether server-side defaults exist.`;
+      return `A parameter was added (${path}). If optional it's non-breaking; if required it's breaking — check defaults.`;
     case "PARAM_REMOVED":
-      return `A parameter was removed (${path}). Clients still sending the parameter may be ignored but this is usually non-breaking; verify contract expectations and server validation behavior.`;
+      return `A parameter was removed (${path}). Usually non-breaking but verify server validation behavior.`;
     case "RESPONSE_SCHEMA_CHANGED":
     case "response_schema_changed":
-      return `Response schema changed (${path}). Consumers parsing responses may break if fields were renamed/removed or types changed; check backward-compatibility and add migration notes.`;
+      return `Response schema changed (${path}). Consumers that parse the payload may break if fields/types changed.`;
     case "REQUESTBODY_SCHEMA_CHANGED":
     case "requestbody_schema_changed":
-      return `Request body schema changed (${path}). Clients sending older request shapes may fail or be rejected; treat as potentially breaking and validate with consumers.`;
+      return `Request body schema changed (${path}). Clients sending older shapes may fail; validate and communicate.`;
     default:
       return d.detail
-        ? `Change detected (${d.type}): ${d.detail}. Review the consumer contracts for this path to determine risk.`
-        : `Change detected (${d.type}). Review consumers of this API to understand the practical impact.`;
+        ? `Change detected (${d.type}): ${typeof d.detail === "string" ? d.detail : "see ACE details"}.`
+        : `Change detected (${d.type}). Review consumers to judge impact.`;
   }
 };
 
-// ----------------- download helpers -----------------
 function downloadJSON(obj, filename = "impact-report.json") {
   const blob = new Blob([JSON.stringify(obj ?? {}, null, 2)], { type: "application/json;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -173,11 +183,9 @@ function downloadCSV(rows = [], filename = "impact-report.csv") {
     downloadJSON(fallback, filename.replace(".csv", ".json"));
     return;
   }
-
   const headerCols = Object.keys(rows[0]);
   const lines = [];
   lines.push(headerCols.join(","));
-
   for (const row of rows) {
     const cells = headerCols.map((col) => {
       const raw = row[col] == null ? "" : String(row[col]);
@@ -185,7 +193,6 @@ function downloadCSV(rows = [], filename = "impact-report.csv") {
     });
     lines.push(cells.join(","));
   }
-
   const csv = lines.join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -196,7 +203,6 @@ function downloadCSV(rows = [], filename = "impact-report.csv") {
   URL.revokeObjectURL(url);
 }
 
-// ----------------- client side aggregators -----------------
 function computeSummaryFromReport(report) {
   const details = Array.isArray(report?.details) ? report.details : [];
   const aces = details.length;
@@ -206,7 +212,7 @@ function computeSummaryFromReport(report) {
   const flatRows = details.map((d, i) => ({
     id: i,
     change_type: d.type || "",
-    path: d.path || d.detail || "",
+    path: d.path || (typeof d.detail === "string" ? d.detail : ""),
     ace_id: d.ace_id || "",
     predicted_risk: (d.risk_score ?? d.risk ?? "").toString(),
     consumers: (d.consumer_count ?? d.consumers ?? "").toString(),
@@ -246,97 +252,26 @@ function computeSummaryFromReport(report) {
   };
 }
 
-// ----------------- small UI parts -----------------
-function CalibrationChart({ bins = [] }) {
-  if (!bins || !bins.length) {
-    return (
-      <Typography variant="body2" color="textSecondary">
-        No calibration data available.
-      </Typography>
-    );
-  }
-
-  const labels = bins.map((b) => `${Math.round((b.pred_mean ?? 0) * 100)}%`);
-  const data = bins.map((b, i) => ({
-    bin: labels[i],
-    empirical: (b.empirical ?? 0) * 100,
-    ideal: ((i / Math.max(1, bins.length - 1)) * 100),
-  }));
-
-  return (
-    <ResponsiveContainer width="100%" height={240}>
-      <LineChart data={data} margin={{ top: 6, right: 12, bottom: 30, left: 8 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="bin" angle={-35} textAnchor="end" height={60} />
-        <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
-        <ReTooltip formatter={(v) => `${v}%`} />
-        <Legend verticalAlign="bottom" height={36} />
-        <Line type="monotone" dataKey="empirical" stroke="#1976d2" strokeWidth={2} dot={{ r: 3 }} />
-        <Line type="linear" dataKey="ideal" stroke="#999" strokeDasharray="4 4" dot={false} />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-
-function ConfusionCard({ matrix = null, labels = null }) {
-  if (!matrix || !Array.isArray(matrix)) {
-    return (
-      <Typography variant="body2" color="textSecondary">
-        No confusion matrix available. If you want to demonstrate classification metrics, pass `report.confusion_matrix` from the server in format [[tn, fp],[fn, tp]] or a per-class matrix.
-      </Typography>
-    );
-  }
-
-  if (matrix.length === 2 && matrix[0].length === 2) {
-    const tn = matrix[0][0];
-    const fp = matrix[0][1];
-    const fn = matrix[1][0];
-    const tp = matrix[1][1];
-    const total = tn + fp + fn + tp || 1;
-    const labelsLocal = labels || ["Neg", "Pos"];
-    return (
-      <Table size="small">
-        <TableBody>
-          <TableRow>
-            <TableCell />
-            <TableCell align="center"><strong>Pred: {labelsLocal[0]}</strong></TableCell>
-            <TableCell align="center"><strong>Pred: {labelsLocal[1]}</strong></TableCell>
-            <TableCell />
-          </TableRow>
-          <TableRow>
-            <TableCell component="th" scope="row"><strong>Actual: {labelsLocal[0]}</strong></TableCell>
-            <TableCell align="center">{tn} ({Math.round((tn / total) * 100)}%)</TableCell>
-            <TableCell align="center">{fp} ({Math.round((fp / total) * 100)}%)</TableCell>
-            <TableCell component="th" scope="row">TN / FP</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell component="th" scope="row"><strong>Actual: {labelsLocal[1]}</strong></TableCell>
-            <TableCell align="center">{fn} ({Math.round((fn / total) * 100)}%)</TableCell>
-            <TableCell align="center">{tp} ({Math.round((tp / total) * 100)}%)</TableCell>
-            <TableCell component="th" scope="row">FN / TP</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={4}>
-              <Typography variant="caption">Total: {total} items</Typography>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    );
-  }
-
-  return (
-    <pre style={{ whiteSpace: "pre-wrap", margin: 0 }}>{JSON.stringify(matrix, null, 2)}</pre>
-  );
-}
-
-// ----------------- ACE modal -----------------
-function AceModal({ open, ace, onClose }) {
+// ACE modal component
+function AceModal({ open, ace, loading, error, onClose, onExport }) {
   return (
     <Dialog open={!!open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>ACE JSON {ace?.ace_id ? ` — ${ace.ace_id}` : ""}</DialogTitle>
-      <DialogContent dividers>
-        <pre style={{ whiteSpace: "pre-wrap", fontSize: 12 }}>{JSON.stringify(ace || {}, null, 2)}</pre>
+      <DialogContent dividers style={{ minHeight: 120 }}>
+        {loading ? (
+          <Box display="flex" alignItems="center" justifyContent="center" padding={4}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <>
+            {error && (
+              <Box marginBottom={1}>
+                <Typography variant="body2" color="error">{error}</Typography>
+              </Box>
+            )}
+            <pre style={{ whiteSpace: "pre-wrap", fontSize: 12 }}>{JSON.stringify(ace || {}, null, 2)}</pre>
+          </>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} variant="outlined">Close</Button>
@@ -345,7 +280,6 @@ function AceModal({ open, ace, onClose }) {
   );
 }
 
-// ----------------- bar label -----------------
 function renderBarLabel(props) {
   const { x, y, width, value } = props;
   const pct = Math.round((value ?? 0) * 100);
@@ -356,7 +290,6 @@ function renderBarLabel(props) {
   );
 }
 
-// ----------------- main app -----------------
 export default function App() {
   const [datasets, setDatasets] = useState([]);
   const [dataset, setDataset] = useState("");
@@ -371,27 +304,83 @@ export default function App() {
   const [autoSync, setAutoSync] = useState(true);
   const [consumers, setConsumers] = useState([]);
   const [lastRequest, setLastRequest] = useState(null);
-  const [batchProgress, setBatchProgress] = useState(null);
   const latestReportRef = useRef(null);
 
-  // ACE modal state
   const [aceModalOpen, setAceModalOpen] = useState(false);
   const [aceModalItem, setAceModalItem] = useState(null);
-  function openAceModal(item) {
-    setAceModalItem(item);
-    setAceModalOpen(true);
-  }
-  function closeAceModal() {
-    setAceModalItem(null);
-    setAceModalOpen(false);
-  }
+  const [aceLoading, setAceLoading] = useState(false);
+  const [aceError, setAceError] = useState(null);
 
-  // Export menu state
   const [exportAnchor, setExportAnchor] = useState(null);
   const openExportMenu = (e) => setExportAnchor(e.currentTarget);
   const closeExportMenu = () => setExportAnchor(null);
 
-  // load datasets on start
+  function closeAceModal() {
+    setAceModalItem(null);
+    setAceModalOpen(false);
+    setAceLoading(false);
+    setAceError(null);
+  }
+
+async function openAceModalFn(ace) {
+  setAceError(null);
+  setAceModalItem(null);
+
+  if (!ace) {
+    setAceError("No ACE data provided");
+    return;
+  }
+
+  const aceId = ace.ace_id || ace.aceId || null;
+  const pidFromReport =
+    latestReportRef.current?.metadata?.pair_id ||
+    report?.metadata?.pair_id ||
+    null;
+  let pid = pidFromReport || pairId || null;
+  if (!pid && aceId && typeof aceId === "string" && aceId.includes("::")) {
+    pid = aceId.split("::")[0];
+  }
+
+  // prevent duplicate fetch if already loading for same ace
+  if (aceLoading && aceId) {
+    console.warn("[UI] ACE already loading, skipping duplicate request", aceId);
+    setAceModalOpen(true); // ensure modal visible
+    return;
+  }
+
+  setAceModalOpen(true); // open modal immediately so UI doesn't block; we show spinner while loading
+  if (aceId) {
+    setAceLoading(true);
+    try {
+      const body = await fetchAce(pid, aceId);
+      const payload = body && body.ace ? body.ace : body;
+      if (!payload) {
+        setAceModalItem(ace);
+        setAceError("Server returned empty ACE payload; showing local diff instead.");
+      } else if (payload.error || payload.message) {
+        setAceModalItem(ace);
+        setAceError(payload.message || payload.error || "Server returned an error while fetching ACE; showing local diff instead.");
+      } else {
+        setAceModalItem(payload || ace);
+      }
+    } catch (e) {
+      console.warn("[UI] fetchAce failed:", e);
+      let msg = "Failed to load original ACE from server; showing local diff item instead.";
+      if (e && e.data && (e.data.message || e.data.error)) msg = e.data.message || e.data.error;
+      else if (e && e.message) msg = e.message;
+      setAceModalItem(ace);
+      setAceError(msg);
+    } finally {
+      setAceLoading(false);
+    }
+  } else {
+    setAceModalItem(ace);
+  }
+}
+
+
+
+
   useEffect(() => {
     (async () => {
       try {
@@ -408,7 +397,6 @@ export default function App() {
     })();
   }, []);
 
-  // load files when dataset changes
   useEffect(() => {
     if (!dataset) return;
     (async () => {
@@ -418,14 +406,8 @@ export default function App() {
         if (typeof parsed === "string") {
           try {
             parsed = JSON.parse(parsed);
-          } catch (e) {
-            try {
-              const once = JSON.parse(parsed);
-              if (typeof once === "string") parsed = JSON.parse(once);
-              else parsed = once;
-            } catch {
-              parsed = { samples: [], count: 0 };
-            }
+          } catch {
+            parsed = { samples: [], count: 0 };
           }
         }
 
@@ -461,7 +443,6 @@ export default function App() {
     })();
   }, [dataset]);
 
-  // run analysis
   const run = async (opts = {}) => {
     setErr("");
     setReport(null);
@@ -470,7 +451,6 @@ export default function App() {
     try {
       const data = await analyzeAPI(oldSpec, newSpec, dataset, usePairId ? pairId : null);
       const parsed = parseMaybeJson(data, null) || {};
-      // add small metadata to help exports
       parsed.metadata = parsed.metadata || {};
       if (!parsed.metadata.dataset) parsed.metadata.dataset = dataset;
       if (!parsed.metadata.file_name) parsed.metadata.file_name = newSpec || "";
@@ -480,9 +460,10 @@ export default function App() {
 
       setReport(parsed);
       latestReportRef.current = parsed;
-      setLastRequest({ oldSpec, newSpec, dataset, pairId: usePairId ? pairId : null });
 
-      // try to auto-fetch versioning if logs contain pair_id
+      // store lastRequest in snake_case pair_id so API wrapper expects that param
+      setLastRequest({ oldSpec, newSpec, dataset, pair_id: usePairId ? pairId : null });
+
       if (parsed && parsed.versioning && Object.keys(parsed.versioning).length === 0 && parsed.logs) {
         const logEntry = (parsed.logs || []).find((l) => typeof l === "string" && l.includes("pair_id="));
         if (logEntry) {
@@ -498,11 +479,11 @@ export default function App() {
         }
       }
 
-      // fetch example consumers
       if (parsed && parsed.backend_impacts && parsed.backend_impacts.length > 0) {
         try {
           const svc = parsed.backend_impacts[0].service;
-          const c = await fetchConsumers(svc);
+          const svcClean = (svc || "").replace(/^svc:/i, "").replace(/^ui:/i, "");
+          const c = await fetchConsumers(svcClean);
           setConsumers(parseMaybeJson(c, []));
         } catch {
           setConsumers([]);
@@ -511,32 +492,43 @@ export default function App() {
         setConsumers([]);
       }
     } catch (e) {
-      setErr(e?.message || "Failed to analyze. Check backend logs.");
+      // show structured server messages if present
+      let msg = "Failed to analyze. Check backend logs.";
+      if (e && e.data) {
+        if (typeof e.data === "string") msg = e.data;
+        else if (e.data.message) msg = e.data.message;
+        else if (e.data.detail) msg = Array.isArray(e.data.detail) ? e.data.detail.join("\n") : e.data.detail;
+        else msg = JSON.stringify(e.data);
+      } else if (e && e.message) {
+        msg = e.message;
+      }
+      setErr(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // retry last request
   const retry = async () => {
     if (!lastRequest) return;
     setErr("");
     setLoading(true);
     try {
-      const r = await analyzeAPI(lastRequest.oldSpec, lastRequest.newSpec, lastRequest.dataset, lastRequest.pairId);
+      const r = await analyzeAPI(lastRequest.oldSpec, lastRequest.newSpec, lastRequest.dataset, lastRequest.pair_id);
       const parsed = parseMaybeJson(r, null) || {};
       parsed.metadata = parsed.metadata || {};
       if (!parsed.metadata.generated_at) parsed.metadata.generated_at = new Date().toISOString();
       setReport(parsed);
       latestReportRef.current = parsed;
     } catch (e) {
-      setErr(e?.message || "Retry failed");
+      let msg = "Retry failed";
+      if (e && e.data && (e.data.message || e.data.error)) msg = e.data.message || e.data.error;
+      else if (e && e.message) msg = e.message;
+      setErr(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // export helpers
   const exportReport = () => {
     const r = latestReportRef.current || report;
     if (!r) {
@@ -578,39 +570,17 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const exportAceJson = (ace) => {
-    const name = `ace-${ace?.ace_id || "unknown"}-${Date.now()}.json`;
-    downloadJSON(ace || {}, name);
-  };
+  const computed = computeSummaryFromReport(report || {});
+  const acesCount = computed.aces;
+  const backendCount = computed.backendImpactsCount;
+  const frontendCount = computed.frontendImpactsCount;
+  const calibrationBins = computed.calibration_bins;
+  const confusionMatrix = computed.confusion_matrix;
+  const confusionLabels = computed.confusion_labels;
 
-  // batch runner
-  const runBatch = async (count = 5) => {
-    if (!dataset) return;
-    setBatchProgress({ running: true, done: 0, total: count });
-    try {
-      const results = await fetchReportsBatch({
-        dataset,
-        limit: count,
-        onProgress: (i, total, meta) => {
-          setBatchProgress({ running: true, done: i, total });
-        },
-      });
-      const ndjson = results.map((r) => JSON.stringify(r)).join("\n");
-      const blob = new Blob([ndjson], { type: "application/x-ndjson" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `batch-reports-${dataset}-${Date.now()}.ndjson`;
-      a.click();
-      URL.revokeObjectURL(url);
-      setBatchProgress({ running: false, done: results.length, total: results.length });
-    } catch (e) {
-      setErr("Batch run failed: " + (e?.message || e));
-      setBatchProgress({ running: false, done: 0, total: count });
-    }
-  };
+  const topB = toTop(report?.backend_impacts || []);
+  const topF = toTop(report?.frontend_impacts || []);
 
-  // risk helper
   const riskLevel = (score) => {
     const s = score ?? 0;
     if (s >= 0.7) return { label: "High", color: "error" };
@@ -618,17 +588,47 @@ export default function App() {
     return { label: "Low", color: "success" };
   };
 
-  const topB = toTop(report?.backend_impacts);
-  const topF = toTop(report?.frontend_impacts);
+  const provenanceLine = (r) => {
+    if (!r) return "";
+    const pid = r.metadata?.pair_id || r.logs?.find((l) => l.includes("pair_id="))?.match(/pair_id=([^\s,;]+)/)?.[1];
+    const risk = (r.predicted_risk ?? r.risk_score ?? 0).toFixed(2);
+    const gen = r.metadata?.generated_at || "";
+    return [pid ? `pair=${pid}` : null, `risk=${risk}`, gen ? `Generated ${gen}` : null].filter(Boolean).join(" • ");
+  };
 
-  // render explanation
+  const compactAceSummary = (d) => {
+    if (!d) return "";
+    if (d.path) return d.path;
+    const det = d.detail;
+    if (!det) return "";
+    if (typeof det === "string") return det.length > 120 ? det.slice(0, 117) + "..." : det;
+    if (typeof det === "object") {
+      const parts = [];
+      if (det.confidence !== undefined && det.confidence !== null) {
+        const num = Number(det.confidence);
+        parts.push(`conf=${Number.isFinite(num) ? num.toFixed(2) : String(det.confidence)}`);
+      }
+      const prov = det.provenance || {};
+      const old_sha = prov.old_sha || prov.old || prov.oldCommit;
+      const new_sha = prov.new_sha || prov.new || prov.newCommit;
+      if (old_sha || new_sha) parts.push(`sha=${String(old_sha || "").slice(0, 8)}→${String(new_sha || "").slice(0, 8)}`);
+      if (det.side_effect !== undefined) parts.push(`side_effects=${det.side_effect ? "yes" : "no"}`);
+      const calls = Array.isArray(det.calls_services || det.calls) ? (det.calls_services || det.calls).length : 0;
+      const shared = Array.isArray(det.shared_schemas) ? det.shared_schemas.length : (det.shared_schemas ? 1 : 0);
+      if (calls) parts.push(`calls=${calls}`);
+      if (shared) parts.push(`shared_schemas=${shared}`);
+      return parts.join(", ") || JSON.stringify(det);
+    }
+    return String(det);
+  };
+
   const renderHumanExplanation = (rpt) => {
     if (!rpt) return null;
     const score = rpt.predicted_risk ?? rpt.risk_score ?? 0;
     const band = riskLevel(score).label;
     const numChanges = (rpt.details && rpt.details.length) || 0;
-    const backendCount = (rpt.backend_impacts && rpt.backend_impacts.length) || 0;
-    const frontendCount = (rpt.frontend_impacts && rpt.frontend_impacts.length) || 0;
+    const backendCountLocal = (rpt.backend_impacts && rpt.backend_impacts.length) || 0;
+    const frontendCountLocal = (rpt.frontend_impacts && rpt.frontend_impacts.length) || 0;
     const confOverall = Math.round((rpt.confidence?.overall ?? 0) * 100);
     const confBackend = Math.round((rpt.confidence?.backend ?? 0) * 100);
     const confFrontend = Math.round((rpt.confidence?.frontend ?? 0) * 100);
@@ -636,8 +636,8 @@ export default function App() {
     const bullets = [
       `Risk: ${band} (${(score).toFixed(2)}) — confidence overall ${confOverall}%`,
       `${numChanges} API change${numChanges !== 1 ? "s" : ""} detected`,
-      `${backendCount} backend module${backendCount !== 1 ? "s" : ""} potentially impacted`,
-      `${frontendCount} frontend module${frontendCount !== 1 ? "s" : ""} potentially impacted`,
+      `${backendCountLocal} backend module${backendCountLocal !== 1 ? "s" : ""} potentially impacted`,
+      `${frontendCountLocal} frontend module${frontendCountLocal !== 1 ? "s" : ""} potentially impacted`,
     ];
 
     const versionLines = [];
@@ -691,26 +691,27 @@ export default function App() {
         <ol>
           {(rpt.details || []).map((d, i) => {
             const human = HUMAN_TYPE[d.type] || d.type || "Change";
-            const pathOrDetail = d.detail || d.path || "";
             const aceId = d.ace_id ? ` [${d.ace_id}]` : "";
             const reason = explainChange(d, rpt);
+            const shortDetail = compactAceSummary(d);
             return (
               <li key={i} style={{ marginBottom: 8 }}>
                 <Typography variant="body2">
                   <strong
                     style={{ cursor: "pointer", color: "#1565c0" }}
-                    onClick={() => openAceModal(d)}
+                    onClick={() => openAceModalFn(d)}
                   >
                     {human}
-                  </strong>{aceId} — {pathOrDetail}
+                  </strong>{aceId} — {shortDetail}
                 </Typography>
+
                 <Typography variant="body2" style={{ color: "#555", marginTop: 4 }}>
                   {reason}
-                  <span style={{ marginLeft: 8 }}>
-                    <Button size="small" variant="text" onClick={() => openAceModal(d)}>View ACE</Button>
-                    <Button size="small" variant="text" onClick={() => exportAceJson(d)}>Export ACE</Button>
-                  </span>
                 </Typography>
+
+                <div style={{ marginTop: 6 }}>
+                  <Button size="small" variant="text" onClick={() => openAceModalFn(d)}>View ACE</Button>
+                </div>
               </li>
             );
           })}
@@ -719,29 +720,12 @@ export default function App() {
     );
   };
 
-  const computed = computeSummaryFromReport(report || {});
-  const acesCount = computed.aces;
-  const backendCount = computed.backendImpactsCount;
-  const frontendCount = computed.frontendImpactsCount;
-  const calibrationBins = computed.calibration_bins;
-  const confusionMatrix = computed.confusion_matrix;
-  const confusionLabels = computed.confusion_labels;
-
-  // build repo link if available
-  const repoLink = (r) => {
-    if (!r) return null;
-    if (r.metadata?.repo_url) return r.metadata.repo_url;
-    if (r.metadata?.repo_owner && r.metadata?.repo_name) return `https://github.com/${r.metadata.repo_owner}/${r.metadata.repo_name}`;
-    return null;
-  };
-
   return (
     <Container maxWidth="lg" style={{ padding: "1rem 0 2rem 0" }}>
       <Typography variant="h5" align="center" gutterBottom>
         Impact AI — Prototype Dashboard {dataset ? `| ${dataset.toUpperCase()}` : ""}
       </Typography>
 
-      {/* Controls */}
       <Card style={{ marginBottom: 12 }}>
         <CardContent>
           <Grid container spacing={2} alignItems="center">
@@ -753,6 +737,7 @@ export default function App() {
                 label="Dataset"
                 value={dataset}
                 onChange={(e) => setDataset(e.target.value)}
+                InputLabelProps={{ shrink: true }}
                 inputProps={{ style: { textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" } }}
               >
                 {(datasets || []).map((ds) => (
@@ -776,6 +761,7 @@ export default function App() {
                   if (autoSync) setNew(e.target.value);
                 }}
                 SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 360 } } } }}
+                InputLabelProps={{ shrink: true }}
                 inputProps={{ style: { textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" } }}
               >
                 {(availableFiles || []).map((f, i) => (
@@ -798,6 +784,7 @@ export default function App() {
                   setAutoSync(false);
                 }}
                 SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 360 } } } }}
+                InputLabelProps={{ shrink: true }}
                 inputProps={{ style: { textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" } }}
               >
                 {(availableFiles || []).map((f, i) => (
@@ -809,7 +796,7 @@ export default function App() {
             </Grid>
 
             <Grid item xs={12} md={2}>
-              <TextField size="small" fullWidth label="Pair ID (optional)" value={pairId} onChange={(e) => setPairId(e.target.value)} />
+              <TextField size="small" fullWidth label="Pair ID (optional)" value={pairId} onChange={(e) => setPairId(e.target.value)} InputLabelProps={{ shrink: true }} />
             </Grid>
 
             <Grid item xs={12} md={1} style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
@@ -832,31 +819,10 @@ export default function App() {
               <FormControlLabel control={<Switch checked={autoSync} onChange={(e) => setAutoSync(e.target.checked)} />} label="Auto sync new = old when selecting" />
             </Grid>
 
-            <Grid item xs={12}>
-              <Stack direction="row" spacing={2}>
-                <Button variant="outlined" onClick={() => runBatch(10)} startIcon={<PlayArrowIcon />}>
-                  Batch: 10
-                </Button>
-                <Button variant="outlined" onClick={() => runBatch(25)} startIcon={<PlayArrowIcon />}>
-                  Batch: 25
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={async () => {
-                    await trainModel([{ change: "sample" }]);
-                    alert("train submitted");
-                  }}
-                >
-                  Send Sample
-                </Button>
-              </Stack>
-            </Grid>
           </Grid>
         </CardContent>
       </Card>
 
-      {/* Error */}
       {err && (
         <Card style={{ background: "#fff3f0", marginBottom: 12 }}>
           <CardContent>
@@ -865,239 +831,207 @@ export default function App() {
         </Card>
       )}
 
-      {/* Batch progress */}
-      {batchProgress && (
-        <Card style={{ marginBottom: 12 }}>
-          <CardContent>
-            <Typography variant="subtitle2">Batch run progress</Typography>
-            <LinearProgress variant="determinate" value={(batchProgress.done / (batchProgress.total || 1)) * 100} />
-            <Typography variant="caption">
-              {batchProgress.done}/{batchProgress.total}
-            </Typography>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Report card */}
       {report && (
         <>
-          {/* Provenance banner */}
           <Box marginBottom={2}>
             <Card style={{ background: "#f6f7f9" }}>
               <CardContent>
-                <Grid container alignItems="center" spacing={2}>
-                  <Grid item xs={12} md={7}>
-                    <Typography variant="subtitle2">
-                      {report.logs && report.logs.find((l) => l.includes("pair_id=")) ? (
-                        <>
-                          Curated pair detected — <strong>{(report.logs.find((l) => l.includes("pair_id=")) || "").split("pair_id=")[1]}</strong>
-                        </>
-                      ) : report.versioning && Object.keys(report.versioning).length > 0 ? (
-                        <>
-                          Version metadata available — <strong>{report.versioning.semver_old || report.versioning.semver_new || "meta"}</strong>
-                        </>
-                      ) : (
-                        <>Ad-hoc analysis (no curated pair)</>
-                      )}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {report.logs && report.logs.join(" • ")}
-                    </Typography>
-                    <Typography variant="caption" style={{ display: "block", marginTop: 6 }}>
-                      ACES: {report.summary_counts?.aces ?? acesCount} &nbsp;|&nbsp; Backend hits: {report.summary_counts?.backend_impacts ?? backendCount} &nbsp;|&nbsp; Frontend hits: {report.summary_counts?.frontend_impacts ?? frontendCount}
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item xs={12} style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                    <Typography
+                      variant="body2"
+                      style={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "70%",
+                      }}
+                      title={`${provenanceLine(report)} • ACES ${report.summary_counts?.aces ?? acesCount} | BE ${report.summary_counts?.backend_impacts ?? backendCount} | FE ${report.summary_counts?.frontend_impacts ?? frontendCount}`}
+                    >
+                      {provenanceLine(report)}
                     </Typography>
 
-                    {repoLink(report) && (
-                      <div style={{ marginTop: 6 }}>
-                        Repo: <code style={{ fontSize: 12 }}>
-                          <a href={repoLink(report)} target="_blank" rel="noreferrer">{(report.metadata?.repo_url || repoLink(report)).replace(/^https?:\/\//, "")}</a>
-                        </code>
-                      </div>
-                    )}
+                    <Box style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <Tooltip title="Export menu">
+                        <IconButton onClick={openExportMenu} size="small">
+                          <DownloadIcon />
+                        </IconButton>
+                      </Tooltip>
 
-                    {report.metadata?.commit_hash && (
-                      <div style={{ marginTop: 4 }}>
-                        Commit: <code style={{ fontSize: 12 }}>{report.metadata.commit_hash.slice(0, 10)}</code>
-                      </div>
-                    )}
+                      <Menu anchorEl={exportAnchor} open={Boolean(exportAnchor)} onClose={closeExportMenu}>
+                        <MenuItem onClick={() => { closeExportMenu(); exportReport(); }}>
+                          <DownloadIcon style={{ marginRight: 8 }} /> Export JSON (report)
+                        </MenuItem>
+                        <MenuItem onClick={() => { closeExportMenu(); exportCSVFromReportDetails(); }}>
+                          <CsvFileIcon style={{ marginRight: 8 }} /> Export CSV (details)
+                        </MenuItem>
+                        <MenuItem onClick={() => { closeExportMenu(); exportNDJSONBatch(); }}>
+                          <NdjsonIcon style={{ marginRight: 8 }} /> Export NDJSON (report)
+                        </MenuItem>
+                      </Menu>
 
-                    {report.metadata?.generated_at && (
-                      <div style={{ marginTop: 4 }}>
-                        <Typography variant="caption">Generated: {report.metadata.generated_at}</Typography>
-                      </div>
-                    )}
+                      <Tooltip title="Retry last analysis">
+                        <IconButton onClick={retry} size="small">
+                          <ReplayIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
                   </Grid>
-                  <Grid item xs={12} md={5} style={{ textAlign: "right" }}>
-                    <Tooltip title="Export menu">
-                      <IconButton onClick={openExportMenu}>
-                        <DownloadIcon />
-                      </IconButton>
-                    </Tooltip>
 
-                    <Menu anchorEl={exportAnchor} open={Boolean(exportAnchor)} onClose={closeExportMenu}>
-                      <MenuItem onClick={() => { closeExportMenu(); exportReport(); }}>
-                        <DownloadIcon style={{ marginRight: 8 }} /> Export JSON (report)
-                      </MenuItem>
-                      <MenuItem onClick={() => { closeExportMenu(); exportCSVFromReportDetails(); }}>
-                        <CsvFileIcon style={{ marginRight: 8 }} /> Export CSV (details)
-                      </MenuItem>
-                      <MenuItem onClick={() => { closeExportMenu(); exportNDJSONBatch(); }}>
-                        <NdjsonIcon style={{ marginRight: 8 }} /> Export NDJSON (report)
-                      </MenuItem>
-                    </Menu>
+                  <Grid item xs={12}>
+                    <Grid container spacing={2} alignItems="center">
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="subtitle2">ACES</Typography>
+                        <Typography variant="h6">{report.summary_counts?.aces ?? acesCount}</Typography>
+                      </Grid>
 
-                    <Tooltip title="Retry last analysis">
-                      <IconButton onClick={retry}>
-                        <ReplayIcon />
-                      </IconButton>
-                    </Tooltip>
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="subtitle2">Backend impacts</Typography>
+                        <Typography variant="h6">{report.summary_counts?.backend_impacts ?? backendCount}</Typography>
+                      </Grid>
+
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="subtitle2">Frontend impacts</Typography>
+                        <Typography variant="h6">{report.summary_counts?.frontend_impacts ?? frontendCount}</Typography>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </CardContent>
             </Card>
           </Box>
 
-          {/* Top row */}
-          <Grid container spacing={2} marginBottom={2}>
-            <Grid item xs={12} md={4}>
+          <Grid container spacing={2} marginBottom={2} alignItems="center">
+            <Grid item xs={12} md={6}>
               <Card>
                 <CardContent>
                   <Typography variant="subtitle1">Predicted Risk</Typography>
-                  <Box position="relative" display="inline-flex" marginTop={1}>
-                    <CircularProgress
-                      variant="determinate"
-                      value={(report.predicted_risk ?? 0) * 100}
-                      size={92}
-                      thickness={5}
-                      style={{
-                        color:
-                          (report.predicted_risk ?? 0) >= 0.7
-                            ? "#e53935"
-                            : (report.predicted_risk ?? 0) >= 0.4
-                            ? "#ffb300"
-                            : "#43a047",
-                      }}
-                    />
-                    <Box position="absolute" top={0} left={0} right={0} bottom={0} display="flex" alignItems="center" justifyContent="center">
-                      <Typography variant="h6">{(report.predicted_risk ?? 0).toFixed(2)}</Typography>
+                  <Box display="flex" alignItems="center" marginTop={1}>
+                    <Box position="relative" display="inline-flex" marginRight={2}>
+                      <CircularProgress
+                        variant="determinate"
+                        value={(report.predicted_risk ?? 0) * 100}
+                        size={78}
+                        thickness={5}
+                        style={{
+                          color:
+                            (report.predicted_risk ?? 0) >= 0.7
+                              ? "#e53935"
+                              : (report.predicted_risk ?? 0) >= 0.4
+                              ? "#ffb300"
+                              : "#43a047",
+                        }}
+                      />
+                      <Box position="absolute" top={0} left={0} right={0} bottom={0} display="flex" alignItems="center" justifyContent="center">
+                        <Typography variant="h6">{(report.predicted_risk ?? 0).toFixed(2)}</Typography>
+                      </Box>
+                    </Box>
+
+                    <Box flex="1">
+                      <Typography variant="body2" style={{ marginBottom: 6 }}>{riskLevel(report.predicted_risk).label}</Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {((report.details || []).length || 0)} change{((report.details || []).length !== 1) ? "s" : ""} detected
+                      </Typography>
                     </Box>
                   </Box>
-                  <Typography variant="body2" style={{ marginTop: 8 }}>
-                    {riskLevel(report.predicted_risk).label}
-                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
 
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={6}>
               <Card>
                 <CardContent>
                   <Typography variant="subtitle1">Confidence</Typography>
-                  <Typography variant="caption">Overall</Typography>
-                  <LinearProgress variant="determinate" value={(report.confidence?.overall ?? 0) * 100} />
-                  <Typography variant="caption">Backend</Typography>
-                  <LinearProgress variant="determinate" value={(report.confidence?.backend ?? 0) * 100} />
-                  <Typography variant="caption">Frontend</Typography>
-                  <LinearProgress variant="determinate" value={(report.confidence?.frontend ?? 0) * 100} />
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-
-          {/* charts */}
-          <Grid container spacing={2} marginBottom={2}>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6">Backend Impacts</Typography>
-                  {topB.length === 0 ? (
-                    <Typography variant="body2" color="textSecondary">
-                      No backend impacts detected.
-                    </Typography>
-                  ) : (
-                    <ResponsiveContainer width="100%" height={240}>
-                      <BarChart data={topB} margin={{ top: 6, right: 8, left: 0, bottom: 28 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" tick={<CustomizedAxisTick />} interval={0} height={70} allowDataOverflow />
-                        <YAxis domain={[0, 1]} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
-                        <ReTooltip
-                          formatter={(value) => `${Math.round(value * 100)}%`}
-                          labelFormatter={(label, payload) => (payload && payload[0] && payload[0].payload.fullName) || label}
-                        />
-                        <Bar dataKey="risk" barSize={26} label={renderBarLabel} isAnimationActive={false} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6">Frontend Impacts</Typography>
-                  {topF.length === 0 ? (
-                    <Typography variant="body2" color="textSecondary">
-                      No frontend impacts detected.
-                    </Typography>
-                  ) : (
-                    <ResponsiveContainer width="100%" height={240}>
-                      <BarChart data={topF} margin={{ top: 6, right: 8, left: 0, bottom: 28 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" tick={<CustomizedAxisTick />} interval={0} height={70} allowDataOverflow />
-                        <YAxis domain={[0, 1]} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
-                        <ReTooltip
-                          formatter={(value) => `${Math.round(value * 100)}%`}
-                          labelFormatter={(label, payload) => (payload && payload[0] && payload[0].payload.fullName) || label}
-                        />
-                        <Bar dataKey="risk" barSize={26} label={renderBarLabel} isAnimationActive={false} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-
-          {/* Calibration & Confusion */}
-          <Grid container spacing={2} marginBottom={2}>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6">Calibration</Typography>
                   <Box marginTop={1}>
-                    <CalibrationChart bins={calibrationBins} />
+                    <Typography variant="caption">Overall confidence</Typography>
+                    <LinearProgress variant="determinate" value={(report.confidence?.overall ?? 0) * 100} style={{ height: 10, borderRadius: 6, marginBottom: 8 }} />
+
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Box width="50%">
+                        <Typography variant="caption">Backend</Typography>
+                        <LinearProgress variant="determinate" value={(report.confidence?.backend ?? 0) * 100} style={{ height: 8, borderRadius: 6 }} />
+                      </Box>
+                      <Box width="50%">
+                        <Typography variant="caption">Frontend</Typography>
+                        <LinearProgress variant="determinate" value={(report.confidence?.frontend ?? 0) * 100} style={{ height: 8, borderRadius: 6 }} />
+                      </Box>
+                    </Stack>
                   </Box>
                 </CardContent>
               </Card>
             </Grid>
-
-            {confusionMatrix ? (
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6">Confusion Matrix</Typography>
-                    <Box marginTop={1}>
-                      <ConfusionCard matrix={confusionMatrix} labels={confusionLabels} />
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ) : (
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6">Confusion Matrix</Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      No confusion matrix available. Hidden by default when no data present.
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )}
           </Grid>
 
-          {/* improved humanized explanation */}
+          <Grid container spacing={2} marginBottom={2}>
+            <Grid item xs={12} md={4}>
+              <Card>
+                <CardContent style={{ padding: 4 }}>
+                  <Typography variant="h6">Backend Impacts</Typography>
+                  {topB.length === 0 ? (
+                    <Typography variant="body2" color="textSecondary">No backend impacts detected.</Typography>
+                  ) : (
+                    <ResponsiveContainer width="100%" height={260}>
+                      <BarChart data={topB} margin={{ top: 4, right: 8, left: 0, bottom: 40 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" tick={<CustomizedAxisTick maxChars={18} />} interval={0} height={48} tickMargin={10} />
+                        <YAxis domain={[0, 1]} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
+                        <ReTooltip formatter={(value) => `${Math.round(value * 100)}%`} labelFormatter={(label, payload) => (payload && payload[0] && payload[0].payload.fullName) || label} />
+                        <Bar dataKey="risk" barSize={26} label={renderBarLabel} isAnimationActive={false} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <Card>
+                <CardContent style={{ padding: 4 }}>
+                  <Typography variant="h6">Frontend Impacts</Typography>
+                  {topF.length === 0 ? (
+                    <Typography variant="body2" color="textSecondary">No frontend impacts detected.</Typography>
+                  ) : (
+                    <ResponsiveContainer width="100%" height={260}>
+                      <BarChart data={topF} margin={{ top: 4, right: 8, left: 0, bottom: 40 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" tick={<CustomizedAxisTick maxChars={18} />} interval={0} height={48} tickMargin={10} />
+                        <YAxis domain={[0, 1]} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
+                        <ReTooltip formatter={(value) => `${Math.round(value * 100)}%`} labelFormatter={(label, payload) => (payload && payload[0] && payload[0].payload.fullName) || label} />
+                        <Bar dataKey="risk" barSize={26} label={renderBarLabel} isAnimationActive={false} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <Card>
+                <CardContent style={{ padding: 4 }}>
+                  <Typography variant="h6">Calibration</Typography>
+                  <ResponsiveContainer width="100%" height={260}>
+                    <LineChart
+                      data={calibrationBins.map((b, i) => ({
+                        bin: `${Math.round((b.pred_mean ?? 0) * 100)}%`,
+                        empirical: (b.empirical ?? 0) * 100,
+                        ideal: ((i / Math.max(1, calibrationBins.length - 1)) * 100)
+                      }))}
+                      margin={{ top: 4, right: 12, left: 8, bottom: 40 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="bin" height={40} tickMargin={10} />
+                      <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                      <ReTooltip formatter={(v) => `${v}%`} />
+                      <Legend verticalAlign="bottom" height={20} />
+                      <Line type="monotone" dataKey="empirical" stroke="#1976d2" strokeWidth={2} dot={{ r: 3 }} />
+                      <Line type="linear" dataKey="ideal" stroke="#999" strokeDasharray="4 4" dot={false} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+
           <Card style={{ marginBottom: 12 }}>
             <CardContent>
               <Typography variant="h6">AI Explanation</Typography>
@@ -1105,7 +1039,6 @@ export default function App() {
             </CardContent>
           </Card>
 
-          {/* versioning (kept for debugging) */}
           {report.versioning && (
             <Card style={{ marginBottom: 12 }}>
               <CardContent>
@@ -1115,7 +1048,6 @@ export default function App() {
             </Card>
           )}
 
-          {/* consumers */}
           {consumers && consumers.length > 0 && (
             <Card style={{ marginBottom: 12 }}>
               <CardContent>
@@ -1127,8 +1059,13 @@ export default function App() {
         </>
       )}
 
-      {/* ACE modal */}
-      <AceModal open={aceModalOpen} ace={aceModalItem} onClose={closeAceModal} />
+      <AceModal
+        open={aceModalOpen}
+        ace={aceModalItem}
+        loading={aceLoading}
+        error={aceError}
+        onClose={closeAceModal}
+      />
     </Container>
   );
 }
