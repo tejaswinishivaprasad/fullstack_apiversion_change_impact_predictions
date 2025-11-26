@@ -224,7 +224,7 @@
                             "Inactive",
                             "Suspended"
                           ],
-                          "type": "string"
+                          "type": "number"
                         },
                         "statusReason": {
                           "description": "The reason why the status was assigned to the account holder.",
