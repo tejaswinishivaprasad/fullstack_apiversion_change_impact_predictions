@@ -1,0 +1,10 @@
+# minimal deps required for ci_server_run.py + importing server.py safely
+
+PyYAML>=6.0
+networkx>=3.1
+
+# FastAPI is required because server.py imports it at module-load time
+fastapi>=0.95,<1.0
+
+# Explicitly ensure pydantic is there (FastAPI depends on v1.x)
+pydantic>=1.10,<2.0
