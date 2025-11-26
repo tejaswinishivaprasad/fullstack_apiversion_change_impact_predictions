@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "/catalog-service": {
+      "get": {
+        "description": "orig"
+      }
+    }
+  }
+}

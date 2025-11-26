@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-f85afc3bacff6618e9d2",
+  "service_name": "petclinic-transaction-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--petclinic-transaction-service--f85afc3b--v1.canonical.json",
+  "new_canonical": "petclinic--petclinic-transaction-service--f85afc3b--v2.canonical.json",
+  "old": "datasets/curated/petclinic/canonical/petclinic--petclinic-transaction-service--f85afc3b--v1.canonical.json",
+  "new": "datasets/curated/petclinic/canonical/petclinic--petclinic-transaction-service--f85afc3b--v2.canonical.json",
+  "old_sha": "08978a225b9c08ce47ed",
+  "new_sha": "4ca7a77c34988e871b0c",
+  "generated_at": "2025-11-25T18:29:55+00:00"
+}

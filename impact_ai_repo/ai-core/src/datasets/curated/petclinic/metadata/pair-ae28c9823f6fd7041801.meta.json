@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-ae28c9823f6fd7041801",
+  "service_name": "petclinic-analytics-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--petclinic-analytics-service--ae28c982--v1.canonical.json",
+  "new_canonical": "petclinic--petclinic-analytics-service--ae28c982--v2.canonical.json",
+  "old": "datasets/curated/petclinic/canonical/petclinic--petclinic-analytics-service--ae28c982--v1.canonical.json",
+  "new": "datasets/curated/petclinic/canonical/petclinic--petclinic-analytics-service--ae28c982--v2.canonical.json",
+  "old_sha": "4efe11598a649edc6721",
+  "new_sha": "89bdd0db6a971c057ada",
+  "generated_at": "2025-11-25T18:29:55+00:00"
+}

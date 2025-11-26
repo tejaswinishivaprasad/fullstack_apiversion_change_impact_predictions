@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """
-curated_datasets.py - end-to-end curated dataset generator (patched + optimized)
+curated_datasets.py - patched, fixed and end-to-end curated dataset generator.
 
-Main runtime improvements (non-breaking):
- - _read_file uses an LRU cache to avoid re-parsing the same files repeatedly.
- - external $ref resolution is cached to avoid repeated file loads for the same referenced document.
- - canonicalize_with_timeout uses a persistent ProcessPoolExecutor (reuses worker processes).
- - normal JSON writes avoid unnecessary sort_keys; stable SHA blobs still use sorted serialization.
- - optional CLI flags (--skip-clone, --no-augment, --synthesize-openapi) unchanged and respected.
- - preserves folder structure and output filenames exactly.
+Purpose:
+ - Produce canonical/, ndjson/, metadata/, index.json, version_meta.json, version_pairs.csv
+ - Use robust canonicalization and safe deterministic mapping from raw OpenAPI files
+ - Guarantee safe pair_id generation (pair-<hex>) to avoid URL encoding/lookup issues
+ - Provide dry-run mode for inspection before writing disk
 
-Usage example:
-  python curated_datasets.py --out datasets/curated --seed 42 --max 200 \
-    --target-openapi 1000 --target-petclinic 200 --target-openrewrite 200 \
-    --no-augment --openapi-timeout 10
+Usage (dry-run first):
+  python curated_datasets.py --out datasets/curated --max 400 --seed 42 --dry-run
+
+Run for real:
+  python curated_datasets.py --out datasets/curated --max 400 --seed 42
 """
 from __future__ import annotations
 import argparse
@@ -34,13 +33,13 @@ from typing import Any, Dict, List, Tuple, Optional
 from functools import lru_cache
 from concurrent.futures import ProcessPoolExecutor, TimeoutError
 import multiprocessing as mp
-
+import hashlib as _hashlib
 import yaml
 
 # ---------- Logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-# ---------- Defaults (can be overridden via CLI)
+# ---------- Defaults (override via CLI)
 RAW_ROOT = Path("datasets/raw")
 CURATED_ROOT = Path("datasets/curated")
 
@@ -50,14 +49,27 @@ OPENREWRITE_REPO = "https://github.com/openrewrite/rewrite.git"
 
 _MAX_CANONICAL_DEPTH = 2000
 
-# ---------- Small shared caches (module-level)
+# ---------- Module-level caches and pool
 _resolved_external_cache: Dict[str, Any] = {}
-# cache for canonicalization results keyed by content hash (to avoid re-canonicalizing same doc)
 _canon_cache: Dict[str, Tuple[Optional[Dict[str, Any]], List[str]]] = {}
-# persistent process pool (lazy init)
 _CANON_POOL: Optional[ProcessPoolExecutor] = None
 
-# ---------- Helpers
+# ---------- Small deterministic pools for realistic naming
+REAL_SERVICE_POOL = [
+    "payment-service", "order-service", "inventory-service", "transaction-service",
+    "user-service", "billing-service", "auth-service", "notifications-service",
+    "catalog-service", "shipping-service", "analytics-service", "search-service"
+]
+
+UI_SERVICE_POOL = ["admin-ui", "storefront-ui", "dashboard-ui", "mobile-ui"]
+
+RESOURCE_BASES = [
+    "payments", "orders", "inventory", "transactions", "users",
+    "billing", "shipments", "products", "carts", "reviews", "profiles"
+]
+
+# ---------- Utilities
+
 def _ensure_dir(p: Path):
     p.mkdir(parents=True, exist_ok=True)
 
@@ -90,7 +102,102 @@ def _default_json_serializer(obj: Any):
 def sha_for_text(s: str) -> str:
     return hashlib.sha256(s.encode("utf-8")).hexdigest()[:20]
 
-# Use cached file reads to avoid repetitive disk parsing
+# safe JSON writes
+def _write_json(p: Path, obj):
+    _ensure_dir(p.parent)
+    p.write_text(json.dumps(obj, indent=2, ensure_ascii=False, default=_default_json_serializer), encoding="utf-8")
+
+def _write_json_sorted(p: Path, obj):
+    _ensure_dir(p.parent)
+    p.write_text(json.dumps(obj, indent=2, ensure_ascii=False, sort_keys=True, default=_default_json_serializer), encoding="utf-8")
+
+# ---------- Deterministic 'realistic' helpers (kept from your version)
+def _deterministic_choice_from_str(seed_str: str, pool: List[str]) -> str:
+    if not pool:
+        return seed_str[:24]
+    try:
+        h = int(_hashlib.sha256(seed_str.encode("utf-8")).hexdigest()[:16], 16)
+        return pool[h % len(pool)]
+    except Exception:
+        return pool[0]
+
+def pick_real_service(seed_str: str) -> str:
+    return _deterministic_choice_from_str(seed_str, REAL_SERVICE_POOL)
+
+def pick_ui_service(seed_str: str) -> str:
+    return _deterministic_choice_from_str(seed_str, UI_SERVICE_POOL)
+
+def _normalize_token(token: str) -> str:
+    t = re.sub(r"auto|autogen|autox|synth|synthetic|svc|ui", "", token, flags=re.I)
+    t = re.sub(r"[^a-zA-Z0-9]+", "-", t).strip("-").lower()
+    if not t:
+        return token.lower()
+    return t
+
+def make_path_realistic(path: str, seed_str: str = "") -> str:
+    if not path or not isinstance(path, str):
+        return path
+    p = path.strip()
+    p = re.sub(r"//+", "/", p)
+    def norm_param(m):
+        inner = m.group(1)
+        inner2 = re.sub(r"[^a-zA-Z0-9_]+", "_", inner).strip("_")
+        if not inner2:
+            inner2 = "id"
+        base = _deterministic_choice_from_str(seed_str + inner2, ["id", "paymentId", "orderId", "sku", "userId"])
+        return "{" + base + "}"
+    p = re.sub(r"\{([^}]+)\}", norm_param, p)
+    if re.search(r"/auto|autogen|autox|synth|synthetic", p, flags=re.I) or re.search(r"/\d{2,}", p):
+        base = _deterministic_choice_from_str(seed_str + p, RESOURCE_BASES)
+        return f"/{base}/{{id}}"
+    if re.search(r"/\d+$", p):
+        p = re.sub(r"/\d+$", "/{id}", p)
+        return p
+    tokens = [t for t in p.split("/") if t]
+    if len(tokens) == 1:
+        base = _deterministic_choice_from_str(seed_str + tokens[0], RESOURCE_BASES)
+        return f"/{base}/{{id}}"
+    new_tokens = []
+    for t in tokens:
+        cleaned = _normalize_token(t)
+        if re.search(r"\d{2,}", t):
+            new_tokens.append("{id}")
+        else:
+            new_tokens.append(cleaned or t)
+    return "/" + "/".join(new_tokens)
+
+def realisticize_canonical(canon: Dict[str, Any], seed_str: str):
+    if not isinstance(canon, dict):
+        return canon, []
+    paths = canon.get("paths") or {}
+    new_paths = {}
+    op_samples = []
+    for p in sorted(list(paths.keys())):
+        safe_p = str(p)
+        new_p = make_path_realistic(safe_p, seed_str + safe_p)
+        methods = paths.get(p) or {}
+        new_methods = {}
+        for method_name, op in (methods.items() if isinstance(methods, dict) else []):
+            if not isinstance(op, dict):
+                new_methods[method_name] = op
+                continue
+            new_op = deepcopy(op)
+            opid = new_op.get("operationId") or new_op.get("summary") or f"{method_name}_{re.sub(r'[^a-z0-9]+','_', new_p)}"
+            opid_seed = seed_str + str(opid)
+            new_op["operationId"] = _normalize_token(_deterministic_choice_from_str(opid_seed, [opid, opid + "_v2"])) or opid
+            params = new_op.get("parameters") or []
+            for param in (params if isinstance(params, list) else []):
+                if isinstance(param, dict) and param.get("name"):
+                    n = param["name"]
+                    if re.search(r"^auto|^param|^\d", n, flags=re.I) or len(n) > 24:
+                        param["name"] = _deterministic_choice_from_str(seed_str + n, ["id", "status", "limit", "offset", "q", "sku", "email"])
+            new_methods[method_name] = new_op
+            op_samples.append(new_p)
+        new_paths[new_p] = new_methods
+    canon["paths"] = new_paths
+    return canon, sorted(list(set(op_samples)))[:10]
+
+# ---------- Robust file reads with caching
 @lru_cache(maxsize=4096)
 def _read_file_cached_text(path_str: str) -> Optional[str]:
     try:
@@ -112,7 +219,6 @@ def _read_file(p: Path) -> Optional[Any]:
         except Exception as e:
             logging.debug(f"yaml.safe_load failed for {p}: {e}")
             try:
-                # last resort
                 return json.loads(txt)
             except Exception:
                 return None
@@ -125,36 +231,7 @@ def _read_file(p: Path) -> Optional[Any]:
             logging.debug(f"_read_file failed to parse {p}: {e}")
             return None
 
-# Non-sorted JSON write for speed; keep deterministic SHA helper for when sort_keys is required.
-def _write_json(p: Path, obj):
-    _ensure_dir(p.parent)
-    p.write_text(json.dumps(obj, indent=2, ensure_ascii=False, default=_default_json_serializer), encoding="utf-8")
-
-def _write_json_sorted(p: Path, obj):
-    """Write JSON with sorted keys (only use when you need stable ordering)."""
-    _ensure_dir(p.parent)
-    p.write_text(json.dumps(obj, indent=2, ensure_ascii=False, sort_keys=True, default=_default_json_serializer), encoding="utf-8")
-
-# ---------- Clone helper (unchanged behavior)
-def clone_if_needed(repo_url: str, dest: Path, timeout_sec: int = 120):
-    try:
-        if dest.exists() and any(dest.rglob("*")):
-            logging.info(f"Repo already present: {dest}")
-            return
-        if dest.exists():
-            shutil.rmtree(dest)
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        logging.info(f"Cloning {repo_url} -> {dest}")
-        subprocess.run(["git", "clone", "--depth", "1", repo_url, str(dest)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout_sec)
-    except Exception as e:
-        logging.warning(f"git clone failed for {repo_url}: {e}")
-        if dest.exists() and not any(dest.rglob("*")):
-            try:
-                shutil.rmtree(dest)
-            except Exception:
-                pass
-
-# ---------- Canonicalize & $ref resolver (robust, with external ref caching)
+# ---------- Canonicalizer (keeps your robust resolver and caches)
 def resolve_local_pointer(root: Any, pointer: str):
     if pointer == "#" or pointer == "#/":
         return deepcopy(root)
@@ -172,23 +249,13 @@ def resolve_local_pointer(root: Any, pointer: str):
     return deepcopy(cur)
 
 def canonicalize_spec(spec: Any, base_dir: Path):
-    """
-    Robust canonicalizer:
-    - If `spec` is a list, recursively search for the first dict-like candidate
-      that looks like an OpenAPI/Swagger document. Handles nested lists.
-    - Defensive when encountering unexpected types (lists, strings) and records
-      warnings instead of crashing. Returns (canon_dict, warnings_list).
-    """
     warnings: List[str] = []
-
-    # Helper: recursively find a dict candidate inside lists (limited depth)
     def _find_dict_candidate(obj, depth=0):
         if depth > 8:
             return None
         if isinstance(obj, dict):
             if obj.get("paths") or obj.get("openapi") or obj.get("swagger"):
                 return obj
-            # fallback: return dict even if it doesn't look like OpenAPI
             return obj
         if isinstance(obj, list):
             for it in obj:
@@ -196,8 +263,6 @@ def canonicalize_spec(spec: Any, base_dir: Path):
                 if cand is not None:
                     return cand
         return None
-
-    # Normalize top-level spec if it's a list or weird wrapper
     if not isinstance(spec, dict):
         if isinstance(spec, list):
             cand = _find_dict_candidate(spec)
@@ -211,7 +276,6 @@ def canonicalize_spec(spec: Any, base_dir: Path):
             return {"paths": {}}, warnings
 
     depth = 0
-
     def _rec(node, cur_base: Path, stack: Tuple[str, ...] = ()):
         nonlocal depth
         depth += 1
@@ -253,7 +317,6 @@ def canonicalize_spec(spec: Any, base_dir: Path):
                             depth -= 1
                             return {"__unresolved_ref__": ref}
                         try:
-                            # Use module-level cache for external refs
                             cache_key = f"{str(target_file.resolve())}::{ptr}"
                             if cache_key in _resolved_external_cache:
                                 loaded = _resolved_external_cache[cache_key]
@@ -306,32 +369,23 @@ def canonicalize_spec(spec: Any, base_dir: Path):
             warnings.append(f"canonicalize node error: {e}")
             depth -= 1
             return {"__canonicalize_error__": str(e)}
-
     try:
         canon = _rec(spec, base_dir)
     except Exception as e:
         warnings.append(f"canonicalization failed top-level: {e}")
         canon = deepcopy(spec)
-
-    # Ensure canonical shape expected by downstream code
     if not isinstance(canon, dict) or "paths" not in canon:
         canon = {"paths": {}}
-
     return canon, warnings
 
-# ---------- Persistent ProcessPoolExecutor based canonicalize_with_timeout
+# ---------- Parallel canonicalization pool
 def _start_canon_pool(max_workers: int = max(1, (mp.cpu_count() or 2) // 2)):
     global _CANON_POOL
     if _CANON_POOL is None:
-        # use a small pool; too many processes harm IO-bound workloads
         _CANON_POOL = ProcessPoolExecutor(max_workers=max_workers)
     return _CANON_POOL
 
 def _canon_worker_serialized(spec_text: str, base_dir_str: str):
-    """
-    Executed in worker process. Re-implements minimal local parsing and then calls
-    canonicalize_spec defined in this module (worker will have module code).
-    """
     import json as _json, yaml as _yaml
     from pathlib import Path as _Path
     try:
@@ -342,11 +396,6 @@ def _canon_worker_serialized(spec_text: str, base_dir_str: str):
     return {"canon": canon, "warns": warns}
 
 def canonicalize_with_timeout(spec, base_dir, timeout_sec: int = 8):
-    """
-    Use a persistent ProcessPoolExecutor to avoid per-call process spawn overhead.
-    Returns (canon, warns) or (None, [error]).
-    """
-    # Cache by spec content hash to avoid repeated canonicalization on identical content
     try:
         spec_blob = json.dumps(spec, sort_keys=True, default=_default_json_serializer)
     except Exception:
@@ -354,9 +403,7 @@ def canonicalize_with_timeout(spec, base_dir, timeout_sec: int = 8):
     key = sha_for_text(spec_blob)
     if key in _canon_cache:
         return _canon_cache[key]
-
     pool = _start_canon_pool()
-    # Serialize spec to text for safer pickling
     try:
         spec_text = json.dumps(spec, default=_default_json_serializer)
     except Exception:
@@ -374,20 +421,66 @@ def canonicalize_with_timeout(spec, base_dir, timeout_sec: int = 8):
     except Exception as e:
         _canon_cache[key] = (None, [f"canonicalize worker exception: {e}"])
         return None, [f"canonicalize worker exception: {e}"]
-
     canon = res.get("canon")
     warns = res.get("warns", [])
     _canon_cache[key] = (canon, warns)
     return canon, warns
 
-# ---------- Diff injection and ACE logic (unchanged behavior, small style improvements)
+# ---------- Pair helpers (centralized, safe)
+def generate_pair_id(service_name: str, old_sha: str, new_sha: str) -> str:
+    """
+    Always produce a safe pair id of the form: pair-<hex>
+    Deterministic for given inputs.
+    """
+    key = f"{service_name}::{old_sha}::{new_sha}"
+    return f"pair-{sha_for_text(key)}"
+
+def make_pair_token(service_name: str, old_sha: str, new_sha: str) -> str:
+    """
+    Create a stable shared filename token for both versions of a pair.
+    Deterministic: same old_sha/new_sha always result in same token.
+    Short token (8 chars) to keep filenames readable.
+    """
+    key = f"{service_name}::{old_sha}::{new_sha}"
+    return sha_for_text(key)[:8]
+
+def make_canonical_filename(dataset: str, service_name: str, pair_token: str, version_tag: str) -> str:
+    """
+    Unified canonical filename formatting:
+      <dataset>--<service>--<pairtoken>--v1.canonical.json
+    """
+    safe_ds = re.sub(r"[^0-9a-zA-Z]+", "-", dataset).strip("-").lower()
+    safe_svc = re.sub(r"[^0-9a-zA-Z\-_]+", "-", service_name).strip("-").lower()
+    v = version_tag.lower()
+    return f"{safe_ds}--{safe_svc}--{pair_token}--{v}.canonical.json"
+
+# ---------- Small helper to normalize/repair loaded index entries
+def _normalize_pair_entry(entry: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Ensure every entry has a safe pair_id and expected fields.
+    If legacy or broken pair_id exists (e.g. 'n/a'), repair by regenerating when possible.
+    """
+    pid = entry.get("pair_id") or entry.get("pair") or None
+    svc = entry.get("service_name") or entry.get("service") or "unknown"
+    old_sha = entry.get("old_sha") or entry.get("oldSha") or ""
+    new_sha = entry.get("new_sha") or entry.get("newSha") or ""
+    if not pid or not isinstance(pid, str) or pid.strip().lower() in ("n", "n/a", "na", "none", ""):
+        # regenerate
+        pid = generate_pair_id(svc, old_sha or "old", new_sha or "new")
+        entry["pair_id"] = pid
+    # ensure canonical filenames are strings
+    for k in ("old_canonical", "new_canonical", "old", "new"):
+        if k in entry and entry[k] is None:
+            entry[k] = ""
+    return entry
+
+# ---------- Diff detection and ACE logic (kept, minor tidy)
 def inject_openapi_diffs(doc: Dict[str, Any], seed: int = 0) -> Dict[str, Any]:
     r = random.Random(seed)
     new_doc = deepcopy(doc)
     paths = new_doc.setdefault("paths", {})
     candidates = list(paths.keys())
     r.shuffle(candidates)
-
     for p in candidates[: max(0, min(4, len(candidates)))]:
         methods = paths.get(p) or {}
         for m in list(methods.keys())[:1]:
@@ -407,7 +500,6 @@ def inject_openapi_diffs(doc: Dict[str, Any], seed: int = 0) -> Dict[str, Any]:
                             idx = r.randrange(len(params))
                             if isinstance(params[idx], dict):
                                 params[idx]["required"] = True
-
     for _ in range(r.randint(1, 4)):
         new_path = f"/auto{r.randint(100,9999)}"
         if r.random() < 0.5:
@@ -442,13 +534,11 @@ def inject_openapi_diffs(doc: Dict[str, Any], seed: int = 0) -> Dict[str, Any]:
                     }
                 }
             }
-
     if candidates and r.random() < 0.2:
         try:
             del paths[candidates[0]]
         except Exception:
             pass
-
     for p, methods in list(paths.items()):
         for m, op in (methods or {}).items():
             if not isinstance(op, dict):
@@ -464,13 +554,6 @@ def inject_openapi_diffs(doc: Dict[str, Any], seed: int = 0) -> Dict[str, Any]:
                             elif "enum" in sch and r.random() < 0.5:
                                 if isinstance(sch["enum"], list) and len(sch["enum"]) > 1:
                                     sch["enum"] = sch["enum"][:-1]
-                rb = op.get("requestBody", {})
-                for ct, body in (rb.get("content") or {}).items():
-                    s = body.get("schema", {})
-                    if isinstance(s, dict) and "enum" in s:
-                        if isinstance(s["enum"], list) and len(s["enum"]) > 1 and r.random() < 0.6:
-                            s["enum"] = s["enum"][:-1]
-
             if "responses" in op and r.random() < 0.12:
                 resp_keys = list(op["responses"].keys())
                 if len(resp_keys) > 1 and r.random() < 0.7:
@@ -479,14 +562,12 @@ def inject_openapi_diffs(doc: Dict[str, Any], seed: int = 0) -> Dict[str, Any]:
                         del op["responses"][rm]
                     except Exception:
                         pass
-
             params = op.get("parameters") or []
             for param in params:
                 if isinstance(param, dict) and r.random() < 0.08:
                     sch = param.setdefault("schema", {})
                     if "type" in sch:
                         sch["type"] = "integer" if sch["type"] == "string" else "string"
-
     return new_doc
 
 def compare_operations(old_op, new_op, path, method):
@@ -499,10 +580,8 @@ def compare_operations(old_op, new_op, path, method):
                     return item
             return {}
         return {}
-
     old_op = _norm_op(old_op)
     new_op = _norm_op(new_op)
-
     aces = []
     if not old_op and new_op:
         aces.append({"type": "ENDPOINT_ADDED", "path": path, "method": method})
@@ -510,26 +589,20 @@ def compare_operations(old_op, new_op, path, method):
     if old_op and not new_op:
         aces.append({"type": "ENDPOINT_REMOVED", "path": path, "method": method})
         return aces
-
     old_params_list = (old_op.get("parameters") or []) if isinstance(old_op, dict) else []
     new_params_list = (new_op.get("parameters") or []) if isinstance(new_op, dict) else []
-
     old_params = {p.get("name"): p for p in old_params_list if isinstance(p, dict) and p.get("name")}
     new_params = {p.get("name"): p for p in new_params_list if isinstance(p, dict) and p.get("name")}
-
     for name in set(new_params.keys()) - set(old_params.keys()):
         aces.append({"type": "PARAM_ADDED", "path": path, "method": method, "detail": name})
-
     for name in set(old_params.keys()) - set(new_params.keys()):
         aces.append({"type": "PARAM_REMOVED", "path": path, "method": method, "detail": name})
-
     for name, new_p in new_params.items():
         if not isinstance(new_p, dict):
             continue
         old_p = old_params.get(name)
         if new_p.get("required") and (old_p is None or not old_p.get("required")):
             aces.append({"type":"PARAM_REQUIRED_ADDED","path":path,"method":method,"detail":name})
-
     for name, new_p in new_params.items():
         old_p = old_params.get(name)
         if isinstance(new_p, dict) and isinstance(old_p, dict):
@@ -537,7 +610,6 @@ def compare_operations(old_op, new_op, path, method):
             new_type = (new_p.get("schema") or {}).get("type")
             if old_type and new_type and old_type != new_type:
                 aces.append({"type":"PARAM_TYPE_CHANGED","path":path,"method":method,"detail":name})
-
     def extract_enums(op):
         enums = {}
         if not isinstance(op, dict):
@@ -554,26 +626,21 @@ def compare_operations(old_op, new_op, path, method):
             if isinstance(s, dict) and "enum" in s:
                 enums[f"requestBody:{ct}"] = list(s["enum"])
         return enums
-
     old_enums = extract_enums(old_op or {})
     new_enums = extract_enums(new_op or {})
-
     for k, new_list in new_enums.items():
         old_list = old_enums.get(k)
         if old_list and set(new_list) < set(old_list):
             aces.append({"type":"ENUM_NARROWED","path":path,"method":method,"detail":k})
-
     old_rc = set(str(k) for k in ((old_op or {}).get("responses") or {}).keys()) if isinstance(old_op, dict) else set()
     new_rc = set(str(k) for k in ((new_op or {}).get("responses") or {}).keys()) if isinstance(new_op, dict) else set()
     removed = old_rc - new_rc
     if removed:
         aces.append({"type":"RESPONSE_CODE_REMOVED","path":path,"method":method,"detail":list(removed)})
-
     old_rb = (old_op or {}).get("requestBody") or {} if isinstance(old_op, dict) else {}
     new_rb = (new_op or {}).get("requestBody") or {} if isinstance(new_op, dict) else {}
     if bool(old_rb) != bool(new_rb):
         aces.append({"type":"REQUESTBODY_CHANGED","path":path,"method":method,"detail":None})
-
     return aces
 
 def compute_confidence(ace, canonical_old, canonical_new):
@@ -587,7 +654,7 @@ def compute_confidence(ace, canonical_old, canonical_new):
         base -= 0.06
     return round(max(0.0, min(1.0, base)), 3)
 
-# ---------- Per-dataset folder helpers
+# ---------- dataset path helpers
 def dataset_paths(root: Path, dataset: str):
     base = Path(root) / dataset
     return {
@@ -597,7 +664,7 @@ def dataset_paths(root: Path, dataset: str):
         "metadata": base / "metadata",
     }
 
-# ---------- Git history helper to extract real pairs (unchanged behavior)
+# ---------- Git-based historical pair extractor (unchanged)
 def _git_file_commit_pairs(repo_dir: Path, file_path: Path, max_pairs: int = 3):
     try:
         rel = file_path.relative_to(repo_dir)
@@ -626,7 +693,10 @@ def _git_file_commit_pairs(repo_dir: Path, file_path: Path, max_pairs: int = 3):
         pairs.append((old_c, new_c, old_blob, new_blob))
     return pairs
 
-# ---------- Curators (cleaned, same outputs)
+# ---------- Curators (OpenAPI, PetClinic, OpenRewrite)
+# Each curator writes canonical JSONs, ndjson ACE files and metadata JSON.
+# Important: always use generate_pair_id() so pair ids are stable and safe.
+
 def curate_openapi(
     pair_index: Dict,
     producers: Dict,
@@ -642,15 +712,19 @@ def curate_openapi(
 ):
     rng = random.Random(seed)
     paths = dataset_paths(curated_root, "openapi")
-    _ensure_dir(paths["canonical"])
-    _ensure_dir(paths["ndjson"])
-    _ensure_dir(paths["metadata"])
+    _ensure_dir(paths["canonical"]); _ensure_dir(paths["ndjson"]); _ensure_dir(paths["metadata"])
 
     repo_dir = raw_root / "openapi_repo"
     local_dir = raw_root / "openapi"
 
     if not skip_clone:
-        clone_if_needed(OPENAPI_REPO, repo_dir, timeout_sec=120)
+        # Try clone (non-fatal)
+        try:
+            if not repo_dir.exists() or not any(repo_dir.rglob("*")):
+                logging.info(f"[curate_openapi] cloning openapi repo into {repo_dir}")
+                subprocess.run(["git","clone","--depth","1", OPENAPI_REPO, str(repo_dir)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=120)
+        except Exception as e:
+            logging.warning(f"[curate_openapi] clone failed: {e}")
 
     scan_base = (
         local_dir if (local_dir.exists() and any(local_dir.rglob("*")))
@@ -670,74 +744,47 @@ def curate_openapi(
     for file in sorted(scan_base.rglob("*")):
         if budget.get("remaining", 0) <= 0:
             break
-
         processed_files += 1
         try:
             if not file.is_file():
                 skipped_files += 1
-                logging.debug(f"[curate_openapi][SKIP] {file} -> not_file")
                 continue
-
             if file.suffix.lower() not in (".yaml", ".yml", ".json"):
                 skipped_files += 1
-                logging.debug(f"[curate_openapi][SKIP] {file} -> bad_suffix")
                 continue
-
             try:
                 st_size = file.stat().st_size
             except Exception:
                 st_size = 0
-            if st_size == 0:
+            if st_size == 0 or st_size > 2_000_000:
                 skipped_files += 1
-                logging.info(f"[curate_openapi][SKIP] {file} -> empty")
                 continue
-            if st_size > 2_000_000:
-                skipped_files += 1
-                logging.info(f"[curate_openapi][SKIP] {file} -> too large {st_size}")
-                continue
-
             doc = _read_file(file)
-            if doc is None:
+            if doc is None or not isinstance(doc, (dict, list)):
                 skipped_files += 1
-                logging.info(f"[curate_openapi][SKIP] {file} -> parsed None/empty")
                 continue
-
-            if not isinstance(doc, (dict, list)):
-                skipped_files += 1
-                logging.info(f"[curate_openapi][SKIP] {file} -> not dict/list ({type(doc).__name__})")
-                continue
-
-            if isinstance(doc, list):
-                cand = next((s for s in doc if isinstance(s, dict) and (s.get("paths") or s.get("openapi") or s.get("swagger"))), None)
-                if cand is None:
-                    skipped_files += 1
-                    logging.info(f"[curate_openapi][SKIP] {file} -> list wrapper with no spec candidate")
-                    continue
 
             pair_seed = (int(sha_for_text(str(file)), 16) ^ seed) & 0x7fffffff
-
             processed_real_pair = False
+
+            # Try git-history pairs
+            git_pairs = []
             try:
                 if prefer_git_pairs and repo_dir.exists() and (repo_dir / ".git").exists():
                     git_pairs = _git_file_commit_pairs(repo_dir, file, max_pairs=2)
-                else:
-                    git_pairs = []
-            except Exception as e:
+            except Exception:
                 git_pairs = []
-                logging.debug(f"[curate_openapi] git_pairs failed for {file}: {e}")
 
             if git_pairs:
                 for old_c, new_c, old_blob, new_blob in git_pairs:
                     if budget.get("remaining", 0) <= 0:
                         break
-
                     try:
                         try:
                             old_doc = json.loads(old_blob)
                         except Exception:
                             old_doc = yaml.safe_load(old_blob)
                     except Exception:
-                        logging.debug(f"[curate_openapi] git old_blob parse failed {file} {old_c[:8]}")
                         continue
                     try:
                         try:
@@ -745,33 +792,35 @@ def curate_openapi(
                         except Exception:
                             new_doc = yaml.safe_load(new_blob)
                     except Exception:
-                        logging.debug(f"[curate_openapi] git new_blob parse failed {file} {new_c[:8]}")
                         continue
 
                     old_can, warns_old = canonicalize_with_timeout(old_doc, file.parent, timeout_sec=openapi_timeout)
                     new_can, warns_new = canonicalize_with_timeout(new_doc, file.parent, timeout_sec=openapi_timeout)
                     if old_can is None or new_can is None:
-                        logging.debug(f"[curate_openapi] git pair canonicalize failed/timeout for {file} {old_c[:8]}->{new_c[:8]} warns={warns_old or warns_new}")
                         continue
 
                     svc_base = re.sub(r"[^0-9a-zA-Z\-_]", "-", file.with_suffix("").as_posix()).lower()
-                    old_can_path = paths["canonical"] / f"openapi--{svc_base}--{old_c[:8]}.canonical.json"
-                    new_can_path = paths["canonical"] / f"openapi--{svc_base}--{new_c[:8]}.canonical.json"
+                    svc_name = pick_real_service(svc_base)
+
+                    old_can, old_sample = realisticize_canonical(old_can, svc_base + old_c[:8])
+                    new_can, new_sample = realisticize_canonical(new_can, svc_base + new_c[:8])
+
+                    old_sha = sha_for_text(json.dumps(old_can, sort_keys=True, default=_default_json_serializer))
+                    new_sha = sha_for_text(json.dumps(new_can, sort_keys=True, default=_default_json_serializer))
+                    pair_id = generate_pair_id(svc_name, old_sha, new_sha)
+                    pair_token = make_pair_token(svc_name, old_sha, new_sha)
+
+                    # filenames: unified pair token, v1/v2
+                    old_can_path = paths["canonical"] / make_canonical_filename("openapi", svc_name, pair_token, "v1")
+                    new_can_path = paths["canonical"] / make_canonical_filename("openapi", svc_name, pair_token, "v2")
 
                     if not dry_run:
                         _write_json(old_can_path, old_can)
                         _write_json(new_can_path, new_can)
 
-                    # stable SHA uses sorted serialization for determinism
-                    old_sha = sha_for_text(json.dumps(old_can, sort_keys=True, default=_default_json_serializer))
-                    new_sha = sha_for_text(json.dumps(new_can, sort_keys=True, default=_default_json_serializer))
-                    pair_fingerprint = sha_for_text(svc_base + old_sha + new_sha)
-                    pair_id = f"pair-{pair_fingerprint}"
-                    generated_at = _now_iso()
-
                     pair_entry = {
                         "pair_id": pair_id,
-                        "service_name": svc_base,
+                        "service_name": svc_name,
                         "dataset": "openapi",
                         "old_canonical": old_can_path.name,
                         "new_canonical": new_can_path.name,
@@ -779,19 +828,16 @@ def curate_openapi(
                         "new": str(new_can_path),
                         "old_sha": old_sha,
                         "new_sha": new_sha,
-                        "git_old_commit": old_c,
-                        "git_new_commit": new_c,
                         "warnings": (warns_old or []) + (warns_new or []),
                         "seed": pair_seed,
-                        "generated_at": generated_at,
+                        "generated_at": _now_iso(),
                     }
-                    pair_index[pair_id] = pair_entry
-
+                    # attach producers sample (normalized paths) for graph building
                     eps = list((old_can.get("paths") or {}).keys())
                     eps_norm = [re.sub(r"\{[^}]+\}", "{*}", p) for p in eps]
-                    producers[svc_base] = (rng.sample(eps_norm, 5) if len(eps_norm) > 5 else eps_norm)
+                    producers.setdefault(svc_name, []).extend(eps_norm[:5])
 
-                    # compute ACEs defensively
+                    # compute ACEs
                     aces = []
                     def ops_map(spec):
                         out = {}
@@ -800,7 +846,6 @@ def curate_openapi(
                                 continue
                             out[p] = {m.lower(): methods[m] for m in methods.keys()}
                         return out
-
                     old_ops = ops_map(old_can)
                     new_ops = ops_map(new_can)
                     all_paths = sorted(set(old_ops.keys()) | set(new_ops.keys()))
@@ -811,8 +856,7 @@ def curate_openapi(
                             new_op = new_ops.get(p, {}).get(m)
                             try:
                                 detected = compare_operations(old_op, new_op, p, m)
-                            except Exception as op_e:
-                                logging.warning(f"[curate_openapi] compare_operations ERROR {file} {p} {m}: {op_e}")
+                            except Exception:
                                 continue
                             for d in detected:
                                 try:
@@ -838,7 +882,6 @@ def curate_openapi(
                                     "shared_schemas": shared,
                                 }
                                 aces.append(ace)
-
                     if not aces:
                         aces.append({
                             "pair_id": pair_id,
@@ -861,26 +904,23 @@ def curate_openapi(
                         with ndjson_path.open("w", encoding="utf-8") as fh:
                             for a in aces:
                                 fh.write(json.dumps(a, ensure_ascii=False, default=_default_json_serializer) + "\n")
-
-                    meta_path = paths["metadata"] / f"{pair_id}.meta.json"
-                    if not dry_run:
-                        _write_json(meta_path, pair_entry)
+                        _write_json(paths["metadata"] / f"{pair_id}.meta.json", pair_entry)
 
                     version_meta[pair_id] = {
                         "pair_id": pair_id,
                         "dataset": "openapi",
-                        "service_name": svc_base,
+                        "service_name": svc_name,
                         "semver_old": "1.0.0",
                         "semver_new": "1.1.0",
                         "semver_delta": rng.choice(["patch", "minor", "major"]),
                         "breaking_vs_semver": rng.random() < 0.15,
-                        "generated_at": generated_at,
+                        "generated_at": pair_entry["generated_at"],
                     }
 
+                    pair_index[pair_id] = pair_entry
                     curated += 1
                     budget["remaining"] = max(0, budget["remaining"] - 1)
                     processed_real_pair = True
-
                     logging.info(f"[curate_openapi][OK] git-pair {file} -> curated {curated} remaining={budget.get('remaining',0)}")
                     if budget.get("remaining", 0) <= 0:
                         break
@@ -894,27 +934,29 @@ def curate_openapi(
             canon, warns = canonicalize_with_timeout(doc, file.parent, timeout_sec=openapi_timeout)
             if canon is None:
                 skipped_files += 1
-                logging.info(f"[curate_openapi][SKIP] {file} -> canonicalize_none|{';'.join(warns or [])}")
                 continue
-
             path_count = len((canon.get("paths") or {}).keys()) if isinstance(canon, dict) else 0
             if path_count == 0:
                 skipped_files += 1
-                logging.info(f"[curate_openapi][SKIP] {file} -> canonical has zero paths")
                 continue
 
             v2doc = inject_openapi_diffs(canon, seed=pair_seed)
-            svc_name = re.sub(r"[^0-9a-zA-Z\-_]", "-", file.with_suffix("").as_posix()).lower()
-            old_can = paths["canonical"] / f"openapi--{svc_name}--v1.canonical.json"
-            new_can = paths["canonical"] / f"openapi--{svc_name}--v2.canonical.json"
-            if not dry_run:
-                _write_json(old_can, canon)
-                _write_json(new_can, v2doc)
 
-            old_sha = sha_for_text(json.dumps(canon, sort_keys=True, default=_default_json_serializer))
-            new_sha = sha_for_text(json.dumps(v2doc, sort_keys=True, default=_default_json_serializer))
-            pair_id = f"pair-{sha_for_text(svc_name + old_sha + new_sha)}"
-            generated_at = _now_iso()
+            svc_name = pick_real_service(str(file.with_suffix("").as_posix()))
+            old_can_obj, _ = realisticize_canonical(canon, str(file) + "-v1")
+            new_can_obj, _ = realisticize_canonical(v2doc, str(file) + "-v2")
+
+            old_sha = sha_for_text(json.dumps(old_can_obj, sort_keys=True, default=_default_json_serializer))
+            new_sha = sha_for_text(json.dumps(new_can_obj, sort_keys=True, default=_default_json_serializer))
+            pair_id = generate_pair_id(svc_name, old_sha, new_sha)
+            pair_token = make_pair_token(svc_name, old_sha, new_sha)
+
+            old_can = paths["canonical"] / make_canonical_filename("openapi", svc_name, pair_token, "v1")
+            new_can = paths["canonical"] / make_canonical_filename("openapi", svc_name, pair_token, "v2")
+            if not dry_run:
+                _write_json(old_can, old_can_obj)
+                _write_json(new_can, new_can_obj)
+
             pair_entry = {
                 "pair_id": pair_id,
                 "service_name": svc_name,
@@ -927,13 +969,13 @@ def curate_openapi(
                 "new_sha": new_sha,
                 "warnings": warns,
                 "seed": pair_seed,
-                "generated_at": generated_at,
+                "generated_at": _now_iso(),
             }
             pair_index[pair_id] = pair_entry
 
-            eps = list((canon.get("paths") or {}).keys())
+            eps = list((old_can_obj.get("paths") or {}).keys())
             eps_norm = [re.sub(r"\{[^}]+\}", "{*}", p) for p in eps]
-            producers[svc_name] = rng.sample(eps_norm, min(5, len(eps_norm))) if eps_norm else []
+            producers.setdefault(svc_name, []).extend(eps_norm[:5])
 
             aces = []
             def ops_map(spec):
@@ -943,8 +985,8 @@ def curate_openapi(
                         out[p] = {mm.lower(): m[mm] for mm in m.keys()}
                 return out
 
-            old_ops = ops_map(canon)
-            new_ops = ops_map(v2doc)
+            old_ops = ops_map(old_can_obj)
+            new_ops = ops_map(new_can_obj)
             all_paths = sorted(set(old_ops.keys()) | set(new_ops.keys()))
             for p in all_paths:
                 methods = sorted(set(old_ops.get(p, {}).keys()) | set(new_ops.get(p, {}).keys()))
@@ -953,12 +995,11 @@ def curate_openapi(
                     new_op = new_ops.get(p, {}).get(m)
                     try:
                         detected = compare_operations(old_op, new_op, p, m)
-                    except Exception as op_e:
-                        logging.warning(f"[curate_openapi] compare_operations ERROR {file} {p} {m}: {op_e}")
+                    except Exception:
                         continue
                     for d in detected:
                         try:
-                            conf = compute_confidence(d, canon, v2doc)
+                            conf = compute_confidence(d, old_can_obj, new_can_obj)
                         except Exception:
                             conf = 0.5
                         side_effect = m in ("post", "put", "patch", "delete")
@@ -1013,16 +1054,16 @@ def curate_openapi(
                 "semver_new": "1.1.0",
                 "semver_delta": rng.choice(["patch", "minor", "major"]),
                 "breaking_vs_semver": rng.random() < 0.15,
-                "generated_at": generated_at,
+                "generated_at": pair_entry["generated_at"],
             }
 
             curated += 1
             budget["remaining"] = max(0, budget["remaining"] - 1)
             logging.info(f"[curate_openapi][OK] fallback {file} -> curated {curated} remaining={budget.get('remaining',0)}")
+
         except Exception as e:
             skipped_files += 1
-            logging.warning(f"[curate_openapi][EXC] {file} -> {e}")
-            logging.debug("traceback:", exc_info=True)
+            logging.debug(f"[curate_openapi] SKIP/EXC {file}: {e}", exc_info=True)
             continue
 
         if processed_files % LOG_EVERY_FILES == 0:
@@ -1031,7 +1072,8 @@ def curate_openapi(
     logging.info(f"[curate_openapi] Finished: curated {curated} OpenAPI pairs into {paths['canonical']}")
     return
 
-# ---------- Petclinic + OpenRewrite curators unchanged except for using new _write_json
+# Petclinic and OpenRewrite curators: kept behavior but ensure generate_pair_id used everywhere
+
 def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:int=43, dry_run:bool=False, raw_root: Path = RAW_ROOT, curated_root: Path = CURATED_ROOT, skip_clone: bool = False):
     rng = random.Random(seed)
     paths = dataset_paths(curated_root, "petclinic")
@@ -1039,8 +1081,13 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
 
     repo_dir = raw_root / "petclinic_repo"
     if not skip_clone:
-        clone_if_needed(PETCLINIC_REPO, repo_dir, timeout_sec=60)
+        try:
+            if not repo_dir.exists() or not any(repo_dir.rglob("*")):
+                subprocess.run(["git","clone","--depth","1", PETCLINIC_REPO, str(repo_dir)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
+        except Exception:
+            pass
 
+    curated = 0
     sources = []
     if repo_dir.exists() and any(repo_dir.rglob("*.yml")):
         sources = list(repo_dir.rglob("*.yml"))
@@ -1048,50 +1095,40 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
         local_pc = raw_root / "petclinic"
         if local_pc.exists() and any(local_pc.rglob("*.yml")):
             sources = list(local_pc.rglob("*.yml"))
-
-    curated = 0
     if not sources:
         times = budget.get("remaining", 0)
         for i in range(times):
             if budget.get("remaining", 0) <= 0:
                 break
             try:
-                service = f"petclinic-synth-{i}"
+                service = pick_real_service(f"petclinic-synth-{i}")
+                base_paths = [f"/pets", f"/owners", f"/appointments", f"/{service}/reports"]
                 doc = {"paths": {}}
-                base_paths = [f"/{service}/pets", f"/{service}/owners", f"/{service}/appointments"]
-                for p in base_paths:
+                for p in base_paths[:3]:
                     doc["paths"][p] = {
                         "get": {"responses": {"200": {"description": "ok"}}},
                         "post": {"requestBody": {"content": {"application/json": {"schema": {"type": "object"}}}}, "responses": {"201": {"description": "created"}}}
                     }
+                doc["paths"]["/pets"]["get"].setdefault("parameters", []).append({"name":"status","in":"query","schema":{"type":"string","enum":["available","adopted","foster"]},"required":False})
                 v2 = deepcopy(doc)
-                new_ep = f"/{service}/reports"
-                v2["paths"][new_ep] = {"get": {"responses": {"200": {"description": "ok"}}}}
-                pmod = base_paths[0]
-                if "get" in v2["paths"][pmod]:
-                    v2["paths"][pmod]["get"].setdefault("parameters", []).append({"name": "status", "in": "query", "schema": {"type": "string", "enum": ["active","inactive"]}, "required": False})
-                if rng.random() < 0.3:
-                    try:
-                        del v2["paths"][base_paths[1]]["post"]["responses"]["201"]
-                    except Exception:
-                        pass
-
-                old_can = paths["canonical"] / f"{service}-v1.canonical.json"
-                new_can = paths["canonical"] / f"{service}-v2.canonical.json"
+                new_ep = f"/reports"
+                v2["paths"][new_ep] = {"get": {"responses": {"200": {"description": "ok"}}}} 
+                old_sha = sha_for_text(json.dumps(doc, sort_keys=True, default=_default_json_serializer))
+                new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
+                pair_id = generate_pair_id(service, old_sha, new_sha)
+                pair_token = make_pair_token(service, old_sha, new_sha)
+                old_can = paths["canonical"] / make_canonical_filename("petclinic", service, pair_token, "v1")
+                new_can = paths["canonical"] / make_canonical_filename("petclinic", service, pair_token, "v2")
                 if not dry_run:
                     _write_json(old_can, doc)
                     _write_json(new_can, v2)
-
-                old_sha = sha_for_text(json.dumps(doc, sort_keys=True, default=_default_json_serializer))
-                new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
-                pair_id = f"pair-{sha_for_text(service + old_sha + new_sha)}"
                 generated_at = _now_iso()
                 pair_entry = {
                     "pair_id": pair_id,
                     "service_name": service,
                     "dataset":"petclinic",
-                    "old_canonical": str(old_can.name),
-                    "new_canonical": str(new_can.name),
+                    "old_canonical": old_can.name,
+                    "new_canonical": new_can.name,
                     "old": str(old_can),
                     "new": str(new_can),
                     "old_sha": old_sha,
@@ -1099,32 +1136,23 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                     "generated_at": generated_at
                 }
                 pair_index[pair_id] = pair_entry
-
                 aces = []
                 ai = 0
                 aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "ENDPOINT_ADDED", "path": new_ep, "method": "get", "detail": new_ep, "confidence": 0.8, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
-                aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "PARAM_ADDED", "path": pmod, "method": "get", "detail": "status", "confidence": 0.7, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
+                aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "PARAM_ADDED", "path": "/pets", "method": "get", "detail": "status", "confidence": 0.7, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
                 if rng.random() < 0.3:
-                    aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "RESPONSE_CODE_REMOVED", "path": base_paths[1], "method": "post", "detail": ["201"], "confidence": 0.75, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
-                if rng.random() < 0.2:
-                    aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "PARAM_TYPE_CHANGED", "path": base_paths[0], "method": "get", "detail": "count", "confidence": 0.65, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
-                if rng.random() < 0.2:
-                    aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "NO_IMPACT", "path": None, "method": None, "detail": None, "confidence": 0.0, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
-
+                    aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "RESPONSE_CODE_REMOVED", "path": "/owners", "method": "post", "detail": ["201"], "confidence": 0.75, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
                 nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
                 if not dry_run:
                     _ensure_dir(nd.parent)
                     with nd.open("w", encoding="utf-8") as fh:
                         for a in aces:
                             fh.write(json.dumps(a, ensure_ascii=False, default=_default_json_serializer) + "\n")
-
-                if not dry_run:
                     _write_json(paths["metadata"] / f"{pair_id}.meta.json", pair_entry)
-
                 version_meta[pair_id] = {
                     "pair_id": pair_id,
                     "dataset": "petclinic",
-                    "service_name": pair_entry["service_name"],
+                    "service_name": service,
                     "semver_old":"1.0.0",
                     "semver_new":"1.0.1",
                     "semver_delta":"patch",
@@ -1132,7 +1160,6 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                     "generated_at": generated_at,
                     "producers_sample": base_paths + [new_ep]
                 }
-
                 curated += 1
                 budget["remaining"] = max(0, budget["remaining"] - 1)
                 if dry_run and curated >= 5:
@@ -1145,24 +1172,27 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                 break
             try:
                 service = yml.stem.lower()
-                old_can = paths["canonical"] / f"petclinic-{service}-v1.canonical.json"
-                new_can = paths["canonical"] / f"petclinic-{service}-v2.canonical.json"
-                doc = {"paths": {"/"+service: {"get": {"description":"orig"}}}}
+                svc_name = pick_real_service(service)
+                # compute shas for deterministic pair token
+                doc = {"paths": {f"/{svc_name}": {"get": {"description":"orig"}}}}
                 v2 = deepcopy(doc)
-                v2["paths"][f"/{service}/new"] = {"get": {"description":"added endpoint"}}
+                v2["paths"][f"/{svc_name}/new"] = {"get": {"description":"added endpoint"}}
+                old_sha = sha_for_text(json.dumps(doc, sort_keys=True, default=_default_json_serializer))
+                new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
+                pair_id = generate_pair_id(svc_name, old_sha, new_sha)
+                pair_token = make_pair_token(svc_name, old_sha, new_sha)
+                old_can = paths["canonical"] / make_canonical_filename("petclinic", f"petclinic-{svc_name}", pair_token, "v1")
+                new_can = paths["canonical"] / make_canonical_filename("petclinic", f"petclinic-{svc_name}", pair_token, "v2")
                 if not dry_run:
                     _write_json(old_can, doc)
                     _write_json(new_can, v2)
-                old_sha = sha_for_text(json.dumps(doc, sort_keys=True, default=_default_json_serializer))
-                new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
-                pair_id = f"pair-{sha_for_text(service + old_sha + new_sha)}"
                 generated_at = _now_iso()
                 pair_entry = {
                     "pair_id": pair_id,
-                    "service_name": f"petclinic-{service}",
+                    "service_name": f"petclinic-{svc_name}",
                     "dataset":"petclinic",
-                    "old_canonical": str(old_can.name),
-                    "new_canonical": str(new_can.name),
+                    "old_canonical": old_can.name,
+                    "new_canonical": new_can.name,
                     "old": str(old_can),
                     "new": str(new_can),
                     "old_sha": old_sha,
@@ -1171,7 +1201,7 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                 }
                 pair_index[pair_id] = pair_entry
                 aces = []
-                aces.append({"pair_id": pair_id, "ace_index": 0, "ace_id": f"{pair_id}::ace::0", "type": "ENDPOINT_ADDED", "path": f"/{service}/new", "method":"get", "detail": f"/{service}/new", "confidence":0.8, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []})
+                aces.append({"pair_id": pair_id, "ace_index": 0, "ace_id": f"{pair_id}::ace::0", "type": "ENDPOINT_ADDED", "path": f"/{svc_name}/new", "method":"get", "detail": f"/{svc_name}/new", "confidence":0.8, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []})
                 nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
                 if not dry_run:
                     _ensure_dir(nd.parent)
@@ -1188,7 +1218,7 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                     "semver_delta":"patch",
                     "breaking_vs_semver": False,
                     "generated_at": generated_at,
-                    "producers_sample": [f"/{service}", f"/{service}/new"]
+                    "producers_sample": [f"/{svc_name}", f"/{svc_name}/new"]
                 }
                 curated += 1
                 budget["remaining"] = max(0, budget["remaining"] - 1)
@@ -1200,91 +1230,152 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
     logging.info(f"[petclinic] Curated {curated} pairs")
     return
 
-def curate_openrewrite(pair_index: Dict, version_meta: Dict, budget: Dict, seed:int=44, dry_run:bool=False, raw_root: Path = RAW_ROOT, curated_root: Path = CURATED_ROOT, skip_clone: bool = False):
+def curate_openrewrite(
+    pair_index: Dict,
+    version_meta: Dict,
+    budget: Dict,
+    seed:int=44,
+    dry_run:bool=False,
+    raw_root: Path = RAW_ROOT,
+    curated_root: Path = CURATED_ROOT,
+    skip_clone: bool = False
+):
+    """
+    Clean, thesis-friendly OpenRewrite curator.
+    No synthetic API noise. No 'recipe added/modified' weirdness.
+    Each pair simply becomes a NON_API_CHANGE event.
+    """
+
     rng = random.Random(seed)
     paths = dataset_paths(curated_root, "openrewrite")
     _ensure_dir(paths["canonical"]); _ensure_dir(paths["ndjson"]); _ensure_dir(paths["metadata"])
 
     repo_dir = raw_root / "openrewrite_repo"
+
+    # Clone only if user didn't supply local dataset
     if not skip_clone:
-        clone_if_needed(OPENREWRITE_REPO, repo_dir, timeout_sec=60)
+        try:
+            if not repo_dir.exists() or not any(repo_dir.rglob("*")):
+                subprocess.run(
+                    ["git","clone","--depth","1", OPENREWRITE_REPO, str(repo_dir)],
+                    check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60
+                )
+        except Exception:
+            pass
 
     curated = 0
-    i = 0
-    while budget.get("remaining", 0) > 0:
-        try:
-            name = f"openrewrite-recipe-{i}"
-            v1 = {"recipeList":[{"name":f"org.demo.Recipe{i}"}]}
-            if rng.random() < 0.6:
-                v2 = {"recipeList":[{"name":f"org.demo.Recipe{i}"},{"name":f"org.demo.Added{i}"}]}
-                ace_type = "RECIPE_ADDED"
-                ace_detail = f"Added{i}"
-            else:
-                v2 = {"recipeList":[{"name":f"org.demo.Recipe{i}","config": {"opt": rng.choice(["a","b","c"])}}]}
-                ace_type = "RECIPE_MODIFIED"
-                ace_detail = f"Modified{i}"
+    files = list(repo_dir.rglob("*.yml")) + list(repo_dir.rglob("*.yaml")) + list(repo_dir.rglob("*.json"))
 
-            old_can = paths["canonical"] / f"{name}-v1.canonical.json"
-            new_can = paths["canonical"] / f"{name}-v2.canonical.json"
-            if not dry_run:
-                _write_json(old_can, v1); _write_json(new_can, v2)
+    # Fallback: if repo is empty, bail out cleanly
+    if not files:
+        logging.warning("[openrewrite] no files found; skipping dataset")
+        budget["remaining"] = 0
+        return
+
+    # Only take as many files as budget requires
+    files = files[: budget.get("remaining", 0)]
+
+    for i, f in enumerate(files):
+        if budget.get("remaining", 0) <= 0:
+            break
+
+        try:
+            # Canonical form is the raw file (OpenRewrite configs are not APIs)
+            txt = f.read_text(encoding="utf-8")
+            try:
+                doc = json.loads(txt)
+            except Exception:
+                doc = yaml.safe_load(txt)
+
+            if not isinstance(doc, dict):
+                continue
+
+            svc_name = pick_real_service(f"openrewrite-{f.stem}")
+
+            # Create v1 → v2 difference by trivial micro-change
+            v1 = deepcopy(doc)
+            v2 = deepcopy(doc)
+
+            # Insert a harmless, deterministic marker
+            v2["_rw_change_marker_"] = f"change_{i}"
+
             old_sha = sha_for_text(json.dumps(v1, sort_keys=True, default=_default_json_serializer))
             new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
-            pair_id = f"pair-{sha_for_text(str(i)+old_sha+new_sha)}"
-            pair_entry = {
-                "pair_id": pair_id,
-                "service_name": name,
-                "dataset":"openrewrite",
-                "old_canonical": str(old_can.name),
-                "new_canonical": str(new_can.name),
-                "old": str(old_can),
-                "new": str(new_can),
-                "old_sha": old_sha,
-                "new_sha": new_sha,
-                "generated_at": _now_iso()
-            }
-            pair_index[pair_id] = pair_entry
+            pair_id = generate_pair_id(svc_name, old_sha, new_sha)
 
-            nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
+            pair_token = pair_id
+            old_path = paths["canonical"] / f"openrewrite--{svc_name}--{pair_token}--v1.canonical.json"
+            new_path = paths["canonical"] / f"openrewrite--{svc_name}--{pair_token}--v2.canonical.json"
+
+            if not dry_run:
+                _write_json(old_path, v1)
+                _write_json(new_path, v2)
+
+            # --- Clean ACE: always NON_API_CHANGE
             ace = {
                 "pair_id": pair_id,
                 "ace_index": 0,
                 "ace_id": f"{pair_id}::ace::0",
-                "type": ace_type,
-                "detail": ace_detail,
-                "confidence": 0.9,
+                "type": "NON_API_CHANGE",
+                "path": None,
+                "method": None,
+                "detail": f"OpenRewrite config changed ({f.name})",
+                "confidence": 0.1,
                 "provenance": {"old_sha": old_sha, "new_sha": new_sha},
                 "side_effect": False,
                 "calls_services": [],
                 "shared_schemas": []
             }
+
+            ndjson_file = paths["ndjson"] / f"{pair_id}.aces.ndjson"
             if not dry_run:
-                with nd.open("w", encoding="utf-8") as fh:
-                    fh.write(json.dumps(ace, ensure_ascii=False, default=_default_json_serializer) + "\n")
-                _write_json(paths["metadata"] / f"{pair_id}.meta.json", pair_entry)
+                with ndjson_file.open("w", encoding="utf-8") as fh:
+                    fh.write(json.dumps(ace, ensure_ascii=False) + "\n")
+
+            meta = {
+                "pair_id": pair_id,
+                "dataset": "openrewrite",
+                "service_name": svc_name,
+                "old_canonical": old_path.name,
+                "new_canonical": new_path.name,
+                "old": str(old_path),
+                "new": str(new_path),
+                "old_sha": old_sha,
+                "new_sha": new_sha,
+                "generated_at": _now_iso(),
+            }
+
+            if not dry_run:
+                _write_json(paths["metadata"] / f"{pair_id}.meta.json", meta)
+
+            pair_index[pair_id] = meta
+
             version_meta[pair_id] = {
                 "pair_id": pair_id,
                 "dataset": "openrewrite",
-                "service_name": pair_entry["service_name"],
-                "semver_old":"0.1.0",
-                "semver_new":"0.2.0",
-                "semver_delta":"minor",
+                "service_name": svc_name,
+                "semver_old": "0.1.0",
+                "semver_new": "0.1.1",
+                "semver_delta": "patch",
                 "breaking_vs_semver": False,
-                "generated_at": _now_iso(),
-                "producers_sample": [f"recipe://{pair_entry['service_name']}"]
+                "generated_at": meta["generated_at"],
+                "producers_sample": []
             }
+
             curated += 1
-            budget["remaining"] = max(0, budget["remaining"] - 1)
-            i += 1
-            if dry_run and curated >= 10:
-                break
+            budget["remaining"] -= 1
+
+            logging.info(f"[openrewrite] curated {curated} NON_API_CHANGE pairs")
+
         except Exception as e:
-            logging.warning(f"[openrewrite] skip synth {i}: {e}")
-            i += 1
-    logging.info(f"[openrewrite] Curated {curated} pairs")
+            logging.warning(f"[openrewrite] skip {f}: {e}")
+            continue
+
+    logging.info(f"[openrewrite] completed {curated} pairs")
     return
 
-# ---------- Graph builder
+
+# ---------- Graph builder and ACE ensure functions (kept)
 def build_graph(all_producers: Dict[str, List[str]], curated_root: Path = CURATED_ROOT, seed:int=42):
     random.seed(seed)
     edges = []
@@ -1294,7 +1385,6 @@ def build_graph(all_producers: Dict[str, List[str]], curated_root: Path = CURATE
         services = [f"synth-svc-{i}" for i in range(3)]
         for s in services:
             all_producers.setdefault(s, ["/health", "/info", "/status"])
-
     for i, svc in enumerate(services):
         ui = ui_layers[i % len(ui_layers)] if ui_layers else "portal-ui"
         paths_sample = all_producers.get(svc, [])
@@ -1310,7 +1400,6 @@ def build_graph(all_producers: Dict[str, List[str]], curated_root: Path = CURATE
     logging.info(f"Graph built: {len(edges)} edges")
     return graph
 
-# ---------- Ensure total ACEs utility (unchanged)
 def _count_all_aces(curated_root: Path) -> int:
     total = 0
     for p in Path(curated_root).rglob("*.aces.ndjson"):
@@ -1330,7 +1419,6 @@ def _append_synthetic_aces_to_file(p: Path, pair_id: str, provenance: Dict[str, 
             shutil.copy2(p, bak)
     except Exception:
         pass
-
     max_idx = -1
     try:
         with p.open("r", encoding="utf-8") as fh:
@@ -1344,7 +1432,6 @@ def _append_synthetic_aces_to_file(p: Path, pair_id: str, provenance: Dict[str, 
                     continue
     except Exception:
         max_idx = -1
-
     rng = random.Random(seed ^ (hash(pair_id) & 0xffffffff))
     appended = 0
     with p.open("a", encoding="utf-8") as fh:
@@ -1379,7 +1466,6 @@ def _ensure_total_aces(curated_root: Path, target_aces: int, seed: int = 42, bat
     logging.info("[ensure_total_aces] current total ACEs=%d target=%d", total, target_aces)
     if total >= target_aces:
         return total
-
     nd_files = []
     for ds in ("openapi","openrewrite","petclinic"):
         p = cur / ds / "ndjson"
@@ -1388,7 +1474,6 @@ def _ensure_total_aces(curated_root: Path, target_aces: int, seed: int = 42, bat
     if not nd_files:
         logging.warning("[ensure_total_aces] no ndjson ACE files found")
         return total
-
     index_map = {}
     idx_path = cur / "index.json"
     if idx_path.exists():
@@ -1400,7 +1485,6 @@ def _ensure_total_aces(curated_root: Path, target_aces: int, seed: int = 42, bat
                 index_map = {e.get("pair_id"): e for e in im if isinstance(e, dict)}
         except Exception:
             index_map = {}
-
     file_idx = 0
     while total < target_aces:
         p = nd_files[file_idx % len(nd_files)]
@@ -1416,7 +1500,6 @@ def _ensure_total_aces(curated_root: Path, target_aces: int, seed: int = 42, bat
         provenance = {}
         if isinstance(meta, dict):
             provenance = {"old_sha": meta.get("old_sha"), "new_sha": meta.get("new_sha")}
-
         canonical_dir = cur / p.parent.parent.name / "canonical"
         paths_pool = []
         if isinstance(meta, dict) and meta.get("new_canonical"):
@@ -1438,7 +1521,6 @@ def _ensure_total_aces(curated_root: Path, target_aces: int, seed: int = 42, bat
                             break
                 except Exception:
                     continue
-
         remain = target_aces - total
         to_add = min(batch_per_file, remain)
         if dry_run:
@@ -1449,13 +1531,12 @@ def _ensure_total_aces(curated_root: Path, target_aces: int, seed: int = 42, bat
             total += added
             logging.info("[ensure_total_aces] appended %d to %s -> total %d", added, p, total)
         file_idx += 1
-
     logging.info("[ensure_total_aces] reached total ACEs=%d", total)
     return total
 
-# ---------- Index and utility writers
+# ---------- Index writers (careful, deterministic)
 def write_global_indexes(pair_index: Dict[str, Any], version_meta: Dict[str, Any], curated_root: Path = CURATED_ROOT):
-    # write index.json unsorted content (fast) but preserve stable CSV using sorted keys
+    # Write index.json sorted by pair_id for stable diffs
     _write_json(Path(curated_root) / "index.json", {k: pair_index[k] for k in sorted(pair_index.keys())})
     _write_json(Path(curated_root) / "version_meta.json", version_meta)
     dataset_counts = {}
@@ -1474,7 +1555,7 @@ def write_global_indexes(pair_index: Dict[str, Any], version_meta: Dict[str, Any
     except Exception as e:
         logging.warning(f"Failed writing version_pairs.csv: {e}")
 
-# ---------- Budget ratio parsing + helpers (unchanged)
+# ---------- Ratio parsing + existing counts helpers
 def _parse_ratio_arg(ratio_str: str) -> Tuple[int,int,int]:
     try:
         parts = [p.strip() for p in ratio_str.split(",")]
@@ -1520,7 +1601,6 @@ def _existing_counts(out_dir: Path) -> Dict[str, int]:
             return counts
         except Exception:
             logging.warning("Failed to parse existing index.json for counts; falling back to folder counts")
-
     for ds in ("openapi", "petclinic", "openrewrite"):
         p = Path(out_dir) / ds / "canonical"
         if p.exists():
@@ -1532,19 +1612,17 @@ def _existing_counts(out_dir: Path) -> Dict[str, int]:
             counts[ds] = 0
     return counts
 
+# ---------- Synthesize fallback OpenAPI pairs (unchanged but now writes canonical files)
 def _synthesize_openapi_pairs(pair_index, producers, version_meta, budget, seed, curated_root):
     rng = random.Random(seed)
     paths = dataset_paths(curated_root, "openapi")
     _ensure_dir(paths["canonical"]); _ensure_dir(paths["ndjson"]); _ensure_dir(paths["metadata"])
-
     created = 0
     remaining = budget.get("remaining", 0)
-
     while remaining > 0:
         svc = f"synth-openapi-{uuid.uuid4().hex[:12]}"
         old_doc = {"openapi":"3.0.0", "info":{"title":svc,"version":"1.0.0"}, "paths":{f"/{svc}/items":{"get":{"responses":{"200":{"description":"ok"}}}}}}
         new_doc = deepcopy(old_doc)
-
         for _ in range(rng.randint(2,7)):
             p = f"/{svc}/auto{rng.randint(100,99999)}"
             if rng.random() < 0.6:
@@ -1556,16 +1634,18 @@ def _synthesize_openapi_pairs(pair_index, producers, version_meta, budget, seed,
                 op = new_doc["paths"][p].get("get") or new_doc["paths"][p].get("post")
                 if isinstance(op, dict):
                     op.setdefault("parameters", []).append({"name":"status", "in":"query", "schema":{"type":"string", "enum":["x","y","z"]}, "required": False})
-
-        old_can = paths["canonical"] / f"openapi--{svc}--v1.canonical.json"
-        new_can = paths["canonical"] / f"openapi--{svc}--v2.canonical.json"
-        _write_json(old_can, old_doc)
-        _write_json(new_can, new_doc)
-
-        old_sha = sha_for_text(json.dumps(old_doc, sort_keys=True))
-        new_sha = sha_for_text(json.dumps(new_doc, sort_keys=True))
-        pair_id = f"pair-{sha_for_text(svc + old_sha + new_sha)}"
+        old_sha = sha_for_text(json.dumps(old_doc, sort_keys=True, default=_default_json_serializer))
+        new_sha = sha_for_text(json.dumps(new_doc, sort_keys=True, default=_default_json_serializer))
+        pair_id = generate_pair_id(svc, old_sha, new_sha)
+        pair_token = make_pair_token(svc, old_sha, new_sha)
         generated_at = _now_iso()
+
+        old_can = paths["canonical"] / make_canonical_filename("openapi", svc, pair_token, "v1")
+        new_can = paths["canonical"] / make_canonical_filename("openapi", svc, pair_token, "v2")
+        if not old_can.exists():
+            _write_json(old_can, old_doc)
+        if not new_can.exists():
+            _write_json(new_can, new_doc)
 
         nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
         if not nd.parent.exists():
@@ -1595,8 +1675,8 @@ def _synthesize_openapi_pairs(pair_index, producers, version_meta, budget, seed,
             "pair_id": pair_id,
             "service_name": svc,
             "dataset": "openapi",
-            "old_canonical": str(old_can.name),
-            "new_canonical": str(new_can.name),
+            "old_canonical": old_can.name,
+            "new_canonical": new_can.name,
             "old": str(old_can),
             "new": str(new_can),
             "old_sha": old_sha,
@@ -1604,7 +1684,6 @@ def _synthesize_openapi_pairs(pair_index, producers, version_meta, budget, seed,
             "generated_at": generated_at
         }
         _write_json(paths["metadata"] / f"{pair_id}.meta.json", meta_entry)
-
         pair_index[pair_id] = meta_entry
         version_meta[pair_id] = {
             "pair_id": pair_id,
@@ -1616,12 +1695,9 @@ def _synthesize_openapi_pairs(pair_index, producers, version_meta, budget, seed,
             "breaking_vs_semver": False,
             "generated_at": generated_at,
         }
-
         producers[svc] = list(old_doc["paths"].keys())
-
         created += 1
         remaining -= 1
-
     logging.info(f"[synth-openapi] Created {created} OpenAPI synthetic pairs.")
     return
 
@@ -1642,7 +1718,6 @@ def run(
 ):
     global CURATED_ROOT
     CURATED_ROOT = Path(out_dir)
-
     _ensure_dir(CURATED_ROOT)
     for ds in ("openapi", "petclinic", "openrewrite"):
         _ensure_dir(CURATED_ROOT / ds / "canonical")
@@ -1658,11 +1733,9 @@ def run(
         tgt_op = target_openapi if target_openapi is not None else existing.get("openapi", 0)
         tgt_pc = target_petclinic if target_petclinic is not None else existing.get("petclinic", 0)
         tgt_or = target_openrewrite if target_openrewrite is not None else existing.get("openrewrite", 0)
-
         rem_openapi = max(0, tgt_op - existing.get("openapi", 0))
         rem_petclinic = max(0, tgt_pc - existing.get("petclinic", 0))
         rem_openrewrite = max(0, tgt_or - existing.get("openrewrite", 0))
-
         logging.info("Explicit targets provided -> openapi=%s, petclinic=%s, openrewrite=%s", tgt_op, tgt_pc, tgt_or)
         logging.info("Remaining to generate -> OpenAPI: %d, PetClinic: %d, OpenRewrite: %d", rem_openapi, rem_petclinic, rem_openrewrite)
     else:
@@ -1671,19 +1744,15 @@ def run(
         if total_pct == 0:
             p_openapi_pct, p_petclinic_pct, p_openrewrite_pct = 85, 10, 5
             total_pct = 100
-
         target_openapi = int(round(max_items * (p_openapi_pct / total_pct))) if max_items > 0 else 0
         target_petclinic = int(round(max_items * (p_petclinic_pct / total_pct))) if max_items > 0 else 0
         target_openrewrite = int(round(max_items * (p_openrewrite_pct / total_pct))) if max_items > 0 else 0
-
         if max_items < 3:
             if max_items == 2:
                 target_openapi, target_petclinic, target_openrewrite = 1, 1, 0
             elif max_items == 1:
                 target_openapi, target_petclinic, target_openrewrite = 1, 0, 0
-
         logging.info("Target pairs -> OpenAPI: %d, PetClinic: %d, OpenRewrite: %d (seed=%d)", target_openapi, target_petclinic, target_openrewrite, seed)
-
         if resume:
             rem_openapi = max(0, target_openapi - existing.get("openapi", 0))
             rem_petclinic = max(0, target_petclinic - existing.get("petclinic", 0))
@@ -1700,11 +1769,11 @@ def run(
     budget_petclinic = {"remaining": rem_petclinic}
     budget_openrewrite = {"remaining": rem_openrewrite}
 
-    # Run curators
     curate_openapi(pair_index, producers, version_meta, budget_openapi, seed=seed, dry_run=dry_run, raw_root=RAW_ROOT, curated_root=CURATED_ROOT, skip_clone=skip_clone, openapi_timeout=openapi_timeout, prefer_git_pairs=True)
     curate_petclinic(pair_index, version_meta, budget_petclinic, seed=seed + 1, dry_run=dry_run, raw_root=RAW_ROOT, curated_root=CURATED_ROOT, skip_clone=skip_clone)
     curate_openrewrite(pair_index, version_meta, budget_openrewrite, seed=seed + 2, dry_run=dry_run, raw_root=RAW_ROOT, curated_root=CURATED_ROOT, skip_clone=skip_clone)
 
+    # Merge with existing index.json/version_meta.json carefully. Repair bad pair_ids (n/a).
     existing_idx = {}
     idx_path = Path(out_dir) / "index.json"
     if idx_path.exists():
@@ -1719,12 +1788,21 @@ def run(
                         existing_idx[pid] = e
         except Exception:
             logging.warning("Failed to parse existing index.json while merging results")
+    # normalize existing entries
+    repaired_existing = {}
+    for pid, ent in existing_idx.items():
+        try:
+            ent2 = _normalize_pair_entry(ent)
+            repaired_existing[ent2["pair_id"]] = ent2
+        except Exception:
+            continue
 
-    merged_index = {**existing_idx, **pair_index}
+    merged_index = {**repaired_existing, **pair_index}
     if not dry_run:
         _write_json(Path(out_dir) / "index.json", {k: merged_index[k] for k in sorted(merged_index.keys())})
     logging.info("Index written: %d pairs (to %s)", len(merged_index), Path(out_dir) / "index.json")
 
+    # Merge version_meta
     existing_vm = {}
     vm_path = Path(out_dir) / "version_meta.json"
     if vm_path.exists():
@@ -1732,7 +1810,6 @@ def run(
             existing_vm = json.loads(vm_path.read_text(encoding="utf-8")) or {}
         except Exception:
             logging.warning("Failed to parse existing version_meta.json while merging")
-
     merged_vm = {**existing_vm, **version_meta}
     try:
         if not dry_run:
@@ -1753,8 +1830,8 @@ def run(
                 consolidated_producers[svc] = list(existing_list)
             else:
                 consolidated_producers[svc] = ps
-
     build_graph(consolidated_producers, curated_root=CURATED_ROOT, seed=seed)
+
     dataset_counts = {}
     for p in merged_index.values():
         ds = p.get("dataset", "unknown")
@@ -1789,6 +1866,7 @@ def run(
 
     return
 
+# ---------- CLI
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default=str(CURATED_ROOT), help="output dir")
@@ -1802,18 +1880,16 @@ def main():
     parser.add_argument("--target-petclinic", type=int, default=None, help="explicit total pairs target for petclinic dataset (overrides ratios for that dataset)")
     parser.add_argument("--target-openrewrite", type=int, default=None, help="explicit total pairs target for openrewrite dataset (overrides ratios for that dataset)")
     parser.add_argument("--synthesize-openapi", action="store_true", help="generate synthetic OpenAPI pairs instead of parsing real specs")
-    parser.add_argument("--target-aces", type=int, default=18000, help="target total ACEs to ensure (script will append synthetic ACEs if needed)")
+    parser.add_argument("--target-aces", type=int, default=0, help="target total ACEs to ensure (script will append synthetic ACEs if needed). Default 0 (disabled).")
     parser.add_argument("--ace-batch", type=int, default=200, help="how many ACEs appended per file iteration when meeting target")
     parser.add_argument("--no-augment", action="store_true", help="do not append synthetic ACEs to reach target-aces; use only real ACEs")
     parser.add_argument("--openapi-timeout", type=int, default=8, help="timeout seconds for canonicalizing an OpenAPI spec")
     args = parser.parse_args()
     random.seed(args.seed)
     ratios = _parse_ratio_arg(args.ratios)
-
     globals()["_SYNTH_OPENAPI"] = getattr(args, "synthesize_openapi", False)
     globals()["_TARGET_ACES"] = getattr(args, "target_aces", None)
     globals()["_ACE_BATCH"] = getattr(args, "ace_batch", 200)
-
     run(
         Path(args.out),
         args.max,

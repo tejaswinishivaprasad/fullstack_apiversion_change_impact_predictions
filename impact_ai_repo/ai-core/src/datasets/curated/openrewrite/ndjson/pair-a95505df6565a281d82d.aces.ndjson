@@ -1,1 +1,0 @@
-{"pair_id": "pair-a95505df6565a281d82d", "ace_index": 0, "ace_id": "pair-a95505df6565a281d82d::ace::0", "type": "RECIPE_ADDED", "detail": "Added24", "confidence": 0.9, "provenance": {"old_sha": "ab78137a9e686bc8203c", "new_sha": "eb76707581bef32b98ab"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

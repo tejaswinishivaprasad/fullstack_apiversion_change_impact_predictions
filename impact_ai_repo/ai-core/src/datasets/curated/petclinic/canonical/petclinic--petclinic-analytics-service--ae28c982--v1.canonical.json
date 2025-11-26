@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "/analytics-service": {
+      "get": {
+        "description": "orig"
+      }
+    }
+  }
+}

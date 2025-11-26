@@ -1,1 +1,0 @@
-{"pair_id": "pair-62adb9a077a1ce4ab137", "ace_index": 0, "ace_id": "pair-62adb9a077a1ce4ab137::ace::0", "type": "ENDPOINT_ADDED", "path": "/prometheus/new", "method": "get", "detail": "/prometheus/new", "confidence": 0.8, "provenance": {"old_sha": "e6edde4679bd6c2ae5c2", "new_sha": "ca325cf11ccb01fecbd8"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

@@ -1,1 +1,0 @@
-{"pair_id": "pair-c5f47507c0de57d2a386", "ace_index": 0, "ace_id": "pair-c5f47507c0de57d2a386::ace::0", "type": "ENDPOINT_ADDED", "path": "/auto1132", "method": "post", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "b78553901c3b2d8d4941", "new_sha": "7554e718ebf41b75f93a"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/analytics-service": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/analytics-service/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}

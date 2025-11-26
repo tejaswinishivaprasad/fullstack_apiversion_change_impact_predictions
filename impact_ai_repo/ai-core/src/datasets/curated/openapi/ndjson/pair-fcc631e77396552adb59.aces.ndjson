@@ -1,1 +1,0 @@
-{"pair_id": "pair-fcc631e77396552adb59", "ace_index": 0, "ace_id": "pair-fcc631e77396552adb59::ace::0", "type": "ENDPOINT_ADDED", "path": "/auto3273", "method": "get", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "e95a4eb933c370f7bee1", "new_sha": "02d928188662d1096341"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

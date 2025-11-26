@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/shipping-service": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/shipping-service/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}

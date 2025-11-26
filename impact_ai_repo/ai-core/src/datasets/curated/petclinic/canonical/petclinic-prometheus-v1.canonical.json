@@ -1,9 +1,0 @@
-{
-  "paths": {
-    "/prometheus": {
-      "get": {
-        "description": "orig"
-      }
-    }
-  }
-}

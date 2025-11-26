@@ -1,6 +1,6 @@
 {
   "num_changes": {
-    "mean": 2.0,
+    "mean": 132.0,
     "stdev": 0.0
   },
   "ct_endpoint_removed": {
@@ -32,7 +32,7 @@
     "stdev": 0.0
   },
   "centrality": {
-    "mean": 0.020926990834567307,
+    "mean": 0.22490796195458482,
     "stdev": 0.0
   },
   "ui_consumers": {
@@ -40,7 +40,7 @@
     "stdev": 0.0
   },
   "two_hop": {
-    "mean": 6.0,
+    "mean": 2.0,
     "stdev": 0.0
   },
   "backend_imp_count": {
@@ -64,7 +64,7 @@
     "stdev": 0.0
   },
   "breaking_vs_semver": {
-    "mean": 1.0,
+    "mean": 0.0,
     "stdev": 0.0
   },
   "has_side_effects": {
@@ -72,7 +72,7 @@
     "stdev": 0.0
   },
   "uses_shared_schema": {
-    "mean": 0.0,
+    "mean": 1.0,
     "stdev": 0.0
   },
   "calls_other_services": {

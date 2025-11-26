@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "updates": [
+    {
+      "package-ecosystem": "github-actions",
+      "directory": "/",
+      "schedule": {
+        "interval": "daily"
+      },
+      "commit-message": {
+        "prefix": "chore(ci)"
+      }
+    },
+    {
+      "package-ecosystem": "gradle",
+      "directory": "/",
+      "schedule": {
+        "interval": "daily"
+      },
+      "commit-message": {
+        "prefix": "chore(ci)"
+      },
+      "open-pull-requests-limit": 0
+    }
+  ],
+  "_rw_change_marker_": "change_1"
+}

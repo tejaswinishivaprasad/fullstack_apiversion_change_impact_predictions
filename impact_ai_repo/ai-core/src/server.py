@@ -49,6 +49,8 @@ import yaml
 from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from fastapi import Request
+from fastapi.responses import JSONResponse
 
 # logging
 logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"), format="%(asctime)s | %(levelname)s | %(message)s")
@@ -180,6 +182,53 @@ def normalize_path(p: Optional[str]) -> Optional[str]:
     if not p:
         return p
     return re.sub(r"\{[^}]+\}", "{*}", p.strip())
+
+ACE_INDEX: Dict[str, Path] = {} 
+
+def build_ace_index(limit_per_file: int = 0):
+    """
+    Populate ACE_INDEX mapping ace_id -> ndjson Path.
+    limit_per_file=0 -> index entire file (use with caution if huge).
+    """
+    try:
+        idx = load_pair_index()
+        for pid, meta in idx.items():
+            # prefer dataset hint
+            nd = None
+            ds = meta.get("dataset")
+            if ds:
+                nd = dataset_paths(ds)["ndjson"] / f"{pid}.aces.ndjson"
+            if not nd or not nd.exists():
+                for d in KNOWN_DATASETS:
+                    cand = dataset_paths(d)["ndjson"] / f"{pid}.aces.ndjson"
+                    if cand.exists():
+                        nd = cand
+                        break
+            if nd and nd.exists():
+                with nd.open("r", encoding="utf-8") as fh:
+                    for i, ln in enumerate(fh):
+                        if not ln.strip(): continue
+                        try:
+                            o = json.loads(ln)
+                        except Exception:
+                            continue
+                        aid = o.get("ace_id") or o.get("aceId")
+                        if aid:
+                            ACE_INDEX[str(aid)] = nd
+                            # also index decoded form
+                            ACE_INDEX[unquote(str(aid))] = nd
+                        if limit_per_file and i+1 >= limit_per_file:
+                            break
+    except Exception:
+        log.exception("build_ace_index failed")
+
+# call it at module init (or under if __name__ == '__main__')
+try:
+    build_ace_index(limit_per_file=0)  # 0 -> full index; set small number if memory/size is a concern
+    log.info("ACE_INDEX built, entries=%d", len(ACE_INDEX))
+except Exception:
+    log.exception("Failed to build ace index")
+
 
 # ---------- index loader (dataset-aware) ----------
 @lru_cache(maxsize=1)
@@ -1048,7 +1097,7 @@ def api_consumers(service: str = Query(...), path: Optional[str] = Query(None)) 
         raise HTTPException(400, "service query parameter required")
     changed_paths = [path] if path else []
     be_imp = backend_impacts(g, service, changed_paths)
-    fe_imp = ui_imp(g, service, changed_paths)
+    fe_imp = ui_impacts(g, service, changed_paths)
     return {"producer": clean_name(service), "backend_consumers": be_imp, "frontend_consumers": fe_imp}
 
 # ---------- versioning endpoint ----------
@@ -1065,6 +1114,114 @@ def train(samples: List[Dict[str, Any]]) -> Dict[str, Any]:
     Path("models").mkdir(parents=True, exist_ok=True)
     Path("models/last_train.json").write_text(json.dumps(samples, indent=2), encoding="utf-8")
     return {"ok": True, "samples": len(samples)}
+
+def _ndjson_candidates_for_pair(pair_id: Optional[str]) -> List[Path]:
+    """
+    Return candidate NDJSON paths to look for a pair_id. Mirrors logic in report().
+    """
+    candidates: List[Path] = []
+    if not pair_id:
+        return candidates
+    try:
+        # If index metadata has dataset hint, prefer that ndjson
+        meta = load_pair_metadata(pair_id)
+        if meta and meta.get("dataset"):
+            candidates.append(dataset_paths(meta.get("dataset"))["ndjson"] / f"{pair_id}.aces.ndjson")
+        # check all known datasets
+        for ds in KNOWN_DATASETS:
+            candidates.append(dataset_paths(ds)["ndjson"] / f"{pair_id}.aces.ndjson")
+        # legacy and root fallback
+        candidates.append(LEGACY_NDJSON / f"{pair_id}.aces.ndjson")
+        candidates.append(CURATED_ROOT / f"{pair_id}.aces.ndjson")
+    except Exception:
+        log.exception("Failed to assemble ndjson candidates for %s", pair_id)
+    return candidates
+
+def _find_ace_object(pair_id: Optional[str], ace_id: str) -> Optional[Dict[str, Any]]:
+    if not ace_id:
+        return None
+
+    # try ACE_INDEX first if present
+    if ACE_INDEX:
+        path = ACE_INDEX.get(str(ace_id)) or ACE_INDEX.get(unquote(str(ace_id)))
+        if path and path.exists():
+            try:
+                with path.open("r", encoding="utf-8") as fh:
+                    for ln in fh:
+                        if not ln.strip(): continue
+                        try:
+                            obj = json.loads(ln)
+                        except Exception:
+                            continue
+                        aid = obj.get("ace_id") or obj.get("aceId") or None
+                        if aid and (str(aid) == str(ace_id) or str(aid) == unquote(str(ace_id)) or unquote(str(aid)) == str(ace_id)):
+                            return obj
+            except Exception:
+                log.exception("Failed reading indexed NDJSON %s for ace_id=%s", path, ace_id)
+
+    # fallback: existing scanning logic but match both raw & decoded forms
+    candidates = _ndjson_candidates_for_pair(pair_id) if pair_id else []
+    # ... existing loop over candidates ...
+    for p in candidates:
+        if not p or not p.exists():
+            continue
+        try:
+            with p.open("r", encoding="utf-8") as fh:
+                for ln in fh:
+                    ln = ln.strip()
+                    if not ln: continue
+                    try:
+                        obj = json.loads(ln)
+                    except Exception:
+                        continue
+                    aid = obj.get("ace_id") or obj.get("aceId") or None
+                    if aid:
+                        if str(aid) == str(ace_id) or str(aid) == unquote(str(ace_id)) or unquote(str(aid)) == str(ace_id):
+                            return obj
+                    # existing ace_index by index fallback kept here...
+        except Exception:
+            log.exception("Failed reading NDJSON %s while searching for ace_id=%s", p, ace_id)
+    return None
+
+
+@app.get("/ace")
+def ace(request: Request, ace_id: str = Query(..., alias="ace_id"), pair_id: Optional[str] = Query(None, alias="pair_id")) -> Dict[str, Any]:
+    rid = request.headers.get("X-Request-ID") or f"rid-{int(time.time()*1000)}"
+    try:
+        if not ace_id or not ace_id.strip():
+            raise HTTPException(status_code=400, detail="ace_id required")
+
+        # defensive decode (handles single or double-encoding)
+        try:
+            raw = ace_id
+            ace_id = unquote(ace_id)
+            ace_id = unquote(ace_id)
+        except Exception:
+            ace_id = raw
+
+        if pair_id:
+            try:
+                p_raw = pair_id
+                pair_id = unquote(pair_id)
+                pair_id = unquote(pair_id)
+            except Exception:
+                pair_id = p_raw
+
+        log.info("ACE request %s ace_id=%s pair_id=%s", rid, ace_id, pair_id)
+        obj = _find_ace_object(pair_id, ace_id)
+        if not obj:
+            tried = [str(p) for p in (_ndjson_candidates_for_pair(pair_id) if pair_id else [])][:6]
+            log.info("ACE not found %s ace_id=%s pair_id=%s tried=%s", rid, ace_id, pair_id, tried)
+            raise HTTPException(status_code=404, detail={"error": "ace-not-found", "ace_id": ace_id, "pair_id": pair_id, "tried_files": tried})
+
+        return JSONResponse(content=obj, headers={"X-Request-ID": rid})
+    except HTTPException:
+        raise
+    except Exception as e:
+        log.exception("ace handler failed (%s): %s", rid, e)
+        raise HTTPException(status_code=500, detail={"error": "ace-failed", "message": str(e), "request_id": rid})
+
+
 
 # ---------- run (development) ----------
 if __name__ == "__main__":

@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/order-service": {
+      "get": {
+        "description": "orig"
+      }
+    },
+    "/order-service/new": {
+      "get": {
+        "description": "added endpoint"
+      }
+    }
+  }
+}
