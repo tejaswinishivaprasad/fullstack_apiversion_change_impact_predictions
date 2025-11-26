@@ -224,7 +224,7 @@
                             "Inactive",
                             "Suspended"
                           ],
-                          "type": "string"
+                          "type": "number"
                         },
                         "statusReason": {
                           "description": "The reason why the status was assigned to the account holder.",
@@ -234,7 +234,7 @@
                       "required": [
                         "status"
                       ],
-                      "type": "object"
+                      "type": "number"
                     },
                     "pspReference": {
                       "description": "The reference of a request. Can be used to uniquely identify the request.",
