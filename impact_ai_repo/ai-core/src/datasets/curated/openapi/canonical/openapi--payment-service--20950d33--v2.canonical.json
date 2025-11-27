@@ -50,7 +50,7 @@
             "name": "limit",
             "schema": {
               "default": 100,
-              "type": "integer"
+              "type": "string"
             }
           },
           {
@@ -390,7 +390,7 @@
         }
       ]
     },
-    "/channels/userid": {
+    "/channel/userid": {
       "get": {
         "description": "Get metadata of a channel",
         "operationId": "getmetadataofchannel-v2",
@@ -489,7 +489,7 @@
                   "properties": {
                     "code": {
                       "description": "Error code.",
-                      "type": "integer"
+                      "type": "string"
                     },
                     "href": {
                       "description": "Link to help with error.",
