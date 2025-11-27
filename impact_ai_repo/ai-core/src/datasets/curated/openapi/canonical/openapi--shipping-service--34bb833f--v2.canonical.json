@@ -364,7 +364,7 @@
             "type": "object"
           }
         },
-        "type": "object"
+        "type": "string"
       }
     }
   }
