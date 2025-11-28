@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 """
-curated_datasets.py - patched, fixed and end-to-end curated dataset generator.
+curated_datasets.py - end-to-end curated dataset generator.
 
 Purpose:
  - Produce canonical/, ndjson/, metadata/, index.json, version_meta.json, version_pairs.csv
- - Use robust canonicalization and safe deterministic mapping from raw OpenAPI files
+ - Uses robust canonicalization and safe deterministic mapping from raw OpenAPI files
  - Guarantee safe pair_id generation (pair-<hex>) to avoid URL encoding/lookup issues
- - Provide dry-run mode for inspection before writing disk
+ - Provide dry-run mode for inspection before writing to disk
 
-Usage (dry-run first):
-  python curated_datasets.py --out datasets/curated --max 400 --seed 42 --dry-run
 
-Run for real:
+Sample run command:
   python curated_datasets.py --out datasets/curated --max 400 --seed 42
 """
 from __future__ import annotations
@@ -210,28 +208,99 @@ def _read_file_cached_text(path_str: str) -> Optional[str]:
         return None
 
 def _read_file(p: Path) -> Optional[Any]:
+    """
+    Robust read: try JSON, then YAML multi-doc (safe_load_all).
+    Returns the first meaningful dict/list document, or None.
+    """
     txt = _read_file_cached_text(str(p))
     if not txt:
         return None
-    if p.suffix.lower() in (".yml", ".yaml"):
-        try:
-            return yaml.safe_load(txt)
-        except Exception as e:
-            logging.debug(f"yaml.safe_load failed for {p}: {e}")
-            try:
-                return json.loads(txt)
-            except Exception:
-                return None
+
     try:
         return json.loads(txt)
     except Exception:
+        pass
+
+    try:
+        docs = list(yaml.safe_load_all(txt))
+    except Exception as e:
+        logging.debug(f"yaml.safe_load_all failed for {p}: {e}")
+        # fallback: try single-doc YAML load
         try:
             return yaml.safe_load(txt)
-        except Exception as e:
-            logging.debug(f"_read_file failed to parse {p}: {e}")
+        except Exception as e2:
+            logging.debug(f"yaml.safe_load fallback also failed for {p}: {e2}")
             return None
 
-# ---------- Canonicalizer (keeps your robust resolver and caches)
+    # Filter out empty docs
+    docs = [d for d in docs if d not in (None, {}, [], "")]
+    if not docs:
+        return None
+
+    # Prefer first dict/list doc
+    for d in docs:
+        if isinstance(d, (dict, list)):
+            return d
+
+    # Fallback: return first doc
+    return docs[0]
+
+
+_BAD_DIR = Path("datasets/raw/openrewrite_repo_malformed")
+
+def _save_bad_file(path: Path, reason: str):
+    """
+    Save a copy of a problematic raw file (and a reason.txt) to a debug folder.
+    Non-fatal; used only to aid manual inspection.
+    """
+    try:
+        _ensure_dir(_BAD_DIR)
+        safe_name = sha_for_text(str(path)) + "-" + path.name
+        dst = _BAD_DIR / safe_name
+        try:
+            shutil.copy2(path, dst)
+        except Exception:
+            try:
+                dst.write_text(path.read_text(encoding="utf-8", errors="replace"), encoding="utf-8")
+            except Exception:
+                pass
+        try:
+            (dst.with_suffix(".reason.txt")).write_text(reason or "unknown", encoding="utf-8")
+        except Exception:
+            pass
+    except Exception:
+        logging.debug(f"_save_bad_file failed for {path}")
+
+def is_noise_path(p: Path) -> bool:
+    """
+    Heuristic to skip non-API/noisy files (workflows, examples, test resources, meta files).
+    Return True if file should be skipped early.
+    """
+    s = str(p.as_posix()).lower()
+    #  directories and file stems that are not API specs
+    skip_keywords = [
+        "/.github/", "/.github/workflows/", "/meta-inf/", "/test/", "/tests/", "/examples/",
+        "/.circleci/", "/.travis/", "/ci/", "/jenkins/", "readme", "changelog", "change-log",
+        "license", "pom.xml", "gradle", ".gitignore"
+    ]
+    for kw in skip_keywords:
+        if kw in s:
+            return True
+    # skip tiny or massive files (because they may not likely API specs)
+    try:
+        st = p.stat()
+        if st.st_size < 120:   # too small
+            return True
+        if st.st_size > 2_000_000:  # too big
+            return True
+    except Exception:
+        pass
+    # extension-based filter (non-json/yaml already filtered upstream)
+    if p.suffix.lower() not in (".yml", ".yaml", ".json"):
+        return True
+    return False
+
+# ---------- Canonicalizer (keeps  robust resolver and caches)
 def resolve_local_pointer(root: Any, pointer: str):
     if pointer == "#" or pointer == "#/":
         return deepcopy(root)
@@ -454,7 +523,7 @@ def make_canonical_filename(dataset: str, service_name: str, pair_token: str, ve
     v = version_tag.lower()
     return f"{safe_ds}--{safe_svc}--{pair_token}--{v}.canonical.json"
 
-# ---------- Small helper to normalize/repair loaded index entries
+# ---------- Small helper code to normalize/repair loaded index entries
 def _normalize_pair_entry(entry: Dict[str, Any]) -> Dict[str, Any]:
     """
     Ensure every entry has a safe pair_id and expected fields.
@@ -474,7 +543,7 @@ def _normalize_pair_entry(entry: Dict[str, Any]) -> Dict[str, Any]:
             entry[k] = ""
     return entry
 
-# ---------- Diff detection and ACE logic (kept, minor tidy)
+# ---------- Diff detection and ACE logic 
 def inject_openapi_diffs(doc: Dict[str, Any], seed: int = 0) -> Dict[str, Any]:
     r = random.Random(seed)
     new_doc = deepcopy(doc)
@@ -664,7 +733,7 @@ def dataset_paths(root: Path, dataset: str):
         "metadata": base / "metadata",
     }
 
-# ---------- Git-based historical pair extractor (unchanged)
+# ---------- Git-based historical pair extractor 
 def _git_file_commit_pairs(repo_dir: Path, file_path: Path, max_pairs: int = 3):
     try:
         rel = file_path.relative_to(repo_dir)
@@ -718,7 +787,6 @@ def curate_openapi(
     local_dir = raw_root / "openapi"
 
     if not skip_clone:
-        # Try clone (non-fatal)
         try:
             if not repo_dir.exists() or not any(repo_dir.rglob("*")):
                 logging.info(f"[curate_openapi] cloning openapi repo into {repo_dir}")
@@ -1072,9 +1140,19 @@ def curate_openapi(
     logging.info(f"[curate_openapi] Finished: curated {curated} OpenAPI pairs into {paths['canonical']}")
     return
 
-# Petclinic and OpenRewrite curators: kept behavior but ensure generate_pair_id used everywhere
+# Petclinic and OpenRewrite curators: 
 
-def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:int=43, dry_run:bool=False, raw_root: Path = RAW_ROOT, curated_root: Path = CURATED_ROOT, skip_clone: bool = False):
+def synth_curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed: int = 43, dry_run: bool = False,
+                     raw_root: Path = RAW_ROOT, curated_root: Path = CURATED_ROOT, skip_clone: bool = False):
+    """
+    Curate PetClinic pairs.
+    - Use existing raw repo YAMLs when present.
+    - For each YAML create multiple deterministic realistic variants (mutations) to reach budget.
+    - Fall back to fully synthetic generation if no YAMLs found.
+    - Preserves deterministic seed, budget handling, dry_run, and existing file layout.
+    """
+    import yaml
+
     rng = random.Random(seed)
     paths = dataset_paths(curated_root, "petclinic")
     _ensure_dir(paths["canonical"]); _ensure_dir(paths["ndjson"]); _ensure_dir(paths["metadata"])
@@ -1083,9 +1161,10 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
     if not skip_clone:
         try:
             if not repo_dir.exists() or not any(repo_dir.rglob("*")):
-                subprocess.run(["git","clone","--depth","1", PETCLINIC_REPO, str(repo_dir)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
+                subprocess.run(["git", "clone", "--depth", "1", PETCLINIC_REPO, str(repo_dir)],
+                               check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
         except Exception:
-            pass
+            logging.warning("[petclinic] git clone failed or skipped; falling back to local/synth")
 
     curated = 0
     sources = []
@@ -1095,6 +1174,8 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
         local_pc = raw_root / "petclinic"
         if local_pc.exists() and any(local_pc.rglob("*.yml")):
             sources = list(local_pc.rglob("*.yml"))
+
+    # --- Case A: No YAML sources -> generate fully synthetic pairs 
     if not sources:
         times = budget.get("remaining", 0)
         for i in range(times):
@@ -1107,12 +1188,16 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                 for p in base_paths[:3]:
                     doc["paths"][p] = {
                         "get": {"responses": {"200": {"description": "ok"}}},
-                        "post": {"requestBody": {"content": {"application/json": {"schema": {"type": "object"}}}}, "responses": {"201": {"description": "created"}}}
+                        "post": {"requestBody": {"content": {"application/json": {"schema": {"type": "object"}}}},
+                                 "responses": {"201": {"description": "created"}}}
                     }
-                doc["paths"]["/pets"]["get"].setdefault("parameters", []).append({"name":"status","in":"query","schema":{"type":"string","enum":["available","adopted","foster"]},"required":False})
+                doc["paths"]["/pets"]["get"].setdefault("parameters", []).append({
+                    "name": "status", "in": "query", "schema": {"type": "string", "enum": ["available", "adopted", "foster"]},
+                    "required": False
+                })
                 v2 = deepcopy(doc)
                 new_ep = f"/reports"
-                v2["paths"][new_ep] = {"get": {"responses": {"200": {"description": "ok"}}}} 
+                v2["paths"][new_ep] = {"get": {"responses": {"200": {"description": "ok"}}}}
                 old_sha = sha_for_text(json.dumps(doc, sort_keys=True, default=_default_json_serializer))
                 new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
                 pair_id = generate_pair_id(service, old_sha, new_sha)
@@ -1126,7 +1211,7 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                 pair_entry = {
                     "pair_id": pair_id,
                     "service_name": service,
-                    "dataset":"petclinic",
+                    "dataset": "petclinic",
                     "old_canonical": old_can.name,
                     "new_canonical": new_can.name,
                     "old": str(old_can),
@@ -1138,10 +1223,25 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                 pair_index[pair_id] = pair_entry
                 aces = []
                 ai = 0
-                aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "ENDPOINT_ADDED", "path": new_ep, "method": "get", "detail": new_ep, "confidence": 0.8, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
-                aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "PARAM_ADDED", "path": "/pets", "method": "get", "detail": "status", "confidence": 0.7, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
+                aces.append({
+                    "pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}",
+                    "type": "ENDPOINT_ADDED", "path": new_ep, "method": "get", "detail": new_ep, "confidence": 0.8,
+                    "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [],
+                    "shared_schemas": []
+                }); ai += 1
+                aces.append({
+                    "pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}",
+                    "type": "PARAM_ADDED", "path": "/pets", "method": "get", "detail": "status", "confidence": 0.7,
+                    "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [],
+                    "shared_schemas": []
+                }); ai += 1
                 if rng.random() < 0.3:
-                    aces.append({"pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}", "type": "RESPONSE_CODE_REMOVED", "path": "/owners", "method": "post", "detail": ["201"], "confidence": 0.75, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []}); ai += 1
+                    aces.append({
+                        "pair_id": pair_id, "ace_index": ai, "ace_id": f"{pair_id}::ace::{ai}",
+                        "type": "RESPONSE_CODE_REMOVED", "path": "/owners", "method": "post", "detail": ["201"], "confidence": 0.75,
+                        "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [],
+                        "shared_schemas": []
+                    }); ai += 1
                 nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
                 if not dry_run:
                     _ensure_dir(nd.parent)
@@ -1153,55 +1253,367 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                     "pair_id": pair_id,
                     "dataset": "petclinic",
                     "service_name": service,
-                    "semver_old":"1.0.0",
-                    "semver_new":"1.0.1",
-                    "semver_delta":"patch",
+                    "semver_old": "1.0.0",
+                    "semver_new": "1.0.1",
+                    "semver_delta": "patch",
                     "breaking_vs_semver": False,
                     "generated_at": generated_at,
                     "producers_sample": base_paths + [new_ep]
                 }
                 curated += 1
-                budget["remaining"] = max(0, budget["remaining"] - 1)
+                budget["remaining"] = max(0, budget.get("remaining", 0) - 1)
                 if dry_run and curated >= 5:
                     break
             except Exception as e:
                 logging.warning(f"[petclinic synth] skip {i}: {e}")
+
+    # --- Case B: YAML sources exist -> load each YAML and create multiple realistic deterministic variants 
     else:
+        
+        variants_per_file = 8
         for yml in sources:
-            if budget.get("remaining",0) <= 0:
+            if budget.get("remaining", 0) <= 0:
                 break
             try:
                 service = yml.stem.lower()
                 svc_name = pick_real_service(service)
-                # compute shas for deterministic pair token
-                doc = {"paths": {f"/{svc_name}": {"get": {"description":"orig"}}}}
+
+                # --- Load YAML and normalize to a minimal base_doc with 'paths' ---
+                try:
+                    yaml_text = yml.read_text(encoding="utf-8")
+                    loaded = yaml.safe_load(yaml_text)
+                    if isinstance(loaded, dict) and "paths" in loaded and isinstance(loaded["paths"], dict):
+                       
+                        base_doc = {"paths": {}}
+                        for p, node in loaded["paths"].items():
+                            base_doc["paths"][p] = deepcopy(node)
+                    else:
+                        # fallback: attempt to infer a top-level service path or use svc_name
+                        base_doc = {"paths": {f"/{svc_name}": {"get": {"description": "orig", "responses": {"200": {"description": "ok"}}}}}}
+                except Exception as ex:
+                    logging.warning(f"[petclinic] failed to load YAML {yml}: {ex}; using fallback base_doc")
+                    base_doc = {"paths": {f"/{svc_name}": {"get": {"description": "orig", "responses": {"200": {"description": "ok"}}}}}}
+
+                # list of existing paths to prefer for mutations
+                existing_paths = list(base_doc.get("paths", {}).keys()) or [f"/{svc_name}"]
+
+                for variant in range(variants_per_file):
+                    if budget.get("remaining", 0) <= 0:
+                        break
+
+                    v2 = deepcopy(base_doc)
+                    m = variant % 5  # rotate mutation types but applied to real paths when possible
+
+                    # choose a target path deterministically from existing_paths
+                    target_path = existing_paths[rng.randrange(len(existing_paths))] if existing_paths else f"/{svc_name}"
+
+                    if m == 0:
+                        # add new sibling endpoint under same prefix if possible, else generic new path
+                        if target_path.startswith("/"):
+                            prefix = target_path.rstrip("/").split("/")[1] if len(target_path.split("/")) > 1 else svc_name
+                            new_path = f"/{prefix}/new{variant}"
+                        else:
+                            new_path = f"/{svc_name}/new{variant}"
+                        v2["paths"][new_path] = {"get": {"description": "added endpoint", "responses": {"200": {"description": "ok"}}}}
+                        ace_type = "ENDPOINT_ADDED"
+                        ace_path = new_path
+                        ace_detail = new_path
+                    elif m == 1:
+                        # add a query parameter to the chosen target_path
+                        ppath = target_path
+                        v2["paths"].setdefault(ppath, {"get": {"responses": {"200": {"description": "ok"}}}})
+                        v2["paths"][ppath].setdefault("get", {}).setdefault("parameters", []).append(
+                            {"name": f"q{variant}", "in": "query", "schema": {"type": "string"}, "required": False}
+                        )
+                        ace_type = "PARAM_ADDED"
+                        ace_path = ppath
+                        ace_detail = f"q{variant}"
+                    elif m == 2:
+                        # simulate response code removal on target_path
+                        ppath = target_path
+                        # ensure responses exist in v2 for shape consistency
+                        v2["paths"].setdefault(ppath, {"get": {"responses": {"200": {"description": "ok"}}}})
+                        ace_type = "RESPONSE_CODE_REMOVED"
+                        ace_path = ppath
+                        ace_detail = ["201"]
+                    elif m == 3:
+                        # change/add a schema property type in the first JSON response found on target_path
+                        ppath = target_path
+                        v2["paths"].setdefault(ppath, {"get": {"responses": {"200": {"content": {"application/json": {"schema": {"type": "object", "properties": {}}}}}}}})
+                        # ensure nested keys exist and then add the property
+                        try:
+                            schema_props = v2["paths"][ppath]["get"]["responses"]["200"]["content"]["application/json"]["schema"].setdefault("properties", {})
+                            schema_props[f"p{variant}"] = {"type": "integer"}
+                        except Exception:
+                            # fallback: create the whole structure
+                            v2["paths"][ppath]["get"]["responses"]["200"]["content"] = {"application/json": {"schema": {"type": "object", "properties": {f"p{variant}": {"type": "integer"}}}}}
+                        ace_type = "SCHEMA_PROPERTY_CHANGED"
+                        ace_path = ppath
+                        ace_detail = f"p{variant}"
+                    else:
+                        # rename parameter - simulated by adding a required param with a 'renamed_' name
+                        ppath = target_path
+                        v2["paths"].setdefault(ppath, {"get": {"responses": {"200": {"description": "ok"}}}})
+                        v2["paths"][ppath].setdefault("get", {}).setdefault("parameters", []).append(
+                            {"name": f"renamed_{variant}", "in": "query", "schema": {"type": "string"}, "required": True}
+                        )
+                        ace_type = "PARAM_RENAMED"
+                        ace_path = ppath
+                        ace_detail = f"renamed_{variant}"
+
+                    old_sha = sha_for_text(json.dumps(base_doc, sort_keys=True, default=_default_json_serializer))
+                    new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
+                    pair_id = generate_pair_id(svc_name, old_sha, new_sha)
+                    pair_token = make_pair_token(svc_name, old_sha, new_sha)
+                    old_can = paths["canonical"] / make_canonical_filename("petclinic", f"petclinic-{svc_name}", pair_token, "v1")
+                    new_can = paths["canonical"] / make_canonical_filename("petclinic", f"petclinic-{svc_name}", pair_token, "v2")
+                    if not dry_run:
+                        _write_json(old_can, base_doc)
+                        _write_json(new_can, v2)
+                    generated_at = _now_iso()
+                    pair_entry = {
+                        "pair_id": pair_id,
+                        "service_name": f"petclinic-{svc_name}",
+                        "dataset": "petclinic",
+                        "old_canonical": old_can.name,
+                        "new_canonical": new_can.name,
+                        "old": str(old_can),
+                        "new": str(new_can),
+                        "old_sha": old_sha,
+                        "new_sha": new_sha,
+                        "generated_at": generated_at
+                    }
+                    pair_index[pair_id] = pair_entry
+
+                    aces = []
+                    aces.append({
+                        "pair_id": pair_id,
+                        "ace_index": 0,
+                        "ace_id": f"{pair_id}::ace::0",
+                        "type": ace_type,
+                        "path": ace_path,
+                        "method": "get",
+                        "detail": ace_detail,
+                        "confidence": 0.8,
+                        "provenance": {"old_sha": old_sha, "new_sha": new_sha},
+                        "side_effect": False,
+                        "calls_services": [],
+                        "shared_schemas": []
+                    })
+
+                    nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
+                    if not dry_run:
+                        _ensure_dir(nd.parent)
+                        with nd.open("w", encoding="utf-8") as fh:
+                            for a in aces:
+                                fh.write(json.dumps(a, ensure_ascii=False, default=_default_json_serializer) + "\n")
+                        _write_json(paths["metadata"] / f"{pair_id}.meta.json", pair_entry)
+
+                    version_meta[pair_id] = {
+                        "pair_id": pair_id,
+                        "dataset": "petclinic",
+                        "service_name": pair_entry["service_name"],
+                        "semver_old": "1.0.0",
+                        "semver_new": "1.0.1",
+                        "semver_delta": "patch",
+                        "breaking_vs_semver": ace_type in ("RESPONSE_CODE_REMOVED", "PARAM_RENAMED"),
+                        "generated_at": generated_at,
+                        "producers_sample": [ace_path] if isinstance(ace_path, str) else [f"/{svc_name}"]
+                    }
+                    curated += 1
+                    budget["remaining"] = max(0, budget.get("remaining", 0) - 1)
+                    if dry_run and curated >= 5:
+                        break
+            except Exception as e:
+                logging.warning(f"[petclinic] skip {yml}: {e}")
+
+    logging.info(f"[petclinic] Curated %d pairs", curated)
+    return
+
+def curate_petclinic(
+    pair_index: Dict,
+    version_meta: Dict,
+    budget: Dict,
+    seed: int = 43,
+    dry_run: bool = False,
+    raw_root: Path = RAW_ROOT,
+    curated_root: Path = CURATED_ROOT,
+    skip_clone: bool = False,
+):
+    """
+    Original PetClinic curator (formatted).
+
+    Notes:
+    - This function attempts to clone the petclinic repo (unless skip_clone=True).
+    - If YAMLs are found in the repo (or local folder), it creates one pair per YAML.
+    - If no YAMLs are found, it falls back to fully synthetic generation using `budget`.
+    - Preserves deterministic behavior via `seed`.
+    - Writes canonical JSON files, ACE NDJSON, and metadata entries.
+    - No logic changes were made — only formatting and inline comments for readability.
+    """
+    rng = random.Random(seed)
+
+    # Prepare curated dataset paths and ensure directories exist.
+    paths = dataset_paths(curated_root, "petclinic")
+    _ensure_dir(paths["canonical"])
+    _ensure_dir(paths["ndjson"])
+    _ensure_dir(paths["metadata"])
+
+    # Ensure raw repo exists (clone if allowed and missing)
+    repo_dir = raw_root / "petclinic_repo"
+    if not skip_clone:
+        try:
+            if not repo_dir.exists() or not any(repo_dir.rglob("*")):
+                subprocess.run(
+                    ["git", "clone", "--depth", "1", PETCLINIC_REPO, str(repo_dir)],
+                    check=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    timeout=60,
+                )
+        except Exception:
+            # swallow clone failures; fallback logic will handle missing repo
+            pass
+
+    curated = 0
+    sources = []
+
+    # Prefer YAML files from cloned repo; fallback to local/raw/petclinic
+    if repo_dir.exists() and any(repo_dir.rglob("*.yml")):
+        sources = list(repo_dir.rglob("*.yml"))
+    else:
+        local_pc = raw_root / "petclinic"
+        if local_pc.exists() and any(local_pc.rglob("*.yml")):
+            sources = list(local_pc.rglob("*.yml"))
+
+ 
+    if not sources:
+        times = budget.get("remaining", 0)
+        for i in range(times):
+            if budget.get("remaining", 0) <= 0:
+                break
+            try:
+                service = pick_real_service(f"petclinic-synth-{i}")
+                base_paths = [f"/pets", f"/owners", f"/appointments", f"/{service}/reports"]
+
+                # Build minimal OpenAPI-like doc for this synthetic service
+                doc = {"paths": {}}
+                for p in base_paths[:3]:
+                    doc["paths"][p] = {
+                        "get": {"responses": {"200": {"description": "ok"}}},
+                        "post": {
+                            "requestBody": {
+                                "content": {"application/json": {"schema": {"type": "object"}}}}
+                            ,
+                            "responses": {"201": {"description": "created"}},
+                        },
+                    }
+
+                # Add a realistic query parameter on /pets GET
+                doc["paths"]["/pets"]["get"].setdefault("parameters", []).append(
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "schema": {"type": "string", "enum": ["available", "adopted", "foster"]},
+                        "required": False,
+                    }
+                )
+
+                # Create v2 by adding a reports endpoint (simple synthetic change)
                 v2 = deepcopy(doc)
-                v2["paths"][f"/{svc_name}/new"] = {"get": {"description":"added endpoint"}}
+                new_ep = f"/reports"
+                v2["paths"][new_ep] = {"get": {"responses": {"200": {"description": "ok"}}}}
+
+                # Deterministic SHAs and tokens
                 old_sha = sha_for_text(json.dumps(doc, sort_keys=True, default=_default_json_serializer))
                 new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
-                pair_id = generate_pair_id(svc_name, old_sha, new_sha)
-                pair_token = make_pair_token(svc_name, old_sha, new_sha)
-                old_can = paths["canonical"] / make_canonical_filename("petclinic", f"petclinic-{svc_name}", pair_token, "v1")
-                new_can = paths["canonical"] / make_canonical_filename("petclinic", f"petclinic-{svc_name}", pair_token, "v2")
+                pair_id = generate_pair_id(service, old_sha, new_sha)
+                pair_token = make_pair_token(service, old_sha, new_sha)
+
+                # Canonical file paths
+                old_can = paths["canonical"] / make_canonical_filename("petclinic", service, pair_token, "v1")
+                new_can = paths["canonical"] / make_canonical_filename("petclinic", service, pair_token, "v2")
+
+                # Write canonical JSON files (unless dry_run)
                 if not dry_run:
                     _write_json(old_can, doc)
                     _write_json(new_can, v2)
+
                 generated_at = _now_iso()
                 pair_entry = {
                     "pair_id": pair_id,
-                    "service_name": f"petclinic-{svc_name}",
-                    "dataset":"petclinic",
+                    "service_name": service,
+                    "dataset": "petclinic",
                     "old_canonical": old_can.name,
                     "new_canonical": new_can.name,
                     "old": str(old_can),
                     "new": str(new_can),
                     "old_sha": old_sha,
                     "new_sha": new_sha,
-                    "generated_at": generated_at
+                    "generated_at": generated_at,
                 }
                 pair_index[pair_id] = pair_entry
+
+                # Build ACEs for this synthetic pair
                 aces = []
-                aces.append({"pair_id": pair_id, "ace_index": 0, "ace_id": f"{pair_id}::ace::0", "type": "ENDPOINT_ADDED", "path": f"/{svc_name}/new", "method":"get", "detail": f"/{svc_name}/new", "confidence":0.8, "provenance": {"old_sha": old_sha, "new_sha": new_sha}, "side_effect": False, "calls_services": [], "shared_schemas": []})
+                ai = 0
+                aces.append(
+                    {
+                        "pair_id": pair_id,
+                        "ace_index": ai,
+                        "ace_id": f"{pair_id}::ace::{ai}",
+                        "type": "ENDPOINT_ADDED",
+                        "path": new_ep,
+                        "method": "get",
+                        "detail": new_ep,
+                        "confidence": 0.8,
+                        "provenance": {"old_sha": old_sha, "new_sha": new_sha},
+                        "side_effect": False,
+                        "calls_services": [],
+                        "shared_schemas": [],
+                    }
+                )
+                ai += 1
+
+                aces.append(
+                    {
+                        "pair_id": pair_id,
+                        "ace_index": ai,
+                        "ace_id": f"{pair_id}::ace::{ai}",
+                        "type": "PARAM_ADDED",
+                        "path": "/pets",
+                        "method": "get",
+                        "detail": "status",
+                        "confidence": 0.7,
+                        "provenance": {"old_sha": old_sha, "new_sha": new_sha},
+                        "side_effect": False,
+                        "calls_services": [],
+                        "shared_schemas": [],
+                    }
+                )
+                ai += 1
+
+                # Occasionally add a response-code removal ACE for variety
+                if rng.random() < 0.3:
+                    aces.append(
+                        {
+                            "pair_id": pair_id,
+                            "ace_index": ai,
+                            "ace_id": f"{pair_id}::ace::{ai}",
+                            "type": "RESPONSE_CODE_REMOVED",
+                            "path": "/owners",
+                            "method": "post",
+                            "detail": ["201"],
+                            "confidence": 0.75,
+                            "provenance": {"old_sha": old_sha, "new_sha": new_sha},
+                            "side_effect": False,
+                            "calls_services": [],
+                            "shared_schemas": [],
+                        }
+                    )
+                    ai += 1
+
+                # Write ACE NDJSON and metadata
                 nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
                 if not dry_run:
                     _ensure_dir(nd.parent)
@@ -1209,26 +1621,126 @@ def curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed:in
                         for a in aces:
                             fh.write(json.dumps(a, ensure_ascii=False, default=_default_json_serializer) + "\n")
                     _write_json(paths["metadata"] / f"{pair_id}.meta.json", pair_entry)
+
+                # Version metadata for tracking
+                version_meta[pair_id] = {
+                    "pair_id": pair_id,
+                    "dataset": "petclinic",
+                    "service_name": service,
+                    "semver_old": "1.0.0",
+                    "semver_new": "1.0.1",
+                    "semver_delta": "patch",
+                    "breaking_vs_semver": False,
+                    "generated_at": generated_at,
+                    "producers_sample": base_paths + [new_ep],
+                }
+
+                curated += 1
+                budget["remaining"] = max(0, budget.get("remaining", 0) - 1)
+
+                # If dry_run, stop early for quick checks (keeps original behavior)
+                if dry_run and curated >= 5:
+                    break
+
+            except Exception as e:
+                logging.warning(f"[petclinic synth] skip {i}: {e}")
+
+
+    else:
+        for yml in sources:
+            if budget.get("remaining", 0) <= 0:
+                break
+            try:
+                service = yml.stem.lower()
+                svc_name = pick_real_service(service)
+
+                # compute shas for deterministic pair token
+                doc = {"paths": {f"/{svc_name}": {"get": {"description": "orig"}}}}
+                v2 = deepcopy(doc)
+                v2["paths"][f"/{svc_name}/new"] = {"get": {"description": "added endpoint"}}
+
+                old_sha = sha_for_text(json.dumps(doc, sort_keys=True, default=_default_json_serializer))
+                new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
+                pair_id = generate_pair_id(svc_name, old_sha, new_sha)
+                pair_token = make_pair_token(svc_name, old_sha, new_sha)
+
+                old_can = paths["canonical"] / make_canonical_filename(
+                    "petclinic", f"petclinic-{svc_name}", pair_token, "v1"
+                )
+                new_can = paths["canonical"] / make_canonical_filename(
+                    "petclinic", f"petclinic-{svc_name}", pair_token, "v2"
+                )
+
+                if not dry_run:
+                    _write_json(old_can, doc)
+                    _write_json(new_can, v2)
+
+                generated_at = _now_iso()
+                pair_entry = {
+                    "pair_id": pair_id,
+                    "service_name": f"petclinic-{svc_name}",
+                    "dataset": "petclinic",
+                    "old_canonical": old_can.name,
+                    "new_canonical": new_can.name,
+                    "old": str(old_can),
+                    "new": str(new_can),
+                    "old_sha": old_sha,
+                    "new_sha": new_sha,
+                    "generated_at": generated_at,
+                }
+                pair_index[pair_id] = pair_entry
+
+                # Build ACE list for this pair (single ENDPOINT_ADDED)
+                aces = []
+                aces.append(
+                    {
+                        "pair_id": pair_id,
+                        "ace_index": 0,
+                        "ace_id": f"{pair_id}::ace::0",
+                        "type": "ENDPOINT_ADDED",
+                        "path": f"/{svc_name}/new",
+                        "method": "get",
+                        "detail": f"/{svc_name}/new",
+                        "confidence": 0.8,
+                        "provenance": {"old_sha": old_sha, "new_sha": new_sha},
+                        "side_effect": False,
+                        "calls_services": [],
+                        "shared_schemas": [],
+                    }
+                )
+
+                nd = paths["ndjson"] / f"{pair_id}.aces.ndjson"
+                if not dry_run:
+                    _ensure_dir(nd.parent)
+                    with nd.open("w", encoding="utf-8") as fh:
+                        for a in aces:
+                            fh.write(json.dumps(a, ensure_ascii=False, default=_default_json_serializer) + "\n")
+                    _write_json(paths["metadata"] / f"{pair_id}.meta.json", pair_entry)
+
                 version_meta[pair_id] = {
                     "pair_id": pair_id,
                     "dataset": "petclinic",
                     "service_name": pair_entry["service_name"],
-                    "semver_old":"1.0.0",
-                    "semver_new":"1.0.1",
-                    "semver_delta":"patch",
+                    "semver_old": "1.0.0",
+                    "semver_new": "1.0.1",
+                    "semver_delta": "patch",
                     "breaking_vs_semver": False,
                     "generated_at": generated_at,
-                    "producers_sample": [f"/{svc_name}", f"/{svc_name}/new"]
+                    "producers_sample": [f"/{svc_name}", f"/{svc_name}/new"],
                 }
+
                 curated += 1
-                budget["remaining"] = max(0, budget["remaining"] - 1)
+                budget["remaining"] = max(0, budget.get("remaining", 0) - 1)
+
                 if dry_run and curated >= 5:
                     break
+
             except Exception as e:
                 logging.warning(f"[petclinic] skip {yml}: {e}")
 
-    logging.info(f"[petclinic] Curated {curated} pairs")
+    logging.info(f"[petclinic] Curated %d pairs", curated)
     return
+
 
 def curate_openrewrite(
     pair_index: Dict,
@@ -1238,103 +1750,159 @@ def curate_openrewrite(
     dry_run:bool=False,
     raw_root: Path = RAW_ROOT,
     curated_root: Path = CURATED_ROOT,
-    skip_clone: bool = False
+    skip_clone: bool = False,
+    prefer_git_pairs: bool = True,
+    openapi_timeout: int = 8,
+    max_git_pairs_per_file: int = 3
 ):
     """
-    Clean, thesis-friendly OpenRewrite curator.
-    No synthetic API noise. No 'recipe added/modified' weirdness.
-    Each pair simply becomes a NON_API_CHANGE event.
+    Robust OpenRewrite curator modeled after curate_openapi:
+      - Prefer git-history pairs when available (real pairs)
+      - Fallback to per-file multi-doc parsing and deterministic micro-changes
+      - Filter noisy files (workflows, examples, meta)
+      - Write canonical JSONs, ndjson ACEs, metadata and version_meta
     """
-
     rng = random.Random(seed)
     paths = dataset_paths(curated_root, "openrewrite")
     _ensure_dir(paths["canonical"]); _ensure_dir(paths["ndjson"]); _ensure_dir(paths["metadata"])
 
     repo_dir = raw_root / "openrewrite_repo"
 
-    # Clone only if user didn't supply local dataset
+    # Clone if  requested and repo not present
     if not skip_clone:
         try:
             if not repo_dir.exists() or not any(repo_dir.rglob("*")):
-                subprocess.run(
-                    ["git","clone","--depth","1", OPENREWRITE_REPO, str(repo_dir)],
-                    check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60
-                )
-        except Exception:
-            pass
+                logging.info(f"[curate_openrewrite] cloning rewrite repo into {repo_dir}")
+                subprocess.run(["git","clone", OPENREWRITE_REPO, str(repo_dir)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=300)
+        except Exception as e:
+            logging.warning(f"[curate_openrewrite] clone failed: {e}")
 
-    curated = 0
-    files = list(repo_dir.rglob("*.yml")) + list(repo_dir.rglob("*.yaml")) + list(repo_dir.rglob("*.json"))
-
-    # Fallback: if repo is empty, bail out cleanly
-    if not files:
-        logging.warning("[openrewrite] no files found; skipping dataset")
+    # gather candidate files
+    files = []
+    if repo_dir.exists():
+        files = list(repo_dir.rglob("*.yml")) + list(repo_dir.rglob("*.yaml")) + list(repo_dir.rglob("*.json"))
+    else:
+        logging.warning("[openrewrite] repo_dir not found, nothing to curate")
         budget["remaining"] = 0
         return
 
-    # Only take as many files as budget requires
-    files = files[: budget.get("remaining", 0)]
+    if not files:
+        logging.warning("[openrewrite] no candidate files found; skipping")
+        budget["remaining"] = 0
+        return
 
-    for i, f in enumerate(files):
-        if budget.get("remaining", 0) <= 0:
-            break
+    curated = 0
+    LOG_EVERY = 25
+    processed_files = 0
+    skipped_files = 0
 
+    def _is_candidate_file(f: Path) -> bool:
+        # reuse earlier heuristic -- small, huge, or known noise -> skip
+        if is_noise_path(f):
+            return False
         try:
-            # Canonical form is the raw file (OpenRewrite configs are not APIs)
-            txt = f.read_text(encoding="utf-8")
-            try:
-                doc = json.loads(txt)
-            except Exception:
-                doc = yaml.safe_load(txt)
+            sz = f.stat().st_size
+            if sz < 120 or sz > 2_000_000:
+                return False
+        except Exception:
+            pass
+        return True
 
-            if not isinstance(doc, dict):
-                continue
+    # Helper to create pair from two spec dictionaries (v1/v2) — writes canon, aces, meta, version_meta and registers pair_index
+    def _emit_pair_from_docs(dataset: str, svc_name: str, old_doc: dict, new_doc: dict, provenance_extra: dict = None):
+        nonlocal curated
+        try:
+            old_can, warns_old = canonicalize_with_timeout(old_doc, repo_dir, timeout_sec=openapi_timeout)
+            new_can, warns_new = canonicalize_with_timeout(new_doc, repo_dir, timeout_sec=openapi_timeout)
+            if old_can is None or new_can is None:
+                return False
 
-            svc_name = pick_real_service(f"openrewrite-{f.stem}")
+            # realisticize as OpenAPI curator does (use svc_name seed)
+            old_can_r, old_sample = realisticize_canonical(old_can, svc_name + "-old")
+            new_can_r, new_sample = realisticize_canonical(new_can, svc_name + "-new")
 
-            # Create v1 → v2 difference by trivial micro-change
-            v1 = deepcopy(doc)
-            v2 = deepcopy(doc)
-
-            # Insert a harmless, deterministic marker
-            v2["_rw_change_marker_"] = f"change_{i}"
-
-            old_sha = sha_for_text(json.dumps(v1, sort_keys=True, default=_default_json_serializer))
-            new_sha = sha_for_text(json.dumps(v2, sort_keys=True, default=_default_json_serializer))
+            old_sha = sha_for_text(json.dumps(old_can_r, sort_keys=True, default=_default_json_serializer))
+            new_sha = sha_for_text(json.dumps(new_can_r, sort_keys=True, default=_default_json_serializer))
             pair_id = generate_pair_id(svc_name, old_sha, new_sha)
+            pair_token = make_pair_token(svc_name, old_sha, new_sha)
 
-            pair_token = pair_id
-            old_path = paths["canonical"] / f"openrewrite--{svc_name}--{pair_token}--v1.canonical.json"
-            new_path = paths["canonical"] / f"openrewrite--{svc_name}--{pair_token}--v2.canonical.json"
+            old_path = paths["canonical"] / make_canonical_filename("openrewrite", svc_name, pair_token, "v1")
+            new_path = paths["canonical"] / make_canonical_filename("openrewrite", svc_name, pair_token, "v2")
 
             if not dry_run:
-                _write_json(old_path, v1)
-                _write_json(new_path, v2)
+                _write_json(old_path, old_can_r)
+                _write_json(new_path, new_can_r)
 
-            # --- Clean ACE: always NON_API_CHANGE
-            ace = {
-                "pair_id": pair_id,
-                "ace_index": 0,
-                "ace_id": f"{pair_id}::ace::0",
-                "type": "NON_API_CHANGE",
-                "path": None,
-                "method": None,
-                "detail": f"OpenRewrite config changed ({f.name})",
-                "confidence": 0.1,
-                "provenance": {"old_sha": old_sha, "new_sha": new_sha},
-                "side_effect": False,
-                "calls_services": [],
-                "shared_schemas": []
-            }
+            # compute ACEs by diffing operations where possible, for OpenRewrite we normally emit NON_API_CHANGE
+            aces = []
+            # if both have "paths" treat them like pseudo-OpenAPI and diff; otherwise emit NO_IMPACT or NON_API_CHANGE
+            if isinstance(old_can_r, dict) and isinstance(new_can_r, dict) and (old_can_r.get("paths") or new_can_r.get("paths")):
+                def ops_map(spec):
+                    out = {}
+                    for p, methods in (spec.get("paths") or {}).items():
+                        if isinstance(methods, dict):
+                            out[p] = {m.lower(): methods[m] for m in methods.keys()}
+                    return out
+                old_ops = ops_map(old_can_r)
+                new_ops = ops_map(new_can_r)
+                all_paths = sorted(set(old_ops.keys()) | set(new_ops.keys()))
+                for p in all_paths:
+                    methods = sorted(set(old_ops.get(p, {}).keys()) | set(new_ops.get(p, {}).keys()))
+                    for m in methods:
+                        old_op = old_ops.get(p, {}).get(m)
+                        new_op = new_ops.get(p, {}).get(m)
+                        try:
+                            detected = compare_operations(old_op, new_op, p, m)
+                        except Exception:
+                            detected = []
+                        for d in detected:
+                            try:
+                                conf = compute_confidence(d, old_can_r, new_can_r)
+                            except Exception:
+                                conf = 0.5
+                            ace = {
+                                "pair_id": pair_id,
+                                "ace_index": len(aces),
+                                "ace_id": f"{pair_id}::ace::{len(aces)}",
+                                "type": d.get("type"),
+                                "path": d.get("path"),
+                                "method": d.get("method"),
+                                "detail": d.get("detail"),
+                                "confidence": conf,
+                                "provenance": {"old_sha": old_sha, "new_sha": new_sha},
+                                "side_effect": (d.get("method") or "").lower() in ("post","put","patch","delete"),
+                                "calls_services": [],
+                                "shared_schemas": []
+                            }
+                            aces.append(ace)
 
-            ndjson_file = paths["ndjson"] / f"{pair_id}.aces.ndjson"
+            if not aces:
+                # give a safe NON_API_CHANGE 
+                aces.append({
+                    "pair_id": pair_id,
+                    "ace_index": 0,
+                    "ace_id": f"{pair_id}::ace::0",
+                    "type": "NON_API_CHANGE",
+                    "path": None,
+                    "method": None,
+                    "detail": provenance_extra.get("detail") if provenance_extra else None,
+                    "confidence": 0.1,
+                    "provenance": {"old_sha": old_sha, "new_sha": new_sha},
+                    "side_effect": False,
+                    "calls_services": [],
+                    "shared_schemas": []
+                })
+
+            ndjson_path = paths["ndjson"] / f"{pair_id}.aces.ndjson"
             if not dry_run:
-                with ndjson_file.open("w", encoding="utf-8") as fh:
-                    fh.write(json.dumps(ace, ensure_ascii=False) + "\n")
+                _ensure_dir(ndjson_path.parent)
+                with ndjson_path.open("w", encoding="utf-8") as fh:
+                    for a in aces:
+                        fh.write(json.dumps(a, ensure_ascii=False, default=_default_json_serializer) + "\n")
 
             meta = {
                 "pair_id": pair_id,
-                "dataset": "openrewrite",
+                "dataset": dataset,
                 "service_name": svc_name,
                 "old_canonical": old_path.name,
                 "new_canonical": new_path.name,
@@ -1343,19 +1911,18 @@ def curate_openrewrite(
                 "old_sha": old_sha,
                 "new_sha": new_sha,
                 "generated_at": _now_iso(),
+                "warnings": (warns_old or []) + (warns_new or []) if 'warns_old' in locals() else []
             }
-
             if not dry_run:
                 _write_json(paths["metadata"] / f"{pair_id}.meta.json", meta)
 
             pair_index[pair_id] = meta
-
             version_meta[pair_id] = {
                 "pair_id": pair_id,
-                "dataset": "openrewrite",
+                "dataset": dataset,
                 "service_name": svc_name,
-                "semver_old": "0.1.0",
-                "semver_new": "0.1.1",
+                "semver_old": "0.0.0",
+                "semver_new": "0.0.1",
                 "semver_delta": "patch",
                 "breaking_vs_semver": False,
                 "generated_at": meta["generated_at"],
@@ -1363,16 +1930,505 @@ def curate_openrewrite(
             }
 
             curated += 1
-            budget["remaining"] -= 1
-
-            logging.info(f"[openrewrite] curated {curated} NON_API_CHANGE pairs")
+            budget["remaining"] = max(0, budget.get("remaining", 0) - 1)
+            return True
 
         except Exception as e:
-            logging.warning(f"[openrewrite] skip {f}: {e}")
-            continue
+            logging.debug(f"[openrewrite] emit_pair failed: {e}", exc_info=True)
+            return False
+
+    # Primary strategy: prefer git-history pairs (real commit pairs per file)
+    if prefer_git_pairs and repo_dir.exists() and (repo_dir / ".git").exists():
+        logging.info("[openrewrite] attempting git-history pair extraction")
+        for f in files:
+            if budget.get("remaining", 0) <= 0:
+                break
+            processed_files += 1
+            if not _is_candidate_file(f):
+                skipped_files += 1
+                continue
+            try:
+                git_pairs = _git_file_commit_pairs(repo_dir, f, max_pairs=max_git_pairs_per_file)
+                if not git_pairs:
+                    continue
+                for old_c, new_c, old_blob, new_blob in git_pairs:
+                    if budget.get("remaining", 0) <= 0:
+                        break
+                    # parse blobs robustly (json or multi-doc yaml)
+                    try:
+                        try:
+                            old_doc = json.loads(old_blob)
+                        except Exception:
+                            old_doc = None
+                            for d in yaml.safe_load_all(old_blob):
+                                if isinstance(d, dict):
+                                    old_doc = d
+                                    break
+                    except Exception as e:
+                        _save_bad_file(f, f"git_old_parse:{e}")
+                        continue
+                    try:
+                        try:
+                            new_doc = json.loads(new_blob)
+                        except Exception:
+                            new_doc = None
+                            for d in yaml.safe_load_all(new_blob):
+                                if isinstance(d, dict):
+                                    new_doc = d
+                                    break
+                    except Exception as e:
+                        _save_bad_file(f, f"git_new_parse:{e}")
+                        continue
+
+                    if not isinstance(old_doc, dict) or not isinstance(new_doc, dict):
+                        continue
+
+                    svc_base = re.sub(r"[^0-9a-zA-Z\-_]", "-", f.with_suffix("").as_posix()).lower()
+                    svc_name = pick_real_service(svc_base)
+                    ok = _emit_pair_from_docs("openrewrite", svc_name, old_doc, new_doc, provenance_extra={"detail": f.name})
+                    if ok and budget.get("remaining", 0) <= 0:
+                        break
+
+            except Exception as e:
+                logging.warning(f"[openrewrite] git pair extraction skip {f}: {e}")
+                _save_bad_file(f, f"git_pair_outer:{e}")
+                continue
+            if processed_files % LOG_EVERY == 0:
+                logging.info(f"[openrewrite] git progress files={processed_files} curated={curated} remaining={budget.get('remaining',0)} skipped={skipped_files}")
+
+    # Secondary strategy: per-file multi-doc processing and synthetic micro-change fallback
+    if budget.get("remaining", 0) > 0:
+        logging.info("[openrewrite] falling back to per-file multi-doc processing")
+        for f in files:
+            if budget.get("remaining", 0) <= 0:
+                break
+            processed_files += 1
+            if not _is_candidate_file(f):
+                skipped_files += 1
+                continue
+            try:
+                txt = None
+                try:
+                    txt = f.read_text(encoding="utf-8", errors="replace")
+                except Exception as e:
+                    _save_bad_file(f, f"read_error:{e}")
+                    continue
+
+                # parse into multiple docs
+                try:
+                    try:
+                        js = json.loads(txt)
+                        docs = [js] if isinstance(js, (dict, list)) else []
+                    except Exception:
+                        docs = list(yaml.safe_load_all(txt))
+                except Exception as e:
+                    logging.debug(f"[openrewrite] parse failed {f}: {e}")
+                    _save_bad_file(f, f"parse_failed:{e}")
+                    continue
+
+                docs = [d for d in docs if isinstance(d, dict)]
+                if not docs:
+                    skipped_files += 1
+                    continue
+
+                for di, doc in enumerate(docs):
+                    if budget.get("remaining", 0) <= 0:
+                        break
+                    svc_name = pick_real_service(f"openrewrite-{f.stem}-{di}")
+                    # try to find a different variant (v2): deterministic micro-change
+                    v1 = deepcopy(doc)
+                    v2 = deepcopy(doc)
+                    # add deterministic marker that won't change semantics for non-API files
+                    v2["_rw_curation_marker"] = f"{sha_for_text(f.name + str(di) + str(seed))[:8]}"
+                    ok = _emit_pair_from_docs("openrewrite", svc_name, v1, v2, provenance_extra={"detail": f"{f.name}#doc{di}"})
+                    if not ok:
+                        _save_bad_file(f, f"emit_failed_doc:{di}")
+                        continue
+
+                if processed_files % LOG_EVERY == 0:
+                    logging.info(f"[openrewrite] doc progress files={processed_files} curated={curated} remaining={budget.get('remaining',0)} skipped={skipped_files}")
+
+            except Exception as e:
+                logging.warning(f"[openrewrite] skip file {f}: {e}")
+                _save_bad_file(f, f"outer_exception:{e}")
+                continue
 
     logging.info(f"[openrewrite] completed {curated} pairs")
     return
+
+def synth_curate_openrewrite_semantic(
+    pair_index: Dict,
+    version_meta: Dict,
+    budget: Dict,
+    seed: int = 1001,
+    dry_run: bool = False,
+    curated_root: Path = CURATED_ROOT,
+    raw_root: Path = RAW_ROOT,
+    target_per_file_max_aces: int = 4,
+):
+    """
+    Synthetic OpenRewrite generator producing Java-semantic canonical JSONs and ACEs.
+    Produces richer class-like JSONs that resemble parsed Java artifacts:
+      - realistic package names derived from raw repo or seeded tokens
+      - camel-cased class names
+      - fields with types and modifiers
+      - methods with overloads, param types, return types, modifiers, thrown exceptions
+      - annotations and simple javadoc-like summary strings
+    Writes canonical files, ndjson ACEs, and metadata identical in shape to real curators.
+    Returns number of created pairs.
+    """
+    from random import Random
+    rng = Random(seed)
+    paths = dataset_paths(curated_root, "openrewrite")
+    _ensure_dir(paths["canonical"]); _ensure_dir(paths["ndjson"]); _ensure_dir(paths["metadata"])
+
+    remaining = int(budget.get("remaining", 0))
+    if remaining <= 0:
+        logging.info("[synth_openrewrite_semantic] budget 0 -> nothing to do")
+        return 0
+
+    # Collect raw candidates to make names realistic
+    raw_repo = Path(raw_root) / "openrewrite_repo"
+    raw_candidates = []
+    if raw_repo.exists():
+        for ext in ("*.java", "*.yml", "*.yaml", "*.json", "*.md"):
+            raw_candidates.extend(list(raw_repo.rglob(ext)))
+        raw_candidates = [p for p in raw_candidates if p.is_file() and p.stat().st_size > 0]
+        logging.info("[synth_openrewrite_semantic] found %d raw candidates", len(raw_candidates))
+
+    def _token_from_path(p: Optional[Path]):
+        if p is None:
+            return f"synth{rng.randint(1,9999)}"
+        try:
+            name = p.stem
+            # if java file, prefer class-like stem; otherwise folder name
+            token = re.sub(r'[^0-9a-zA-Z]', '_', name)
+            return token[:28] or "rewrite"
+        except Exception:
+            return "rewrite"
+
+    def _camel_to_class(token: str):
+        s = re.sub(r'[^0-9a-zA-Z]+', ' ', token).title().replace(" ", "")
+        if not s:
+            s = f"Cls{rng.randint(1,999)}"
+        return s[:40]
+
+    def _make_pkg(token: str, svc: str):
+        base = re.sub(r'[^0-9a-zA-Z]', '', token).lower() or svc.replace("-", "")
+        return f"org.openrewrite.{base}"
+
+    # helpers for types and modifiers
+    PRIMITIVES = ["int", "long", "double", "boolean"]
+    OBJECTS = ["String", "BigDecimal", "List<String>", "Map<String,String>", "Optional<String>"]
+    ALL_TYPES = PRIMITIVES + OBJECTS
+
+    def _choose_type():
+        return rng.choice(ALL_TYPES)
+
+    def _make_field(i: int):
+        t = _choose_type()
+        name = f"f{i+1}"
+        # small chance to have annotation
+        ann = []
+        if rng.random() < 0.15:
+            ann = ["@Nullable"]
+        return {"name": name, "type": t, "annotations": ann, "modifiers": ["private"]}
+
+    def _make_param(j: int):
+        ptype = rng.choice(["String","int","long","BigDecimal","boolean"])
+        return {"name": f"p{j+1}", "type": ptype}
+
+    def _make_method(base: str, overload_idx: int = 0):
+        # name variations to create overloads
+        base_name = re.sub(r'[^0-9a-zA-Z_]', '', base[:18]).lower() or f"m{rng.randint(1,999)}"
+        name = base_name if overload_idx == 0 else f"{base_name}V{overload_idx}"
+        pcount = rng.choice([0,1,2])
+        params = [_make_param(k) for k in range(pcount)]
+        return_type = rng.choice(["void","String","boolean","int","BigDecimal"])
+        modifiers = ["public"] if rng.random() < 0.8 else ["protected"]
+        annotations = []
+        if rng.random() < 0.12:
+            annotations.append("@Deprecated")
+        throws = []
+        if rng.random() < 0.08:
+            throws = ["IOException"]
+        summary = f"{name} (synth)"
+        return {
+            "name": name,
+            "params": params,
+            "returnType": return_type,
+            "annotations": annotations,
+            "modifiers": modifiers,
+            "throws": throws,
+            "summary": summary
+        }
+
+    def _synth_class_from_token(token: str, svc: str, rng_local: Random):
+        class_name = _camel_to_class(token)
+        package = _make_pkg(token, svc)
+        # fields count variable
+        fields = [_make_field(i) for i in range(rng_local.randint(1,4))]
+        methods = []
+        # produce 2-5 methods with occasional overloads
+        base_words = [token, svc, "process", "handle", "compute", "upgrade"]
+        for m_i in range(rng_local.randint(2,5)):
+            base = rng_local.choice(base_words)
+            # create 1-2 overloads sometimes
+            overloads = rng_local.choice([1,1,2])
+            for ov in range(overloads):
+                methods.append(_make_method(base, ov))
+        annotations = []
+        if rng_local.random() < 0.12:
+            annotations.append("@Service")
+        return {
+            "package": package,
+            "class": class_name,
+            "fields": fields,
+            "methods": methods,
+            "annotations": annotations,
+            "imports": ["java.util.*"]  # minor realism
+        }
+
+    created = 0
+    producers_local: Dict[str, List[str]] = {}  # collect producers for graph
+    for i in range(remaining):
+        if budget.get("remaining", 0) <= 0:
+            break
+
+        rng_i = Random(seed + i)
+        svc_seed = f"openrewrite-synth-{seed}-{i}"
+        svc = pick_real_service(svc_seed)
+
+        # raw candidate chooser
+        raw_obj = None
+        chosen_path = None
+        if raw_candidates:
+            idx = (seed + i) % len(raw_candidates)
+            chosen_path = raw_candidates[idx]
+            try:
+                raw_obj = _read_file(chosen_path)
+            except Exception:
+                raw_obj = None
+
+        token_seed = _token_from_path(chosen_path)
+        canonical_v1 = _synth_class_from_token(token_seed, svc, rng_i)
+
+        # if raw_obj has some name hints, adopt them (defensive)
+        if isinstance(raw_obj, dict):
+            for k in ("name","title","id","recipe","rule","displayName"):
+                if k in raw_obj and isinstance(raw_obj[k], str) and raw_obj[k].strip():
+                    canonical_v1["class"] = _camel_to_class(raw_obj[k])
+                    break
+
+        # build v2 from v1 by applying a few semantic edits
+        canonical_v2 = deepcopy(canonical_v1)
+        ace_list = []
+        n_aces = rng_i.randint(1, min(5, target_per_file_max_aces + 1))
+        actions_pool = [
+            "METHOD_PARAM_TYPE_CHANGED", "METHOD_RETURN_TYPE_CHANGED",
+            "METHOD_RENAMED", "CLASS_RENAMED", "FIELD_ADDED", "FIELD_REMOVED",
+            "ANNOTATION_ADDED", "ANNOTATION_REMOVED", "METHOD_REMOVED"
+        ]
+        used_actions = []
+
+        for aidx in range(n_aces):
+            act = rng_i.choice(actions_pool)
+            # avoid same action >2 times
+            if used_actions.count(act) > 1:
+                act = rng_i.choice(actions_pool)
+            used_actions.append(act)
+
+            methods = canonical_v2.get("methods", []) or []
+            fields = canonical_v2.get("fields", []) or []
+
+            if act == "METHOD_PARAM_TYPE_CHANGED" and methods:
+                m = rng_i.choice(methods)
+                if m["params"]:
+                    p = rng_i.choice(m["params"])
+                    old_t = p["type"]
+                    new_t = rng_i.choice([t for t in ["String","int","long","BigDecimal","boolean"] if t != old_t])
+                    p["type"] = new_t
+                    detail = {"param": p["name"], "from": old_t, "to": new_t}
+                    ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}.{m['name']}", "detail": detail}
+                else:
+                    # fallback to return type change
+                    old_rt = m.get("returnType", "void")
+                    new_rt = rng_i.choice([t for t in ["String","boolean","int","BigDecimal"] if t != old_rt])
+                    m["returnType"] = new_rt
+                    ace = {"type": "METHOD_RETURN_TYPE_CHANGED", "path": f"{canonical_v2['package']}.{canonical_v2['class']}.{m['name']}", "detail": {"from": old_rt, "to": new_rt}}
+            elif act == "METHOD_RETURN_TYPE_CHANGED" and methods:
+                m = rng_i.choice(methods)
+                old_rt = m.get("returnType", "void")
+                new_rt = rng_i.choice([t for t in ["String","boolean","int","BigDecimal"] if t != old_rt])
+                m["returnType"] = new_rt
+                ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}.{m['name']}", "detail": {"from": old_rt, "to": new_rt}}
+            elif act == "METHOD_RENAMED" and methods:
+                m = rng_i.choice(methods)
+                old_name = m["name"]
+                new_name = old_name + rng_i.choice(["V2","_v2","Ext"])
+                m["name"] = new_name
+                ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}.{old_name}", "detail": {"from": old_name, "to": new_name}}
+            elif act == "CLASS_RENAMED":
+                old_c = canonical_v2.get("class") or canonical_v1.get("class") or _camel_to_class(token_seed)
+                new_c = f"{old_c}V2"
+                canonical_v2["class"] = new_c
+                ace = {"type": act, "path": f"{canonical_v2['package']}.{old_c}", "detail": {"from": old_c, "to": new_c}}
+            elif act == "FIELD_ADDED":
+                fnew = {"name": f"newField{rng_i.randint(1,99)}", "type": rng_i.choice(["String","int","BigDecimal"]), "annotations": [], "modifiers": ["private"]}
+                canonical_v2.setdefault("fields", []).append(fnew)
+                ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}", "detail": {"field": fnew["name"], "type": fnew["type"]}}
+            elif act == "FIELD_REMOVED" and fields:
+                f = rng_i.choice(fields)
+                canonical_v2["fields"] = [ff for ff in canonical_v2["fields"] if ff["name"] != f["name"]]
+                ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}", "detail": {"field": f["name"]}}
+            elif act == "ANNOTATION_ADDED":
+                target = None
+                if methods:
+                    target = rng_i.choice(methods)
+                    target.setdefault("annotations", []).append("@Deprecated")
+                    ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}.{target['name']}", "detail": {"annotation": "@Deprecated"}}
+                else:
+                    canonical_v2.setdefault("annotations", []).append("@Service")
+                    ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}", "detail": {"annotation": "@Service"}}
+            elif act == "ANNOTATION_REMOVED":
+                removed = False
+                for m in canonical_v2.get("methods", []):
+                    if m.get("annotations"):
+                        ann = m["annotations"].pop() if m["annotations"] else None
+                        if ann:
+                            ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}.{m['name']}", "detail": {"annotation": ann}}
+                            removed = True
+                            break
+                if not removed:
+                    if canonical_v2.get("fields"):
+                        f = canonical_v2["fields"].pop()
+                        ace = {"type": "FIELD_REMOVED", "path": f"{canonical_v2['package']}.{canonical_v2['class']}", "detail": {"field": f["name"]}}
+                    else:
+                        ace = {"type": "NON_SEMANTIC", "path": canonical_v2["package"], "detail": "noop"}
+            elif act == "METHOD_REMOVED" and methods:
+                m = rng_i.choice(methods)
+                canonical_v2["methods"] = [mm for mm in canonical_v2["methods"] if mm["name"] != m["name"]]
+                ace = {"type": act, "path": f"{canonical_v2['package']}.{canonical_v2['class']}.{m['name']}", "detail": None}
+            else:
+                ace = {"type": "NON_SEMANTIC", "path": canonical_v2.get("package"), "detail": "noop"}
+
+            ace["confidence"] = 0.75 if any(k in ace["type"] for k in ("METHOD","CLASS")) else 0.35
+            ace["pair_id"] = None
+            ace["ace_index"] = None
+            ace_list.append(ace)
+
+        # Build stable identifiers and filenames (consistent with pipeline)
+        old_sha = sha_for_text(json.dumps(canonical_v1, sort_keys=True, default=_default_json_serializer))
+        new_sha = sha_for_text(json.dumps(canonical_v2, sort_keys=True, default=_default_json_serializer))
+        pair_id = generate_pair_id(svc, old_sha, new_sha)
+        pair_token = sha_for_text(f"{svc}::{old_sha}::{new_sha}")[:20]  # short token
+        # keep filename pattern identical to other datasets
+        old_path = paths["canonical"] / make_canonical_filename("openrewrite", svc, pair_token, "v1")
+        new_path = paths["canonical"] / make_canonical_filename("openrewrite", svc, pair_token, "v2")
+
+        if not dry_run:
+            _write_json(old_path, canonical_v1)
+            _write_json(new_path, canonical_v2)
+
+        # finalize ACEs: set pair_id, ace_index, ace_id and provenance
+        ndjson_records = []
+        for idx_ace, ace in enumerate(ace_list):
+            ace["pair_id"] = pair_id
+            ace["ace_index"] = idx_ace
+            ace["ace_id"] = f"{pair_id}::ace::{idx_ace}"
+            ace["provenance"] = {"old_sha": old_sha, "new_sha": new_sha}
+            ace["side_effect"] = False
+            ace["calls_services"] = []
+            ace["shared_schemas"] = []
+            ndjson_records.append(ace)
+
+        if not dry_run:
+            ndjson_file = paths["ndjson"] / f"{pair_id}.aces.ndjson"
+            _ensure_dir(ndjson_file.parent)
+            with ndjson_file.open("w", encoding="utf-8") as fh:
+                for r in ndjson_records:
+                    fh.write(json.dumps(r, ensure_ascii=False, default=_default_json_serializer) + "\n")
+
+            producers_sample = [f"{canonical_v1.get('package')}.{canonical_v1.get('class')}"]
+            meta = {
+                "pair_id": pair_id,
+                "dataset": "openrewrite",
+                "service_name": svc,
+                "old_canonical": old_path.name,
+                "new_canonical": new_path.name,
+                "old": str(old_path),
+                "new": str(new_path),
+                "old_sha": old_sha,
+                "new_sha": new_sha,
+                "generated_at": _now_iso(),
+                "producers_sample": producers_sample,
+                "warnings": []
+            }
+            _write_json(paths["metadata"] / f"{pair_id}.meta.json", meta)
+        else:
+            producers_sample = [f"{canonical_v1.get('package')}.{canonical_v1.get('class')}"]
+            meta = {
+                "pair_id": pair_id,
+                "dataset": "openrewrite",
+                "service_name": svc,
+                "old_canonical": old_path.name,
+                "new_canonical": new_path.name,
+                "old": str(old_path),
+                "new": str(new_path),
+                "old_sha": old_sha,
+                "new_sha": new_sha,
+                "generated_at": _now_iso(),
+                "producers_sample": producers_sample,
+                "warnings": []
+            }
+
+        # update local producers map for graph building
+        producers_local.setdefault(svc, [])
+        for p in producers_sample:
+            if p not in producers_local[svc]:
+                producers_local[svc].append(p)
+
+        version_meta[pair_id] = {
+            "pair_id": pair_id,
+            "dataset": "openrewrite",
+            "service_name": svc,
+            "semver_old": "0.0.0",
+            "semver_new": "0.0.1",
+            "semver_delta": "patch",
+            "breaking_vs_semver": False,
+            "generated_at": meta["generated_at"],
+            "producers_sample": meta.get("producers_sample", []),
+        }
+
+        pair_index[pair_id] = meta
+        created += 1
+        budget["remaining"] = max(0, budget.get("remaining", 0) - 1)
+
+    # merge producers back into global producers if present in the caller scope
+    try:
+        # some callers pass a `producers` var; if so, update it
+        if "producers" in globals():
+            global_producers = globals().get("producers")
+            if isinstance(global_producers, dict):
+                for k, v in producers_local.items():
+                    if k in global_producers:
+                        existing = set(global_producers[k])
+                        existing.update(v)
+                        global_producers[k] = list(existing)
+                    else:
+                        global_producers[k] = v
+    except Exception:
+        pass
+
+    # write a graph if desired (keeps parity with full run)
+    try:
+        if not dry_run:
+            build_graph(producers_local, curated_root=curated_root, seed=seed)
+    except Exception:
+        logging.debug("[synth_openrewrite_semantic] graph build failed", exc_info=True)
+
+    logging.info("[synth_openrewrite_semantic] generated %d synthetic semantic pairs (seed=%d)", created, seed)
+    return created
 
 
 # ---------- Graph builder and ACE ensure functions (kept)
@@ -1534,7 +2590,7 @@ def _ensure_total_aces(curated_root: Path, target_aces: int, seed: int = 42, bat
     logging.info("[ensure_total_aces] reached total ACEs=%d", total)
     return total
 
-# ---------- Index writers (careful, deterministic)
+# ---------- Index writers 
 def write_global_indexes(pair_index: Dict[str, Any], version_meta: Dict[str, Any], curated_root: Path = CURATED_ROOT):
     # Write index.json sorted by pair_id for stable diffs
     _write_json(Path(curated_root) / "index.json", {k: pair_index[k] for k in sorted(pair_index.keys())})
@@ -1612,7 +2668,7 @@ def _existing_counts(out_dir: Path) -> Dict[str, int]:
             counts[ds] = 0
     return counts
 
-# ---------- Synthesize fallback OpenAPI pairs (unchanged but now writes canonical files)
+# ---------- Synthesize fallback OpenAPI pairs 
 def _synthesize_openapi_pairs(pair_index, producers, version_meta, budget, seed, curated_root):
     rng = random.Random(seed)
     paths = dataset_paths(curated_root, "openapi")
@@ -1724,6 +2780,9 @@ def run(
         _ensure_dir(CURATED_ROOT / ds / "ndjson")
         _ensure_dir(CURATED_ROOT / ds / "metadata")
 
+    # Debug/logging so we know where writes happen
+    logging.info("[run] CURATED_ROOT -> %s", CURATED_ROOT.resolve())
+
     existing = _existing_counts(out_dir)
     logging.info("Existing counts detected -> %s", existing)
 
@@ -1769,9 +2828,72 @@ def run(
     budget_petclinic = {"remaining": rem_petclinic}
     budget_openrewrite = {"remaining": rem_openrewrite}
 
-    curate_openapi(pair_index, producers, version_meta, budget_openapi, seed=seed, dry_run=dry_run, raw_root=RAW_ROOT, curated_root=CURATED_ROOT, skip_clone=skip_clone, openapi_timeout=openapi_timeout, prefer_git_pairs=True)
-    curate_petclinic(pair_index, version_meta, budget_petclinic, seed=seed + 1, dry_run=dry_run, raw_root=RAW_ROOT, curated_root=CURATED_ROOT, skip_clone=skip_clone)
-    curate_openrewrite(pair_index, version_meta, budget_openrewrite, seed=seed + 2, dry_run=dry_run, raw_root=RAW_ROOT, curated_root=CURATED_ROOT, skip_clone=skip_clone)
+  
+    synth_flag = globals().get("_SYNTH_OPENREWRITE_FLAG", False)
+    # Backwards compatible: if main() placed the parsed args in ARGS_OBJ, check that too.
+    if not synth_flag and globals().get("ARGS_OBJ") is not None:
+        try:
+            synth_flag = bool(getattr(globals()["ARGS_OBJ"], "synth_openrewrite", False))
+        except Exception:
+            synth_flag = synth_flag
+
+    if synth_flag:
+        logging.info("[run] synth-openrewrite-semantic flag detected: generating semantic openrewrite pairs only")
+        logging.info("[run] budget_openrewrite -> %s", budget_openrewrite)
+        # synth function returns created count — capture for logging and sanity checks
+        try:
+            created = synth_curate_openrewrite_semantic(
+                pair_index,
+                version_meta,
+                budget_openrewrite,
+                seed=seed + 1000,
+                dry_run=dry_run,
+                curated_root=CURATED_ROOT,
+                raw_root=RAW_ROOT,
+            )
+            logging.info("[run] synth_curate_openrewrite_semantic created %d pairs", int(created or 0))
+        except Exception as e:
+            logging.exception("[run] synth_curate_openrewrite_semantic failed: %s", e)
+            # Don't silently continue — write whatever we have (if any) then return
+        if not dry_run:
+            write_global_indexes(pair_index, version_meta, curated_root=CURATED_ROOT)
+        logging.info("[run] synth-openrewrite-semantic complete")
+        return
+
+    # Normal multi-dataset curation
+    curate_openapi(
+        pair_index,
+        producers,
+        version_meta,
+        budget_openapi,
+        seed=seed,
+        dry_run=dry_run,
+        raw_root=RAW_ROOT,
+        curated_root=CURATED_ROOT,
+        skip_clone=skip_clone,
+        openapi_timeout=openapi_timeout,
+        prefer_git_pairs=True,
+    )
+    curate_petclinic(
+        pair_index,
+        version_meta,
+        budget_petclinic,
+        seed=seed + 1,
+        dry_run=dry_run,
+        raw_root=RAW_ROOT,
+        curated_root=CURATED_ROOT,
+        skip_clone=skip_clone,
+    )
+    curate_openrewrite(
+        pair_index,
+        version_meta,
+        budget_openrewrite,
+        seed=seed + 2,
+        dry_run=dry_run,
+        raw_root=RAW_ROOT,
+        curated_root=CURATED_ROOT,
+        skip_clone=skip_clone,
+    )
 
     # Merge with existing index.json/version_meta.json carefully. Repair bad pair_ids (n/a).
     existing_idx = {}
@@ -1866,6 +2988,7 @@ def run(
 
     return
 
+
 # ---------- CLI
 def main():
     parser = argparse.ArgumentParser()
@@ -1884,12 +3007,20 @@ def main():
     parser.add_argument("--ace-batch", type=int, default=200, help="how many ACEs appended per file iteration when meeting target")
     parser.add_argument("--no-augment", action="store_true", help="do not append synthetic ACEs to reach target-aces; use only real ACEs")
     parser.add_argument("--openapi-timeout", type=int, default=8, help="timeout seconds for canonicalizing an OpenAPI spec")
+    parser.add_argument("--synth-openrewrite", action="store_true", help="Generate synthetic-only OpenRewrite pairs (skip original curate_openrewrite).")
+
     args = parser.parse_args()
     random.seed(args.seed)
     ratios = _parse_ratio_arg(args.ratios)
+
+    # Expose CLI-driven toggles via globals for run()
+    globals()["_SYNTH_OPENREWRITE_FLAG"] = getattr(args, "synth_openrewrite", False)
     globals()["_SYNTH_OPENAPI"] = getattr(args, "synthesize_openapi", False)
     globals()["_TARGET_ACES"] = getattr(args, "target_aces", None)
     globals()["_ACE_BATCH"] = getattr(args, "ace_batch", 200)
+    # Make the parsed args object available to run() as a fallback (safe access)
+    globals()["ARGS_OBJ"] = args
+
     run(
         Path(args.out),
         args.max,
