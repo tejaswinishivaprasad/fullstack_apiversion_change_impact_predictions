@@ -1,0 +1,128 @@
+{
+  "package": "org.openrewrite.minimumjava25",
+  "class": "Minimumjava25",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "double",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "String",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "Optional<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f4",
+      "type": "double",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "compute",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "computeV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        },
+        {
+          "name": "p2",
+          "type": "long"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "computeV1 (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "notificationsserv",
+      "params": [],
+      "returnType": "BigDecimal",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "notificationsserv (synth)"
+    },
+    {
+      "name": "notificationsservV1",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "notificationsservV1 (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

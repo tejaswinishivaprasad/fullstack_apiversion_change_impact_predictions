@@ -1,0 +1,136 @@
+{
+  "package": "org.openrewrite.reloadablejava11typemapping",
+  "class": "Reloadablejava11Typemapping",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "Map<String,String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "List<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f4",
+      "type": "List<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "searchservice",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "searchservice (synth)"
+    },
+    {
+      "name": "upgrade",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    },
+    {
+      "name": "upgrade",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    },
+    {
+      "name": "compute",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "computeV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "computeV1 (synth)"
+    },
+    {
+      "name": "searchservice",
+      "params": [],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "searchservice (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

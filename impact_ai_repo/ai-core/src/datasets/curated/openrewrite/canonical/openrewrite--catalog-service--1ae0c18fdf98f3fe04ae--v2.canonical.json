@@ -1,0 +1,56 @@
+{
+  "package": "org.openrewrite.gradlewrappersinuse",
+  "class": "GradlewrappersinuseV2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "String",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "newField14",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "handleV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [
+        "IOException"
+      ],
+      "summary": "handleV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

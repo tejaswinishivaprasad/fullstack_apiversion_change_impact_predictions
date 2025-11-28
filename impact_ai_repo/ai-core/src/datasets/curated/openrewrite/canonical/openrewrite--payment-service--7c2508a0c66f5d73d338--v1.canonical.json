@@ -1,0 +1,127 @@
+{
+  "package": "org.openrewrite.autoformatvisitortest",
+  "class": "Autoformatvisitortest",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "autoformatvisitort",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "autoformatvisitort (synth)"
+    },
+    {
+      "name": "autoformatvisitortV1",
+      "params": [],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "autoformatvisitortV1 (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [],
+      "returnType": "void",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [
+        "IOException"
+      ],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [],
+      "returnType": "BigDecimal",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "handleV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "handleV1 (synth)"
+    },
+    {
+      "name": "compute",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        },
+        {
+          "name": "p2",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

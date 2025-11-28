@@ -1,0 +1,101 @@
+{
+  "package": "org.openrewrite.changedependencyextension",
+  "class": "Changedependencyextension",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "compute",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        },
+        {
+          "name": "p2",
+          "type": "int"
+        }
+      ],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [
+        "IOException"
+      ],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "computeV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "String"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "computeV1 (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "handleV1",
+      "params": [],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handleV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

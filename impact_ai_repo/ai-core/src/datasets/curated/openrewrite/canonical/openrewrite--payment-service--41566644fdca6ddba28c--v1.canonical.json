@@ -1,0 +1,126 @@
+{
+  "package": "org.openrewrite.groovysubstitutions",
+  "class": "Groovysubstitutions",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "boolean",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "double",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "String",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f4",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "upgrade",
+      "params": [],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    },
+    {
+      "name": "compute",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        },
+        {
+          "name": "p2",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "computeV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "computeV1 (synth)"
+    },
+    {
+      "name": "upgrade",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        },
+        {
+          "name": "p2",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    },
+    {
+      "name": "upgradeV1",
+      "params": [],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgradeV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

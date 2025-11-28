@@ -1,0 +1,86 @@
+{
+  "package": "org.openrewrite.packageinfo",
+  "class": "PackageInfo",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "Map<String,String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f4",
+      "type": "String",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "upgrade",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        },
+        {
+          "name": "p2",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    },
+    {
+      "name": "compute",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "computeV1",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "computeV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

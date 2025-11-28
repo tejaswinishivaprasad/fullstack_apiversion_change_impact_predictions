@@ -1,0 +1,119 @@
+{
+  "package": "org.openrewrite.remotearchivetest",
+  "class": "Remotearchivetest",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "Map<String,String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "double",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "userservice",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "userservice (synth)"
+    },
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "processV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "processV1 (synth)"
+    },
+    {
+      "name": "remotearchivetest",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        },
+        {
+          "name": "p2",
+          "type": "long"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "remotearchivetest (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

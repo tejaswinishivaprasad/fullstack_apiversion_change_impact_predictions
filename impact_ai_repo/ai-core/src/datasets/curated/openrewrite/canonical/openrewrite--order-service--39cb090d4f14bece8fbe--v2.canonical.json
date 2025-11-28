@@ -1,0 +1,88 @@
+{
+  "package": "org.openrewrite.mapentrytest",
+  "class": "MapentrytestV2V2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "int",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "orderservice",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "orderservice (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

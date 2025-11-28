@@ -1,0 +1,42 @@
+{
+  "package": "org.openrewrite.jsonpathparser",
+  "class": "Jsonpathparser",
+  "fields": [
+    {
+      "name": "newField49",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "jsonpathparser",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        },
+        {
+          "name": "p2",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [
+        "IOException"
+      ],
+      "summary": "jsonpathparser (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

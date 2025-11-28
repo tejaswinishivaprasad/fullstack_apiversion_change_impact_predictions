@@ -1,0 +1,90 @@
+{
+  "package": "org.openrewrite.kotlinirtypemappingtest",
+  "class": "Kotlinirtypemappingtest",
+  "fields": [
+    {
+      "name": "f2",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "Map<String,String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        },
+        {
+          "name": "p2",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "upgrade",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "long"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    },
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "long"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

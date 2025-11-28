@@ -1,0 +1,113 @@
+{
+  "package": "org.openrewrite.throwingunaryoperator",
+  "class": "Throwingunaryoperator",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "Optional<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "Optional<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f4",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "process",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "authservice",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "long"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "authservice (synth)"
+    },
+    {
+      "name": "compute",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "computeV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "computeV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

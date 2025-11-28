@@ -1,0 +1,137 @@
+{
+  "package": "org.openrewrite.indexedaccess",
+  "class": "Indexedaccess",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "boolean",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "compute",
+      "params": [],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    },
+    {
+      "name": "computeV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "computeV1 (synth)"
+    },
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [
+        "IOException"
+      ],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "processV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        },
+        {
+          "name": "p2",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "processV1 (synth)"
+    },
+    {
+      "name": "indexedaccess",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "indexedaccess (synth)"
+    },
+    {
+      "name": "upgrade",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [
+        "IOException"
+      ],
+      "summary": "upgrade (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

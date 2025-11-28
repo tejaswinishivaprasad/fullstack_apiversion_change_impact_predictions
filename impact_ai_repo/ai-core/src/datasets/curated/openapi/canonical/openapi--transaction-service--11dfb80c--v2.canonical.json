@@ -1,0 +1,3592 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2022-06-10",
+    "x-release": "v4",
+    "title": "CloudWatch Observability Access Manager",
+    "description": "<p>Use Amazon CloudWatch Observability Access Manager to create and manage links between source accounts and monitoring accounts by using <i>CloudWatch cross-account observability</i>. With CloudWatch cross-account observability, you can monitor and troubleshoot applications that span multiple accounts within a Region. Seamlessly search, visualize, and analyze your metrics, logs, and traces in any of the linked accounts without account boundaries.</p> <pre><code> &lt;p&gt;Set up one or more Amazon Web Services accounts as &lt;i&gt;monitoring accounts&lt;/i&gt; and link them with multiple &lt;i&gt;source accounts&lt;/i&gt;. A monitoring account is a central Amazon Web Services account that can view and interact with observability data generated from source accounts. A source account is an individual Amazon Web Services account that generates observability data for the resources that reside in it. Source accounts share their observability data with the monitoring account. The shared observability data can include metrics in Amazon CloudWatch, logs in Amazon CloudWatch Logs, and traces in X-Ray.&lt;/p&gt; </code></pre>",
+    "x-logo": {
+      "url": "https://twitter.com/awscloud/profile_image?size=original",
+      "backgroundColor": "#FFFFFF"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "contact": {
+      "name": "Mike Ralphson",
+      "email": "mike.ralphson@gmail.com",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "x-providerName": "amazonaws.com",
+    "x-serviceName": "oam",
+    "x-aws-signingName": "oam",
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/oam-2022-06-10.normal.json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-preferred": true
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/oam/"
+  },
+  "servers": [
+    {
+      "url": "http://oam.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The CloudWatch Observability Access Manager multi-region endpoint"
+    },
+    {
+      "url": "https://oam.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The CloudWatch Observability Access Manager multi-region endpoint"
+    },
+    {
+      "url": "http://oam.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The CloudWatch Observability Access Manager endpoint for China (Beijing) and China (Ningxia)"
+    },
+    {
+      "url": "https://oam.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The CloudWatch Observability Access Manager endpoint for China (Beijing) and China (Ningxia)"
+    }
+  ],
+  "x-hasEquivalentPaths": true,
+  "paths": {
+    "/payments/{id}": {
+      "post": {
+        "operationId": "listsinks-v2",
+        "description": "Use this operation in a monitoring account to return the list of sinks created in that account.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "Items"
+                  ],
+                  "properties": {
+                    "Items": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "Arn": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The ARN of the sink."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Id": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Name": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The name of the sink."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "A structure that contains information about one of this monitoring account's sinks."
+                          }
+                        },
+                        {
+                          "description": "An array of structures that contain the information about the returned sinks."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "NextToken": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The token to use when requesting the next set of sinks."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InternalServiceFault",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "MaxResults",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination limit",
+            "required": false
+          },
+          {
+            "name": "NextToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination token",
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "MaxResults": {
+                    "description": "Limits the number of returned links to the specified number.",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "NextToken": {
+                    "description": "The token for the next set of items to return. You received this token from a previous call.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/reviews/{id}": {
+      "post": {
+        "operationId": "createsink",
+        "description": "modified post /CreateSink",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Arn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the sink that is newly created."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Id": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Name": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The name of the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "description": "The tags assigned to the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InternalServiceFault",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ConflictException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "MissingRequiredParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ServiceQuotaExceededException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "InvalidParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "Name"
+                ],
+                "properties": {
+                  "Name": {
+                    "description": "A name for the sink.",
+                    "type": "string",
+                    "pattern": "[a-zA-Z0-9_\\.\\-]{1,255}"
+                  },
+                  "Tags": {
+                    "description": "<p>Assigns one or more tags (key-value pairs) to the link. </p> <p>Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.</p> <p>For more information about using tags to control access, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html\">Controlling access to Amazon Web Services resources using tags</a>.</p>",
+                    "type": "object",
+                    "minProperties": 0,
+                    "maxProperties": 50,
+                    "additionalProperties": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 256
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/transactions/{id}": {
+      "post": {
+        "operationId": "getsinkpolicy",
+        "description": "Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "SinkArn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "SinkId": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Policy": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The policy that you specified, in JSON format."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InternalServiceFault",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "MissingRequiredParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "SinkIdentifier"
+                ],
+                "properties": {
+                  "SinkIdentifier": {
+                    "description": "The ARN of the sink to retrieve the policy of.",
+                    "type": "string",
+                    "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/shipments/{id}": {
+      "post": {
+        "operationId": "listattachedlinks-v2",
+        "description": "<p>Returns a list of source account links that are linked to this monitoring account sink.</p> <p>To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html\">ListSinks</a>.</p> <p>To find a list of links for one source account, use <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html\">ListLinks</a>.</p>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "Items"
+                  ],
+                  "properties": {
+                    "Items": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "Label": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The label that was assigned to this link at creation, with the variables resolved to their actual values."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "LinkArn": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "The ARN of the link."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "ResourceTypes": {
+                                "allOf": [
+                                  {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  {
+                                    "description": "The resource types supported by this link."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "A structure that contains information about one link attached to this monitoring account sink."
+                          }
+                        },
+                        {
+                          "description": "An array of structures that contain the information about the attached links."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "NextToken": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The token to use when requesting the next set of links."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InternalServiceFault",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "MissingRequiredParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "MaxResults",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination limit",
+            "required": false
+          },
+          {
+            "name": "NextToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination token",
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "SinkIdentifier"
+                ],
+                "properties": {
+                  "MaxResults": {
+                    "description": "Limits the number of returned links to the specified number.",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000
+                  },
+                  "NextToken": {
+                    "description": "The token for the next set of items to return. You received this token from a previous call.",
+                    "type": "string"
+                  },
+                  "SinkIdentifier": {
+                    "description": "The ARN of the sink that you want to retrieve links for.",
+                    "type": "string",
+                    "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/billing/{id}": {
+      "post": {
+        "operationId": "getsink",
+        "description": "modified post /GetSink",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Arn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Id": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Name": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The name of the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "description": "The tags assigned to the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InternalServiceFault",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "MissingRequiredParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "Identifier"
+                ],
+                "properties": {
+                  "Identifier": {
+                    "description": "The ARN of the sink to retrieve information for.",
+                    "type": "string",
+                    "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/orders/{id}": {
+      "get": {
+        "summary": "synthetic diff",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "etic-diff"
+      }
+    },
+    "/users/{id}": {
+      "post": {
+        "operationId": "updatelink-v2",
+        "description": "<p>Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation.</p> <p>To update the list of tags associated with the sink, use <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html\">TagResource</a>.</p>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Arn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the link that you have updated."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Id": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Label": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The label assigned to this link, with the variables resolved to their actual values."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "LabelTemplate": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "description": "The exact label template that was specified when the link was created, with the template variables not resolved."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ResourceTypes": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "description": "The resource types now supported by this link."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "SinkArn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the sink that is used for this link."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "description": "The tags assigned to the link."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InternalServiceFault",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "MissingRequiredParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidParameterException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "Identifier",
+                  "ResourceTypes"
+                ],
+                "properties": {
+                  "Identifier": {
+                    "description": "The ARN of the link that you want to update.",
+                    "type": "string",
+                    "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+                  },
+                  "ResourceTypes": {
+                    "description": "<p>An array of strings that define which types of data that the source account will send to the monitoring account.</p> <p>Your input here replaces the current set of data types that are shared.</p>",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "AWS::CloudWatch::Metric",
+                        "AWS::Logs::LogGroup",
+                        "AWS::XRay::Trace"
+                      ]
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/carts/{id}": {
+      "get": {
+        "summary": "synthetic diff",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "etic-diff"
+      }
+    },
+    "/profiles/{id}": {
+      "get": {
+        "summary": "synthetic diff",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "etic-diff"
+      }
+    },
+    "/tags/id": {
+      "get": {
+        "operationId": "listtagsforresource",
+        "description": "Displays the tags associated with a resource. Both sinks and links support tagging.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "description": "The list of tags associated with the requested resource.&gt;"
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "481": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ResourceArn",
+            "in": "path",
+            "required": true,
+            "description": "<p>The ARN of the resource that you want to view tags for.</p> <p>The ARN format of a sink is <code>arn:aws:oam:<i>Region</i>:<i>account-id</i>:sink/<i>sink-id</i> </code> </p> <p>The ARN format of a link is <code>arn:aws:oam:<i>Region</i>:<i>account-id</i>:link/<i>link-id</i> </code> </p> <p>For more information about ARN format, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html\">CloudWatch Logs resources and operations</a>.</p> <important> <p>Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the <code>oam:RequestTag</code> permission. The <code>aws:ReguestTag</code> permission does not allow you to tag and untag links and sinks.</p> </important>",
+            "schema": {
+              "type": "string",
+              "pattern": "arn:(\\w|-)+:oam:.+:.+:.+.*"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ],
+      "put": {
+        "operationId": "tagresource",
+        "description": "<p>Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. </p> <p>Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.</p> <p>Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.</p> <p>You can use the <code>TagResource</code> action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag.</p> <p>You can associate as many as 50 tags with a resource.</p> <important> <p>Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the <code>oam:ResourceTag</code> permission. The <code>iam:ResourceTag</code> permission does not allow you to tag and untag links and sinks.</p> </important>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "TooManyTagsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ResourceArn",
+            "in": "path",
+            "required": true,
+            "description": "<p>The ARN of the resource that you're adding tags to.</p> <p>The ARN format of a sink is <code>arn:aws:oam:<i>Region</i>:<i>account-id</i>:sink/<i>sink-id</i> </code> </p> <p>The ARN format of a link is <code>arn:aws:oam:<i>Region</i>:<i>account-id</i>:link/<i>link-id</i> </code> </p> <p>For more information about ARN format, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html\">CloudWatch Logs resources and operations</a>.</p>",
+            "schema": {
+              "type": "string",
+              "pattern": "arn:(\\w|-)+:oam:.+:.+:.+.*"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "Tags"
+                ],
+                "properties": {
+                  "Tags": {
+                    "description": "The list of key-value pairs to associate with the resource.",
+                    "type": "object",
+                    "minProperties": 0,
+                    "maxProperties": 50,
+                    "additionalProperties": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 256
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/paymentid-tagkeys": {
+      "delete": {
+        "operationId": "untagresource-v2",
+        "description": "<p>Removes one or more tags from the specified resource.</p> <important> <p>Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the <code>oam:ResourceTag</code> permission. The <code>iam:TagResource</code> permission does not allow you to tag and untag links and sinks.</p> </important>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ResourceArn",
+            "in": "path",
+            "required": true,
+            "description": "<p>The ARN of the resource that you're removing tags from.</p> <p>The ARN format of a sink is <code>arn:aws:oam:<i>Region</i>:<i>account-id</i>:sink/<i>sink-id</i> </code> </p> <p>The ARN format of a link is <code>arn:aws:oam:<i>Region</i>:<i>account-id</i>:link/<i>link-id</i> </code> </p> <p>For more information about ARN format, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html\">CloudWatch Logs resources and operations</a>.</p>",
+            "schema": {
+              "type": "string",
+              "pattern": "arn:(\\w|-)+:oam:.+:.+:.+.*"
+            }
+          },
+          {
+            "name": "tagKeys",
+            "in": "query",
+            "required": true,
+            "description": "The list of tag keys to remove from the resource.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    }
+  },
+  "components": {
+    "parameters": {
+      "X-Amz-Content-Sha256": {
+        "name": "X-Amz-Content-Sha256",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Date": {
+        "name": "X-Amz-Date",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Algorithm": {
+        "name": "X-Amz-Algorithm",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Credential": {
+        "name": "X-Amz-Credential",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Security-Token": {
+        "name": "X-Amz-Security-Token",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Signature": {
+        "name": "X-Amz-Signature",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-SignedHeaders": {
+        "name": "X-Amz-SignedHeaders",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Amazon Signature authorization v4",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    },
+    "schemas": {
+      "CreateLinkOutput": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the link that is newly created."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Id": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the link ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Label": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The label that you assigned to this link. If the <code>labelTemplate</code> includes variables, this field displays the variables resolved to their actual values."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LabelTemplate": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The exact label template that you specified, with the variables not resolved."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ResourceTypes": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The resource types supported by this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkArn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink that is used for this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The tags assigned to the link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ResourceType": {
+        "type": "string",
+        "enum": [
+          "AWS::CloudWatch::Metric",
+          "AWS::Logs::LogGroup",
+          "AWS::XRay::Trace"
+        ]
+      },
+      "TagValue": {
+        "type": "string",
+        "minLength": 0,
+        "maxLength": 256
+      },
+      "InternalServiceFault": {},
+      "ConflictException": {},
+      "MissingRequiredParameterException": {},
+      "ServiceQuotaExceededException": {},
+      "InvalidParameterException": {},
+      "CreateSinkOutput": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink that is newly created."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Id": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Name": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The name of the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The tags assigned to the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DeleteLinkOutput": {
+        "type": "object",
+        "properties": {}
+      },
+      "ResourceNotFoundException": {},
+      "DeleteSinkOutput": {
+        "type": "object",
+        "properties": {}
+      },
+      "GetLinkOutput": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Id": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the link ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Label": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The label that you assigned to this link, with the variables resolved to their actual values."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LabelTemplate": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The exact label template that was specified when the link was created, with the template variables not resolved."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ResourceTypes": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The resource types supported by this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkArn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink that is used for this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The tags assigned to the link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetSinkOutput": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Id": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Name": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The name of the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The tags assigned to the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetSinkPolicyOutput": {
+        "type": "object",
+        "properties": {
+          "SinkArn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkId": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Policy": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The policy that you specified, in JSON format."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListAttachedLinksOutput": {
+        "type": "object",
+        "required": [
+          "Items"
+        ],
+        "properties": {
+          "Items": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Label": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The label that was assigned to this link at creation, with the variables resolved to their actual values."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "LinkArn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the link."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ResourceTypes": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "description": "The resource types supported by this link."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "A structure that contains information about one link attached to this monitoring account sink."
+                }
+              },
+              {
+                "description": "An array of structures that contain the information about the attached links."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The token to use when requesting the next set of links."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListLinksOutput": {
+        "type": "object",
+        "required": [
+          "Items"
+        ],
+        "properties": {
+          "Items": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Arn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the link."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Id": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The random ID string that Amazon Web Services generated as part of the link ARN."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Label": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The label that was assigned to this link at creation, with the variables resolved to their actual values."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ResourceTypes": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "description": "The resource types supported by this link."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "SinkArn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the sink that this link is attached to."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "A structure that contains information about one of this source account's links to a monitoring account."
+                }
+              },
+              {
+                "description": "An array of structures that contain the information about the returned links."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The token to use when requesting the next set of links."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListSinksOutput": {
+        "type": "object",
+        "required": [
+          "Items"
+        ],
+        "properties": {
+          "Items": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Arn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The ARN of the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Id": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Name": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "The name of the sink."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "A structure that contains information about one of this monitoring account's sinks."
+                }
+              },
+              {
+                "description": "An array of structures that contain the information about the returned sinks."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The token to use when requesting the next set of sinks."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTagsForResourceOutput": {
+        "type": "object",
+        "properties": {
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The list of tags associated with the requested resource.&gt;"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ValidationException": {},
+      "PutSinkPolicyOutput": {
+        "type": "object",
+        "properties": {
+          "SinkArn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkId": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Policy": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The policy that you specified."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "TagResourceOutput": {
+        "type": "object",
+        "properties": {}
+      },
+      "TooManyTagsException": {},
+      "UntagResourceOutput": {
+        "type": "object",
+        "properties": {}
+      },
+      "TagKey": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "UpdateLinkOutput": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the link that you have updated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Id": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Label": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The label assigned to this link, with the variables resolved to their actual values."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LabelTemplate": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "The exact label template that was specified when the link was created, with the template variables not resolved."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ResourceTypes": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The resource types now supported by this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkArn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink that is used for this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The tags assigned to the link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "Arn": {
+        "type": "string",
+        "pattern": "arn:(\\w|-)+:oam:.+:.+:.+.*"
+      },
+      "LabelTemplate": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "ResourceTypesInput": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "AWS::CloudWatch::Metric",
+            "AWS::Logs::LogGroup",
+            "AWS::XRay::Trace"
+          ]
+        },
+        "minItems": 1,
+        "maxItems": 50
+      },
+      "ResourceIdentifier": {
+        "type": "string",
+        "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+      },
+      "TagMapInput": {
+        "type": "object",
+        "minProperties": 0,
+        "maxProperties": 50,
+        "additionalProperties": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 256
+        }
+      },
+      "CreateLinkInput": {
+        "type": "object",
+        "required": [
+          "LabelTemplate",
+          "ResourceTypes",
+          "SinkIdentifier"
+        ],
+        "title": "CreateLinkInput",
+        "properties": {
+          "LabelTemplate": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "<p>Specify a friendly human-readable name to use to identify this source account when you are viewing data from it in the monitoring account.</p> <p>You can use a custom label or use the following variables:</p> <ul> <li> <p> <code>$AccountName</code> is the name of the account</p> </li> <li> <p> <code>$AccountEmail</code> is the globally unique email address of the account</p> </li> <li> <p> <code>$AccountEmailNoDomain</code> is the email address of the account without the domain name</p> </li> </ul>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ResourceTypes": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "AWS::CloudWatch::Metric",
+                    "AWS::Logs::LogGroup",
+                    "AWS::XRay::Trace"
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 50
+              },
+              {
+                "description": "An array of strings that define which types of data that the source account shares with the monitoring account."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkIdentifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "<p>The ARN of the sink to use to create this link. You can use <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html\">ListSinks</a> to find the ARNs of sinks.</p> <p>For more information about sinks, see <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html\">CreateSink</a>.</p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 0,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": "<p>Assigns one or more tags (key-value pairs) to the link. </p> <p>Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.</p> <p>For more information about using tags to control access, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html\">Controlling access to Amazon Web Services resources using tags</a>.</p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "String": {
+        "type": "string"
+      },
+      "ResourceTypesOutput": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "TagMapOutput": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "SinkName": {
+        "type": "string",
+        "pattern": "[a-zA-Z0-9_\\.\\-]{1,255}"
+      },
+      "CreateSinkInput": {
+        "type": "object",
+        "required": [
+          "Name"
+        ],
+        "title": "CreateSinkInput",
+        "properties": {
+          "Name": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_\\.\\-]{1,255}"
+              },
+              {
+                "description": "A name for the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 0,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": "<p>Assigns one or more tags (key-value pairs) to the link. </p> <p>Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.</p> <p>For more information about using tags to control access, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html\">Controlling access to Amazon Web Services resources using tags</a>.</p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DeleteLinkInput": {
+        "type": "object",
+        "required": [
+          "Identifier"
+        ],
+        "title": "DeleteLinkInput",
+        "properties": {
+          "Identifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the link to delete."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DeleteSinkInput": {
+        "type": "object",
+        "required": [
+          "Identifier"
+        ],
+        "title": "DeleteSinkInput",
+        "properties": {
+          "Identifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the sink to delete."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetLinkInput": {
+        "type": "object",
+        "required": [
+          "Identifier"
+        ],
+        "title": "GetLinkInput",
+        "properties": {
+          "Identifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the link to retrieve information for."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetSinkInput": {
+        "type": "object",
+        "required": [
+          "Identifier"
+        ],
+        "title": "GetSinkInput",
+        "properties": {
+          "Identifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the sink to retrieve information for."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetSinkPolicyInput": {
+        "type": "object",
+        "required": [
+          "SinkIdentifier"
+        ],
+        "title": "GetSinkPolicyInput",
+        "properties": {
+          "SinkIdentifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the sink to retrieve the policy of."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListAttachedLinksMaxResults": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 1000
+      },
+      "NextToken": {
+        "type": "string"
+      },
+      "ListAttachedLinksInput": {
+        "type": "object",
+        "required": [
+          "SinkIdentifier"
+        ],
+        "title": "ListAttachedLinksInput",
+        "properties": {
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000
+              },
+              {
+                "description": "Limits the number of returned links to the specified number."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The token for the next set of items to return. You received this token from a previous call."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkIdentifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the sink that you want to retrieve links for."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListAttachedLinksItem": {
+        "type": "object",
+        "properties": {
+          "Label": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The label that was assigned to this link at creation, with the variables resolved to their actual values."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LinkArn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ResourceTypes": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The resource types supported by this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "A structure that contains information about one link attached to this monitoring account sink."
+      },
+      "ListAttachedLinksItems": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Label": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The label that was assigned to this link at creation, with the variables resolved to their actual values."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "LinkArn": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The ARN of the link."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "ResourceTypes": {
+              "allOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "description": "The resource types supported by this link."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "A structure that contains information about one link attached to this monitoring account sink."
+        }
+      },
+      "ListLinksMaxResults": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5
+      },
+      "ListLinksInput": {
+        "type": "object",
+        "title": "ListLinksInput",
+        "properties": {
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              },
+              {
+                "description": "Limits the number of returned links to the specified number."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The token for the next set of items to return. You received this token from a previous call."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListLinksItem": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Id": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the link ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Label": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The label that was assigned to this link at creation, with the variables resolved to their actual values."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ResourceTypes": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "description": "The resource types supported by this link."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SinkArn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink that this link is attached to."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "A structure that contains information about one of this source account's links to a monitoring account."
+      },
+      "ListLinksItems": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Arn": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The ARN of the link."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Id": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The random ID string that Amazon Web Services generated as part of the link ARN."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Label": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The label that was assigned to this link at creation, with the variables resolved to their actual values."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "ResourceTypes": {
+              "allOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "description": "The resource types supported by this link."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "SinkArn": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The ARN of the sink that this link is attached to."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "A structure that contains information about one of this source account's links to a monitoring account."
+        }
+      },
+      "ListSinksMaxResults": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100
+      },
+      "ListSinksInput": {
+        "type": "object",
+        "title": "ListSinksInput",
+        "properties": {
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              },
+              {
+                "description": "Limits the number of returned links to the specified number."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The token for the next set of items to return. You received this token from a previous call."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListSinksItem": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The ARN of the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Id": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Name": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "The name of the sink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "A structure that contains information about one of this monitoring account's sinks."
+      },
+      "ListSinksItems": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Arn": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The ARN of the sink."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Id": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The random ID string that Amazon Web Services generated as part of the sink ARN."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Name": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "The name of the sink."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "A structure that contains information about one of this monitoring account's sinks."
+        }
+      },
+      "ListTagsForResourceInput": {
+        "type": "object",
+        "title": "ListTagsForResourceInput",
+        "properties": {}
+      },
+      "SinkPolicy": {
+        "type": "string"
+      },
+      "PutSinkPolicyInput": {
+        "type": "object",
+        "required": [
+          "SinkIdentifier",
+          "Policy"
+        ],
+        "title": "PutSinkPolicyInput",
+        "properties": {
+          "SinkIdentifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the sink to attach this policy to."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Policy": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "<p>The JSON policy to use. If you are updating an existing policy, the entire existing policy is replaced by what you specify here.</p> <p>The policy must be in JSON string format with quotation marks escaped and no newlines.</p> <p>For examples of different types of policies, see the <b>Examples</b> section on this page.</p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "TagKeys": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "TagResourceInput": {
+        "type": "object",
+        "required": [
+          "Tags"
+        ],
+        "title": "TagResourceInput",
+        "properties": {
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 0,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": "The list of key-value pairs to associate with the resource."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UntagResourceInput": {
+        "type": "object",
+        "title": "UntagResourceInput",
+        "properties": {}
+      },
+      "UpdateLinkInput": {
+        "type": "object",
+        "required": [
+          "Identifier",
+          "ResourceTypes"
+        ],
+        "title": "UpdateLinkInput",
+        "properties": {
+          "Identifier": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}"
+              },
+              {
+                "description": "The ARN of the link that you want to update."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ResourceTypes": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "AWS::CloudWatch::Metric",
+                    "AWS::Logs::LogGroup",
+                    "AWS::XRay::Trace"
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 50
+              },
+              {
+                "description": "<p>An array of strings that define which types of data that the source account will send to the monitoring account.</p> <p>Your input here replaces the current set of data types that are shared.</p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ]
+}

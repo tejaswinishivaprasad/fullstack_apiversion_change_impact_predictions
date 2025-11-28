@@ -1,0 +1,99 @@
+{
+  "package": "org.openrewrite.kcontainer",
+  "class": "Kcontainer",
+  "fields": [],
+  "methods": [
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        },
+        {
+          "name": "p2",
+          "type": "String"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "processV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        },
+        {
+          "name": "p2",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "processV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

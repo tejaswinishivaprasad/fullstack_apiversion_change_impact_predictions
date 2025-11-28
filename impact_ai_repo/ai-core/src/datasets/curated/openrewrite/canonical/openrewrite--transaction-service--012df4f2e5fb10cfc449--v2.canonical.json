@@ -1,0 +1,144 @@
+{
+  "package": "org.openrewrite.issettingsgradle",
+  "class": "IssettingsgradleV2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "List<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "List<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "int",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f4",
+      "type": "Map<String,String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "issettingsgradle",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "issettingsgradle (synth)"
+    },
+    {
+      "name": "transactionservic",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "transactionservic (synth)"
+    },
+    {
+      "name": "transactionservicV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        },
+        {
+          "name": "p2",
+          "type": "int"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "transactionservicV1 (synth)"
+    },
+    {
+      "name": "issettingsgradle",
+      "params": [],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "issettingsgradle (synth)"
+    },
+    {
+      "name": "upgrade",
+      "params": [],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    },
+    {
+      "name": "upgradeV1",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgradeV1 (synth)"
+    },
+    {
+      "name": "process",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "BigDecimal",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

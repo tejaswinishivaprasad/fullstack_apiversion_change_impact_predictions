@@ -1,0 +1,105 @@
+{
+  "package": "org.openrewrite.mergetablerowtest",
+  "class": "Mergetablerowtest",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "double",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "String",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "mergetablerowtest",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        },
+        {
+          "name": "p2",
+          "type": "int"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "mergetablerowtest (synth)"
+    },
+    {
+      "name": "mergetablerowtestV1",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "mergetablerowtestV1 (synth)"
+    },
+    {
+      "name": "mergetablerowtest",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "mergetablerowtest (synth)"
+    },
+    {
+      "name": "process",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "process",
+      "params": [],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

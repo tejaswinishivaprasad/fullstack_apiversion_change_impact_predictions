@@ -1,0 +1,80 @@
+{
+  "package": "org.openrewrite.upgradetransitivedependencyv",
+  "class": "Upgradetransitivedependencyv",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "upgradetransitived",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "upgradetransitived (synth)"
+    },
+    {
+      "name": "process",
+      "params": [],
+      "returnType": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "process",
+      "params": [],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "upgrade",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "upgrade (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

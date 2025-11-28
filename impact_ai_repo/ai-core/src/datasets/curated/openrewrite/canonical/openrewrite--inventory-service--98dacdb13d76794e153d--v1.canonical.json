@@ -1,0 +1,59 @@
+{
+  "package": "org.openrewrite.hcllexer",
+  "class": "Hcllexer",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "long",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "boolean",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "hcllexer",
+      "params": [
+        {
+          "name": "p1",
+          "type": "boolean"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "hcllexer (synth)"
+    },
+    {
+      "name": "compute",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "compute (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

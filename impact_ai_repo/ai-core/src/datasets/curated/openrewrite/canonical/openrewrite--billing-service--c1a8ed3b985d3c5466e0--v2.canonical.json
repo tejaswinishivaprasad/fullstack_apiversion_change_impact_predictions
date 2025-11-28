@@ -1,0 +1,64 @@
+{
+  "package": "org.openrewrite.collectionvalue",
+  "class": "CollectionvalueV2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "double",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "handle_v2",
+      "params": [
+        {
+          "name": "p1",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    },
+    {
+      "name": "billingserviceV1_v2",
+      "params": [
+        {
+          "name": "p1",
+          "type": "long"
+        },
+        {
+          "name": "p2",
+          "type": "BigDecimal"
+        }
+      ],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "billingserviceV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

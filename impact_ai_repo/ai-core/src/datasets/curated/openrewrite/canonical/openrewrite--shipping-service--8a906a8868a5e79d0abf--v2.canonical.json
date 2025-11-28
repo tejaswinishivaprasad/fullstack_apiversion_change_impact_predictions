@@ -1,0 +1,70 @@
+{
+  "package": "org.openrewrite.implicitparameterinlambda",
+  "class": "Implicitparameterinlambda",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "newField82",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "shippingserviceExt",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "shippingservice (synth)"
+    },
+    {
+      "name": "shippingserviceV1",
+      "params": [
+        {
+          "name": "p1",
+          "type": "int"
+        },
+        {
+          "name": "p2",
+          "type": "String"
+        }
+      ],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "shippingserviceV1 (synth)"
+    },
+    {
+      "name": "handle",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "handle (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

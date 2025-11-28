@@ -1,0 +1,93 @@
+{
+  "package": "org.openrewrite.omitparenthesesforlastargume",
+  "class": "Omitparenthesesforlastargume",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "Map<String,String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "List<String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "Map<String,String>",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "omitparenthesesfor",
+      "params": [
+        {
+          "name": "p1",
+          "type": "String"
+        },
+        {
+          "name": "p2",
+          "type": "int"
+        }
+      ],
+      "returnType": "int",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "omitparenthesesfor (synth)"
+    },
+    {
+      "name": "omitparenthesesforV1",
+      "params": [],
+      "returnType": "boolean",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "omitparenthesesforV1 (synth)"
+    },
+    {
+      "name": "shippingservice",
+      "params": [],
+      "returnType": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "shippingservice (synth)"
+    },
+    {
+      "name": "process",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "process (synth)"
+    }
+  ],
+  "annotations": [
+    "@Service"
+  ],
+  "imports": [
+    "java.util.*"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "package": "org.openrewrite.packageinfo",
+  "class": "PackageInfoV2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "Optional<String>",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f3",
+      "type": "int",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [],
+  "annotations": [
+    "@Service"
+  ],
+  "imports": [
+    "java.util.*"
+  ]
+}

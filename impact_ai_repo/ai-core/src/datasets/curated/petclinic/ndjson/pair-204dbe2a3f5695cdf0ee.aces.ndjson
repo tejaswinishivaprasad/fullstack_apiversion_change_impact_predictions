@@ -1,0 +1,1 @@
+{"pair_id": "pair-204dbe2a3f5695cdf0ee", "ace_index": 0, "ace_id": "pair-204dbe2a3f5695cdf0ee::ace::0", "type": "SCHEMA_PROPERTY_CHANGED", "path": "/order-service", "method": "get", "detail": "p3", "confidence": 0.8, "provenance": {"old_sha": "6d4ab5cd24f74056fe9c", "new_sha": "0e5b6ac570e7b765d817"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

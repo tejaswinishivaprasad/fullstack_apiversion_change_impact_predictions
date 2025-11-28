@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-b23728e2708827974eb1",
+  "service_name": "user-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--user-service--b23728e2--v1.canonical.json",
+  "new_canonical": "openapi--user-service--b23728e2--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--user-service--b23728e2--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--user-service--b23728e2--v2.canonical.json",
+  "old_sha": "e2c1aae4e95b0d73155d",
+  "new_sha": "f5c84c58210fbc4b5ae4",
+  "warnings": [],
+  "seed": 1788621353,
+  "generated_at": "2025-11-27T18:45:03+00:00"
+}

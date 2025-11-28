@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-822f59ddba4153114d1f",
+  "service_name": "catalog-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--catalog-service--822f59dd--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--822f59dd--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--catalog-service--822f59dd--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--catalog-service--822f59dd--v2.canonical.json",
+  "old_sha": "d4035cf127bde4dacbd2",
+  "new_sha": "7001d01820d096248f1a",
+  "warnings": [],
+  "seed": 411576404,
+  "generated_at": "2025-11-27T18:43:38+00:00"
+}

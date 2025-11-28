@@ -1,0 +1,31 @@
+{
+  "package": "org.openrewrite.implicitreturn",
+  "class": "Implicitreturn",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "List<String>",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "newField98",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [],
+  "annotations": [
+    "@Service"
+  ],
+  "imports": [
+    "java.util.*"
+  ]
+}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-fd72eee6966bdd764e2f", "ace_index": 0, "ace_id": "pair-fd72eee6966bdd764e2f::ace::0", "type": "PARAM_ADDED", "path": "/order-service", "method": "get", "detail": "q6", "confidence": 0.8, "provenance": {"old_sha": "6d4ab5cd24f74056fe9c", "new_sha": "b451b6923d75c11c5e14"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-53ee397c688e6e4e2264",
+  "dataset": "openrewrite",
+  "service_name": "auth-service",
+  "old_canonical": "openrewrite--auth-service--53ee397c688e6e4e2264--v1.canonical.json",
+  "new_canonical": "openrewrite--auth-service--53ee397c688e6e4e2264--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--auth-service--53ee397c688e6e4e2264--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--auth-service--53ee397c688e6e4e2264--v2.canonical.json",
+  "old_sha": "e462b2988649c2460033",
+  "new_sha": "26e81abada7b8201f1c1",
+  "generated_at": "2025-11-28T09:39:34+00:00",
+  "producers_sample": [
+    "org.openrewrite.primitivetest.Primitivetest"
+  ],
+  "warnings": []
+}

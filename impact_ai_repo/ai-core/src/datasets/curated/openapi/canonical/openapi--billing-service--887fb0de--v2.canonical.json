@@ -1,0 +1,352 @@
+{
+  "swagger": "2.0",
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "info": {
+    "description": "Use these REST APIs for performing operations on the ApiVersionSet entity associated with your Azure API Management deployment. Using this entity you create and manage API Version Sets that are used to group APIs for consistent versioning.",
+    "title": "ApiManagementClient",
+    "version": "2019-01-01",
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-logo": {
+      "url": "https://assets.onestore.ms/cdnfiles/onestorerolling-1606-01000/shell/v3/images/logo/microsoft.png"
+    },
+    "x-origin": [
+      {
+        "format": "swagger",
+        "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2019-01-01/apimapiversionsets.json",
+        "version": "2.0"
+      }
+    ],
+    "x-preferred": false,
+    "x-providerName": "azure.com",
+    "x-serviceName": "apimanagement-apimapiversionsets",
+    "x-tags": [
+      "Azure",
+      "Microsoft"
+    ]
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "type": "oauth2"
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "parameters": {},
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "summary": "synthetic diff",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "etic-diff-v2"
+      }
+    },
+    "/subscriptions/userid/resourcegroups/orderid/providers/microsoft-apimanagement/service/sku/apiversionsets": {
+      "get": {
+        "description": "modified get /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets",
+        "operationId": "apiversionset-listbyservice",
+        "parameters": [
+          {
+            "description": "The name of the resource group.",
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the API Management service.",
+            "in": "path",
+            "maxLength": 50,
+            "minLength": 1,
+            "name": "serviceName",
+            "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "Number of records to return.",
+            "format": "int32",
+            "in": "query",
+            "minimum": 1,
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "Number of records to skip.",
+            "format": "int32",
+            "in": "query",
+            "minimum": 0,
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "Version of the API to be used with the client request.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "added_61",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lists a collection of Api Version Set entities.",
+            "schema": {
+              "description": "Paged Api Version Set list representation.",
+              "properties": {
+                "nextLink": {
+                  "description": "Next page link if any.",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Page values.",
+                  "items": {
+                    "allOf": [
+                      {
+                        "description": "The Resource definition.",
+                        "properties": {
+                          "id": {
+                            "description": "Resource ID.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Resource name.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Resource type for API Management resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          }
+                        },
+                        "x-ms-azure-resource": true
+                      }
+                    ],
+                    "description": "Api Version Set Contract details.",
+                    "properties": {
+                      "properties": {
+                        "allOf": [
+                          {
+                            "description": "Api Version set base parameters",
+                            "properties": {
+                              "description": {
+                                "description": "Description of API Version Set.",
+                                "type": "string"
+                              },
+                              "versionHeaderName": {
+                                "description": "Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.",
+                                "maxLength": 100,
+                                "minLength": 1,
+                                "type": "string"
+                              },
+                              "versionQueryName": {
+                                "description": "Name of query parameter that indicates the API Version if versioningScheme is set to `query`.",
+                                "maxLength": 100,
+                                "minLength": 1,
+                                "type": "string"
+                              }
+                            }
+                          }
+                        ],
+                        "description": "Properties of an API Version Set.",
+                        "properties": {
+                          "displayName": {
+                            "description": "Name of API Version Set",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "versioningScheme": {
+                            "description": "An value that determines where the API Version identifer will be located in a HTTP request.",
+                            "enum": [
+                              "Segment",
+                              "Query",
+                              "Header"
+                            ],
+                            "type": "string",
+                            "x-ms-enum": {
+                              "modelAsString": true,
+                              "name": "versioningScheme",
+                              "values": [
+                                {
+                                  "description": "The API Version is passed in a path segment.",
+                                  "value": "Segment"
+                                },
+                                {
+                                  "description": "The API Version is passed in a query parameter.",
+                                  "value": "Query"
+                                },
+                                {
+                                  "description": "The API Version is passed in a HTTP header.",
+                                  "value": "Header"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "displayName",
+                          "versioningScheme"
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "description": "Error Response.",
+              "properties": {
+                "error": {
+                  "description": "Error Body contract.",
+                  "properties": {
+                    "code": {
+                      "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.",
+                      "type": "string"
+                    },
+                    "details": {
+                      "description": "The list of invalid fields send in request, in case of validation error.",
+                      "items": {
+                        "description": "Error Field contract.",
+                        "properties": {
+                          "code": {
+                            "description": "Property level error code.",
+                            "type": "string"
+                          },
+                          "message": {
+                            "description": "Human-readable representation of property-level error.",
+                            "type": "string"
+                          },
+                          "target": {
+                            "description": "Property name.",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human-readable representation of the error.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ApiVersionSet"
+        ],
+        "x-ms-examples": {
+          "ApiManagementListApiVersionSets": {
+            "parameters": {
+              "api-version": "2019-01-01",
+              "resourceGroupName": "rg1",
+              "serviceName": "apimService1",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "nextLink": "",
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apiVersionSets/vs1",
+                      "name": "vs1",
+                      "properties": {
+                        "description": "Version configuration",
+                        "displayName": "api set 1",
+                        "versioningScheme": "Segment"
+                      },
+                      "type": "Microsoft.ApiManagement/service/api-version-sets"
+                    },
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apiVersionSets/vs2",
+                      "name": "vs2",
+                      "properties": {
+                        "description": "Version configuration 2",
+                        "displayName": "api set 2",
+                        "versioningScheme": "Query"
+                      },
+                      "type": "Microsoft.ApiManagement/service/api-version-sets"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-ms-odata": "./definitions.json#/definitions/ApiVersionSetContract",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {}
+}

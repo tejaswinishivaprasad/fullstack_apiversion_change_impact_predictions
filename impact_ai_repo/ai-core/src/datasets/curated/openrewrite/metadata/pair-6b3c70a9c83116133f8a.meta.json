@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-6b3c70a9c83116133f8a",
+  "dataset": "openrewrite",
+  "service_name": "transaction-service",
+  "old_canonical": "openrewrite--transaction-service--6b3c70a9c83116133f8a--v1.canonical.json",
+  "new_canonical": "openrewrite--transaction-service--6b3c70a9c83116133f8a--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--transaction-service--6b3c70a9c83116133f8a--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--transaction-service--6b3c70a9c83116133f8a--v2.canonical.json",
+  "old_sha": "ac8da2042fcb57118c9f",
+  "new_sha": "2472272bdcfe2b0419aa",
+  "generated_at": "2025-11-28T09:39:36+00:00",
+  "producers_sample": [
+    "org.openrewrite.builderdefaultnoophandler.Builderdefaultnoophandler"
+  ],
+  "warnings": []
+}

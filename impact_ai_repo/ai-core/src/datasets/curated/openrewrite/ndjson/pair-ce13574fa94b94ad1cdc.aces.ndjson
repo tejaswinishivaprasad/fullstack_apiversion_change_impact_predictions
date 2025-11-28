@@ -1,0 +1,1 @@
+{"type": "FIELD_REMOVED", "path": "org.openrewrite.returntest.Returntest", "detail": {"field": "f1"}, "confidence": 0.35, "pair_id": "pair-ce13574fa94b94ad1cdc", "ace_index": 0, "ace_id": "pair-ce13574fa94b94ad1cdc::ace::0", "provenance": {"old_sha": "d412160fe1ff1917a204", "new_sha": "af1c58e4c36a10e3c9e9"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

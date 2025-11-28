@@ -1,0 +1,1 @@
+{"type": "FIELD_REMOVED", "path": "org.openrewrite.packageinfo.PackageInfo", "detail": {"field": "f2"}, "confidence": 0.35, "pair_id": "pair-47337d1007d35cbc414b", "ace_index": 0, "ace_id": "pair-47337d1007d35cbc414b::ace::0", "provenance": {"old_sha": "7bb7d40a636b199c77d3", "new_sha": "ccee8d3bd39c82004cb7"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

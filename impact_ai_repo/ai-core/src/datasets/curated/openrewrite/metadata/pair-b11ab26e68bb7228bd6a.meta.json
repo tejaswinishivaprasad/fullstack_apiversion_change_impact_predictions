@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-b11ab26e68bb7228bd6a",
+  "dataset": "openrewrite",
+  "service_name": "user-service",
+  "old_canonical": "openrewrite--user-service--b11ab26e68bb7228bd6a--v1.canonical.json",
+  "new_canonical": "openrewrite--user-service--b11ab26e68bb7228bd6a--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--user-service--b11ab26e68bb7228bd6a--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--user-service--b11ab26e68bb7228bd6a--v2.canonical.json",
+  "old_sha": "c23f7c642c1295896bd9",
+  "new_sha": "f4bdb1dfe6f70301fc03",
+  "generated_at": "2025-11-28T09:39:34+00:00",
+  "producers_sample": [
+    "org.openrewrite.recipeprintertest.Recipeprintertest"
+  ],
+  "warnings": []
+}

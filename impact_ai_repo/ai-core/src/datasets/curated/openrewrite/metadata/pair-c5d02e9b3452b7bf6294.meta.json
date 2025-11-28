@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-c5d02e9b3452b7bf6294",
+  "dataset": "openrewrite",
+  "service_name": "shipping-service",
+  "old_canonical": "openrewrite--shipping-service--c5d02e9b3452b7bf6294--v1.canonical.json",
+  "new_canonical": "openrewrite--shipping-service--c5d02e9b3452b7bf6294--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--shipping-service--c5d02e9b3452b7bf6294--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--shipping-service--c5d02e9b3452b7bf6294--v2.canonical.json",
+  "old_sha": "d41be93302b43e8cf8de",
+  "new_sha": "5f6a795063d1802f8857",
+  "generated_at": "2025-11-28T09:39:35+00:00",
+  "producers_sample": [
+    "org.openrewrite.addimporttest.Addimporttest"
+  ],
+  "warnings": []
+}

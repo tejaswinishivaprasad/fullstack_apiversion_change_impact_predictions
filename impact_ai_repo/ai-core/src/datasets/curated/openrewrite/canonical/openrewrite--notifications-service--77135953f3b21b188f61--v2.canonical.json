@@ -1,0 +1,55 @@
+{
+  "package": "org.openrewrite.space",
+  "class": "SpaceV2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "String",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "notificationsserv",
+      "params": [],
+      "returnType": "String",
+      "annotations": [],
+      "modifiers": [
+        "protected"
+      ],
+      "throws": [],
+      "summary": "notificationsserv (synth)"
+    },
+    {
+      "name": "notificationsservV1",
+      "params": [],
+      "returnType": "int",
+      "annotations": [
+        "@Deprecated"
+      ],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "notificationsservV1 (synth)"
+    },
+    {
+      "name": "spaceV1",
+      "params": [],
+      "returnType": "void",
+      "annotations": [],
+      "modifiers": [
+        "public"
+      ],
+      "throws": [],
+      "summary": "spaceV1 (synth)"
+    }
+  ],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

@@ -1,0 +1,1 @@
+{"type": "METHOD_REMOVED", "path": "org.openrewrite.spacesvisitor.Spacesvisitor.upgrade", "detail": null, "confidence": 0.75, "pair_id": "pair-096829c80d83f31fc4fb", "ace_index": 0, "ace_id": "pair-096829c80d83f31fc4fb::ace::0", "provenance": {"old_sha": "669068fdcb8555360119", "new_sha": "359bec7c466d7a30016d"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

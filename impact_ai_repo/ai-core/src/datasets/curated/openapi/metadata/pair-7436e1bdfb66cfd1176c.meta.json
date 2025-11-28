@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-7436e1bdfb66cfd1176c",
+  "service_name": "order-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--order-service--7436e1bd--v1.canonical.json",
+  "new_canonical": "openapi--order-service--7436e1bd--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--order-service--7436e1bd--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--order-service--7436e1bd--v2.canonical.json",
+  "old_sha": "ae603a0e17e59b1b3737",
+  "new_sha": "e4b52a71597ec29cc60d",
+  "warnings": [],
+  "seed": 485234451,
+  "generated_at": "2025-11-27T18:42:11+00:00"
+}

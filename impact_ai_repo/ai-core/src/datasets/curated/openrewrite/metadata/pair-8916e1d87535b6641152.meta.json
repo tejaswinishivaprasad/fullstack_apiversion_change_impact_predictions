@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-8916e1d87535b6641152",
+  "dataset": "openrewrite",
+  "service_name": "inventory-service",
+  "old_canonical": "openrewrite--inventory-service--8916e1d87535b6641152--v1.canonical.json",
+  "new_canonical": "openrewrite--inventory-service--8916e1d87535b6641152--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--inventory-service--8916e1d87535b6641152--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--inventory-service--8916e1d87535b6641152--v2.canonical.json",
+  "old_sha": "0c11bf42be1066c55d0a",
+  "new_sha": "342642477b6b17341852",
+  "generated_at": "2025-11-28T09:39:37+00:00",
+  "producers_sample": [
+    "org.openrewrite.testtest.Testtest"
+  ],
+  "warnings": []
+}

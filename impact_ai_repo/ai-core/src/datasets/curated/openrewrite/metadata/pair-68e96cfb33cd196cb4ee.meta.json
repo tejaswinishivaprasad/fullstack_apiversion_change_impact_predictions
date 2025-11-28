@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-68e96cfb33cd196cb4ee",
+  "dataset": "openrewrite",
+  "service_name": "shipping-service",
+  "old_canonical": "openrewrite--shipping-service--68e96cfb33cd196cb4ee--v1.canonical.json",
+  "new_canonical": "openrewrite--shipping-service--68e96cfb33cd196cb4ee--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--shipping-service--68e96cfb33cd196cb4ee--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--shipping-service--68e96cfb33cd196cb4ee--v2.canonical.json",
+  "old_sha": "ce070cac6768f5bcee4b",
+  "new_sha": "b2f4fee943c5b17ba28b",
+  "generated_at": "2025-11-28T09:39:38+00:00",
+  "producers_sample": [
+    "org.openrewrite.groovyparsingexception.Groovyparsingexception"
+  ],
+  "warnings": []
+}

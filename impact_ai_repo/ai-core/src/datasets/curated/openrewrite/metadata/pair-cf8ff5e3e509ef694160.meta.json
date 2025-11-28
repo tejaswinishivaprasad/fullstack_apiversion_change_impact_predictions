@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-cf8ff5e3e509ef694160",
+  "dataset": "openrewrite",
+  "service_name": "payment-service",
+  "old_canonical": "openrewrite--payment-service--cf8ff5e3e509ef694160--v1.canonical.json",
+  "new_canonical": "openrewrite--payment-service--cf8ff5e3e509ef694160--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--payment-service--cf8ff5e3e509ef694160--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--payment-service--cf8ff5e3e509ef694160--v2.canonical.json",
+  "old_sha": "2d098ada47e67c5d702d",
+  "new_sha": "3af81d99e597094567f8",
+  "generated_at": "2025-11-28T09:39:36+00:00",
+  "producers_sample": [
+    "org.openrewrite.updategradlewrapper.Updategradlewrapper"
+  ],
+  "warnings": []
+}

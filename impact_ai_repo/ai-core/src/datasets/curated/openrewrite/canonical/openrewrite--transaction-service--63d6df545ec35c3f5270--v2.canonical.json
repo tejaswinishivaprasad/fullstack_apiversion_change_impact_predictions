@@ -1,0 +1,21 @@
+{
+  "package": "org.openrewrite.rewritetesttest",
+  "class": "Rewritetesttest",
+  "fields": [
+    {
+      "name": "newField43",
+      "type": "BigDecimal",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [],
+  "annotations": [
+    "@Service"
+  ],
+  "imports": [
+    "java.util.*"
+  ]
+}

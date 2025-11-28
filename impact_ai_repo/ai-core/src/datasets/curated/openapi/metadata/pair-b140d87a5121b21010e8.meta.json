@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-b140d87a5121b21010e8",
+  "service_name": "inventory-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--inventory-service--b140d87a--v1.canonical.json",
+  "new_canonical": "openapi--inventory-service--b140d87a--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--inventory-service--b140d87a--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--inventory-service--b140d87a--v2.canonical.json",
+  "old_sha": "56a6f57fa492462a20b7",
+  "new_sha": "f448e8d576e104280432",
+  "warnings": [],
+  "seed": 252940853,
+  "generated_at": "2025-11-27T18:39:15+00:00"
+}

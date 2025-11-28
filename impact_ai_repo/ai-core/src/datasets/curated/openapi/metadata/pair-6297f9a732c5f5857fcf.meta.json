@@ -1,0 +1,26 @@
+{
+  "pair_id": "pair-6297f9a732c5f5857fcf",
+  "service_name": "analytics-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--analytics-service--6297f9a7--v1.canonical.json",
+  "new_canonical": "openapi--analytics-service--6297f9a7--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--analytics-service--6297f9a7--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--analytics-service--6297f9a7--v2.canonical.json",
+  "old_sha": "3174e2b7cdb239865766",
+  "new_sha": "438837794f5309665c76",
+  "warnings": [
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody"
+  ],
+  "seed": 503370439,
+  "generated_at": "2025-11-27T18:45:29+00:00"
+}

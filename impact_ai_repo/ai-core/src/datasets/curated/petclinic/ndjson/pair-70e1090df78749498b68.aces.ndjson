@@ -1,0 +1,1 @@
+{"pair_id": "pair-70e1090df78749498b68", "ace_index": 0, "ace_id": "pair-70e1090df78749498b68::ace::0", "type": "RESPONSE_CODE_REMOVED", "path": "/shipping-service", "method": "get", "detail": ["201"], "confidence": 0.8, "provenance": {"old_sha": "5b5589b344fca6280e0d", "new_sha": "5b5589b344fca6280e0d"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

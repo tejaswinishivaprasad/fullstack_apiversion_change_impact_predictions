@@ -1,0 +1,1 @@
+{"type": "METHOD_REMOVED", "path": "org.openrewrite.hcllexer.Hcllexer.compute", "detail": null, "confidence": 0.75, "pair_id": "pair-98dacdb13d76794e153d", "ace_index": 0, "ace_id": "pair-98dacdb13d76794e153d::ace::0", "provenance": {"old_sha": "af818fd611e1db66ef15", "new_sha": "0b8de6062efcfb5db537"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

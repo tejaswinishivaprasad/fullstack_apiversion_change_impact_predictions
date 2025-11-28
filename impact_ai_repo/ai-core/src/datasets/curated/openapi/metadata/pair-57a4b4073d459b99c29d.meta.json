@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-57a4b4073d459b99c29d",
+  "service_name": "auth-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--auth-service--57a4b407--v1.canonical.json",
+  "new_canonical": "openapi--auth-service--57a4b407--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--auth-service--57a4b407--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--auth-service--57a4b407--v2.canonical.json",
+  "old_sha": "704eb7fcd2c533676ba3",
+  "new_sha": "0b99b0602b2b1676fe4c",
+  "warnings": [],
+  "seed": 352199067,
+  "generated_at": "2025-11-27T18:40:04+00:00"
+}

@@ -1,0 +1,1 @@
+{"type": "FIELD_REMOVED", "path": "org.openrewrite.semicolon.Semicolon", "detail": {"field": "f4"}, "confidence": 0.35, "pair_id": "pair-ac56e87a7341a3a86caf", "ace_index": 0, "ace_id": "pair-ac56e87a7341a3a86caf::ace::0", "provenance": {"old_sha": "3073147c4cf2fdffa3a7", "new_sha": "d05c79bb7743b4df43d4"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

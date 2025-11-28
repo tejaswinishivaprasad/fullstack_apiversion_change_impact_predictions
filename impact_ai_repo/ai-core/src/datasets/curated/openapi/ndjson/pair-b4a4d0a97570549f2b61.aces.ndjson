@@ -1,0 +1,1 @@
+{"pair_id": "pair-b4a4d0a97570549f2b61", "ace_index": 0, "ace_id": "pair-b4a4d0a97570549f2b61::ace::0", "type": "ENDPOINT_ADDED", "path": "/inventory/{id}", "method": "post", "detail": null, "confidence": 0.65, "provenance": {"old_sha": "b4f28878373069da172e", "new_sha": "18587a88341964f12344"}, "side_effect": true, "calls_services": ["payment-service"], "shared_schemas": []}

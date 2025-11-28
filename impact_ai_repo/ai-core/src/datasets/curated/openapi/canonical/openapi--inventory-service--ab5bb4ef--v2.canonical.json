@@ -1,0 +1,3859 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2018-05-14",
+    "x-release": "v4",
+    "title": "AWS IoT 1-Click Devices Service",
+    "description": "Describes all of the AWS IoT 1-Click device-related API operations for the service.\n Also provides sample requests, responses, and errors for the supported web services\n protocols.",
+    "x-logo": {
+      "url": "https://twitter.com/awscloud/profile_image?size=original",
+      "backgroundColor": "#FFFFFF"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "contact": {
+      "name": "Mike Ralphson",
+      "email": "mike.ralphson@gmail.com",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "x-providerName": "amazonaws.com",
+    "x-serviceName": "iot1click-devices",
+    "x-aws-signingName": "iot1click",
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/iot1click-devices-2018-05-14.normal.json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-preferred": true
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/iot1click/"
+  },
+  "servers": [
+    {
+      "url": "http://devices.iot1click.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The AWS IoT 1-Click Devices Service multi-region endpoint"
+    },
+    {
+      "url": "https://devices.iot1click.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The AWS IoT 1-Click Devices Service multi-region endpoint"
+    },
+    {
+      "url": "http://devices.iot1click.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The AWS IoT 1-Click Devices Service endpoint for China (Beijing) and China (Ningxia)"
+    },
+    {
+      "url": "https://devices.iot1click.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The AWS IoT 1-Click Devices Service endpoint for China (Beijing) and China (Ningxia)"
+    }
+  ],
+  "x-hasEquivalentPaths": true,
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "summary": "synthetic diff",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "etic-diff-v2"
+      }
+    },
+    "/payments/{id}": {
+      "get": {
+        "summary": "synthetic diff",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "etic-diff-v2"
+      }
+    },
+    "/claims/paymentid": {
+      "put": {
+        "operationId": "claimdevicesbyclaimcode",
+        "description": "Adds device(s) to your account (i.e., claim one or more devices) if and only if you\n received a claim code with the device(s).",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ClaimCode": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 12,
+                          "maxLength": 40
+                        },
+                        {
+                          "xml": {
+                            "name": "claimCode"
+                          },
+                          "description": "The claim code provided by the device manufacturer."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Total": {
+                      "allOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "xml": {
+                            "name": "total"
+                          },
+                          "description": "The total number of devices associated with the claim code that has been processed in\n the claim request."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ForbiddenException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "claimCode",
+            "in": "path",
+            "required": true,
+            "description": "The claim code, starting with \"C-\", as provided by the device manufacturer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/billing/{id}": {
+      "get": {
+        "operationId": "listdevices",
+        "description": "Lists the 1-Click compatible devices associated with your AWS account.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Devices": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "Arn": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "arn"
+                                    },
+                                    "description": "The ARN of the device."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Attributes": {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "description": "\n DeviceAttributes is a string-to-string map specified by the user.",
+                                    "additionalProperties": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "attributes"
+                                    },
+                                    "description": "An array of zero or more elements of DeviceAttribute objects providing\n user specified device attributes."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "DeviceId": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "deviceId"
+                                    },
+                                    "description": "The unique identifier of the device."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Enabled": {
+                                "allOf": [
+                                  {
+                                    "type": "boolean"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "enabled"
+                                    },
+                                    "description": "A Boolean value indicating whether or not the device is enabled."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "RemainingLife": {
+                                "allOf": [
+                                  {
+                                    "type": "number",
+                                    "format": "double"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "remainingLife"
+                                    },
+                                    "description": "A value between 0 and 1 inclusive, representing the fraction of life remaining for the\n device."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Type": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "type"
+                                    },
+                                    "description": "The type of the device, such as \"button\"."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Tags": {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "tags"
+                                    },
+                                    "description": "The tags currently associated with the AWS IoT 1-Click device."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "devices"
+                          },
+                          "description": "A list of devices."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "NextToken": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "nextToken"
+                          },
+                          "description": "The token to retrieve the next set of results."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "RangeNotSatisfiableException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceType",
+            "in": "query",
+            "required": false,
+            "description": "The type of the device, such as \"button\".",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maxResults",
+            "in": "query",
+            "required": false,
+            "description": "The maximum number of results to return per request. If not set, a default value of\n 100 is used.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250
+            }
+          },
+          {
+            "name": "nextToken",
+            "in": "query",
+            "required": false,
+            "description": "The token to retrieve the next set of results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/devices/orderid": {
+      "get": {
+        "operationId": "describedevice",
+        "description": "modified get /devices/{deviceId}",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "DeviceDescription": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "Arn": {
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "xml": {
+                                    "name": "arn"
+                                  },
+                                  "description": "The ARN of the device."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "Attributes": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "description": "\n DeviceAttributes is a string-to-string map specified by the user.",
+                                  "additionalProperties": {
+                                    "type": "string"
+                                  }
+                                },
+                                {
+                                  "xml": {
+                                    "name": "attributes"
+                                  },
+                                  "description": "An array of zero or more elements of DeviceAttribute objects providing\n user specified device attributes."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "DeviceId": {
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "xml": {
+                                    "name": "deviceId"
+                                  },
+                                  "description": "The unique identifier of the device."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "Enabled": {
+                              "allOf": [
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "xml": {
+                                    "name": "enabled"
+                                  },
+                                  "description": "A Boolean value indicating whether or not the device is enabled."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "RemainingLife": {
+                              "allOf": [
+                                {
+                                  "type": "number",
+                                  "format": "double"
+                                },
+                                {
+                                  "xml": {
+                                    "name": "remainingLife"
+                                  },
+                                  "description": "A value between 0 and 1 inclusive, representing the fraction of life remaining for the\n device."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "Type": {
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "xml": {
+                                    "name": "type"
+                                  },
+                                  "description": "The type of the device, such as \"button\"."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "Tags": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "string"
+                                  }
+                                },
+                                {
+                                  "xml": {
+                                    "name": "tags"
+                                  },
+                                  "description": "The tags currently associated with the AWS IoT 1-Click device."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "deviceDescription"
+                          },
+                          "description": "Device details."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/devices/orderid/events-fromtimestamp-totimestamp": {
+      "get": {
+        "operationId": "listdeviceevents",
+        "description": "Using a device ID, returns a DeviceEventsResponse object containing an\n array of events for the device.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Events": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "Device": {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "Attributes": {
+                                        "allOf": [
+                                          {
+                                            "type": "object",
+                                            "properties": {}
+                                          },
+                                          {
+                                            "xml": {
+                                              "name": "attributes"
+                                            },
+                                            "description": "The user specified attributes associated with the device for an event."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      },
+                                      "DeviceId": {
+                                        "allOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "xml": {
+                                              "name": "deviceId"
+                                            },
+                                            "description": "The unique identifier of the device."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      },
+                                      "Type": {
+                                        "allOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "xml": {
+                                              "name": "type"
+                                            },
+                                            "description": "The device type, such as \"button\"."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "device"
+                                    },
+                                    "description": "An object representing the device associated with the event."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "StdEvent": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "stdEvent"
+                                    },
+                                    "description": "A serialized JSON object representing the device-type specific event."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "events"
+                          },
+                          "description": "An array of zero or more elements describing the event(s) associated with the\n device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "NextToken": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "nextToken"
+                          },
+                          "description": "The token to retrieve the next set of results."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "RangeNotSatisfiableException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromTimeStamp",
+            "in": "query",
+            "required": true,
+            "description": "The start date for the device event query, in ISO8061 format. For example,\n 2018-03-28T15:45:12.880Z\n ",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "maxResults",
+            "in": "query",
+            "required": false,
+            "description": "The maximum number of results to return per request. If not set, a default value of\n 100 is used.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250
+            }
+          },
+          {
+            "name": "nextToken",
+            "in": "query",
+            "required": false,
+            "description": "The token to retrieve the next set of results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toTimeStamp",
+            "in": "query",
+            "required": true,
+            "description": "The end date for the device event query, in ISO8061 format. For example,\n 2018-03-28T15:45:12.880Z\n ",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/devices/paymentid/finalize-claim": {
+      "put": {
+        "operationId": "finalizedeviceclaim-v2",
+        "description": "modified put /devices/{deviceId}/finalize-claim",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "State": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "state"
+                          },
+                          "description": "The device's final claim state."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "PreconditionFailedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "ResourceConflictException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "a",
+                "b",
+                "c"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tags": {
+                    "description": "<p>A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see <a href=\"https://aws.amazon.com/answers/account-management/aws-tagging-strategies/\">AWS\n Tagging Strategies</a>.</p><p>\n \n </p>",
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/devices/orderid/initiate-claim": {
+      "put": {
+        "operationId": "initiatedeviceclaim",
+        "description": "<p>Given a device ID, initiates a claim request for the associated device.</p><note>\n <p>Claiming a device consists of initiating a claim, then publishing a device event,\n and finalizing the claim. For a device of type button, a device event can\n be published by simply clicking the device.</p>\n </note>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "State": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "state"
+                          },
+                          "description": "The device's final claim state."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceConflictException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/devices/userid/methods": {
+      "get": {
+        "operationId": "getdevicemethods",
+        "description": "modified get /devices/{deviceId}/methods",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "DeviceMethods": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "DeviceType": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "deviceType"
+                                    },
+                                    "description": "The type of the device, such as \"button\"."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "MethodName": {
+                                "allOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "xml": {
+                                      "name": "methodName"
+                                    },
+                                    "description": "The name of the method applicable to the deviceType."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "deviceMethods"
+                          },
+                          "description": "List of available device APIs."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ],
+      "post": {
+        "operationId": "invokedevicemethod-v2",
+        "description": "Given a device ID, issues a request to invoke a named device method (with possible\n parameters). See the \"Example POST\" code snippet below.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "DeviceMethodResponse": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "deviceMethodResponse"
+                          },
+                          "description": "A JSON encoded string containing the device method response."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "PreconditionFailedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "RangeNotSatisfiableException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "485": {
+            "description": "ResourceConflictException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deviceMethod": {
+                    "description": "The device method to invoke.",
+                    "type": "object",
+                    "properties": {
+                      "DeviceType": {
+                        "allOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "xml": {
+                              "name": "deviceType"
+                            },
+                            "description": "The type of the device, such as \"button\"."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "MethodName": {
+                        "allOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "xml": {
+                              "name": "methodName"
+                            },
+                            "description": "The name of the method applicable to the deviceType."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    }
+                  },
+                  "deviceMethodParameters": {
+                    "description": "A JSON encoded string containing the device method request parameters.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/orderid/state": {
+      "put": {
+        "operationId": "updatedevicestate-v2",
+        "description": "Using a Boolean value (true or false), this operation\n enables or disables the device given a device ID.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "If true, the device is enabled. If false, the device is\n disabled.",
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/devices/userid/unclaim": {
+      "put": {
+        "operationId": "unclaimdevice-v2",
+        "description": "modified put /devices/{deviceId}/unclaim",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "State": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "state"
+                          },
+                          "description": "The device's final claim state."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the device.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "a",
+                "b",
+                "c"
+              ]
+            }
+          },
+          {
+            "name": "added_86",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                "a",
+                "b",
+                "c"
+              ]
+            },
+            "required": false
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/tags/userid": {
+      "get": {
+        "operationId": "listtagsforresource-v2",
+        "description": "Lists the tags associated with the specified resource ARN.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "tags"
+                          },
+                          "description": "<p>A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see <a href=\"https://aws.amazon.com/answers/account-management/aws-tagging-strategies/\">AWS\n Tagging Strategies</a>.</p><p>\n \n </p>"
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resource-arn",
+            "in": "path",
+            "required": true,
+            "description": "The ARN of the resource.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "a",
+                "b",
+                "c"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ],
+      "post": {
+        "operationId": "tagresource-v2",
+        "description": "Adds or updates the tags associated with the resource ARN. See <a href=\"https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits\">AWS IoT 1-Click Service Limits</a> for the maximum number of tags allowed per\n resource.",
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resource-arn",
+            "in": "path",
+            "required": true,
+            "description": "The ARN of the resource.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "tags"
+                ],
+                "properties": {
+                  "tags": {
+                    "description": "<p>A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see <a href=\"https://aws.amazon.com/answers/account-management/aws-tagging-strategies/\">AWS\n Tagging Strategies</a>.</p><p>\n \n </p>",
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/userid-tagkeys": {
+      "delete": {
+        "operationId": "untagresource",
+        "description": "Using tag keys, deletes the tags (key/value pairs) associated with the specified\n resource ARN.",
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "481": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InternalFailureException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resource-arn",
+            "in": "path",
+            "required": true,
+            "description": "The ARN of the resource.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tagKeys",
+            "in": "query",
+            "required": true,
+            "description": "A collections of tag keys. For example, {\"key1\",\"key2\"}",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    }
+  },
+  "components": {
+    "parameters": {
+      "X-Amz-Content-Sha256": {
+        "name": "X-Amz-Content-Sha256",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Date": {
+        "name": "X-Amz-Date",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Algorithm": {
+        "name": "X-Amz-Algorithm",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Credential": {
+        "name": "X-Amz-Credential",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Security-Token": {
+        "name": "X-Amz-Security-Token",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Signature": {
+        "name": "X-Amz-Signature",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-SignedHeaders": {
+        "name": "X-Amz-SignedHeaders",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Amazon Signature authorization v4",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    },
+    "schemas": {
+      "ClaimDevicesByClaimCodeResponse": {
+        "type": "object",
+        "properties": {
+          "ClaimCode": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 12,
+                "maxLength": 40
+              },
+              {
+                "xml": {
+                  "name": "claimCode"
+                },
+                "description": "The claim code provided by the device manufacturer."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Total": {
+            "allOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "xml": {
+                  "name": "total"
+                },
+                "description": "The total number of devices associated with the claim code that has been processed in\n the claim request."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "InvalidRequestException": {},
+      "InternalFailureException": {},
+      "ForbiddenException": {},
+      "DescribeDeviceResponse": {
+        "type": "object",
+        "properties": {
+          "DeviceDescription": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "Arn": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "xml": {
+                          "name": "arn"
+                        },
+                        "description": "The ARN of the device."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "Attributes": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "description": "\n DeviceAttributes is a string-to-string map specified by the user.",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "xml": {
+                          "name": "attributes"
+                        },
+                        "description": "An array of zero or more elements of DeviceAttribute objects providing\n user specified device attributes."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "DeviceId": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "xml": {
+                          "name": "deviceId"
+                        },
+                        "description": "The unique identifier of the device."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "Enabled": {
+                    "allOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "xml": {
+                          "name": "enabled"
+                        },
+                        "description": "A Boolean value indicating whether or not the device is enabled."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "RemainingLife": {
+                    "allOf": [
+                      {
+                        "type": "number",
+                        "format": "double"
+                      },
+                      {
+                        "xml": {
+                          "name": "remainingLife"
+                        },
+                        "description": "A value between 0 and 1 inclusive, representing the fraction of life remaining for the\n device."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "Type": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "xml": {
+                          "name": "type"
+                        },
+                        "description": "The type of the device, such as \"button\"."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "Tags": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "xml": {
+                          "name": "tags"
+                        },
+                        "description": "The tags currently associated with the AWS IoT 1-Click device."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              },
+              {
+                "xml": {
+                  "name": "deviceDescription"
+                },
+                "description": "Device details."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ResourceNotFoundException": {},
+      "FinalizeDeviceClaimResponse": {
+        "type": "object",
+        "properties": {
+          "State": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "state"
+                },
+                "description": "The device's final claim state."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "__string": {
+        "type": "string"
+      },
+      "PreconditionFailedException": {},
+      "ResourceConflictException": {},
+      "GetDeviceMethodsResponse": {
+        "type": "object",
+        "properties": {
+          "DeviceMethods": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "DeviceType": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "deviceType"
+                          },
+                          "description": "The type of the device, such as \"button\"."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "MethodName": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "methodName"
+                          },
+                          "description": "The name of the method applicable to the deviceType."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "xml": {
+                  "name": "deviceMethods"
+                },
+                "description": "List of available device APIs."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "InitiateDeviceClaimResponse": {
+        "type": "object",
+        "properties": {
+          "State": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "state"
+                },
+                "description": "The device's final claim state."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "InvokeDeviceMethodResponse": {
+        "type": "object",
+        "properties": {
+          "DeviceMethodResponse": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "deviceMethodResponse"
+                },
+                "description": "A JSON encoded string containing the device method response."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "RangeNotSatisfiableException": {},
+      "ListDeviceEventsResponse": {
+        "type": "object",
+        "properties": {
+          "Events": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Device": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "Attributes": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {}
+                                },
+                                {
+                                  "xml": {
+                                    "name": "attributes"
+                                  },
+                                  "description": "The user specified attributes associated with the device for an event."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "DeviceId": {
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "xml": {
+                                    "name": "deviceId"
+                                  },
+                                  "description": "The unique identifier of the device."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "Type": {
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "xml": {
+                                    "name": "type"
+                                  },
+                                  "description": "The device type, such as \"button\"."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "device"
+                          },
+                          "description": "An object representing the device associated with the event."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "StdEvent": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "stdEvent"
+                          },
+                          "description": "A serialized JSON object representing the device-type specific event."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "xml": {
+                  "name": "events"
+                },
+                "description": "An array of zero or more elements describing the event(s) associated with the\n device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "nextToken"
+                },
+                "description": "The token to retrieve the next set of results."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListDevicesResponse": {
+        "type": "object",
+        "properties": {
+          "Devices": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Arn": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "arn"
+                          },
+                          "description": "The ARN of the device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Attributes": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "description": "\n DeviceAttributes is a string-to-string map specified by the user.",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "attributes"
+                          },
+                          "description": "An array of zero or more elements of DeviceAttribute objects providing\n user specified device attributes."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DeviceId": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "deviceId"
+                          },
+                          "description": "The unique identifier of the device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Enabled": {
+                      "allOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "xml": {
+                            "name": "enabled"
+                          },
+                          "description": "A Boolean value indicating whether or not the device is enabled."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RemainingLife": {
+                      "allOf": [
+                        {
+                          "type": "number",
+                          "format": "double"
+                        },
+                        {
+                          "xml": {
+                            "name": "remainingLife"
+                          },
+                          "description": "A value between 0 and 1 inclusive, representing the fraction of life remaining for the\n device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Type": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "type"
+                          },
+                          "description": "The type of the device, such as \"button\"."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "xml": {
+                            "name": "tags"
+                          },
+                          "description": "The tags currently associated with the AWS IoT 1-Click device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "xml": {
+                  "name": "devices"
+                },
+                "description": "A list of devices."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "nextToken"
+                },
+                "description": "The token to retrieve the next set of results."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTagsForResourceResponse": {
+        "type": "object",
+        "properties": {
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "xml": {
+                  "name": "tags"
+                },
+                "description": "<p>A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see <a href=\"https://aws.amazon.com/answers/account-management/aws-tagging-strategies/\">AWS\n Tagging Strategies</a>.</p><p>\n \n </p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UnclaimDeviceResponse": {
+        "type": "object",
+        "properties": {
+          "State": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "state"
+                },
+                "description": "The device's final claim state."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UpdateDeviceStateResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "Attributes": {
+        "type": "object",
+        "properties": {}
+      },
+      "ClaimDevicesByClaimCodeRequest": {
+        "type": "object",
+        "title": "ClaimDevicesByClaimCodeRequest",
+        "properties": {}
+      },
+      "__stringMin12Max40": {
+        "type": "string",
+        "minLength": 12,
+        "maxLength": 40
+      },
+      "__integer": {
+        "type": "integer"
+      },
+      "DescribeDeviceRequest": {
+        "type": "object",
+        "title": "DescribeDeviceRequest",
+        "properties": {}
+      },
+      "DeviceDescription": {
+        "type": "object",
+        "properties": {
+          "Arn": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "arn"
+                },
+                "description": "The ARN of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Attributes": {
+            "allOf": [
+              {
+                "type": "object",
+                "description": "\n DeviceAttributes is a string-to-string map specified by the user.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "xml": {
+                  "name": "attributes"
+                },
+                "description": "An array of zero or more elements of DeviceAttribute objects providing\n user specified device attributes."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceId": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "deviceId"
+                },
+                "description": "The unique identifier of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Enabled": {
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "xml": {
+                  "name": "enabled"
+                },
+                "description": "A Boolean value indicating whether or not the device is enabled."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RemainingLife": {
+            "allOf": [
+              {
+                "type": "number",
+                "format": "double"
+              },
+              {
+                "xml": {
+                  "name": "remainingLife"
+                },
+                "description": "A value between 0 and 1 inclusive, representing the fraction of life remaining for the\n device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Type": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "type"
+                },
+                "description": "The type of the device, such as \"button\"."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "xml": {
+                  "name": "tags"
+                },
+                "description": "The tags currently associated with the AWS IoT 1-Click device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "Attributes": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {}
+              },
+              {
+                "xml": {
+                  "name": "attributes"
+                },
+                "description": "The user specified attributes associated with the device for an event."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceId": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "deviceId"
+                },
+                "description": "The unique identifier of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Type": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "type"
+                },
+                "description": "The device type, such as \"button\"."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DeviceAttributes": {
+        "type": "object",
+        "description": "\n DeviceAttributes is a string-to-string map specified by the user.",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "__boolean": {
+        "type": "boolean"
+      },
+      "__doubleMin0Max100": {
+        "type": "number",
+        "format": "double"
+      },
+      "__mapOf__string": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "DeviceEvent": {
+        "type": "object",
+        "properties": {
+          "Device": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "Attributes": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {}
+                      },
+                      {
+                        "xml": {
+                          "name": "attributes"
+                        },
+                        "description": "The user specified attributes associated with the device for an event."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "DeviceId": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "xml": {
+                          "name": "deviceId"
+                        },
+                        "description": "The unique identifier of the device."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "Type": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "xml": {
+                          "name": "type"
+                        },
+                        "description": "The device type, such as \"button\"."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              },
+              {
+                "xml": {
+                  "name": "device"
+                },
+                "description": "An object representing the device associated with the event."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "StdEvent": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "stdEvent"
+                },
+                "description": "A serialized JSON object representing the device-type specific event."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DeviceMethod": {
+        "type": "object",
+        "properties": {
+          "DeviceType": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "deviceType"
+                },
+                "description": "The type of the device, such as \"button\"."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MethodName": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "methodName"
+                },
+                "description": "The name of the method applicable to the deviceType."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "FinalizeDeviceClaimRequest": {
+        "type": "object",
+        "title": "FinalizeDeviceClaimRequest",
+        "properties": {
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "xml": {
+                  "name": "tags"
+                },
+                "description": "<p>A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see <a href=\"https://aws.amazon.com/answers/account-management/aws-tagging-strategies/\">AWS\n Tagging Strategies</a>.</p><p>\n \n </p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetDeviceMethodsRequest": {
+        "type": "object",
+        "title": "GetDeviceMethodsRequest",
+        "properties": {}
+      },
+      "__listOfDeviceMethod": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "DeviceType": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "xml": {
+                    "name": "deviceType"
+                  },
+                  "description": "The type of the device, such as \"button\"."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "MethodName": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "xml": {
+                    "name": "methodName"
+                  },
+                  "description": "The name of the method applicable to the deviceType."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          }
+        }
+      },
+      "InitiateDeviceClaimRequest": {
+        "type": "object",
+        "title": "InitiateDeviceClaimRequest",
+        "properties": {}
+      },
+      "InvokeDeviceMethodRequest": {
+        "type": "object",
+        "title": "InvokeDeviceMethodRequest",
+        "properties": {
+          "DeviceMethod": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "DeviceType": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "xml": {
+                          "name": "deviceType"
+                        },
+                        "description": "The type of the device, such as \"button\"."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "MethodName": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "xml": {
+                          "name": "methodName"
+                        },
+                        "description": "The name of the method applicable to the deviceType."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              },
+              {
+                "xml": {
+                  "name": "deviceMethod"
+                },
+                "description": "The device method to invoke."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceMethodParameters": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "xml": {
+                  "name": "deviceMethodParameters"
+                },
+                "description": "A JSON encoded string containing the device method request parameters."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "__timestampIso8601": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "MaxResults": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 250
+      },
+      "ListDeviceEventsRequest": {
+        "type": "object",
+        "title": "ListDeviceEventsRequest",
+        "properties": {}
+      },
+      "__listOfDeviceEvent": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Device": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "Attributes": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        {
+                          "xml": {
+                            "name": "attributes"
+                          },
+                          "description": "The user specified attributes associated with the device for an event."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DeviceId": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "deviceId"
+                          },
+                          "description": "The unique identifier of the device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Type": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "xml": {
+                            "name": "type"
+                          },
+                          "description": "The device type, such as \"button\"."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                },
+                {
+                  "xml": {
+                    "name": "device"
+                  },
+                  "description": "An object representing the device associated with the event."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "StdEvent": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "xml": {
+                    "name": "stdEvent"
+                  },
+                  "description": "A serialized JSON object representing the device-type specific event."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          }
+        }
+      },
+      "ListDevicesRequest": {
+        "type": "object",
+        "title": "ListDevicesRequest",
+        "properties": {}
+      },
+      "__listOfDeviceDescription": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Arn": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "xml": {
+                    "name": "arn"
+                  },
+                  "description": "The ARN of the device."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Attributes": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "description": "\n DeviceAttributes is a string-to-string map specified by the user.",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "xml": {
+                    "name": "attributes"
+                  },
+                  "description": "An array of zero or more elements of DeviceAttribute objects providing\n user specified device attributes."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DeviceId": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "xml": {
+                    "name": "deviceId"
+                  },
+                  "description": "The unique identifier of the device."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Enabled": {
+              "allOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "xml": {
+                    "name": "enabled"
+                  },
+                  "description": "A Boolean value indicating whether or not the device is enabled."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "RemainingLife": {
+              "allOf": [
+                {
+                  "type": "number",
+                  "format": "double"
+                },
+                {
+                  "xml": {
+                    "name": "remainingLife"
+                  },
+                  "description": "A value between 0 and 1 inclusive, representing the fraction of life remaining for the\n device."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Type": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "xml": {
+                    "name": "type"
+                  },
+                  "description": "The type of the device, such as \"button\"."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Tags": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "xml": {
+                    "name": "tags"
+                  },
+                  "description": "The tags currently associated with the AWS IoT 1-Click device."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          }
+        }
+      },
+      "ListTagsForResourceRequest": {
+        "type": "object",
+        "title": "ListTagsForResourceRequest",
+        "properties": {}
+      },
+      "TagResourceRequest": {
+        "type": "object",
+        "required": [
+          "Tags"
+        ],
+        "title": "TagResourceRequest",
+        "properties": {
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              {
+                "xml": {
+                  "name": "tags"
+                },
+                "description": "<p>A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see <a href=\"https://aws.amazon.com/answers/account-management/aws-tagging-strategies/\">AWS\n Tagging Strategies</a>.</p><p>\n \n </p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UnclaimDeviceRequest": {
+        "type": "object",
+        "title": "UnclaimDeviceRequest",
+        "properties": {}
+      },
+      "__listOf__string": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "UntagResourceRequest": {
+        "type": "object",
+        "title": "UntagResourceRequest",
+        "properties": {}
+      },
+      "UpdateDeviceStateRequest": {
+        "type": "object",
+        "title": "UpdateDeviceStateRequest",
+        "properties": {
+          "Enabled": {
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "xml": {
+                  "name": "enabled"
+                },
+                "description": "If true, the device is enabled. If false, the device is\n disabled."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "package": "org.openrewrite.orderimportsbenchmark",
+  "class": "OrderimportsbenchmarkV2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "long",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

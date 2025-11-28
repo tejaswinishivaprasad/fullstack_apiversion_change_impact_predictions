@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-efe19e9e0c9f0c9fa36e",
+  "service_name": "analytics-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--analytics-service--efe19e9e--v1.canonical.json",
+  "new_canonical": "openapi--analytics-service--efe19e9e--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--analytics-service--efe19e9e--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--analytics-service--efe19e9e--v2.canonical.json",
+  "old_sha": "cdf5b52ebbc217a333a1",
+  "new_sha": "885e8bbb080387b302dc",
+  "warnings": [],
+  "seed": 1308928603,
+  "generated_at": "2025-11-27T18:38:36+00:00"
+}

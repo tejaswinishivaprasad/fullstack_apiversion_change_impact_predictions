@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-460f92785a92fcab20ac",
+  "service_name": "shipping-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--shipping-service--460f9278--v1.canonical.json",
+  "new_canonical": "openapi--shipping-service--460f9278--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--shipping-service--460f9278--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--shipping-service--460f9278--v2.canonical.json",
+  "old_sha": "e440570bf653918b3219",
+  "new_sha": "569c7251a822b97791e6",
+  "warnings": [],
+  "seed": 1408192247,
+  "generated_at": "2025-11-27T18:40:01+00:00"
+}

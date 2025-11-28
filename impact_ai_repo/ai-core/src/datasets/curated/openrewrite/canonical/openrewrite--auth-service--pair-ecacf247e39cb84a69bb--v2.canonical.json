@@ -1,0 +1,7 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "YAML",
+  "packageName": "org.openrewrite.yaml",
+  "description": "Basic building blocks for transforming YAML.",
+  "_rw_change_marker_": "change_45"
+}

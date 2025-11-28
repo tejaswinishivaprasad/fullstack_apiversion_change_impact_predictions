@@ -1,0 +1,12 @@
+{
+  "package": "org.openrewrite.findpropertiestest",
+  "class": "Findpropertiestest",
+  "fields": [],
+  "methods": [],
+  "annotations": [
+    "@Service"
+  ],
+  "imports": [
+    "java.util.*"
+  ]
+}

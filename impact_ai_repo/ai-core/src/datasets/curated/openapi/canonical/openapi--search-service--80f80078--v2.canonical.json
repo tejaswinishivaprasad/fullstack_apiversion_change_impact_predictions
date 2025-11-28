@@ -1,0 +1,90 @@
+{
+  "swagger": "2.0",
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "info": {
+    "description": "Use these REST APIs for performing retrieve a collection of Apis associated with a tag in Azure API Management deployment.",
+    "title": "ApiManagementClient",
+    "version": "2019-12-01-preview",
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-logo": {
+      "url": "https://assets.onestore.ms/cdnfiles/onestorerolling-1606-01000/shell/v3/images/logo/microsoft.png"
+    },
+    "x-origin": [
+      {
+        "format": "swagger",
+        "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2019-12-01-preview/apimapisByTags.json",
+        "version": "2.0"
+      }
+    ],
+    "x-preferred": true,
+    "x-providerName": "azure.com",
+    "x-serviceName": "apimanagement-apimapisByTags",
+    "x-tags": [
+      "Azure",
+      "Microsoft"
+    ]
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "type": "oauth2"
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "parameters": {},
+  "paths": {
+    "/carts/{id}": {
+      "post": {
+        "summary": "synthetic write",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "on",
+                      "off",
+                      "maybe"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "bad"
+          }
+        },
+        "operationId": "etic-write"
+      }
+    }
+  },
+  "definitions": {}
+}

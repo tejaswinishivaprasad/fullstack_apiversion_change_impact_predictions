@@ -1,0 +1,1 @@
+{"pair_id": "pair-98c77b4426ee174a0985", "ace_index": 0, "ace_id": "pair-98c77b4426ee174a0985::ace::0", "type": "SCHEMA_PROPERTY_CHANGED", "path": "/shipping-service", "method": "get", "detail": "p3", "confidence": 0.8, "provenance": {"old_sha": "5b5589b344fca6280e0d", "new_sha": "c56337608838d2054c7d"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

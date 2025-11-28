@@ -1,0 +1,1821 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2019-12-02",
+    "x-release": "v4",
+    "title": "Route53 Recovery Cluster",
+    "description": "<p>Welcome to the Routing Control (Recovery Cluster) API Reference Guide for Amazon Route 53 Application Recovery Controller.</p> <p>With Route 53 ARC, you can use routing control with extreme reliability to recover applications by rerouting traffic across Availability Zones or Amazon Web Services Regions. Routing controls are simple on/off switches hosted on a highly available cluster in Route 53 ARC. A cluster provides a set of five redundant Regional endpoints against which you can run API calls to get or update the state of routing controls. To implement failover, you set one routing control On and another one Off, to reroute traffic from one Availability Zone or Amazon Web Services Region to another. </p> <p> <i>Be aware that you must specify a Regional endpoint for a cluster when you work with API cluster operations to get or update routing control states in Route 53 ARC.</i> In addition, you must specify the US West (Oregon) Region for Route 53 ARC API calls. For example, use the parameter <code>--region us-west-2</code> with AWS CLI commands. For more information, see <a href=\"https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.update.api.html\"> Get and update routing control states using the API</a> in the Amazon Route 53 Application Recovery Controller Developer Guide.</p> <p>This API guide includes information about the API operations for how to get and update routing control states in Route 53 ARC. To work with routing control in Route 53 ARC, you must first create the required components (clusters, control panels, and routing controls) using the recovery cluster configuration API.</p> <p>For more information about working with routing control in Route 53 ARC, see the following:</p> <ul> <li> <p>Create clusters, control panels, and routing controls by using API operations. For more information, see the <a href=\"https://docs.aws.amazon.com/recovery-cluster/latest/api/\">Recovery Control Configuration API Reference Guide for Amazon Route 53 Application Recovery Controller</a>.</p> </li> <li> <p>Learn about the components in recovery control, including clusters, routing controls, and control panels, and how to work with Route 53 ARC in the Amazon Web Services console. For more information, see <a href=\"https://docs.aws.amazon.com/r53recovery/latest/dg/introduction-components.html#introduction-components-routing\"> Recovery control components</a> in the Amazon Route 53 Application Recovery Controller Developer Guide.</p> </li> <li> <p>Route 53 ARC also provides readiness checks that continually audit resources to help make sure that your applications are scaled and ready to handle failover traffic. For more information about the related API operations, see the <a href=\"https://docs.aws.amazon.com/recovery-readiness/latest/api/\">Recovery Readiness API Reference Guide for Amazon Route 53 Application Recovery Controller</a>.</p> </li> <li> <p>For more information about creating resilient applications and preparing for recovery readiness with Route 53 ARC, see the <a href=\"https://docs.aws.amazon.com/r53recovery/latest/dg/\">Amazon Route 53 Application Recovery Controller Developer Guide</a>.</p> </li> </ul>",
+    "x-logo": {
+      "url": "https://twitter.com/awscloud/profile_image?size=original",
+      "backgroundColor": "#FFFFFF"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "contact": {
+      "name": "Mike Ralphson",
+      "email": "mike.ralphson@gmail.com",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "x-providerName": "amazonaws.com",
+    "x-serviceName": "route53-recovery-cluster",
+    "x-aws-signingName": "route53-recovery-cluster",
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/route53-recovery-cluster-2019-12-02.normal.json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-preferred": true
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/route53-recovery-cluster/"
+  },
+  "servers": [
+    {
+      "url": "http://route53-recovery-cluster.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The Route53 Recovery Cluster multi-region endpoint"
+    },
+    {
+      "url": "https://route53-recovery-cluster.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The Route53 Recovery Cluster multi-region endpoint"
+    },
+    {
+      "url": "http://route53-recovery-cluster.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The Route53 Recovery Cluster endpoint for China (Beijing) and China (Ningxia)"
+    },
+    {
+      "url": "https://route53-recovery-cluster.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The Route53 Recovery Cluster endpoint for China (Beijing) and China (Ningxia)"
+    }
+  ],
+  "x-hasEquivalentPaths": true,
+  "paths": {
+    "/inventory/{id}": {
+      "post": {
+        "operationId": "getroutingcontrolstate",
+        "description": "modified post /#X-Amz-Target=ToggleCustomerAPI.GetRoutingControlState",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "RoutingControlArn",
+                    "RoutingControlState"
+                  ],
+                  "properties": {
+                    "RoutingControlArn": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                          "minLength": 1,
+                          "maxLength": 255
+                        },
+                        {
+                          "description": "The Amazon Resource Name (ARN) of the response."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RoutingControlState": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "On",
+                            "Off"
+                          ]
+                        },
+                        {
+                          "description": "The state of the routing control."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RoutingControlName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^\\S+$",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "description": "The routing control name."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "485": {
+            "description": "EndpointTemporarilyUnavailableException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "RoutingControlArn"
+                ],
+                "title": "GetRoutingControlStateRequest",
+                "properties": {
+                  "RoutingControlArn": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                        "minLength": 1,
+                        "maxLength": 255
+                      },
+                      {
+                        "description": "The Amazon Resource Name (ARN) for the routing control that you want to get the state for."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Amz-Target",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "enum": [
+                "ToggleCustomerAPI.GetRoutingControlState"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/products/{id}": {
+      "post": {
+        "operationId": "listroutingcontrols-v2",
+        "description": "modified post /#X-Amz-Target=ToggleCustomerAPI.ListRoutingControls",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "RoutingControls"
+                  ],
+                  "properties": {
+                    "RoutingControls": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ControlPanelArn": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                  },
+                                  {
+                                    "description": "The Amazon Resource Name (ARN) of the control panel where the routing control is located."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "ControlPanelName": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\S+$",
+                                    "minLength": 1,
+                                    "maxLength": 64
+                                  },
+                                  {
+                                    "description": "The name of the control panel where the routing control is located."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "RoutingControlArn": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                  },
+                                  {
+                                    "description": "The Amazon Resource Name (ARN) of the routing control."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "RoutingControlName": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\S+$",
+                                    "minLength": 1,
+                                    "maxLength": 64
+                                  },
+                                  {
+                                    "description": "The name of the routing control."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "RoutingControlState": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "On",
+                                      "Off"
+                                    ]
+                                  },
+                                  {
+                                    "description": "The current state of the routing control. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "A routing control, which is a simple on/off switch that you can use to route traffic to cells. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+                          }
+                        },
+                        {
+                          "description": "The list of routing controls."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "NextToken": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "[\\S]*",
+                          "minLength": 1,
+                          "maxLength": 8096
+                        },
+                        {
+                          "description": "The token for the next set of results. You receive this token from a previous call."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "485": {
+            "description": "EndpointTemporarilyUnavailableException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "ListRoutingControlsRequest",
+                "properties": {
+                  "ControlPanelArn": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                        "minLength": 1,
+                        "maxLength": 255
+                      },
+                      {
+                        "description": "The Amazon Resource Name (ARN) of the control panel of the routing controls to list."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "NextToken": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[\\S]*",
+                        "minLength": 1,
+                        "maxLength": 8096
+                      },
+                      {
+                        "description": "The token for the next set of results. You receive this token from a previous call."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "MaxResults": {
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      {
+                        "description": "The number of routing controls objects that you want to return with this call. The default value is 500."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "MaxResults",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination limit",
+            "required": false
+          },
+          {
+            "name": "NextToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination token",
+            "required": true
+          },
+          {
+            "name": "X-Amz-Target",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ToggleCustomerAPI.ListRoutingControls"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/billing/{id}": {
+      "post": {
+        "operationId": "updateroutingcontrolstates",
+        "description": "modified post /#X-Amz-Target=ToggleCustomerAPI.UpdateRoutingControlStates",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "485": {
+            "description": "EndpointTemporarilyUnavailableException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "486": {
+            "description": "ConflictException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "487": {
+            "description": "ServiceLimitExceededException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "UpdateRoutingControlStateEntries"
+                ],
+                "title": "UpdateRoutingControlStatesRequest",
+                "properties": {
+                  "UpdateRoutingControlStateEntries": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "RoutingControlArn",
+                            "RoutingControlState"
+                          ],
+                          "properties": {
+                            "RoutingControlArn": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                                  "minLength": 1,
+                                  "maxLength": 255
+                                },
+                                {
+                                  "description": "The Amazon Resource Name (ARN) for a routing control state entry."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "RoutingControlState": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "On",
+                                    "Off"
+                                  ]
+                                },
+                                {
+                                  "description": "The routing control state in a set of routing control state entries."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          },
+                          "description": "A routing control state entry."
+                        }
+                      },
+                      {
+                        "description": "A set of routing control entries that you want to update."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "SafetyRulesToOverride": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                          "minLength": 1,
+                          "maxLength": 255
+                        }
+                      },
+                      {
+                        "description": "<p>The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating routing control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.override-safety-rule.html\"> Override safety rules to reroute traffic</a> in the Amazon Route 53 Application Recovery Controller Developer Guide.</p>"
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Amz-Target",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ToggleCustomerAPI.UpdateRoutingControlStates"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/payments/{id}": {
+      "post": {
+        "summary": "synthetic write",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "on",
+                      "off",
+                      "maybe"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "bad"
+          }
+        },
+        "operationId": "etic-write-v2"
+      }
+    },
+    "/users/{id}": {
+      "post": {
+        "summary": "synthetic write",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "on",
+                      "off",
+                      "maybe"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "bad"
+          }
+        },
+        "operationId": "etic-write-v2"
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "X-Amz-Content-Sha256": {
+        "name": "X-Amz-Content-Sha256",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Date": {
+        "name": "X-Amz-Date",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Algorithm": {
+        "name": "X-Amz-Algorithm",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Credential": {
+        "name": "X-Amz-Credential",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Security-Token": {
+        "name": "X-Amz-Security-Token",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Signature": {
+        "name": "X-Amz-Signature",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-SignedHeaders": {
+        "name": "X-Amz-SignedHeaders",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Amazon Signature authorization v4",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    },
+    "schemas": {
+      "GetRoutingControlStateResponse": {
+        "type": "object",
+        "required": [
+          "RoutingControlArn",
+          "RoutingControlState"
+        ],
+        "properties": {
+          "RoutingControlArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the response."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RoutingControlState": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "On",
+                  "Off"
+                ]
+              },
+              {
+                "description": "The state of the routing control."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RoutingControlName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "The routing control name."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetRoutingControlStateRequest": {
+        "type": "object",
+        "required": [
+          "RoutingControlArn"
+        ],
+        "title": "GetRoutingControlStateRequest",
+        "properties": {
+          "RoutingControlArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) for the routing control that you want to get the state for."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "AccessDeniedException": {},
+      "InternalServerException": {},
+      "ResourceNotFoundException": {},
+      "ValidationException": {},
+      "ThrottlingException": {},
+      "EndpointTemporarilyUnavailableException": {},
+      "ListRoutingControlsResponse": {
+        "type": "object",
+        "required": [
+          "RoutingControls"
+        ],
+        "properties": {
+          "RoutingControls": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ControlPanelArn": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                          "minLength": 1,
+                          "maxLength": 255
+                        },
+                        {
+                          "description": "The Amazon Resource Name (ARN) of the control panel where the routing control is located."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ControlPanelName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^\\S+$",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "description": "The name of the control panel where the routing control is located."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RoutingControlArn": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                          "minLength": 1,
+                          "maxLength": 255
+                        },
+                        {
+                          "description": "The Amazon Resource Name (ARN) of the routing control."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RoutingControlName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^\\S+$",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "description": "The name of the routing control."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RoutingControlState": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "On",
+                            "Off"
+                          ]
+                        },
+                        {
+                          "description": "The current state of the routing control. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "A routing control, which is a simple on/off switch that you can use to route traffic to cells. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+                }
+              },
+              {
+                "description": "The list of routing controls."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\S]*",
+                "minLength": 1,
+                "maxLength": 8096
+              },
+              {
+                "description": "The token for the next set of results. You receive this token from a previous call."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListRoutingControlsRequest": {
+        "type": "object",
+        "title": "ListRoutingControlsRequest",
+        "properties": {
+          "ControlPanelArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the control panel of the routing controls to list."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\S]*",
+                "minLength": 1,
+                "maxLength": 8096
+              },
+              {
+                "description": "The token for the next set of results. You receive this token from a previous call."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "description": "The number of routing controls objects that you want to return with this call. The default value is 500."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UpdateRoutingControlStateResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateRoutingControlStateRequest": {
+        "type": "object",
+        "required": [
+          "RoutingControlArn",
+          "RoutingControlState"
+        ],
+        "title": "UpdateRoutingControlStateRequest",
+        "properties": {
+          "RoutingControlArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) for the routing control that you want to update the state for."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RoutingControlState": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "On",
+                  "Off"
+                ]
+              },
+              {
+                "description": "The state of the routing control. You can set the value to be On or Off."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SafetyRulesToOverride": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                  "minLength": 1,
+                  "maxLength": 255
+                }
+              },
+              {
+                "description": "<p>The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating the state of a routing control. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.override-safety-rule.html\"> Override safety rules to reroute traffic</a> in the Amazon Route 53 Application Recovery Controller Developer Guide.</p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ConflictException": {},
+      "UpdateRoutingControlStatesResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateRoutingControlStatesRequest": {
+        "type": "object",
+        "required": [
+          "UpdateRoutingControlStateEntries"
+        ],
+        "title": "UpdateRoutingControlStatesRequest",
+        "properties": {
+          "UpdateRoutingControlStateEntries": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "RoutingControlArn",
+                    "RoutingControlState"
+                  ],
+                  "properties": {
+                    "RoutingControlArn": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                          "minLength": 1,
+                          "maxLength": 255
+                        },
+                        {
+                          "description": "The Amazon Resource Name (ARN) for a routing control state entry."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RoutingControlState": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "On",
+                            "Off"
+                          ]
+                        },
+                        {
+                          "description": "The routing control state in a set of routing control state entries."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "A routing control state entry."
+                }
+              },
+              {
+                "description": "A set of routing control entries that you want to update."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SafetyRulesToOverride": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                  "minLength": 1,
+                  "maxLength": 255
+                }
+              },
+              {
+                "description": "<p>The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating routing control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.override-safety-rule.html\"> Override safety rules to reroute traffic</a> in the Amazon Route 53 Application Recovery Controller Developer Guide.</p>"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ServiceLimitExceededException": {},
+      "Arn": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "Arns": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+          "minLength": 1,
+          "maxLength": 255
+        }
+      },
+      "ControlPanelName": {
+        "type": "string",
+        "pattern": "^\\S+$",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "RoutingControlState": {
+        "type": "string",
+        "enum": [
+          "On",
+          "Off"
+        ]
+      },
+      "RoutingControlName": {
+        "type": "string",
+        "pattern": "^\\S+$",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "PageToken": {
+        "type": "string",
+        "pattern": "[\\S]*",
+        "minLength": 1,
+        "maxLength": 8096
+      },
+      "MaxResults": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "RoutingControls": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ControlPanelArn": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                {
+                  "description": "The Amazon Resource Name (ARN) of the control panel where the routing control is located."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "ControlPanelName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\S+$",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                {
+                  "description": "The name of the control panel where the routing control is located."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "RoutingControlArn": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                {
+                  "description": "The Amazon Resource Name (ARN) of the routing control."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "RoutingControlName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\S+$",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                {
+                  "description": "The name of the routing control."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "RoutingControlState": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "On",
+                    "Off"
+                  ]
+                },
+                {
+                  "description": "The current state of the routing control. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "A routing control, which is a simple on/off switch that you can use to route traffic to cells. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+        }
+      },
+      "RoutingControl": {
+        "type": "object",
+        "properties": {
+          "ControlPanelArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the control panel where the routing control is located."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ControlPanelName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "The name of the control panel where the routing control is located."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RoutingControlArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the routing control."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RoutingControlName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "The name of the routing control."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RoutingControlState": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "On",
+                  "Off"
+                ]
+              },
+              {
+                "description": "The current state of the routing control. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "A routing control, which is a simple on/off switch that you can use to route traffic to cells. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow. "
+      },
+      "UpdateRoutingControlStateEntry": {
+        "type": "object",
+        "required": [
+          "RoutingControlArn",
+          "RoutingControlState"
+        ],
+        "properties": {
+          "RoutingControlArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) for a routing control state entry."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RoutingControlState": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "On",
+                  "Off"
+                ]
+              },
+              {
+                "description": "The routing control state in a set of routing control state entries."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "A routing control state entry."
+      },
+      "UpdateRoutingControlStateEntries": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "RoutingControlArn",
+            "RoutingControlState"
+          ],
+          "properties": {
+            "RoutingControlArn": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9:.\\/_-]*$",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                {
+                  "description": "The Amazon Resource Name (ARN) for a routing control state entry."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "RoutingControlState": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "On",
+                    "Off"
+                  ]
+                },
+                {
+                  "description": "The routing control state in a set of routing control state entries."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "A routing control state entry."
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-d8aa16d159fe4b83beff",
+  "dataset": "openrewrite",
+  "service_name": "analytics-service",
+  "old_canonical": "openrewrite--analytics-service--d8aa16d159fe4b83beff--v1.canonical.json",
+  "new_canonical": "openrewrite--analytics-service--d8aa16d159fe4b83beff--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--analytics-service--d8aa16d159fe4b83beff--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--analytics-service--d8aa16d159fe4b83beff--v2.canonical.json",
+  "old_sha": "3282ec1c07b16cf0f058",
+  "new_sha": "fc1246c51ec039bd7fb6",
+  "generated_at": "2025-11-28T09:39:35+00:00",
+  "producers_sample": [
+    "org.openrewrite.kotlintemplate.Kotlintemplate"
+  ],
+  "warnings": []
+}

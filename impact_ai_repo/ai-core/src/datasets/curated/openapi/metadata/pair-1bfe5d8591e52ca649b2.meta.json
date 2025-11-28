@@ -1,0 +1,21 @@
+{
+  "pair_id": "pair-1bfe5d8591e52ca649b2",
+  "service_name": "user-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--user-service--1bfe5d85--v1.canonical.json",
+  "new_canonical": "openapi--user-service--1bfe5d85--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--user-service--1bfe5d85--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--user-service--1bfe5d85--v2.canonical.json",
+  "old_sha": "6848167daa79c43accd8",
+  "new_sha": "c1eb39e119ae81b6a494",
+  "warnings": [
+    "cycle local #/definitions/ExpenseSummaryGroup",
+    "cycle local #/definitions/TimesheetSummaryGroup",
+    "cycle local #/definitions/ExpenseSummaryGroup",
+    "cycle local #/definitions/ExpenseSummaryGroup",
+    "cycle local #/definitions/TimesheetSummaryGroup",
+    "cycle local #/definitions/TimesheetSummaryGroup"
+  ],
+  "seed": 857897387,
+  "generated_at": "2025-11-27T18:45:27+00:00"
+}

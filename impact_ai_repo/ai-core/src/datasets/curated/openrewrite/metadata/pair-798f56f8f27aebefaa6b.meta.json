@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-798f56f8f27aebefaa6b",
+  "dataset": "openrewrite",
+  "service_name": "order-service",
+  "old_canonical": "openrewrite--order-service--798f56f8f27aebefaa6b--v1.canonical.json",
+  "new_canonical": "openrewrite--order-service--798f56f8f27aebefaa6b--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--order-service--798f56f8f27aebefaa6b--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--order-service--798f56f8f27aebefaa6b--v2.canonical.json",
+  "old_sha": "a25557867bab0b8351d0",
+  "new_sha": "192ce68407fc1bae2779",
+  "generated_at": "2025-11-28T09:39:38+00:00",
+  "producers_sample": [
+    "org.openrewrite.countlinesvisitor.Countlinesvisitor"
+  ],
+  "warnings": []
+}

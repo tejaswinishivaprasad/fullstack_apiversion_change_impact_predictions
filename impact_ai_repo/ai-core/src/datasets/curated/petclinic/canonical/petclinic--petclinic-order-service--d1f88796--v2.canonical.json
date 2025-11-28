@@ -1,0 +1,24 @@
+{
+  "paths": {
+    "/order-service": {
+      "get": {
+        "description": "orig",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/order-service/new5": {
+      "get": {
+        "description": "added endpoint",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "pair_id": "pair-f139a0117cd979411bb7",
+  "service_name": "inventory-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--inventory-service--f139a011--v1.canonical.json",
+  "new_canonical": "openapi--inventory-service--f139a011--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--inventory-service--f139a011--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--inventory-service--f139a011--v2.canonical.json",
+  "old_sha": "77a270c3d4f9f4fae1ec",
+  "new_sha": "acbca8b007685ac485cc",
+  "warnings": [
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/alertsSummaryGroupItem",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/alertsSummaryGroupItem",
+    "cycle local #/definitions/alertsSummaryGroupItem",
+    "cycle local #/definitions/alertsSummaryGroupItem",
+    "cycle local #/definitions/errorResponseBody",
+    "cycle local #/definitions/errorResponseBody"
+  ],
+  "seed": 731565839,
+  "generated_at": "2025-11-27T18:45:29+00:00"
+}

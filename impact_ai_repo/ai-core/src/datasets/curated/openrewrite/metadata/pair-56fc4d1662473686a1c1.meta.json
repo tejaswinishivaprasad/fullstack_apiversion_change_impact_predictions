@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-56fc4d1662473686a1c1",
+  "dataset": "openrewrite",
+  "service_name": "shipping-service",
+  "old_canonical": "openrewrite--shipping-service--56fc4d1662473686a1c1--v1.canonical.json",
+  "new_canonical": "openrewrite--shipping-service--56fc4d1662473686a1c1--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--shipping-service--56fc4d1662473686a1c1--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--shipping-service--56fc4d1662473686a1c1--v2.canonical.json",
+  "old_sha": "51640748ccd3a01cb8c7",
+  "new_sha": "42845b5cd2dba46d17b9",
+  "generated_at": "2025-11-28T09:39:36+00:00",
+  "producers_sample": [
+    "org.openrewrite.adddevelocitygradleplugin.Adddevelocitygradleplugin"
+  ],
+  "warnings": []
+}

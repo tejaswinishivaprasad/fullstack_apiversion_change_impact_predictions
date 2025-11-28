@@ -1,0 +1,3533 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2020-09-23",
+    "x-release": "v4",
+    "title": "Amazon Sagemaker Edge Manager",
+    "description": "SageMaker Edge Manager dataplane service for communicating with active agents.",
+    "x-logo": {
+      "url": "https://twitter.com/awscloud/profile_image?size=original",
+      "backgroundColor": "#FFFFFF"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "contact": {
+      "name": "Mike Ralphson",
+      "email": "mike.ralphson@gmail.com",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "x-providerName": "amazonaws.com",
+    "x-serviceName": "sagemaker-edge",
+    "x-aws-signingName": "sagemaker",
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/sagemaker-edge-2020-09-23.normal.json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-preferred": true
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/sagemaker/"
+  },
+  "servers": [
+    {
+      "url": "http://edge.sagemaker.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The Amazon Sagemaker Edge Manager multi-region endpoint"
+    },
+    {
+      "url": "https://edge.sagemaker.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The Amazon Sagemaker Edge Manager multi-region endpoint"
+    },
+    {
+      "url": "http://edge.sagemaker.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The Amazon Sagemaker Edge Manager endpoint for China (Beijing) and China (Ningxia)"
+    },
+    {
+      "url": "https://edge.sagemaker.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The Amazon Sagemaker Edge Manager endpoint for China (Beijing) and China (Ningxia)"
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "post": {
+        "operationId": "getdeployments-v2",
+        "description": "Use to get the active deployments from a device.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Deployments": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "DeploymentName": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                    "minLength": 1,
+                                    "maxLength": 63
+                                  },
+                                  {
+                                    "description": "The name and unique ID of the deployment."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Type": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "Model"
+                                    ]
+                                  },
+                                  {
+                                    "description": "The type of the deployment."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "FailureHandlingPolicy": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "ROLLBACK_ON_FAILURE",
+                                      "DO_NOTHING"
+                                    ]
+                                  },
+                                  {
+                                    "description": "Determines whether to rollback to previous configuration if deployment fails."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Definitions": {
+                                "allOf": [
+                                  {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "ModelHandle": {
+                                          "allOf": [
+                                            {
+                                              "type": "string",
+                                              "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                              "minLength": 1,
+                                              "maxLength": 63
+                                            },
+                                            {
+                                              "description": "The unique model handle."
+                                            }
+                                          ],
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          }
+                                        },
+                                        "S3Url": {
+                                          "allOf": [
+                                            {
+                                              "type": "string",
+                                              "pattern": "^s3://([^/]+)/?(.*)$",
+                                              "maxLength": 1024
+                                            },
+                                            {
+                                              "description": "The absolute S3 location of the model."
+                                            }
+                                          ],
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          }
+                                        },
+                                        "Checksum": {
+                                          "allOf": [
+                                            {
+                                              "type": "object",
+                                              "properties": {
+                                                "Type": {
+                                                  "allOf": [
+                                                    {
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "SHA1"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "description": "The type of the checksum."
+                                                    }
+                                                  ],
+                                                  "_polymorphic_marker": {
+                                                    "allOf": true
+                                                  }
+                                                },
+                                                "Sum": {
+                                                  "allOf": [
+                                                    {
+                                                      "type": "string",
+                                                      "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+                                                      "minLength": 1,
+                                                      "maxLength": 63
+                                                    },
+                                                    {
+                                                      "description": "The checksum of the model."
+                                                    }
+                                                  ],
+                                                  "_polymorphic_marker": {
+                                                    "allOf": true
+                                                  }
+                                                }
+                                              },
+                                              "description": "Information about the checksum of a model deployed on a device."
+                                            },
+                                            {
+                                              "description": "The checksum information of the model."
+                                            }
+                                          ],
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          }
+                                        },
+                                        "State": {
+                                          "allOf": [
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "DEPLOY",
+                                                "UNDEPLOY"
+                                              ]
+                                            },
+                                            {
+                                              "description": "The desired state of the model."
+                                            }
+                                          ],
+                                          "_polymorphic_marker": {
+                                            "allOf": true
+                                          }
+                                        }
+                                      },
+                                      "description": "<p/>"
+                                    }
+                                  },
+                                  {
+                                    "description": "Returns a list of Definition objects."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "Information about a deployment on an edge device that is registered with SageMaker Edge Manager."
+                          }
+                        },
+                        {
+                          "description": "Returns a list of the configurations of the active deployments on the device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InternalServiceException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "DeviceName",
+                  "DeviceFleetName"
+                ],
+                "properties": {
+                  "DeviceName": {
+                    "description": "The unique name of the device you want to get the configuration of active deployments from.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                    "minLength": 1,
+                    "maxLength": 63
+                  },
+                  "DeviceFleetName": {
+                    "description": "The name of the fleet that the device belongs to.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                    "minLength": 1,
+                    "maxLength": 63
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/shipments/{id}": {
+      "post": {
+        "operationId": "sendheartbeat",
+        "description": "Use to get the current status of devices registered on SageMaker Edge Manager.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "480": {
+            "description": "InternalServiceException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "AgentVersion",
+                  "DeviceName",
+                  "DeviceFleetName"
+                ],
+                "properties": {
+                  "AgentMetrics": {
+                    "description": "For internal use. Returns a list of SageMaker Edge Manager agent operating metrics.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Dimension": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                              "minLength": 1,
+                              "maxLength": 1000
+                            },
+                            {
+                              "description": "The dimension of metrics published."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "MetricName": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                              "minLength": 4,
+                              "maxLength": 100
+                            },
+                            {
+                              "description": "Returns the name of the metric."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "Value": {
+                          "allOf": [
+                            {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            {
+                              "description": "Returns the value of the metric."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "Timestamp": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "description": "Timestamp of when the metric was requested."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        }
+                      },
+                      "description": "Information required for edge device metrics."
+                    }
+                  },
+                  "Models": {
+                    "description": "Returns a list of models deployed on the the device.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "ModelName": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                              "minLength": 4,
+                              "maxLength": 255
+                            },
+                            {
+                              "description": "The name of the model."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "ModelVersion": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            {
+                              "description": "The version of the model."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "LatestSampleTime": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "description": "The timestamp of the last data sample taken."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "LatestInference": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "description": "The timestamp of the last inference that was made."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "ModelMetrics": {
+                          "allOf": [
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "Dimension": {
+                                    "allOf": [
+                                      {
+                                        "type": "string",
+                                        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                                        "minLength": 1,
+                                        "maxLength": 1000
+                                      },
+                                      {
+                                        "description": "The dimension of metrics published."
+                                      }
+                                    ],
+                                    "_polymorphic_marker": {
+                                      "allOf": true
+                                    }
+                                  },
+                                  "MetricName": {
+                                    "allOf": [
+                                      {
+                                        "type": "string",
+                                        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                        "minLength": 4,
+                                        "maxLength": 100
+                                      },
+                                      {
+                                        "description": "Returns the name of the metric."
+                                      }
+                                    ],
+                                    "_polymorphic_marker": {
+                                      "allOf": true
+                                    }
+                                  },
+                                  "Value": {
+                                    "allOf": [
+                                      {
+                                        "type": "number",
+                                        "format": "double"
+                                      },
+                                      {
+                                        "description": "Returns the value of the metric."
+                                      }
+                                    ],
+                                    "_polymorphic_marker": {
+                                      "allOf": true
+                                    }
+                                  },
+                                  "Timestamp": {
+                                    "allOf": [
+                                      {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      },
+                                      {
+                                        "description": "Timestamp of when the metric was requested."
+                                      }
+                                    ],
+                                    "_polymorphic_marker": {
+                                      "allOf": true
+                                    }
+                                  }
+                                },
+                                "description": "Information required for edge device metrics."
+                              }
+                            },
+                            {
+                              "description": "Information required for model metrics."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        }
+                      },
+                      "description": "Information about a model deployed on an edge device that is registered with SageMaker Edge Manager."
+                    }
+                  },
+                  "AgentVersion": {
+                    "description": "Returns the version of the agent.",
+                    "type": "string",
+                    "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "DeviceName": {
+                    "description": "The unique name of the device.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                    "minLength": 1,
+                    "maxLength": 63
+                  },
+                  "DeviceFleetName": {
+                    "description": "The name of the fleet that the device belongs to.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                    "minLength": 1,
+                    "maxLength": 63
+                  },
+                  "DeploymentResult": {
+                    "description": "Information about the result of a deployment on an edge device that is registered with SageMaker Edge Manager.",
+                    "type": "object",
+                    "properties": {
+                      "DeploymentName": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                            "minLength": 1,
+                            "maxLength": 63
+                          },
+                          {
+                            "description": "The name and unique ID of the deployment."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "DeploymentStatus": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                            "minLength": 1,
+                            "maxLength": 63
+                          },
+                          {
+                            "description": "Returns the bucket error code."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "DeploymentStatusMessage": {
+                        "allOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "description": "Returns the detailed error message."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "DeploymentStartTime": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          {
+                            "description": "The timestamp of when the deployment was started on the agent."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "DeploymentEndTime": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          {
+                            "description": "The timestamp of when the deployment was ended, and the agent got the deployment results."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "DeploymentModels": {
+                        "allOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "ModelHandle": {
+                                  "allOf": [
+                                    {
+                                      "type": "string",
+                                      "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                      "minLength": 1,
+                                      "maxLength": 63
+                                    },
+                                    {
+                                      "description": "The unique handle of the model."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "ModelName": {
+                                  "allOf": [
+                                    {
+                                      "type": "string",
+                                      "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                      "minLength": 4,
+                                      "maxLength": 255
+                                    },
+                                    {
+                                      "description": "The name of the model."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "ModelVersion": {
+                                  "allOf": [
+                                    {
+                                      "type": "string",
+                                      "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                                      "minLength": 1,
+                                      "maxLength": 64
+                                    },
+                                    {
+                                      "description": "The version of the model."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "DesiredState": {
+                                  "allOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "DEPLOY",
+                                        "UNDEPLOY"
+                                      ]
+                                    },
+                                    {
+                                      "description": "The desired state of the model."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "State": {
+                                  "allOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "DEPLOY",
+                                        "UNDEPLOY"
+                                      ]
+                                    },
+                                    {
+                                      "description": "Returns the current state of the model."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "Status": {
+                                  "allOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUCCESS",
+                                        "FAIL"
+                                      ]
+                                    },
+                                    {
+                                      "description": "Returns the deployment status of the model."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "StatusReason": {
+                                  "allOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "description": "Returns the error message for the deployment status result."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "RollbackFailureReason": {
+                                  "allOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "description": "Returns the error message if there is a rollback."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                }
+                              },
+                              "description": "<p/>"
+                            }
+                          },
+                          {
+                            "description": "Returns a list of models deployed on the agent."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    }
+  },
+  "components": {
+    "parameters": {
+      "X-Amz-Content-Sha256": {
+        "name": "X-Amz-Content-Sha256",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Date": {
+        "name": "X-Amz-Date",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Algorithm": {
+        "name": "X-Amz-Algorithm",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Credential": {
+        "name": "X-Amz-Credential",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Security-Token": {
+        "name": "X-Amz-Security-Token",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Signature": {
+        "name": "X-Amz-Signature",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-SignedHeaders": {
+        "name": "X-Amz-SignedHeaders",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Amazon Signature authorization v4",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    },
+    "schemas": {
+      "GetDeploymentsResult": {
+        "type": "object",
+        "properties": {
+          "Deployments": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "DeploymentName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                          "minLength": 1,
+                          "maxLength": 63
+                        },
+                        {
+                          "description": "The name and unique ID of the deployment."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Type": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "Model"
+                          ]
+                        },
+                        {
+                          "description": "The type of the deployment."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "FailureHandlingPolicy": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "ROLLBACK_ON_FAILURE",
+                            "DO_NOTHING"
+                          ]
+                        },
+                        {
+                          "description": "Determines whether to rollback to previous configuration if deployment fails."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Definitions": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ModelHandle": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                    "minLength": 1,
+                                    "maxLength": 63
+                                  },
+                                  {
+                                    "description": "The unique model handle."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "S3Url": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^s3://([^/]+)/?(.*)$",
+                                    "maxLength": 1024
+                                  },
+                                  {
+                                    "description": "The absolute S3 location of the model."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Checksum": {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "Type": {
+                                        "allOf": [
+                                          {
+                                            "type": "string",
+                                            "enum": [
+                                              "SHA1"
+                                            ]
+                                          },
+                                          {
+                                            "description": "The type of the checksum."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      },
+                                      "Sum": {
+                                        "allOf": [
+                                          {
+                                            "type": "string",
+                                            "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+                                            "minLength": 1,
+                                            "maxLength": 63
+                                          },
+                                          {
+                                            "description": "The checksum of the model."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      }
+                                    },
+                                    "description": "Information about the checksum of a model deployed on a device."
+                                  },
+                                  {
+                                    "description": "The checksum information of the model."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "State": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "DEPLOY",
+                                      "UNDEPLOY"
+                                    ]
+                                  },
+                                  {
+                                    "description": "The desired state of the model."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "<p/>"
+                          }
+                        },
+                        {
+                          "description": "Returns a list of Definition objects."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Information about a deployment on an edge device that is registered with SageMaker Edge Manager."
+                }
+              },
+              {
+                "description": "Returns a list of the configurations of the active deployments on the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "InternalServiceException": {},
+      "GetDeviceRegistrationResult": {
+        "type": "object",
+        "properties": {
+          "DeviceRegistration": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              {
+                "description": "Describes if the device is currently registered with SageMaker Edge Manager."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CacheTTL": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              {
+                "description": "The amount of time, in seconds, that the registration status is stored on the device’s cache before it is refreshed."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "EdgeMetric": {
+        "type": "object",
+        "properties": {
+          "Dimension": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              {
+                "description": "The dimension of metrics published."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MetricName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 4,
+                "maxLength": 100
+              },
+              {
+                "description": "Returns the name of the metric."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Value": {
+            "allOf": [
+              {
+                "type": "number",
+                "format": "double"
+              },
+              {
+                "description": "Returns the value of the metric."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Timestamp": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "Timestamp of when the metric was requested."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Information required for edge device metrics."
+      },
+      "Model": {
+        "type": "object",
+        "properties": {
+          "ModelName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 4,
+                "maxLength": 255
+              },
+              {
+                "description": "The name of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ModelVersion": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "The version of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LatestSampleTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The timestamp of the last data sample taken."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LatestInference": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The timestamp of the last inference that was made."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ModelMetrics": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Dimension": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                          "minLength": 1,
+                          "maxLength": 1000
+                        },
+                        {
+                          "description": "The dimension of metrics published."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "MetricName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                          "minLength": 4,
+                          "maxLength": 100
+                        },
+                        {
+                          "description": "Returns the name of the metric."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Value": {
+                      "allOf": [
+                        {
+                          "type": "number",
+                          "format": "double"
+                        },
+                        {
+                          "description": "Returns the value of the metric."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Timestamp": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "Timestamp of when the metric was requested."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Information required for edge device metrics."
+                }
+              },
+              {
+                "description": "Information required for model metrics."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Information about a model deployed on an edge device that is registered with SageMaker Edge Manager."
+      },
+      "EntityName": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+        "minLength": 1,
+        "maxLength": 63
+      },
+      "String": {
+        "type": "string"
+      },
+      "Timestamp": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "DeploymentModels": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ModelHandle": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                  "minLength": 1,
+                  "maxLength": 63
+                },
+                {
+                  "description": "The unique handle of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "ModelName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                  "minLength": 4,
+                  "maxLength": 255
+                },
+                {
+                  "description": "The name of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "ModelVersion": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                {
+                  "description": "The version of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DesiredState": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "DEPLOY",
+                    "UNDEPLOY"
+                  ]
+                },
+                {
+                  "description": "The desired state of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "State": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "DEPLOY",
+                    "UNDEPLOY"
+                  ]
+                },
+                {
+                  "description": "Returns the current state of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Status": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "SUCCESS",
+                    "FAIL"
+                  ]
+                },
+                {
+                  "description": "Returns the deployment status of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "StatusReason": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "Returns the error message for the deployment status result."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "RollbackFailureReason": {
+              "allOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "Returns the error message if there is a rollback."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "<p/>"
+        }
+      },
+      "CacheTTLSeconds": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "ChecksumType": {
+        "type": "string",
+        "enum": [
+          "SHA1"
+        ]
+      },
+      "ChecksumString": {
+        "type": "string",
+        "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+        "minLength": 1,
+        "maxLength": 63
+      },
+      "Checksum": {
+        "type": "object",
+        "properties": {
+          "Type": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SHA1"
+                ]
+              },
+              {
+                "description": "The type of the checksum."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Sum": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The checksum of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Information about the checksum of a model deployed on a device."
+      },
+      "S3Uri": {
+        "type": "string",
+        "pattern": "^s3://([^/]+)/?(.*)$",
+        "maxLength": 1024
+      },
+      "ModelState": {
+        "type": "string",
+        "enum": [
+          "DEPLOY",
+          "UNDEPLOY"
+        ]
+      },
+      "Definition": {
+        "type": "object",
+        "properties": {
+          "ModelHandle": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The unique model handle."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "S3Url": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^s3://([^/]+)/?(.*)$",
+                "maxLength": 1024
+              },
+              {
+                "description": "The absolute S3 location of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Checksum": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "Type": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "SHA1"
+                        ]
+                      },
+                      {
+                        "description": "The type of the checksum."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "Sum": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+                        "minLength": 1,
+                        "maxLength": 63
+                      },
+                      {
+                        "description": "The checksum of the model."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "Information about the checksum of a model deployed on a device."
+              },
+              {
+                "description": "The checksum information of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "State": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "DEPLOY",
+                  "UNDEPLOY"
+                ]
+              },
+              {
+                "description": "The desired state of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "<p/>"
+      },
+      "Definitions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ModelHandle": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                  "minLength": 1,
+                  "maxLength": 63
+                },
+                {
+                  "description": "The unique model handle."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "S3Url": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^s3://([^/]+)/?(.*)$",
+                  "maxLength": 1024
+                },
+                {
+                  "description": "The absolute S3 location of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Checksum": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "Type": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "SHA1"
+                          ]
+                        },
+                        {
+                          "description": "The type of the checksum."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Sum": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+                          "minLength": 1,
+                          "maxLength": 63
+                        },
+                        {
+                          "description": "The checksum of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Information about the checksum of a model deployed on a device."
+                },
+                {
+                  "description": "The checksum information of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "State": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "DEPLOY",
+                    "UNDEPLOY"
+                  ]
+                },
+                {
+                  "description": "The desired state of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "<p/>"
+        }
+      },
+      "ModelName": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+        "minLength": 4,
+        "maxLength": 255
+      },
+      "Version": {
+        "type": "string",
+        "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "DeploymentStatus": {
+        "type": "string",
+        "enum": [
+          "SUCCESS",
+          "FAIL"
+        ]
+      },
+      "DeploymentModel": {
+        "type": "object",
+        "properties": {
+          "ModelHandle": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The unique handle of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ModelName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 4,
+                "maxLength": 255
+              },
+              {
+                "description": "The name of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ModelVersion": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "The version of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DesiredState": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "DEPLOY",
+                  "UNDEPLOY"
+                ]
+              },
+              {
+                "description": "The desired state of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "State": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "DEPLOY",
+                  "UNDEPLOY"
+                ]
+              },
+              {
+                "description": "Returns the current state of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Status": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SUCCESS",
+                  "FAIL"
+                ]
+              },
+              {
+                "description": "Returns the deployment status of the model."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "StatusReason": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "Returns the error message for the deployment status result."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "RollbackFailureReason": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "Returns the error message if there is a rollback."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "<p/>"
+      },
+      "DeploymentResult": {
+        "type": "object",
+        "properties": {
+          "DeploymentName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The name and unique ID of the deployment."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeploymentStatus": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "Returns the bucket error code."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeploymentStatusMessage": {
+            "allOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "Returns the detailed error message."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeploymentStartTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The timestamp of when the deployment was started on the agent."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeploymentEndTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The timestamp of when the deployment was ended, and the agent got the deployment results."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeploymentModels": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ModelHandle": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                          "minLength": 1,
+                          "maxLength": 63
+                        },
+                        {
+                          "description": "The unique handle of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ModelName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                          "minLength": 4,
+                          "maxLength": 255
+                        },
+                        {
+                          "description": "The name of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ModelVersion": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "description": "The version of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DesiredState": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "DEPLOY",
+                            "UNDEPLOY"
+                          ]
+                        },
+                        {
+                          "description": "The desired state of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "State": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "DEPLOY",
+                            "UNDEPLOY"
+                          ]
+                        },
+                        {
+                          "description": "Returns the current state of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Status": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "SUCCESS",
+                            "FAIL"
+                          ]
+                        },
+                        {
+                          "description": "Returns the deployment status of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "StatusReason": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "Returns the error message for the deployment status result."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "RollbackFailureReason": {
+                      "allOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "Returns the error message if there is a rollback."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "<p/>"
+                }
+              },
+              {
+                "description": "Returns a list of models deployed on the agent."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Information about the result of a deployment on an edge device that is registered with SageMaker Edge Manager."
+      },
+      "DeploymentType": {
+        "type": "string",
+        "enum": [
+          "Model"
+        ]
+      },
+      "DeviceFleetName": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+        "minLength": 1,
+        "maxLength": 63
+      },
+      "DeviceName": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+        "minLength": 1,
+        "maxLength": 63
+      },
+      "DeviceRegistration": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "Dimension": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "FailureHandlingPolicy": {
+        "type": "string",
+        "enum": [
+          "ROLLBACK_ON_FAILURE",
+          "DO_NOTHING"
+        ]
+      },
+      "EdgeDeployment": {
+        "type": "object",
+        "properties": {
+          "DeploymentName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The name and unique ID of the deployment."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Type": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Model"
+                ]
+              },
+              {
+                "description": "The type of the deployment."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "FailureHandlingPolicy": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ROLLBACK_ON_FAILURE",
+                  "DO_NOTHING"
+                ]
+              },
+              {
+                "description": "Determines whether to rollback to previous configuration if deployment fails."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Definitions": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ModelHandle": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                          "minLength": 1,
+                          "maxLength": 63
+                        },
+                        {
+                          "description": "The unique model handle."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "S3Url": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^s3://([^/]+)/?(.*)$",
+                          "maxLength": 1024
+                        },
+                        {
+                          "description": "The absolute S3 location of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Checksum": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "Type": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "SHA1"
+                                  ]
+                                },
+                                {
+                                  "description": "The type of the checksum."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "Sum": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+                                  "minLength": 1,
+                                  "maxLength": 63
+                                },
+                                {
+                                  "description": "The checksum of the model."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          },
+                          "description": "Information about the checksum of a model deployed on a device."
+                        },
+                        {
+                          "description": "The checksum information of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "State": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "DEPLOY",
+                            "UNDEPLOY"
+                          ]
+                        },
+                        {
+                          "description": "The desired state of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "<p/>"
+                }
+              },
+              {
+                "description": "Returns a list of Definition objects."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Information about a deployment on an edge device that is registered with SageMaker Edge Manager."
+      },
+      "EdgeDeployments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "DeploymentName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                  "minLength": 1,
+                  "maxLength": 63
+                },
+                {
+                  "description": "The name and unique ID of the deployment."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Type": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "Model"
+                  ]
+                },
+                {
+                  "description": "The type of the deployment."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "FailureHandlingPolicy": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "ROLLBACK_ON_FAILURE",
+                    "DO_NOTHING"
+                  ]
+                },
+                {
+                  "description": "Determines whether to rollback to previous configuration if deployment fails."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Definitions": {
+              "allOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ModelHandle": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                            "minLength": 1,
+                            "maxLength": 63
+                          },
+                          {
+                            "description": "The unique model handle."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "S3Url": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^s3://([^/]+)/?(.*)$",
+                            "maxLength": 1024
+                          },
+                          {
+                            "description": "The absolute S3 location of the model."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "Checksum": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "SHA1"
+                                    ]
+                                  },
+                                  {
+                                    "description": "The type of the checksum."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Sum": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[a-z0-9](-*[a-z0-9])*$",
+                                    "minLength": 1,
+                                    "maxLength": 63
+                                  },
+                                  {
+                                    "description": "The checksum of the model."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "Information about the checksum of a model deployed on a device."
+                          },
+                          {
+                            "description": "The checksum information of the model."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "State": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "DEPLOY",
+                              "UNDEPLOY"
+                            ]
+                          },
+                          {
+                            "description": "The desired state of the model."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "description": "<p/>"
+                  }
+                },
+                {
+                  "description": "Returns a list of Definition objects."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "Information about a deployment on an edge device that is registered with SageMaker Edge Manager."
+        }
+      },
+      "Metric": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+        "minLength": 4,
+        "maxLength": 100
+      },
+      "Value": {
+        "type": "number",
+        "format": "double"
+      },
+      "EdgeMetrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Dimension": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                  "minLength": 1,
+                  "maxLength": 1000
+                },
+                {
+                  "description": "The dimension of metrics published."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "MetricName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                  "minLength": 4,
+                  "maxLength": 100
+                },
+                {
+                  "description": "Returns the name of the metric."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Value": {
+              "allOf": [
+                {
+                  "type": "number",
+                  "format": "double"
+                },
+                {
+                  "description": "Returns the value of the metric."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Timestamp": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "Timestamp of when the metric was requested."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "Information required for edge device metrics."
+        }
+      },
+      "GetDeploymentsRequest": {
+        "type": "object",
+        "required": [
+          "DeviceName",
+          "DeviceFleetName"
+        ],
+        "title": "GetDeploymentsRequest",
+        "properties": {
+          "DeviceName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The unique name of the device you want to get the configuration of active deployments from."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceFleetName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The name of the fleet that the device belongs to."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "GetDeviceRegistrationRequest": {
+        "type": "object",
+        "required": [
+          "DeviceName",
+          "DeviceFleetName"
+        ],
+        "title": "GetDeviceRegistrationRequest",
+        "properties": {
+          "DeviceName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The unique name of the device you want to get the registration status from."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceFleetName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The name of the fleet that the device belongs to."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "Models": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ModelName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                  "minLength": 4,
+                  "maxLength": 255
+                },
+                {
+                  "description": "The name of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "ModelVersion": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                {
+                  "description": "The version of the model."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "LatestSampleTime": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The timestamp of the last data sample taken."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "LatestInference": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The timestamp of the last inference that was made."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "ModelMetrics": {
+              "allOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Dimension": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                            "minLength": 1,
+                            "maxLength": 1000
+                          },
+                          {
+                            "description": "The dimension of metrics published."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "MetricName": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                            "minLength": 4,
+                            "maxLength": 100
+                          },
+                          {
+                            "description": "Returns the name of the metric."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "Value": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Returns the value of the metric."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "Timestamp": {
+                        "allOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          {
+                            "description": "Timestamp of when the metric was requested."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "description": "Information required for edge device metrics."
+                  }
+                },
+                {
+                  "description": "Information required for model metrics."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "Information about a model deployed on an edge device that is registered with SageMaker Edge Manager."
+        }
+      },
+      "SendHeartbeatRequest": {
+        "type": "object",
+        "required": [
+          "AgentVersion",
+          "DeviceName",
+          "DeviceFleetName"
+        ],
+        "title": "SendHeartbeatRequest",
+        "properties": {
+          "AgentMetrics": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Dimension": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                          "minLength": 1,
+                          "maxLength": 1000
+                        },
+                        {
+                          "description": "The dimension of metrics published."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "MetricName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                          "minLength": 4,
+                          "maxLength": 100
+                        },
+                        {
+                          "description": "Returns the name of the metric."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Value": {
+                      "allOf": [
+                        {
+                          "type": "number",
+                          "format": "double"
+                        },
+                        {
+                          "description": "Returns the value of the metric."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Timestamp": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "Timestamp of when the metric was requested."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Information required for edge device metrics."
+                }
+              },
+              {
+                "description": "For internal use. Returns a list of SageMaker Edge Manager agent operating metrics."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Models": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ModelName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                          "minLength": 4,
+                          "maxLength": 255
+                        },
+                        {
+                          "description": "The name of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ModelVersion": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "description": "The version of the model."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "LatestSampleTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The timestamp of the last data sample taken."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "LatestInference": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The timestamp of the last inference that was made."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "ModelMetrics": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "Dimension": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$",
+                                    "minLength": 1,
+                                    "maxLength": 1000
+                                  },
+                                  {
+                                    "description": "The dimension of metrics published."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "MetricName": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                    "minLength": 4,
+                                    "maxLength": 100
+                                  },
+                                  {
+                                    "description": "Returns the name of the metric."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Value": {
+                                "allOf": [
+                                  {
+                                    "type": "number",
+                                    "format": "double"
+                                  },
+                                  {
+                                    "description": "Returns the value of the metric."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "Timestamp": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  {
+                                    "description": "Timestamp of when the metric was requested."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "Information required for edge device metrics."
+                          }
+                        },
+                        {
+                          "description": "Information required for model metrics."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Information about a model deployed on an edge device that is registered with SageMaker Edge Manager."
+                }
+              },
+              {
+                "description": "Returns a list of models deployed on the the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "AgentVersion": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              {
+                "description": "Returns the version of the agent."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The unique name of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceFleetName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$",
+                "minLength": 1,
+                "maxLength": 63
+              },
+              {
+                "description": "The name of the fleet that the device belongs to."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeploymentResult": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "DeploymentName": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                        "minLength": 1,
+                        "maxLength": 63
+                      },
+                      {
+                        "description": "The name and unique ID of the deployment."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "DeploymentStatus": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                        "minLength": 1,
+                        "maxLength": 63
+                      },
+                      {
+                        "description": "Returns the bucket error code."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "DeploymentStatusMessage": {
+                    "allOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "description": "Returns the detailed error message."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "DeploymentStartTime": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "description": "The timestamp of when the deployment was started on the agent."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "DeploymentEndTime": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "description": "The timestamp of when the deployment was ended, and the agent got the deployment results."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "DeploymentModels": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "ModelHandle": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                  "minLength": 1,
+                                  "maxLength": 63
+                                },
+                                {
+                                  "description": "The unique handle of the model."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "ModelName": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$",
+                                  "minLength": 4,
+                                  "maxLength": 255
+                                },
+                                {
+                                  "description": "The name of the model."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "ModelVersion": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "[a-zA-Z0-9\\ \\_\\.]+",
+                                  "minLength": 1,
+                                  "maxLength": 64
+                                },
+                                {
+                                  "description": "The version of the model."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "DesiredState": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "DEPLOY",
+                                    "UNDEPLOY"
+                                  ]
+                                },
+                                {
+                                  "description": "The desired state of the model."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "State": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "DEPLOY",
+                                    "UNDEPLOY"
+                                  ]
+                                },
+                                {
+                                  "description": "Returns the current state of the model."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "Status": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "SUCCESS",
+                                    "FAIL"
+                                  ]
+                                },
+                                {
+                                  "description": "Returns the deployment status of the model."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "StatusReason": {
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "Returns the error message for the deployment status result."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "RollbackFailureReason": {
+                              "allOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "Returns the error message if there is a rollback."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          },
+                          "description": "<p/>"
+                        }
+                      },
+                      {
+                        "description": "Returns a list of models deployed on the agent."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "Information about the result of a deployment on an edge device that is registered with SageMaker Edge Manager."
+              },
+              {
+                "description": "Returns the result of a deployment on the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ]
+}

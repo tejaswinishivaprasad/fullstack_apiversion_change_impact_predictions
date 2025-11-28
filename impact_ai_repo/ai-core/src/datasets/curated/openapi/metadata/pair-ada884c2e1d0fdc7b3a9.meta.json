@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-ada884c2e1d0fdc7b3a9",
+  "service_name": "transaction-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--transaction-service--ada884c2--v1.canonical.json",
+  "new_canonical": "openapi--transaction-service--ada884c2--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--transaction-service--ada884c2--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--transaction-service--ada884c2--v2.canonical.json",
+  "old_sha": "0e57f72f6cae5c7429e3",
+  "new_sha": "6508dd73eaee4aa7ee71",
+  "warnings": [],
+  "seed": 830802539,
+  "generated_at": "2025-11-27T18:38:32+00:00"
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-8ce7acdaa7a67c749f41",
+  "dataset": "openrewrite",
+  "service_name": "payment-service",
+  "old_canonical": "openrewrite--payment-service--8ce7acdaa7a67c749f41--v1.canonical.json",
+  "new_canonical": "openrewrite--payment-service--8ce7acdaa7a67c749f41--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--payment-service--8ce7acdaa7a67c749f41--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--payment-service--8ce7acdaa7a67c749f41--v2.canonical.json",
+  "old_sha": "7c9f30e4125fc4b3b3c0",
+  "new_sha": "18d3d757285f4a9ca305",
+  "generated_at": "2025-11-28T09:39:36+00:00",
+  "producers_sample": [
+    "org.openrewrite.deletekey.Deletekey"
+  ],
+  "warnings": []
+}

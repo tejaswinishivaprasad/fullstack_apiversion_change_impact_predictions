@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-d684af571bbaf5a6958b",
+  "service_name": "payment-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--payment-service--d684af57--v1.canonical.json",
+  "new_canonical": "openapi--payment-service--d684af57--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--payment-service--d684af57--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--payment-service--d684af57--v2.canonical.json",
+  "old_sha": "d921b615a0b21807303e",
+  "new_sha": "a6246821e76219aff997",
+  "warnings": [],
+  "seed": 1522108724,
+  "generated_at": "2025-11-27T18:45:08+00:00"
+}

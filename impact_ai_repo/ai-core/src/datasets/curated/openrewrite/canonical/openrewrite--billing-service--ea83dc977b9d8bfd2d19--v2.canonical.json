@@ -1,0 +1,29 @@
+{
+  "package": "org.openrewrite.propertiesparsertest",
+  "class": "PropertiesparsertestV2V2",
+  "fields": [
+    {
+      "name": "f1",
+      "type": "Optional<String>",
+      "annotations": [
+        "@Nullable"
+      ],
+      "modifiers": [
+        "private"
+      ]
+    },
+    {
+      "name": "f2",
+      "type": "int",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

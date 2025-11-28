@@ -1,0 +1,3351 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2018-10-05",
+    "x-release": "v4",
+    "title": "AWS IoT Secure Tunneling",
+    "description": "<fullname>IoT Secure Tunneling</fullname> <p>IoT Secure Tunneling creates remote connections to devices deployed in the field.</p> <p>For more information about how IoT Secure Tunneling works, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/secure-tunneling.html\">IoT Secure Tunneling</a>.</p>",
+    "x-logo": {
+      "url": "https://twitter.com/awscloud/profile_image?size=original",
+      "backgroundColor": "#FFFFFF"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "contact": {
+      "name": "Mike Ralphson",
+      "email": "mike.ralphson@gmail.com",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "x-providerName": "amazonaws.com",
+    "x-serviceName": "iotsecuretunneling",
+    "x-aws-signingName": "IoTSecuredTunneling",
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/iotsecuretunneling-2018-10-05.normal.json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-preferred": true
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/iot/"
+  },
+  "servers": [
+    {
+      "url": "http://api.tunneling.iot.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The AWS IoT Secure Tunneling multi-region endpoint"
+    },
+    {
+      "url": "https://api.tunneling.iot.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The AWS IoT Secure Tunneling multi-region endpoint"
+    },
+    {
+      "url": "http://api.tunneling.iot.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The AWS IoT Secure Tunneling endpoint for China (Beijing) and China (Ningxia)"
+    },
+    {
+      "url": "https://api.tunneling.iot.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The AWS IoT Secure Tunneling endpoint for China (Beijing) and China (Ningxia)"
+    }
+  ],
+  "x-hasEquivalentPaths": true,
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "summary": "synthetic diff",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "etic-diff"
+      }
+    },
+    "/transactions/{id}": {
+      "post": {
+        "operationId": "describetunnel-v2",
+        "description": "<p>Gets information about a tunnel identified by the unique tunnel id.</p> <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeTunnel</a> action.</p>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tunnel": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tunnelId": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+                                },
+                                {
+                                  "description": "A unique alpha-numeric ID that identifies a tunnel."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "tunnelArn": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 1600
+                                },
+                                {
+                                  "description": "The Amazon Resource Name (ARN) of a tunnel."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "status": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "OPEN",
+                                    "CLOSED"
+                                  ]
+                                },
+                                {
+                                  "description": "The status of a tunnel. Valid values are: Open and Closed."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "sourceConnectionState": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "status": {
+                                      "allOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "CONNECTED",
+                                            "DISCONNECTED"
+                                          ]
+                                        },
+                                        {
+                                          "description": "The connection status of the tunnel. Valid values are <code>CONNECTED</code> and <code>DISCONNECTED</code>."
+                                        }
+                                      ],
+                                      "_polymorphic_marker": {
+                                        "allOf": true
+                                      }
+                                    },
+                                    "lastUpdatedAt": {
+                                      "allOf": [
+                                        {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        {
+                                          "description": "The last time the connection status was updated."
+                                        }
+                                      ],
+                                      "_polymorphic_marker": {
+                                        "allOf": true
+                                      }
+                                    }
+                                  },
+                                  "description": "The state of a connection."
+                                },
+                                {
+                                  "description": "The connection state of the source application."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "destinationConnectionState": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "status": {
+                                      "allOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "CONNECTED",
+                                            "DISCONNECTED"
+                                          ]
+                                        },
+                                        {
+                                          "description": "The connection status of the tunnel. Valid values are <code>CONNECTED</code> and <code>DISCONNECTED</code>."
+                                        }
+                                      ],
+                                      "_polymorphic_marker": {
+                                        "allOf": true
+                                      }
+                                    },
+                                    "lastUpdatedAt": {
+                                      "allOf": [
+                                        {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        {
+                                          "description": "The last time the connection status was updated."
+                                        }
+                                      ],
+                                      "_polymorphic_marker": {
+                                        "allOf": true
+                                      }
+                                    }
+                                  },
+                                  "description": "The state of a connection."
+                                },
+                                {
+                                  "description": "The connection state of the destination application."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "description": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "[^\\p{C}]{1,2048}"
+                                },
+                                {
+                                  "description": "A description of the tunnel."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "destinationConfig": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "services"
+                                  ],
+                                  "properties": {
+                                    "thingName": {
+                                      "allOf": [
+                                        {
+                                          "type": "string",
+                                          "pattern": "[a-zA-Z0-9:_-]+",
+                                          "minLength": 1,
+                                          "maxLength": 128
+                                        },
+                                        {
+                                          "description": "The name of the IoT thing to which you want to connect."
+                                        }
+                                      ],
+                                      "_polymorphic_marker": {
+                                        "allOf": true
+                                      }
+                                    },
+                                    "services": {
+                                      "allOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "string",
+                                            "pattern": "[a-zA-Z0-9:_-]+",
+                                            "minLength": 1,
+                                            "maxLength": 128
+                                          },
+                                          "minItems": 1
+                                        },
+                                        {
+                                          "description": "A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application."
+                                        }
+                                      ],
+                                      "_polymorphic_marker": {
+                                        "allOf": true
+                                      }
+                                    }
+                                  },
+                                  "description": "The destination configuration."
+                                },
+                                {
+                                  "description": "The destination configuration that specifies the thing name of the destination device and a service name that the local proxy uses to connect to the destination application."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "timeoutConfig": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "maxLifetimeTimeoutMinutes": {
+                                      "allOf": [
+                                        {
+                                          "type": "integer",
+                                          "minimum": 1,
+                                          "maximum": 720
+                                        },
+                                        {
+                                          "description": "The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) "
+                                        }
+                                      ],
+                                      "_polymorphic_marker": {
+                                        "allOf": true
+                                      }
+                                    }
+                                  },
+                                  "description": "Tunnel timeout configuration."
+                                },
+                                {
+                                  "description": "Timeout configuration for the tunnel."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "tags": {
+                              "allOf": [
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "required": [
+                                      "key",
+                                      "value"
+                                    ],
+                                    "properties": {
+                                      "key": {
+                                        "allOf": [
+                                          {
+                                            "type": "string",
+                                            "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                            "minLength": 1,
+                                            "maxLength": 128
+                                          },
+                                          {
+                                            "description": "The key of the tag."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      },
+                                      "value": {
+                                        "allOf": [
+                                          {
+                                            "type": "string",
+                                            "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                            "minLength": 0,
+                                            "maxLength": 256
+                                          },
+                                          {
+                                            "description": "The value of the tag."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      }
+                                    },
+                                    "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+                                  },
+                                  "minItems": 1,
+                                  "maxItems": 200
+                                },
+                                {
+                                  "description": "A list of tag metadata associated with the secure tunnel."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "createdAt": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                {
+                                  "description": "The time when the tunnel was created."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "lastUpdatedAt": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                {
+                                  "description": "The last time the tunnel was updated."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          },
+                          "description": "A connection between a source computer and a destination device."
+                        },
+                        {
+                          "description": "The tunnel being described."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "tunnelId"
+                ],
+                "title": "DescribeTunnelRequest",
+                "properties": {
+                  "tunnelId": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+                      },
+                      {
+                        "description": "The tunnel to describe."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Amz-Target",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "IoTSecuredTunneling.DescribeTunnel"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/profiles/{id}": {
+      "post": {
+        "summary": "synthetic write",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "on",
+                      "off",
+                      "maybe"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "bad"
+          }
+        },
+        "operationId": "etic-write-v2"
+      }
+    },
+    "/carts/{id}": {
+      "post": {
+        "operationId": "listtunnels",
+        "description": "<p>List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.</p> <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListTunnels</a> action.</p>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tunnelSummaries": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "tunnelId": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+                                  },
+                                  {
+                                    "description": "The unique alpha-numeric identifier for the tunnel."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "tunnelArn": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 1600
+                                  },
+                                  {
+                                    "description": "The Amazon Resource Name of the tunnel. "
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "status": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "OPEN",
+                                      "CLOSED"
+                                    ]
+                                  },
+                                  {
+                                    "description": "The status of a tunnel. Valid values are: Open and Closed."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "description": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "[^\\p{C}]{1,2048}"
+                                  },
+                                  {
+                                    "description": "A description of the tunnel."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "createdAt": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  {
+                                    "description": "The time the tunnel was created."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "lastUpdatedAt": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  {
+                                    "description": "The time the tunnel was last updated."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "Information about the tunnel."
+                          }
+                        },
+                        {
+                          "description": "A short description of the tunnels in an Amazon Web Services account."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "nextToken": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "[a-zA-Z0-9_=-]{1,4096}"
+                        },
+                        {
+                          "description": "The token to use to get the next set of results, or null if there are no additional results."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "ListTunnelsRequest",
+                "properties": {
+                  "thingName": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[a-zA-Z0-9:_-]+",
+                        "minLength": 1,
+                        "maxLength": 128
+                      },
+                      {
+                        "description": "The name of the IoT thing associated with the destination device."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "maxResults": {
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100
+                      },
+                      {
+                        "description": "The maximum number of results to return at once."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "nextToken": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[a-zA-Z0-9_=-]{1,4096}"
+                      },
+                      {
+                        "description": "To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "maxResults",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination limit",
+            "required": false
+          },
+          {
+            "name": "nextToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination token",
+            "required": false
+          },
+          {
+            "name": "X-Amz-Target",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "IoTSecuredTunneling.ListTunnels"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/payments/{id}": {
+      "post": {
+        "operationId": "untagresource-v2",
+        "description": "modified post /#X-Amz-Target=IoTSecuredTunneling.UntagResource",
+        "responses": {
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "resourceArn",
+                  "tagKeys"
+                ],
+                "title": "UntagResourceRequest",
+                "properties": {
+                  "resourceArn": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1011
+                      },
+                      {
+                        "description": "The resource ARN."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "tagKeys": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "minItems": 0,
+                        "maxItems": 200
+                      },
+                      {
+                        "description": "The keys of the tags to remove."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Amz-Target",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "IoTSecuredTunneling.UntagResource"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/orders/{id}": {
+      "post": {
+        "operationId": "tagresource",
+        "description": "modified post /#X-Amz-Target=IoTSecuredTunneling.TagResource",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "resourceArn",
+                  "tags"
+                ],
+                "title": "TagResourceRequest",
+                "properties": {
+                  "resourceArn": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1011
+                      },
+                      {
+                        "description": "The ARN of the resource."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "tags": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                  "minLength": 1,
+                                  "maxLength": 128
+                                },
+                                {
+                                  "description": "The key of the tag."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "value": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                  "minLength": 0,
+                                  "maxLength": 256
+                                },
+                                {
+                                  "description": "The value of the tag."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          },
+                          "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+                        },
+                        "minItems": 1,
+                        "maxItems": 200
+                      },
+                      {
+                        "description": "The tags for the resource."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Amz-Target",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "IoTSecuredTunneling.TagResource"
+              ]
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    }
+  },
+  "components": {
+    "parameters": {
+      "X-Amz-Content-Sha256": {
+        "name": "X-Amz-Content-Sha256",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Date": {
+        "name": "X-Amz-Date",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Algorithm": {
+        "name": "X-Amz-Algorithm",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Credential": {
+        "name": "X-Amz-Credential",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Security-Token": {
+        "name": "X-Amz-Security-Token",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Signature": {
+        "name": "X-Amz-Signature",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-SignedHeaders": {
+        "name": "X-Amz-SignedHeaders",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Amazon Signature authorization v4",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    },
+    "schemas": {
+      "CloseTunnelResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "CloseTunnelRequest": {
+        "type": "object",
+        "required": [
+          "tunnelId"
+        ],
+        "title": "CloseTunnelRequest",
+        "properties": {
+          "tunnelId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+              },
+              {
+                "description": "The ID of the tunnel to close."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "delete": {
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "description": "When set to true, IoT Secure Tunneling deletes the tunnel data immediately."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ResourceNotFoundException": {},
+      "DescribeTunnelResponse": {
+        "type": "object",
+        "properties": {
+          "tunnel": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "tunnelId": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+                      },
+                      {
+                        "description": "A unique alpha-numeric ID that identifies a tunnel."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "tunnelArn": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1600
+                      },
+                      {
+                        "description": "The Amazon Resource Name (ARN) of a tunnel."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "status": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "OPEN",
+                          "CLOSED"
+                        ]
+                      },
+                      {
+                        "description": "The status of a tunnel. Valid values are: Open and Closed."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "sourceConnectionState": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "CONNECTED",
+                                  "DISCONNECTED"
+                                ]
+                              },
+                              {
+                                "description": "The connection status of the tunnel. Valid values are <code>CONNECTED</code> and <code>DISCONNECTED</code>."
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          },
+                          "lastUpdatedAt": {
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              {
+                                "description": "The last time the connection status was updated."
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          }
+                        },
+                        "description": "The state of a connection."
+                      },
+                      {
+                        "description": "The connection state of the source application."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "destinationConnectionState": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "CONNECTED",
+                                  "DISCONNECTED"
+                                ]
+                              },
+                              {
+                                "description": "The connection status of the tunnel. Valid values are <code>CONNECTED</code> and <code>DISCONNECTED</code>."
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          },
+                          "lastUpdatedAt": {
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              {
+                                "description": "The last time the connection status was updated."
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          }
+                        },
+                        "description": "The state of a connection."
+                      },
+                      {
+                        "description": "The connection state of the destination application."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "description": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[^\\p{C}]{1,2048}"
+                      },
+                      {
+                        "description": "A description of the tunnel."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "destinationConfig": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "required": [
+                          "services"
+                        ],
+                        "properties": {
+                          "thingName": {
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "pattern": "[a-zA-Z0-9:_-]+",
+                                "minLength": 1,
+                                "maxLength": 128
+                              },
+                              {
+                                "description": "The name of the IoT thing to which you want to connect."
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          },
+                          "services": {
+                            "allOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "pattern": "[a-zA-Z0-9:_-]+",
+                                  "minLength": 1,
+                                  "maxLength": 128
+                                },
+                                "minItems": 1
+                              },
+                              {
+                                "description": "A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application."
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          }
+                        },
+                        "description": "The destination configuration."
+                      },
+                      {
+                        "description": "The destination configuration that specifies the thing name of the destination device and a service name that the local proxy uses to connect to the destination application."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "timeoutConfig": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "maxLifetimeTimeoutMinutes": {
+                            "allOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 720
+                              },
+                              {
+                                "description": "The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) "
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          }
+                        },
+                        "description": "Tunnel timeout configuration."
+                      },
+                      {
+                        "description": "Timeout configuration for the tunnel."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "tags": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                  "minLength": 1,
+                                  "maxLength": 128
+                                },
+                                {
+                                  "description": "The key of the tag."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "value": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                  "minLength": 0,
+                                  "maxLength": 256
+                                },
+                                {
+                                  "description": "The value of the tag."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          },
+                          "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+                        },
+                        "minItems": 1,
+                        "maxItems": 200
+                      },
+                      {
+                        "description": "A list of tag metadata associated with the secure tunnel."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "createdAt": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "description": "The time when the tunnel was created."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "lastUpdatedAt": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "description": "The last time the tunnel was updated."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "A connection between a source computer and a destination device."
+              },
+              {
+                "description": "The tunnel being described."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeTunnelRequest": {
+        "type": "object",
+        "required": [
+          "tunnelId"
+        ],
+        "title": "DescribeTunnelRequest",
+        "properties": {
+          "tunnelId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+              },
+              {
+                "description": "The tunnel to describe."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTagsForResourceResponse": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "value"
+                  ],
+                  "properties": {
+                    "key": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        {
+                          "description": "The key of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "value": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 0,
+                          "maxLength": 256
+                        },
+                        {
+                          "description": "The value of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+                },
+                "minItems": 1,
+                "maxItems": 200
+              },
+              {
+                "description": "The tags for the specified resource."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTagsForResourceRequest": {
+        "type": "object",
+        "required": [
+          "resourceArn"
+        ],
+        "title": "ListTagsForResourceRequest",
+        "properties": {
+          "resourceArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1011
+              },
+              {
+                "description": "The resource ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTunnelsResponse": {
+        "type": "object",
+        "properties": {
+          "tunnelSummaries": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "tunnelId": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+                        },
+                        {
+                          "description": "The unique alpha-numeric identifier for the tunnel."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "tunnelArn": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 1600
+                        },
+                        {
+                          "description": "The Amazon Resource Name of the tunnel. "
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "status": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "OPEN",
+                            "CLOSED"
+                          ]
+                        },
+                        {
+                          "description": "The status of a tunnel. Valid values are: Open and Closed."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "description": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "[^\\p{C}]{1,2048}"
+                        },
+                        {
+                          "description": "A description of the tunnel."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "createdAt": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time the tunnel was created."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "lastUpdatedAt": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time the tunnel was last updated."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Information about the tunnel."
+                }
+              },
+              {
+                "description": "A short description of the tunnels in an Amazon Web Services account."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "nextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_=-]{1,4096}"
+              },
+              {
+                "description": "The token to use to get the next set of results, or null if there are no additional results."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTunnelsRequest": {
+        "type": "object",
+        "title": "ListTunnelsRequest",
+        "properties": {
+          "thingName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9:_-]+",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "description": "The name of the IoT thing associated with the destination device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "maxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              },
+              {
+                "description": "The maximum number of results to return at once."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "nextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_=-]{1,4096}"
+              },
+              {
+                "description": "To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "OpenTunnelResponse": {
+        "type": "object",
+        "properties": {
+          "tunnelId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+              },
+              {
+                "description": "A unique alpha-numeric tunnel ID."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "tunnelArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1600
+              },
+              {
+                "description": "The Amazon Resource Name for the tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "sourceAccessToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "password"
+              },
+              {
+                "description": "The access token the source local proxy uses to connect to IoT Secure Tunneling."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "destinationAccessToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "password"
+              },
+              {
+                "description": "The access token the destination local proxy uses to connect to IoT Secure Tunneling."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "OpenTunnelRequest": {
+        "type": "object",
+        "title": "OpenTunnelRequest",
+        "properties": {
+          "description": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[^\\p{C}]{1,2048}"
+              },
+              {
+                "description": "A short text description of the tunnel. "
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "tags": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "value"
+                  ],
+                  "properties": {
+                    "key": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        {
+                          "description": "The key of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "value": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 0,
+                          "maxLength": 256
+                        },
+                        {
+                          "description": "The value of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+                },
+                "minItems": 1,
+                "maxItems": 200
+              },
+              {
+                "description": "A collection of tag metadata."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "destinationConfig": {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "services"
+                ],
+                "properties": {
+                  "thingName": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[a-zA-Z0-9:_-]+",
+                        "minLength": 1,
+                        "maxLength": 128
+                      },
+                      {
+                        "description": "The name of the IoT thing to which you want to connect."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "services": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "[a-zA-Z0-9:_-]+",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "minItems": 1
+                      },
+                      {
+                        "description": "A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "The destination configuration."
+              },
+              {
+                "description": "The destination configuration for the OpenTunnel request."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "timeoutConfig": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "maxLifetimeTimeoutMinutes": {
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 720
+                      },
+                      {
+                        "description": "The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) "
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "Tunnel timeout configuration."
+              },
+              {
+                "description": "Timeout configuration for a tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "LimitExceededException": {},
+      "RotateTunnelAccessTokenResponse": {
+        "type": "object",
+        "properties": {
+          "tunnelArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1600
+              },
+              {
+                "description": "The Amazon Resource Name for the tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "sourceAccessToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "password"
+              },
+              {
+                "description": "The client access token that the source local proxy uses to connect to IoT Secure Tunneling."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "destinationAccessToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "password"
+              },
+              {
+                "description": "The client access token that the destination local proxy uses to connect to IoT Secure Tunneling."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "RotateTunnelAccessTokenRequest": {
+        "type": "object",
+        "required": [
+          "tunnelId",
+          "clientMode"
+        ],
+        "title": "RotateTunnelAccessTokenRequest",
+        "properties": {
+          "tunnelId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+              },
+              {
+                "description": "The tunnel for which you want to rotate the access tokens."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "clientMode": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SOURCE",
+                  "DESTINATION",
+                  "ALL"
+                ]
+              },
+              {
+                "description": "The mode of the client that will use the client token, which can be either the source or destination, or both source and destination."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "destinationConfig": {
+            "type": "object",
+            "required": [
+              "services"
+            ],
+            "properties": {
+              "thingName": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "pattern": "[a-zA-Z0-9:_-]+",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  {
+                    "description": "The name of the IoT thing to which you want to connect."
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              },
+              "services": {
+                "allOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "[a-zA-Z0-9:_-]+",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "minItems": 1
+                  },
+                  {
+                    "description": "A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application."
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "The destination configuration."
+          }
+        }
+      },
+      "TagResourceResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "TagResourceRequest": {
+        "type": "object",
+        "required": [
+          "resourceArn",
+          "tags"
+        ],
+        "title": "TagResourceRequest",
+        "properties": {
+          "resourceArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1011
+              },
+              {
+                "description": "The ARN of the resource."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "tags": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "value"
+                  ],
+                  "properties": {
+                    "key": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        {
+                          "description": "The key of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "value": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 0,
+                          "maxLength": 256
+                        },
+                        {
+                          "description": "The value of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+                },
+                "minItems": 1,
+                "maxItems": 200
+              },
+              {
+                "description": "The tags for the resource."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UntagResourceResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UntagResourceRequest": {
+        "type": "object",
+        "required": [
+          "resourceArn",
+          "tagKeys"
+        ],
+        "title": "UntagResourceRequest",
+        "properties": {
+          "resourceArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1011
+              },
+              {
+                "description": "The resource ARN."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "tagKeys": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "minItems": 0,
+                "maxItems": 200
+              },
+              {
+                "description": "The keys of the tags to remove."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "AmazonResourceName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "ClientAccessToken": {
+        "type": "string",
+        "format": "password"
+      },
+      "ClientMode": {
+        "type": "string",
+        "enum": [
+          "SOURCE",
+          "DESTINATION",
+          "ALL"
+        ]
+      },
+      "TunnelId": {
+        "type": "string",
+        "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+      },
+      "DeleteFlag": {
+        "type": "boolean"
+      },
+      "ConnectionStatus": {
+        "type": "string",
+        "enum": [
+          "CONNECTED",
+          "DISCONNECTED"
+        ]
+      },
+      "DateType": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "ConnectionState": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "CONNECTED",
+                  "DISCONNECTED"
+                ]
+              },
+              {
+                "description": "The connection status of the tunnel. Valid values are <code>CONNECTED</code> and <code>DISCONNECTED</code>."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "lastUpdatedAt": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The last time the connection status was updated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "The state of a connection."
+      },
+      "Tunnel": {
+        "type": "object",
+        "properties": {
+          "tunnelId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+              },
+              {
+                "description": "A unique alpha-numeric ID that identifies a tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "tunnelArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1600
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of a tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "status": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "OPEN",
+                  "CLOSED"
+                ]
+              },
+              {
+                "description": "The status of a tunnel. Valid values are: Open and Closed."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "sourceConnectionState": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "CONNECTED",
+                          "DISCONNECTED"
+                        ]
+                      },
+                      {
+                        "description": "The connection status of the tunnel. Valid values are <code>CONNECTED</code> and <code>DISCONNECTED</code>."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "lastUpdatedAt": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "description": "The last time the connection status was updated."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "The state of a connection."
+              },
+              {
+                "description": "The connection state of the source application."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "destinationConnectionState": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "CONNECTED",
+                          "DISCONNECTED"
+                        ]
+                      },
+                      {
+                        "description": "The connection status of the tunnel. Valid values are <code>CONNECTED</code> and <code>DISCONNECTED</code>."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "lastUpdatedAt": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "description": "The last time the connection status was updated."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "The state of a connection."
+              },
+              {
+                "description": "The connection state of the destination application."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "description": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[^\\p{C}]{1,2048}"
+              },
+              {
+                "description": "A description of the tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "destinationConfig": {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "services"
+                ],
+                "properties": {
+                  "thingName": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "pattern": "[a-zA-Z0-9:_-]+",
+                        "minLength": 1,
+                        "maxLength": 128
+                      },
+                      {
+                        "description": "The name of the IoT thing to which you want to connect."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "services": {
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "[a-zA-Z0-9:_-]+",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "minItems": 1
+                      },
+                      {
+                        "description": "A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "The destination configuration."
+              },
+              {
+                "description": "The destination configuration that specifies the thing name of the destination device and a service name that the local proxy uses to connect to the destination application."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "timeoutConfig": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "maxLifetimeTimeoutMinutes": {
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 720
+                      },
+                      {
+                        "description": "The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) "
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "Tunnel timeout configuration."
+              },
+              {
+                "description": "Timeout configuration for the tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "tags": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "value"
+                  ],
+                  "properties": {
+                    "key": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        {
+                          "description": "The key of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "value": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                          "minLength": 0,
+                          "maxLength": 256
+                        },
+                        {
+                          "description": "The value of the tag."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+                },
+                "minItems": 1,
+                "maxItems": 200
+              },
+              {
+                "description": "A list of tag metadata associated with the secure tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "createdAt": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time when the tunnel was created."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "lastUpdatedAt": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The last time the tunnel was updated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "A connection between a source computer and a destination device."
+      },
+      "Description": {
+        "type": "string",
+        "pattern": "[^\\p{C}]{1,2048}"
+      },
+      "ThingName": {
+        "type": "string",
+        "pattern": "[a-zA-Z0-9:_-]+",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "ServiceList": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "[a-zA-Z0-9:_-]+",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "minItems": 1
+      },
+      "DestinationConfig": {
+        "type": "object",
+        "required": [
+          "services"
+        ],
+        "properties": {
+          "thingName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9:_-]+",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "description": "The name of the IoT thing to which you want to connect."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "services": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "[a-zA-Z0-9:_-]+",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "minItems": 1
+              },
+              {
+                "description": "A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "The destination configuration."
+      },
+      "TagList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "key",
+            "value"
+          ],
+          "properties": {
+            "key": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                {
+                  "description": "The key of the tag."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "value": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                  "minLength": 0,
+                  "maxLength": 256
+                },
+                {
+                  "description": "The value of the tag."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+        },
+        "minItems": 1,
+        "maxItems": 200
+      },
+      "MaxResults": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100
+      },
+      "NextToken": {
+        "type": "string",
+        "pattern": "[a-zA-Z0-9_=-]{1,4096}"
+      },
+      "TunnelSummaryList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "tunnelId": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+                },
+                {
+                  "description": "The unique alpha-numeric identifier for the tunnel."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "tunnelArn": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1600
+                },
+                {
+                  "description": "The Amazon Resource Name of the tunnel. "
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "status": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "OPEN",
+                    "CLOSED"
+                  ]
+                },
+                {
+                  "description": "The status of a tunnel. Valid values are: Open and Closed."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "description": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "[^\\p{C}]{1,2048}"
+                },
+                {
+                  "description": "A description of the tunnel."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "createdAt": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The time the tunnel was created."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "lastUpdatedAt": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The time the tunnel was last updated."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "Information about the tunnel."
+        }
+      },
+      "TimeoutConfig": {
+        "type": "object",
+        "properties": {
+          "maxLifetimeTimeoutMinutes": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 720
+              },
+              {
+                "description": "The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) "
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Tunnel timeout configuration."
+      },
+      "TunnelArn": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1600
+      },
+      "Service": {
+        "type": "string",
+        "pattern": "[a-zA-Z0-9:_-]+",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "TagKey": {
+        "type": "string",
+        "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "TagValue": {
+        "type": "string",
+        "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+        "minLength": 0,
+        "maxLength": 256
+      },
+      "Tag": {
+        "type": "object",
+        "required": [
+          "key",
+          "value"
+        ],
+        "properties": {
+          "key": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "description": "The key of the tag."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "value": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                "minLength": 0,
+                "maxLength": 256
+              },
+              {
+                "description": "The value of the tag."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "An arbitary key/value pair used to add searchable metadata to secure tunnel resources."
+      },
+      "TagKeyList": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "minItems": 0,
+        "maxItems": 200
+      },
+      "TimeoutInMin": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 720
+      },
+      "TunnelStatus": {
+        "type": "string",
+        "enum": [
+          "OPEN",
+          "CLOSED"
+        ]
+      },
+      "TunnelSummary": {
+        "type": "object",
+        "properties": {
+          "tunnelId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[a-zA-Z0-9_\\-+=:]{1,128}"
+              },
+              {
+                "description": "The unique alpha-numeric identifier for the tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "tunnelArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1600
+              },
+              {
+                "description": "The Amazon Resource Name of the tunnel. "
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "status": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "OPEN",
+                  "CLOSED"
+                ]
+              },
+              {
+                "description": "The status of a tunnel. Valid values are: Open and Closed."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "description": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[^\\p{C}]{1,2048}"
+              },
+              {
+                "description": "A description of the tunnel."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "createdAt": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time the tunnel was created."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "lastUpdatedAt": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time the tunnel was last updated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Information about the tunnel."
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ]
+}

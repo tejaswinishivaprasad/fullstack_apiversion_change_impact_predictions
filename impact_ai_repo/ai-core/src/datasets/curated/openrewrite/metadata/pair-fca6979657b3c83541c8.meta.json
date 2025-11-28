@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-fca6979657b3c83541c8",
+  "dataset": "openrewrite",
+  "service_name": "inventory-service",
+  "old_canonical": "openrewrite--inventory-service--fca6979657b3c83541c8--v1.canonical.json",
+  "new_canonical": "openrewrite--inventory-service--fca6979657b3c83541c8--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--inventory-service--fca6979657b3c83541c8--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--inventory-service--fca6979657b3c83541c8--v2.canonical.json",
+  "old_sha": "3301ab115f18b3380d36",
+  "new_sha": "1d7c9bf129b376245eaa",
+  "generated_at": "2025-11-28T09:39:35+00:00",
+  "producers_sample": [
+    "org.openrewrite.psitreeprinter.Psitreeprinter"
+  ],
+  "warnings": []
+}

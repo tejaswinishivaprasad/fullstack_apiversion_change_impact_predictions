@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-bcbcdc2e1e1aec089ed6",
+  "dataset": "openrewrite",
+  "service_name": "catalog-service",
+  "old_canonical": "openrewrite--catalog-service--bcbcdc2e1e1aec089ed6--v1.canonical.json",
+  "new_canonical": "openrewrite--catalog-service--bcbcdc2e1e1aec089ed6--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--catalog-service--bcbcdc2e1e1aec089ed6--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--catalog-service--bcbcdc2e1e1aec089ed6--v2.canonical.json",
+  "old_sha": "a15fc8b456d5525b4cfe",
+  "new_sha": "0089024539ce6320e408",
+  "generated_at": "2025-11-28T09:39:35+00:00",
+  "producers_sample": [
+    "org.openrewrite.findkotlinsources.Findkotlinsources"
+  ],
+  "warnings": []
+}

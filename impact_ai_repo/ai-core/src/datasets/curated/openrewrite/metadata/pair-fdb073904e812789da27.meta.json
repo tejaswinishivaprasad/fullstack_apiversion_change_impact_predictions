@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-fdb073904e812789da27",
+  "dataset": "openrewrite",
+  "service_name": "notifications-service",
+  "old_canonical": "openrewrite--notifications-service--fdb073904e812789da27--v1.canonical.json",
+  "new_canonical": "openrewrite--notifications-service--fdb073904e812789da27--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--notifications-service--fdb073904e812789da27--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--notifications-service--fdb073904e812789da27--v2.canonical.json",
+  "old_sha": "754e475fef9a6a037b36",
+  "new_sha": "4c1426176b3bdd5ab1c3",
+  "generated_at": "2025-11-28T09:39:36+00:00",
+  "producers_sample": [
+    "org.openrewrite.addsettingsplugin.Addsettingsplugin"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-96717dec3ce769cac9dc",
+  "dataset": "openrewrite",
+  "service_name": "billing-service",
+  "old_canonical": "openrewrite--billing-service--96717dec3ce769cac9dc--v1.canonical.json",
+  "new_canonical": "openrewrite--billing-service--96717dec3ce769cac9dc--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--billing-service--96717dec3ce769cac9dc--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--billing-service--96717dec3ce769cac9dc--v2.canonical.json",
+  "old_sha": "5ed74586bf63fde9534e",
+  "new_sha": "93da4eb4e6ff679177f4",
+  "generated_at": "2025-11-28T09:39:34+00:00",
+  "producers_sample": [
+    "org.openrewrite.instanceoftest.Instanceoftest"
+  ],
+  "warnings": []
+}

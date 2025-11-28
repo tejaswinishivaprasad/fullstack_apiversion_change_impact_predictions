@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-1ae0c18fdf98f3fe04ae",
+  "dataset": "openrewrite",
+  "service_name": "catalog-service",
+  "old_canonical": "openrewrite--catalog-service--1ae0c18fdf98f3fe04ae--v1.canonical.json",
+  "new_canonical": "openrewrite--catalog-service--1ae0c18fdf98f3fe04ae--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--catalog-service--1ae0c18fdf98f3fe04ae--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--catalog-service--1ae0c18fdf98f3fe04ae--v2.canonical.json",
+  "old_sha": "33c56d9b1907d0744ca8",
+  "new_sha": "75659ea28bd599410ada",
+  "generated_at": "2025-11-28T09:39:37+00:00",
+  "producers_sample": [
+    "org.openrewrite.gradlewrappersinuse.Gradlewrappersinuse"
+  ],
+  "warnings": []
+}

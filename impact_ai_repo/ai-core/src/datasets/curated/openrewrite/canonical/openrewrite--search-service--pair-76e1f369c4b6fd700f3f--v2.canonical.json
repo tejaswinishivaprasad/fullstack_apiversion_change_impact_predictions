@@ -1,0 +1,7 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "Kotlin",
+  "packageName": "org.openrewrite.kotlin",
+  "description": "Recipes to search and transform Kotlin.",
+  "_rw_change_marker_": "change_30"
+}

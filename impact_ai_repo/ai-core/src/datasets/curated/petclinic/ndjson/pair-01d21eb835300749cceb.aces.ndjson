@@ -1,0 +1,1 @@
+{"pair_id": "pair-01d21eb835300749cceb", "ace_index": 0, "ace_id": "pair-01d21eb835300749cceb::ace::0", "type": "RESPONSE_CODE_REMOVED", "path": "/order-service", "method": "get", "detail": ["201"], "confidence": 0.8, "provenance": {"old_sha": "6d4ab5cd24f74056fe9c", "new_sha": "6d4ab5cd24f74056fe9c"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

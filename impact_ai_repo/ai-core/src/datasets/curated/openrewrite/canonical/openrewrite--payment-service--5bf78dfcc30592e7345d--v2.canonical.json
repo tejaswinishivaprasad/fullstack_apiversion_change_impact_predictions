@@ -1,0 +1,19 @@
+{
+  "package": "org.openrewrite.findgradlewrappertest",
+  "class": "Findgradlewrappertest",
+  "fields": [
+    {
+      "name": "newField77",
+      "type": "String",
+      "annotations": [],
+      "modifiers": [
+        "private"
+      ]
+    }
+  ],
+  "methods": [],
+  "annotations": [],
+  "imports": [
+    "java.util.*"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-e4c77f9c1206f8d9a901",
+  "service_name": "notifications-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--notifications-service--e4c77f9c--v1.canonical.json",
+  "new_canonical": "openapi--notifications-service--e4c77f9c--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--notifications-service--e4c77f9c--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--notifications-service--e4c77f9c--v2.canonical.json",
+  "old_sha": "6f6d483c8828facab7d1",
+  "new_sha": "a3e16d0ce37a4f25f17c",
+  "warnings": [],
+  "seed": 842742759,
+  "generated_at": "2025-11-27T18:43:20+00:00"
+}

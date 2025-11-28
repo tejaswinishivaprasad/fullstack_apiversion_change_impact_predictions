@@ -1,0 +1,1 @@
+{"type": "FIELD_REMOVED", "path": "org.openrewrite.hclparsertest.Hclparsertest", "detail": {"field": "f2"}, "confidence": 0.35, "pair_id": "pair-65128ed763a708245fe5", "ace_index": 0, "ace_id": "pair-65128ed763a708245fe5::ace::0", "provenance": {"old_sha": "367e1bfcff252f83a711", "new_sha": "c13477ce0aa92b5bdd6a"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

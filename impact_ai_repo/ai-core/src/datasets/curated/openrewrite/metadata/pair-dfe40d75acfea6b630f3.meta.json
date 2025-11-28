@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-dfe40d75acfea6b630f3",
+  "dataset": "openrewrite",
+  "service_name": "notifications-service",
+  "old_canonical": "openrewrite--notifications-service--dfe40d75acfea6b630f3--v1.canonical.json",
+  "new_canonical": "openrewrite--notifications-service--dfe40d75acfea6b630f3--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--notifications-service--dfe40d75acfea6b630f3--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--notifications-service--dfe40d75acfea6b630f3--v2.canonical.json",
+  "old_sha": "2fcd81c789eb60803577",
+  "new_sha": "97181651f9e2157478d2",
+  "generated_at": "2025-11-28T09:39:34+00:00",
+  "producers_sample": [
+    "org.openrewrite.java21javadoctest.Java21Javadoctest"
+  ],
+  "warnings": []
+}

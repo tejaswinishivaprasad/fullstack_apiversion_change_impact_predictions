@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-096829c80d83f31fc4fb",
+  "dataset": "openrewrite",
+  "service_name": "analytics-service",
+  "old_canonical": "openrewrite--analytics-service--096829c80d83f31fc4fb--v1.canonical.json",
+  "new_canonical": "openrewrite--analytics-service--096829c80d83f31fc4fb--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--analytics-service--096829c80d83f31fc4fb--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--analytics-service--096829c80d83f31fc4fb--v2.canonical.json",
+  "old_sha": "669068fdcb8555360119",
+  "new_sha": "359bec7c466d7a30016d",
+  "generated_at": "2025-11-28T09:39:38+00:00",
+  "producers_sample": [
+    "org.openrewrite.spacesvisitor.Spacesvisitor"
+  ],
+  "warnings": []
+}

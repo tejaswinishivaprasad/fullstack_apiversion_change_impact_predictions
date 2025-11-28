@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-83c905e8a3800d363982",
+  "dataset": "openrewrite",
+  "service_name": "auth-service",
+  "old_canonical": "openrewrite--auth-service--83c905e8a3800d363982--v1.canonical.json",
+  "new_canonical": "openrewrite--auth-service--83c905e8a3800d363982--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--auth-service--83c905e8a3800d363982--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--auth-service--83c905e8a3800d363982--v2.canonical.json",
+  "old_sha": "a932f1e33e4b42908055",
+  "new_sha": "513de8ff533d6c5d98e3",
+  "generated_at": "2025-11-28T09:39:38+00:00",
+  "producers_sample": [
+    "org.openrewrite.compiledgroovysource.Compiledgroovysource"
+  ],
+  "warnings": []
+}

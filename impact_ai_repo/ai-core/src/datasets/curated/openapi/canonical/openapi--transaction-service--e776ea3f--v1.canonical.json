@@ -1,0 +1,3191 @@
+{
+  "swagger": "2.0",
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "info": {
+    "description": "The Azure Analysis Services Web API provides a RESTful set of web services that enables users to create, retrieve, update, and delete Analysis Services servers",
+    "title": "AzureAnalysisServices",
+    "version": "2016-05-16",
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-logo": {
+      "url": "https://assets.onestore.ms/cdnfiles/onestorerolling-1606-01000/shell/v3/images/logo/microsoft.png"
+    },
+    "x-ms-code-generation-settings": {
+      "name": "AnalysisServicesManagementClient"
+    },
+    "x-origin": [
+      {
+        "format": "swagger",
+        "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2016-05-16/analysisservices.json",
+        "version": "2.0"
+      }
+    ],
+    "x-preferred": false,
+    "x-providerName": "azure.com",
+    "x-serviceName": "analysisservices",
+    "x-tags": [
+      "Azure",
+      "Microsoft"
+    ]
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "flow": "implicit",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "type": "oauth2"
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "parameters": {
+    "ApiVersionParameter": {
+      "description": "The client API version.",
+      "in": "query",
+      "name": "api-version",
+      "required": true,
+      "type": "string"
+    },
+    "ResourceGroupNameParameter": {
+      "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+      "in": "path",
+      "maxLength": 90,
+      "minLength": 1,
+      "name": "resourceGroupName",
+      "pattern": "^[-\\w\\._\\(\\)]+$",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+      "in": "path",
+      "name": "subscriptionId",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "paths": {
+    "/subscriptions/orderid/providers/microsoft-analysisservices/locations/id/checknameavailability": {
+      "post": {
+        "description": "Check the name availability in the target location.",
+        "operationId": "servers-checknameavailability-v2",
+        "parameters": [
+          {
+            "description": "The region name which the operation will lookup into.",
+            "in": "path",
+            "name": "location",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Contains the information used to provision the Analysis Services server.",
+            "in": "body",
+            "name": "serverParameters",
+            "required": true,
+            "schema": {
+              "description": "Details of server name request body.",
+              "properties": {
+                "name": {
+                  "description": "Name for checking availability.",
+                  "maxLength": 63,
+                  "minLength": 3,
+                  "pattern": "^[a-z][a-z0-9]*$",
+                  "type": "string"
+                },
+                "type": {
+                  "default": "Microsoft.AnalysisServices/servers",
+                  "description": "The resource type of azure analysis services.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The request has succeeded.",
+            "schema": {
+              "description": "The checking result of server name availability.",
+              "properties": {
+                "message": {
+                  "description": "The detailed message of the request unavailability.",
+                  "type": "string"
+                },
+                "nameAvailable": {
+                  "description": "Indicator of available of the server name.",
+                  "type": "boolean"
+                },
+                "reason": {
+                  "description": "The reason of unavailability.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ]
+      }
+    },
+    "/subscriptions/id/providers/microsoft-analysisservices/locations/paymentid/operationresults/userid": {
+      "get": {
+        "description": "List the result of the specified operation.",
+        "operationId": "servers-listoperationresults",
+        "parameters": [
+          {
+            "description": "The region name which the operation will lookup into.",
+            "in": "path",
+            "name": "location",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The target operation Id.",
+            "in": "path",
+            "name": "operationId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The operation completed."
+          },
+          "202": {
+            "description": "Accepted. The operation is ongoing."
+          }
+        },
+        "tags": [
+          "Servers"
+        ]
+      }
+    },
+    "/subscriptions/orderid/providers/microsoft-analysisservices/locations/id/operationstatuses/orderid": {
+      "get": {
+        "description": "List the status of operation.",
+        "operationId": "servers-listoperationstatuses-v2",
+        "parameters": [
+          {
+            "description": "The region name which the operation will lookup into.",
+            "in": "path",
+            "name": "location",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The target operation Id.",
+            "in": "path",
+            "name": "operationId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The operation completed.",
+            "schema": {
+              "description": "The status of operation.",
+              "properties": {
+                "endTime": {
+                  "description": "The end time of the operation.",
+                  "type": "string"
+                },
+                "error": {
+                  "description": "Describes the format of Error response.",
+                  "properties": {
+                    "code": {
+                      "description": "Error code",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "Error message indicating why the operation failed.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "description": "The operation Id.",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The operation name.",
+                  "type": "string"
+                },
+                "startTime": {
+                  "description": "The start time of the operation.",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "The status of the operation.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "202": {
+            "description": "Accepted. The operation is ongoing.",
+            "schema": {
+              "description": "The status of operation.",
+              "properties": {
+                "endTime": {
+                  "description": "The end time of the operation.",
+                  "type": "string"
+                },
+                "error": {
+                  "description": "Describes the format of Error response.",
+                  "properties": {
+                    "code": {
+                      "description": "Error code",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "Error message indicating why the operation failed.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "description": "The operation Id.",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The operation name.",
+                  "type": "string"
+                },
+                "startTime": {
+                  "description": "The start time of the operation.",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "The status of the operation.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ]
+      }
+    },
+    "/subscriptions/orderid/providers/microsoft-analysisservices/servers": {
+      "get": {
+        "description": "Lists all the Analysis Services servers for the given subscription.",
+        "operationId": "servers-list-v2",
+        "parameters": [
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "An array of Analysis Services resources.",
+              "properties": {
+                "value": {
+                  "description": "An array of Analysis Services resources.",
+                  "items": {
+                    "allOf": [
+                      {
+                        "description": "Represents an instance of an Analysis Services resource.",
+                        "properties": {
+                          "id": {
+                            "description": "An identifier that represents the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "location": {
+                            "description": "Location of the Analysis Services resource.",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The name of the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "sku": {
+                            "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                            "properties": {
+                              "name": {
+                                "description": "Name of the SKU level.",
+                                "type": "string"
+                              },
+                              "tier": {
+                                "description": "The name of the Azure pricing tier to which the SKU applies.",
+                                "enum": [
+                                  "Development",
+                                  "Basic",
+                                  "Standard"
+                                ],
+                                "type": "string",
+                                "x-ms-enum": {
+                                  "modelAsString": true,
+                                  "name": "SkuTier"
+                                }
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "tags": {
+                            "additionalProperties": {
+                              "type": "string"
+                            },
+                            "description": "Key-value pairs of additional resource provisioning properties.",
+                            "type": "object"
+                          },
+                          "type": {
+                            "description": "The type of the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "location",
+                          "sku"
+                        ],
+                        "type": "object",
+                        "x-ms-azure-resource": true
+                      }
+                    ],
+                    "description": "Represents an instance of an Analysis Services resource.",
+                    "properties": {
+                      "properties": {
+                        "allOf": [
+                          {
+                            "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                            "properties": {
+                              "asAdministrators": {
+                                "description": "An array of administrator user identities",
+                                "properties": {
+                                  "members": {
+                                    "description": "An array of administrator user identities.",
+                                    "items": {
+                                      "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                      "type": "string"
+                                    },
+                                    "type": "array"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "backupBlobContainerUri": {
+                                "description": "The container URI of backup blob.",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        ],
+                        "description": "Properties of Analysis Services resource.",
+                        "properties": {
+                          "provisioningState": {
+                            "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                            "enum": [
+                              "Deleting",
+                              "Succeeded",
+                              "Failed",
+                              "Paused",
+                              "Suspended",
+                              "Provisioning",
+                              "Updating",
+                              "Suspending",
+                              "Pausing",
+                              "Resuming",
+                              "Preparing",
+                              "Scaling"
+                            ],
+                            "readOnly": true,
+                            "type": "string",
+                            "x-ms-enum": {
+                              "modelAsString": true,
+                              "name": "ProvisioningState"
+                            }
+                          },
+                          "serverFullName": {
+                            "description": "The full name of the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "state": {
+                            "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                            "enum": [
+                              "Deleting",
+                              "Succeeded",
+                              "Failed",
+                              "Paused",
+                              "Suspended",
+                              "Provisioning",
+                              "Updating",
+                              "Suspending",
+                              "Pausing",
+                              "Resuming",
+                              "Preparing",
+                              "Scaling"
+                            ],
+                            "readOnly": true,
+                            "type": "string",
+                            "x-ms-enum": {
+                              "modelAsString": true,
+                              "name": "State"
+                            }
+                          }
+                        },
+                        "type": "object",
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "type": "object",
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/userid/providers/microsoft-analysisservices/skus": {
+      "get": {
+        "description": "Lists eligible SKUs for Analysis Services resource provider.",
+        "operationId": "servers-listskusfornew",
+        "parameters": [
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "An object that represents enumerating SKUs for new resources",
+              "properties": {
+                "value": {
+                  "description": "The collection of available SKUs for new resources",
+                  "items": {
+                    "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                    "properties": {
+                      "name": {
+                        "description": "Name of the SKU level.",
+                        "type": "string"
+                      },
+                      "tier": {
+                        "description": "The name of the Azure pricing tier to which the SKU applies.",
+                        "enum": [
+                          "Development",
+                          "Basic",
+                          "Standard"
+                        ],
+                        "type": "string",
+                        "x-ms-enum": {
+                          "modelAsString": true,
+                          "name": "SkuTier"
+                        }
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List eligible SKUs for a new server": {
+            "parameters": {
+              "api-version": "2016-05-16",
+              "subscriptionId": "613192d7-503f-477a-9cfe-4efc3ee2bd60"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "B1"
+                    },
+                    {
+                      "name": "B2"
+                    },
+                    {
+                      "name": "D1"
+                    },
+                    {
+                      "name": "S0"
+                    },
+                    {
+                      "name": "S1"
+                    },
+                    {
+                      "name": "S2"
+                    },
+                    {
+                      "name": "S3"
+                    },
+                    {
+                      "name": "S4"
+                    }
+                  ]
+                },
+                "headers": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/id/resourcegroups/sku/providers/microsoft-analysisservices/servers": {
+      "get": {
+        "description": "Gets all the Analysis Services servers for the given resource group.",
+        "operationId": "servers-listbyresourcegroup-v2",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "An array of Analysis Services resources.",
+              "properties": {
+                "value": {
+                  "description": "An array of Analysis Services resources.",
+                  "items": {
+                    "allOf": [
+                      {
+                        "description": "Represents an instance of an Analysis Services resource.",
+                        "properties": {
+                          "id": {
+                            "description": "An identifier that represents the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "location": {
+                            "description": "Location of the Analysis Services resource.",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The name of the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "sku": {
+                            "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                            "properties": {
+                              "name": {
+                                "description": "Name of the SKU level.",
+                                "type": "string"
+                              },
+                              "tier": {
+                                "description": "The name of the Azure pricing tier to which the SKU applies.",
+                                "enum": [
+                                  "Development",
+                                  "Basic",
+                                  "Standard"
+                                ],
+                                "type": "string",
+                                "x-ms-enum": {
+                                  "modelAsString": true,
+                                  "name": "SkuTier"
+                                }
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "tags": {
+                            "additionalProperties": {
+                              "type": "string"
+                            },
+                            "description": "Key-value pairs of additional resource provisioning properties.",
+                            "type": "object"
+                          },
+                          "type": {
+                            "description": "The type of the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "location",
+                          "sku"
+                        ],
+                        "type": "object",
+                        "x-ms-azure-resource": true
+                      }
+                    ],
+                    "description": "Represents an instance of an Analysis Services resource.",
+                    "properties": {
+                      "properties": {
+                        "allOf": [
+                          {
+                            "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                            "properties": {
+                              "asAdministrators": {
+                                "description": "An array of administrator user identities",
+                                "properties": {
+                                  "members": {
+                                    "description": "An array of administrator user identities.",
+                                    "items": {
+                                      "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                      "type": "string"
+                                    },
+                                    "type": "array"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "backupBlobContainerUri": {
+                                "description": "The container URI of backup blob.",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        ],
+                        "description": "Properties of Analysis Services resource.",
+                        "properties": {
+                          "provisioningState": {
+                            "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                            "enum": [
+                              "Deleting",
+                              "Succeeded",
+                              "Failed",
+                              "Paused",
+                              "Suspended",
+                              "Provisioning",
+                              "Updating",
+                              "Suspending",
+                              "Pausing",
+                              "Resuming",
+                              "Preparing",
+                              "Scaling"
+                            ],
+                            "readOnly": true,
+                            "type": "string",
+                            "x-ms-enum": {
+                              "modelAsString": true,
+                              "name": "ProvisioningState"
+                            }
+                          },
+                          "serverFullName": {
+                            "description": "The full name of the Analysis Services resource.",
+                            "readOnly": true,
+                            "type": "string"
+                          },
+                          "state": {
+                            "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                            "enum": [
+                              "Deleting",
+                              "Succeeded",
+                              "Failed",
+                              "Paused",
+                              "Suspended",
+                              "Provisioning",
+                              "Updating",
+                              "Suspending",
+                              "Pausing",
+                              "Resuming",
+                              "Preparing",
+                              "Scaling"
+                            ],
+                            "readOnly": true,
+                            "type": "string",
+                            "x-ms-enum": {
+                              "modelAsString": true,
+                              "name": "State"
+                            }
+                          }
+                        },
+                        "type": "object",
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "type": "object",
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/paymentid/resourcegroups/paymentid/providers/microsoft-analysisservices/servers/orderid": {
+      "delete": {
+        "description": "Deletes the specified Analysis Services server.",
+        "operationId": "servers-delete",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63.",
+            "in": "path",
+            "maxLength": 63,
+            "minLength": 3,
+            "name": "serverName",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "202": {
+            "description": "Accepted."
+          },
+          "204": {
+            "description": "No Content."
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-long-running-operation": true
+      },
+      "get": {
+        "description": "Gets details about the specified Analysis Services server.",
+        "operationId": "servers-getdetails-v2",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the Analysis Services server. It must be a minimum of 3 characters, and a maximum of 63.",
+            "in": "path",
+            "maxLength": 63,
+            "minLength": 3,
+            "name": "serverName",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The operation was successful.",
+            "schema": {
+              "allOf": [
+                {
+                  "description": "Represents an instance of an Analysis Services resource.",
+                  "properties": {
+                    "id": {
+                      "description": "An identifier that represents the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "location": {
+                      "description": "Location of the Analysis Services resource.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "sku": {
+                      "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the SKU level.",
+                          "type": "string"
+                        },
+                        "tier": {
+                          "description": "The name of the Azure pricing tier to which the SKU applies.",
+                          "enum": [
+                            "Development",
+                            "Basic",
+                            "Standard"
+                          ],
+                          "type": "string",
+                          "x-ms-enum": {
+                            "modelAsString": true,
+                            "name": "SkuTier"
+                          }
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "tags": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Key-value pairs of additional resource provisioning properties.",
+                      "type": "object"
+                    },
+                    "type": {
+                      "description": "The type of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "sku"
+                  ],
+                  "type": "object",
+                  "x-ms-azure-resource": true
+                }
+              ],
+              "description": "Represents an instance of an Analysis Services resource.",
+              "properties": {
+                "properties": {
+                  "allOf": [
+                    {
+                      "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                      "properties": {
+                        "asAdministrators": {
+                          "description": "An array of administrator user identities",
+                          "properties": {
+                            "members": {
+                              "description": "An array of administrator user identities.",
+                              "items": {
+                                "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "backupBlobContainerUri": {
+                          "description": "The container URI of backup blob.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "description": "Properties of Analysis Services resource.",
+                  "properties": {
+                    "provisioningState": {
+                      "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "ProvisioningState"
+                      }
+                    },
+                    "serverFullName": {
+                      "description": "The full name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "State"
+                      }
+                    }
+                  },
+                  "type": "object",
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "type": "object",
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ]
+      },
+      "patch": {
+        "description": "Updates the current state of the specified Analysis Services server.",
+        "operationId": "servers-update",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63.",
+            "in": "path",
+            "maxLength": 63,
+            "minLength": 3,
+            "name": "serverName",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Request object that contains the updated information for the server.",
+            "in": "body",
+            "name": "serverUpdateParameters",
+            "required": true,
+            "schema": {
+              "description": "Provision request specification",
+              "properties": {
+                "properties": {
+                  "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                  "properties": {
+                    "asAdministrators": {
+                      "description": "An array of administrator user identities",
+                      "properties": {
+                        "members": {
+                          "description": "An array of administrator user identities.",
+                          "items": {
+                            "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "backupBlobContainerUri": {
+                      "description": "The container URI of backup blob.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "sku": {
+                  "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the SKU level.",
+                      "type": "string"
+                    },
+                    "tier": {
+                      "description": "The name of the Azure pricing tier to which the SKU applies.",
+                      "enum": [
+                        "Development",
+                        "Basic",
+                        "Standard"
+                      ],
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "SkuTier"
+                      }
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "type": "object"
+                },
+                "tags": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Key-value pairs of additional provisioning properties.",
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "description": "Represents an instance of an Analysis Services resource.",
+                  "properties": {
+                    "id": {
+                      "description": "An identifier that represents the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "location": {
+                      "description": "Location of the Analysis Services resource.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "sku": {
+                      "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the SKU level.",
+                          "type": "string"
+                        },
+                        "tier": {
+                          "description": "The name of the Azure pricing tier to which the SKU applies.",
+                          "enum": [
+                            "Development",
+                            "Basic",
+                            "Standard"
+                          ],
+                          "type": "string",
+                          "x-ms-enum": {
+                            "modelAsString": true,
+                            "name": "SkuTier"
+                          }
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "tags": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Key-value pairs of additional resource provisioning properties.",
+                      "type": "object"
+                    },
+                    "type": {
+                      "description": "The type of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "sku"
+                  ],
+                  "type": "object",
+                  "x-ms-azure-resource": true
+                }
+              ],
+              "description": "Represents an instance of an Analysis Services resource.",
+              "properties": {
+                "properties": {
+                  "allOf": [
+                    {
+                      "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                      "properties": {
+                        "asAdministrators": {
+                          "description": "An array of administrator user identities",
+                          "properties": {
+                            "members": {
+                              "description": "An array of administrator user identities.",
+                              "items": {
+                                "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "backupBlobContainerUri": {
+                          "description": "The container URI of backup blob.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "description": "Properties of Analysis Services resource.",
+                  "properties": {
+                    "provisioningState": {
+                      "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "ProvisioningState"
+                      }
+                    },
+                    "serverFullName": {
+                      "description": "The full name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "State"
+                      }
+                    }
+                  },
+                  "type": "object",
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "type": "object",
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "allOf": [
+                {
+                  "description": "Represents an instance of an Analysis Services resource.",
+                  "properties": {
+                    "id": {
+                      "description": "An identifier that represents the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "location": {
+                      "description": "Location of the Analysis Services resource.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "sku": {
+                      "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the SKU level.",
+                          "type": "string"
+                        },
+                        "tier": {
+                          "description": "The name of the Azure pricing tier to which the SKU applies.",
+                          "enum": [
+                            "Development",
+                            "Basic",
+                            "Standard"
+                          ],
+                          "type": "string",
+                          "x-ms-enum": {
+                            "modelAsString": true,
+                            "name": "SkuTier"
+                          }
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "tags": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Key-value pairs of additional resource provisioning properties.",
+                      "type": "object"
+                    },
+                    "type": {
+                      "description": "The type of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "sku"
+                  ],
+                  "type": "object",
+                  "x-ms-azure-resource": true
+                }
+              ],
+              "description": "Represents an instance of an Analysis Services resource.",
+              "properties": {
+                "properties": {
+                  "allOf": [
+                    {
+                      "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                      "properties": {
+                        "asAdministrators": {
+                          "description": "An array of administrator user identities",
+                          "properties": {
+                            "members": {
+                              "description": "An array of administrator user identities.",
+                              "items": {
+                                "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "backupBlobContainerUri": {
+                          "description": "The container URI of backup blob.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "description": "Properties of Analysis Services resource.",
+                  "properties": {
+                    "provisioningState": {
+                      "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "ProvisioningState"
+                      }
+                    },
+                    "serverFullName": {
+                      "description": "The full name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "State"
+                      }
+                    }
+                  },
+                  "type": "object",
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "type": "object",
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-long-running-operation": true
+      },
+      "put": {
+        "description": "Provisions the specified Analysis Services server based on the configuration specified in the request.",
+        "operationId": "servers-create-v2",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the Analysis Services server. It must be a minimum of 3 characters, and a maximum of 63.",
+            "in": "path",
+            "maxLength": 63,
+            "minLength": 3,
+            "name": "serverName",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Contains the information used to provision the Analysis Services server.",
+            "in": "body",
+            "name": "serverParameters",
+            "required": true,
+            "schema": {
+              "allOf": [
+                {
+                  "description": "Represents an instance of an Analysis Services resource.",
+                  "properties": {
+                    "id": {
+                      "description": "An identifier that represents the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "location": {
+                      "description": "Location of the Analysis Services resource.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "sku": {
+                      "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the SKU level.",
+                          "type": "string"
+                        },
+                        "tier": {
+                          "description": "The name of the Azure pricing tier to which the SKU applies.",
+                          "enum": [
+                            "Development",
+                            "Basic",
+                            "Standard"
+                          ],
+                          "type": "string",
+                          "x-ms-enum": {
+                            "modelAsString": true,
+                            "name": "SkuTier"
+                          }
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "tags": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Key-value pairs of additional resource provisioning properties.",
+                      "type": "object"
+                    },
+                    "type": {
+                      "description": "The type of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "sku"
+                  ],
+                  "type": "object",
+                  "x-ms-azure-resource": true
+                }
+              ],
+              "description": "Represents an instance of an Analysis Services resource.",
+              "properties": {
+                "properties": {
+                  "allOf": [
+                    {
+                      "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                      "properties": {
+                        "asAdministrators": {
+                          "description": "An array of administrator user identities",
+                          "properties": {
+                            "members": {
+                              "description": "An array of administrator user identities.",
+                              "items": {
+                                "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "backupBlobContainerUri": {
+                          "description": "The container URI of backup blob.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "description": "Properties of Analysis Services resource.",
+                  "properties": {
+                    "provisioningState": {
+                      "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "ProvisioningState"
+                      }
+                    },
+                    "serverFullName": {
+                      "description": "The full name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "State"
+                      }
+                    }
+                  },
+                  "type": "object",
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "type": "object",
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The operation completed successfully.",
+            "schema": {
+              "allOf": [
+                {
+                  "description": "Represents an instance of an Analysis Services resource.",
+                  "properties": {
+                    "id": {
+                      "description": "An identifier that represents the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "location": {
+                      "description": "Location of the Analysis Services resource.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "sku": {
+                      "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the SKU level.",
+                          "type": "string"
+                        },
+                        "tier": {
+                          "description": "The name of the Azure pricing tier to which the SKU applies.",
+                          "enum": [
+                            "Development",
+                            "Basic",
+                            "Standard"
+                          ],
+                          "type": "string",
+                          "x-ms-enum": {
+                            "modelAsString": true,
+                            "name": "SkuTier"
+                          }
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "tags": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Key-value pairs of additional resource provisioning properties.",
+                      "type": "object"
+                    },
+                    "type": {
+                      "description": "The type of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "sku"
+                  ],
+                  "type": "object",
+                  "x-ms-azure-resource": true
+                }
+              ],
+              "description": "Represents an instance of an Analysis Services resource.",
+              "properties": {
+                "properties": {
+                  "allOf": [
+                    {
+                      "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                      "properties": {
+                        "asAdministrators": {
+                          "description": "An array of administrator user identities",
+                          "properties": {
+                            "members": {
+                              "description": "An array of administrator user identities.",
+                              "items": {
+                                "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "backupBlobContainerUri": {
+                          "description": "The container URI of backup blob.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "description": "Properties of Analysis Services resource.",
+                  "properties": {
+                    "provisioningState": {
+                      "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "ProvisioningState"
+                      }
+                    },
+                    "serverFullName": {
+                      "description": "The full name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "State"
+                      }
+                    }
+                  },
+                  "type": "object",
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "type": "object",
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "201": {
+            "description": "InProgress. The operation is still completing.",
+            "schema": {
+              "allOf": [
+                {
+                  "description": "Represents an instance of an Analysis Services resource.",
+                  "properties": {
+                    "id": {
+                      "description": "An identifier that represents the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "location": {
+                      "description": "Location of the Analysis Services resource.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "sku": {
+                      "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the SKU level.",
+                          "type": "string"
+                        },
+                        "tier": {
+                          "description": "The name of the Azure pricing tier to which the SKU applies.",
+                          "enum": [
+                            "Development",
+                            "Basic",
+                            "Standard"
+                          ],
+                          "type": "string",
+                          "x-ms-enum": {
+                            "modelAsString": true,
+                            "name": "SkuTier"
+                          }
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "tags": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Key-value pairs of additional resource provisioning properties.",
+                      "type": "object"
+                    },
+                    "type": {
+                      "description": "The type of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "sku"
+                  ],
+                  "type": "object",
+                  "x-ms-azure-resource": true
+                }
+              ],
+              "description": "Represents an instance of an Analysis Services resource.",
+              "properties": {
+                "properties": {
+                  "allOf": [
+                    {
+                      "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                      "properties": {
+                        "asAdministrators": {
+                          "description": "An array of administrator user identities",
+                          "properties": {
+                            "members": {
+                              "description": "An array of administrator user identities.",
+                              "items": {
+                                "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "backupBlobContainerUri": {
+                          "description": "The container URI of backup blob.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "description": "Properties of Analysis Services resource.",
+                  "properties": {
+                    "provisioningState": {
+                      "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "ProvisioningState"
+                      }
+                    },
+                    "serverFullName": {
+                      "description": "The full name of the Analysis Services resource.",
+                      "readOnly": true,
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                      "enum": [
+                        "Deleting",
+                        "Succeeded",
+                        "Failed",
+                        "Paused",
+                        "Suspended",
+                        "Provisioning",
+                        "Updating",
+                        "Suspending",
+                        "Pausing",
+                        "Resuming",
+                        "Preparing",
+                        "Scaling"
+                      ],
+                      "readOnly": true,
+                      "type": "string",
+                      "x-ms-enum": {
+                        "modelAsString": true,
+                        "name": "State"
+                      }
+                    }
+                  },
+                  "type": "object",
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "type": "object",
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/userid/resourcegroups/sku/providers/microsoft-analysisservices/servers/orderid/resume": {
+      "post": {
+        "description": "Resumes operation of the specified Analysis Services server instance.",
+        "operationId": "servers-resume-v2",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63.",
+            "in": "path",
+            "maxLength": 63,
+            "minLength": 3,
+            "name": "serverName",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/userid/resourcegroups/orderid/providers/microsoft-analysisservices/servers/userid/skus": {
+      "get": {
+        "description": "Lists eligible SKUs for an Analysis Services resource.",
+        "operationId": "servers-listskusforexisting-v2",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63.",
+            "in": "path",
+            "maxLength": 63,
+            "minLength": 3,
+            "name": "serverName",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "An object that represents enumerating SKUs for existing resources",
+              "properties": {
+                "value": {
+                  "description": "The collection of available SKUs for existing resources",
+                  "items": {
+                    "description": "An object that represents SKU details for existing resources",
+                    "properties": {
+                      "sku": {
+                        "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                        "properties": {
+                          "name": {
+                            "description": "Name of the SKU level.",
+                            "type": "string"
+                          },
+                          "tier": {
+                            "description": "The name of the Azure pricing tier to which the SKU applies.",
+                            "enum": [
+                              "Development",
+                              "Basic",
+                              "Standard"
+                            ],
+                            "type": "string",
+                            "x-ms-enum": {
+                              "modelAsString": true,
+                              "name": "SkuTier"
+                            }
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-examples": {
+          "List eligible SKUs for an existing server": {
+            "parameters": {
+              "api-version": "2016-05-16",
+              "resourceGroupName": "TestRG",
+              "serverName": "azsdktest",
+              "subscriptionId": "613192d7-503f-477a-9cfe-4efc3ee2bd60"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "sku": {
+                        "name": "B1",
+                        "tier": "Basic"
+                      }
+                    },
+                    {
+                      "sku": {
+                        "name": "B2",
+                        "tier": "Basic"
+                      }
+                    },
+                    {
+                      "sku": {
+                        "name": "S0",
+                        "tier": "Standard"
+                      }
+                    },
+                    {
+                      "sku": {
+                        "name": "S1",
+                        "tier": "Standard"
+                      }
+                    },
+                    {
+                      "sku": {
+                        "name": "S2",
+                        "tier": "Standard"
+                      }
+                    },
+                    {
+                      "sku": {
+                        "name": "S3",
+                        "tier": "Standard"
+                      }
+                    },
+                    {
+                      "sku": {
+                        "name": "S4",
+                        "tier": "Standard"
+                      }
+                    }
+                  ]
+                },
+                "headers": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/userid/resourcegroups/userid/providers/microsoft-analysisservices/servers/sku/suspend": {
+      "post": {
+        "description": "Suspends operation of the specified Analysis Services server instance.",
+        "operationId": "servers-suspend-v2",
+        "parameters": [
+          {
+            "description": "The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.",
+            "in": "path",
+            "maxLength": 90,
+            "minLength": 1,
+            "name": "resourceGroupName",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "required": true,
+            "type": "string",
+            "x-ms-parameter-location": "method"
+          },
+          {
+            "description": "The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63.",
+            "in": "path",
+            "maxLength": 63,
+            "minLength": 3,
+            "name": "serverName",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The client API version.",
+            "in": "query",
+            "name": "api-version",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "202": {
+            "description": "Accepted."
+          }
+        },
+        "tags": [
+          "Servers"
+        ],
+        "x-ms-long-running-operation": true
+      }
+    }
+  },
+  "definitions": {
+    "AnalysisServicesServer": {
+      "allOf": [
+        {
+          "description": "Represents an instance of an Analysis Services resource.",
+          "properties": {
+            "id": {
+              "description": "An identifier that represents the Analysis Services resource.",
+              "readOnly": true,
+              "type": "string"
+            },
+            "location": {
+              "description": "Location of the Analysis Services resource.",
+              "type": "string"
+            },
+            "name": {
+              "description": "The name of the Analysis Services resource.",
+              "readOnly": true,
+              "type": "string"
+            },
+            "sku": {
+              "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+              "properties": {
+                "name": {
+                  "description": "Name of the SKU level.",
+                  "type": "string"
+                },
+                "tier": {
+                  "description": "The name of the Azure pricing tier to which the SKU applies.",
+                  "enum": [
+                    "Development",
+                    "Basic",
+                    "Standard"
+                  ],
+                  "type": "string",
+                  "x-ms-enum": {
+                    "modelAsString": true,
+                    "name": "SkuTier"
+                  }
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "tags": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Key-value pairs of additional resource provisioning properties.",
+              "type": "object"
+            },
+            "type": {
+              "description": "The type of the Analysis Services resource.",
+              "readOnly": true,
+              "type": "string"
+            }
+          },
+          "required": [
+            "location",
+            "sku"
+          ],
+          "type": "object",
+          "x-ms-azure-resource": true
+        }
+      ],
+      "description": "Represents an instance of an Analysis Services resource.",
+      "properties": {
+        "properties": {
+          "allOf": [
+            {
+              "description": "An object that represents a set of mutable Analysis Services resource properties.",
+              "properties": {
+                "asAdministrators": {
+                  "description": "An array of administrator user identities",
+                  "properties": {
+                    "members": {
+                      "description": "An array of administrator user identities.",
+                      "items": {
+                        "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "backupBlobContainerUri": {
+                  "description": "The container URI of backup blob.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          ],
+          "description": "Properties of Analysis Services resource.",
+          "properties": {
+            "provisioningState": {
+              "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+              "enum": [
+                "Deleting",
+                "Succeeded",
+                "Failed",
+                "Paused",
+                "Suspended",
+                "Provisioning",
+                "Updating",
+                "Suspending",
+                "Pausing",
+                "Resuming",
+                "Preparing",
+                "Scaling"
+              ],
+              "readOnly": true,
+              "type": "string",
+              "x-ms-enum": {
+                "modelAsString": true,
+                "name": "ProvisioningState"
+              }
+            },
+            "serverFullName": {
+              "description": "The full name of the Analysis Services resource.",
+              "readOnly": true,
+              "type": "string"
+            },
+            "state": {
+              "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+              "enum": [
+                "Deleting",
+                "Succeeded",
+                "Failed",
+                "Paused",
+                "Suspended",
+                "Provisioning",
+                "Updating",
+                "Suspending",
+                "Pausing",
+                "Resuming",
+                "Preparing",
+                "Scaling"
+              ],
+              "readOnly": true,
+              "type": "string",
+              "x-ms-enum": {
+                "modelAsString": true,
+                "name": "State"
+              }
+            }
+          },
+          "type": "object",
+          "_polymorphic_marker": {
+            "allOf": true
+          }
+        }
+      },
+      "type": "object",
+      "_polymorphic_marker": {
+        "allOf": true
+      }
+    },
+    "AnalysisServicesServerMutableProperties": {
+      "description": "An object that represents a set of mutable Analysis Services resource properties.",
+      "properties": {
+        "asAdministrators": {
+          "description": "An array of administrator user identities",
+          "properties": {
+            "members": {
+              "description": "An array of administrator user identities.",
+              "items": {
+                "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "backupBlobContainerUri": {
+          "description": "The container URI of backup blob.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AnalysisServicesServerProperties": {
+      "allOf": [
+        {
+          "description": "An object that represents a set of mutable Analysis Services resource properties.",
+          "properties": {
+            "asAdministrators": {
+              "description": "An array of administrator user identities",
+              "properties": {
+                "members": {
+                  "description": "An array of administrator user identities.",
+                  "items": {
+                    "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "backupBlobContainerUri": {
+              "description": "The container URI of backup blob.",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Properties of Analysis Services resource.",
+      "properties": {
+        "provisioningState": {
+          "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+          "enum": [
+            "Deleting",
+            "Succeeded",
+            "Failed",
+            "Paused",
+            "Suspended",
+            "Provisioning",
+            "Updating",
+            "Suspending",
+            "Pausing",
+            "Resuming",
+            "Preparing",
+            "Scaling"
+          ],
+          "readOnly": true,
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "ProvisioningState"
+          }
+        },
+        "serverFullName": {
+          "description": "The full name of the Analysis Services resource.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "state": {
+          "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+          "enum": [
+            "Deleting",
+            "Succeeded",
+            "Failed",
+            "Paused",
+            "Suspended",
+            "Provisioning",
+            "Updating",
+            "Suspending",
+            "Pausing",
+            "Resuming",
+            "Preparing",
+            "Scaling"
+          ],
+          "readOnly": true,
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "State"
+          }
+        }
+      },
+      "type": "object",
+      "_polymorphic_marker": {
+        "allOf": true
+      }
+    },
+    "AnalysisServicesServerUpdateParameters": {
+      "description": "Provision request specification",
+      "properties": {
+        "properties": {
+          "description": "An object that represents a set of mutable Analysis Services resource properties.",
+          "properties": {
+            "asAdministrators": {
+              "description": "An array of administrator user identities",
+              "properties": {
+                "members": {
+                  "description": "An array of administrator user identities.",
+                  "items": {
+                    "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "backupBlobContainerUri": {
+              "description": "The container URI of backup blob.",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "sku": {
+          "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+          "properties": {
+            "name": {
+              "description": "Name of the SKU level.",
+              "type": "string"
+            },
+            "tier": {
+              "description": "The name of the Azure pricing tier to which the SKU applies.",
+              "enum": [
+                "Development",
+                "Basic",
+                "Standard"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "modelAsString": true,
+                "name": "SkuTier"
+              }
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Key-value pairs of additional provisioning properties.",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "AnalysisServicesServers": {
+      "description": "An array of Analysis Services resources.",
+      "properties": {
+        "value": {
+          "description": "An array of Analysis Services resources.",
+          "items": {
+            "allOf": [
+              {
+                "description": "Represents an instance of an Analysis Services resource.",
+                "properties": {
+                  "id": {
+                    "description": "An identifier that represents the Analysis Services resource.",
+                    "readOnly": true,
+                    "type": "string"
+                  },
+                  "location": {
+                    "description": "Location of the Analysis Services resource.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The name of the Analysis Services resource.",
+                    "readOnly": true,
+                    "type": "string"
+                  },
+                  "sku": {
+                    "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                    "properties": {
+                      "name": {
+                        "description": "Name of the SKU level.",
+                        "type": "string"
+                      },
+                      "tier": {
+                        "description": "The name of the Azure pricing tier to which the SKU applies.",
+                        "enum": [
+                          "Development",
+                          "Basic",
+                          "Standard"
+                        ],
+                        "type": "string",
+                        "x-ms-enum": {
+                          "modelAsString": true,
+                          "name": "SkuTier"
+                        }
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
+                  "tags": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Key-value pairs of additional resource provisioning properties.",
+                    "type": "object"
+                  },
+                  "type": {
+                    "description": "The type of the Analysis Services resource.",
+                    "readOnly": true,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "location",
+                  "sku"
+                ],
+                "type": "object",
+                "x-ms-azure-resource": true
+              }
+            ],
+            "description": "Represents an instance of an Analysis Services resource.",
+            "properties": {
+              "properties": {
+                "allOf": [
+                  {
+                    "description": "An object that represents a set of mutable Analysis Services resource properties.",
+                    "properties": {
+                      "asAdministrators": {
+                        "description": "An array of administrator user identities",
+                        "properties": {
+                          "members": {
+                            "description": "An array of administrator user identities.",
+                            "items": {
+                              "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "backupBlobContainerUri": {
+                        "description": "The container URI of backup blob.",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                ],
+                "description": "Properties of Analysis Services resource.",
+                "properties": {
+                  "provisioningState": {
+                    "description": "The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.",
+                    "enum": [
+                      "Deleting",
+                      "Succeeded",
+                      "Failed",
+                      "Paused",
+                      "Suspended",
+                      "Provisioning",
+                      "Updating",
+                      "Suspending",
+                      "Pausing",
+                      "Resuming",
+                      "Preparing",
+                      "Scaling"
+                    ],
+                    "readOnly": true,
+                    "type": "string",
+                    "x-ms-enum": {
+                      "modelAsString": true,
+                      "name": "ProvisioningState"
+                    }
+                  },
+                  "serverFullName": {
+                    "description": "The full name of the Analysis Services resource.",
+                    "readOnly": true,
+                    "type": "string"
+                  },
+                  "state": {
+                    "description": "The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.",
+                    "enum": [
+                      "Deleting",
+                      "Succeeded",
+                      "Failed",
+                      "Paused",
+                      "Suspended",
+                      "Provisioning",
+                      "Updating",
+                      "Suspending",
+                      "Pausing",
+                      "Resuming",
+                      "Preparing",
+                      "Scaling"
+                    ],
+                    "readOnly": true,
+                    "type": "string",
+                    "x-ms-enum": {
+                      "modelAsString": true,
+                      "name": "State"
+                    }
+                  }
+                },
+                "type": "object",
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "type": "object",
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "CheckServerNameAvailabilityParameters": {
+      "description": "Details of server name request body.",
+      "properties": {
+        "name": {
+          "description": "Name for checking availability.",
+          "maxLength": 63,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9]*$",
+          "type": "string"
+        },
+        "type": {
+          "default": "Microsoft.AnalysisServices/servers",
+          "description": "The resource type of azure analysis services.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CheckServerNameAvailabilityResult": {
+      "description": "The checking result of server name availability.",
+      "properties": {
+        "message": {
+          "description": "The detailed message of the request unavailability.",
+          "type": "string"
+        },
+        "nameAvailable": {
+          "description": "Indicator of available of the server name.",
+          "type": "boolean"
+        },
+        "reason": {
+          "description": "The reason of unavailability.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "description": "Describes the format of Error response.",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "OperationStatus": {
+      "description": "The status of operation.",
+      "properties": {
+        "endTime": {
+          "description": "The end time of the operation.",
+          "type": "string"
+        },
+        "error": {
+          "description": "Describes the format of Error response.",
+          "properties": {
+            "code": {
+              "description": "Error code",
+              "type": "string"
+            },
+            "message": {
+              "description": "Error message indicating why the operation failed.",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "description": "The operation Id.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The operation name.",
+          "type": "string"
+        },
+        "startTime": {
+          "description": "The start time of the operation.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the operation.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Resource": {
+      "description": "Represents an instance of an Analysis Services resource.",
+      "properties": {
+        "id": {
+          "description": "An identifier that represents the Analysis Services resource.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "location": {
+          "description": "Location of the Analysis Services resource.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the Analysis Services resource.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "sku": {
+          "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+          "properties": {
+            "name": {
+              "description": "Name of the SKU level.",
+              "type": "string"
+            },
+            "tier": {
+              "description": "The name of the Azure pricing tier to which the SKU applies.",
+              "enum": [
+                "Development",
+                "Basic",
+                "Standard"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "modelAsString": true,
+                "name": "SkuTier"
+              }
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Key-value pairs of additional resource provisioning properties.",
+          "type": "object"
+        },
+        "type": {
+          "description": "The type of the Analysis Services resource.",
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "sku"
+      ],
+      "type": "object",
+      "x-ms-azure-resource": true
+    },
+    "ResourceSku": {
+      "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+      "properties": {
+        "name": {
+          "description": "Name of the SKU level.",
+          "type": "string"
+        },
+        "tier": {
+          "description": "The name of the Azure pricing tier to which the SKU applies.",
+          "enum": [
+            "Development",
+            "Basic",
+            "Standard"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "SkuTier"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "ServerAdministrators": {
+      "description": "An array of administrator user identities",
+      "properties": {
+        "members": {
+          "description": "An array of administrator user identities.",
+          "items": {
+            "description": "The UPN of the user. For example: johnsmith@contoso.com.",
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "SkuDetailsForExistingResource": {
+      "description": "An object that represents SKU details for existing resources",
+      "properties": {
+        "sku": {
+          "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+          "properties": {
+            "name": {
+              "description": "Name of the SKU level.",
+              "type": "string"
+            },
+            "tier": {
+              "description": "The name of the Azure pricing tier to which the SKU applies.",
+              "enum": [
+                "Development",
+                "Basic",
+                "Standard"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "modelAsString": true,
+                "name": "SkuTier"
+              }
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "SkuEnumerationForExistingResourceResult": {
+      "description": "An object that represents enumerating SKUs for existing resources",
+      "properties": {
+        "value": {
+          "description": "The collection of available SKUs for existing resources",
+          "items": {
+            "description": "An object that represents SKU details for existing resources",
+            "properties": {
+              "sku": {
+                "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+                "properties": {
+                  "name": {
+                    "description": "Name of the SKU level.",
+                    "type": "string"
+                  },
+                  "tier": {
+                    "description": "The name of the Azure pricing tier to which the SKU applies.",
+                    "enum": [
+                      "Development",
+                      "Basic",
+                      "Standard"
+                    ],
+                    "type": "string",
+                    "x-ms-enum": {
+                      "modelAsString": true,
+                      "name": "SkuTier"
+                    }
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "SkuEnumerationForNewResourceResult": {
+      "description": "An object that represents enumerating SKUs for new resources",
+      "properties": {
+        "value": {
+          "description": "The collection of available SKUs for new resources",
+          "items": {
+            "description": "Represents the SKU name and Azure pricing tier for Analysis Services resource.",
+            "properties": {
+              "name": {
+                "description": "Name of the SKU level.",
+                "type": "string"
+              },
+              "tier": {
+                "description": "The name of the Azure pricing tier to which the SKU applies.",
+                "enum": [
+                  "Development",
+                  "Basic",
+                  "Standard"
+                ],
+                "type": "string",
+                "x-ms-enum": {
+                  "modelAsString": true,
+                  "name": "SkuTier"
+                }
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

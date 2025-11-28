@@ -1,0 +1,1 @@
+{"type": "METHOD_REMOVED", "path": "org.openrewrite.packageinfo.PackageInfo.handle", "detail": null, "confidence": 0.75, "pair_id": "pair-1c42b82363ab7d15c434", "ace_index": 0, "ace_id": "pair-1c42b82363ab7d15c434::ace::0", "provenance": {"old_sha": "1af561ec4f687be591d2", "new_sha": "715235c39d4a15ea4bb5"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

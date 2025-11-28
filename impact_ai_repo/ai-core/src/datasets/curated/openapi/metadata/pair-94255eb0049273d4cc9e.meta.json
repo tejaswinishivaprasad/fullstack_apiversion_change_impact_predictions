@@ -1,0 +1,14 @@
+{
+  "pair_id": "pair-94255eb0049273d4cc9e",
+  "service_name": "billing-service",
+  "dataset": "openapi",
+  "old_canonical": "openapi--billing-service--94255eb0--v1.canonical.json",
+  "new_canonical": "openapi--billing-service--94255eb0--v2.canonical.json",
+  "old": "datasets/curated/openapi/canonical/openapi--billing-service--94255eb0--v1.canonical.json",
+  "new": "datasets/curated/openapi/canonical/openapi--billing-service--94255eb0--v2.canonical.json",
+  "old_sha": "fa1d8df5f2e3f1b0a198",
+  "new_sha": "393a39816231e92e7cbc",
+  "warnings": [],
+  "seed": 1668329439,
+  "generated_at": "2025-11-27T18:38:32+00:00"
+}

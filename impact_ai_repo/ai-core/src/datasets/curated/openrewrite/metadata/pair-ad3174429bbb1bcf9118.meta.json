@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-ad3174429bbb1bcf9118",
+  "dataset": "openrewrite",
+  "service_name": "payment-service",
+  "old_canonical": "openrewrite--payment-service--ad3174429bbb1bcf9118--v1.canonical.json",
+  "new_canonical": "openrewrite--payment-service--ad3174429bbb1bcf9118--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--payment-service--ad3174429bbb1bcf9118--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--payment-service--ad3174429bbb1bcf9118--v2.canonical.json",
+  "old_sha": "4683eb8fd92d014b26bf",
+  "new_sha": "5e48aefcc5521084bc34",
+  "generated_at": "2025-11-28T09:39:37+00:00",
+  "producers_sample": [
+    "org.openrewrite.dependencyinsight.Dependencyinsight"
+  ],
+  "warnings": []
+}

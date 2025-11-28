@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-e580cae6087e5e305fbc",
+  "dataset": "openrewrite",
+  "service_name": "auth-service",
+  "old_canonical": "openrewrite--auth-service--e580cae6087e5e305fbc--v1.canonical.json",
+  "new_canonical": "openrewrite--auth-service--e580cae6087e5e305fbc--v2.canonical.json",
+  "old": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--auth-service--e580cae6087e5e305fbc--v1.canonical.json",
+  "new": "datasets/curated_openrewrite_synth/openrewrite/canonical/openrewrite--auth-service--e580cae6087e5e305fbc--v2.canonical.json",
+  "old_sha": "9b08f5f08d2d5f7baddf",
+  "new_sha": "2001d48fcf6426e08a8b",
+  "generated_at": "2025-11-28T09:39:37+00:00",
+  "producers_sample": [
+    "org.openrewrite.gradleplugintest.Gradleplugintest"
+  ],
+  "warnings": []
+}
