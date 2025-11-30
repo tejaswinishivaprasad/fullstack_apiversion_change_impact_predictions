@@ -65,7 +65,7 @@ def git_show_file(ref_path: str) -> str:
 
 def find_counterpart_v1(v2path: Path) -> Path:
     """
-    Heuristic: replace '--v2.' with '--v1.' in filename.
+    Heuristic: replace '--v2.' with '--v1.' or '-v2.' with '-v1.' in filename.
     If file exists on filesystem, return Path. Otherwise return Path with same dir & name.
     """
     name = v2path.name
@@ -74,10 +74,98 @@ def find_counterpart_v1(v2path: Path) -> Path:
     elif "-v2." in name:
         alt = name.replace("-v2.", "-v1.")
     else:
-        # fallback: try replacing 'v2' segments (risky)
+        # fallback: try replacing first 'v2' segment (risky)
         alt = name.replace("v2", "v1", 1)
     cand = v2path.parent / alt
     return cand
+
+# ---------- new helpers to support curated_* variants ----------
+def _variant_folders() -> List[str]:
+    # e.g., curated_clean, curated_noisy_light, curated_noisy_heavy
+    try:
+        return list(server.VARIANT_MAP.values())
+    except Exception:
+        return ["curated_clean", "curated_noisy_light", "curated_noisy_heavy"]
+
+def _all_dataset_keys() -> List[str]:
+    try:
+        return server.all_dataset_keys()
+    except Exception:
+        # fallback
+        return ["openapi", "openapi_noisy_light", "openapi_noisy_heavy",
+                "petclinic", "petclinic_noisy_light", "petclinic_noisy_heavy",
+                "openrewrite", "openrewrite_noisy_light", "openrewrite_noisy_heavy"]
+
+def find_local_v1_across_variants(v2path: Path) -> Path:
+    """
+    Try to find the corresponding v1 file across the curated variant folders and legacy locations.
+    Returns Path (possibly non-existing) as candidate; prefer existing file if found.
+    """
+    # first try the simple local heuristic
+    cand = find_counterpart_v1(v2path)
+    if cand.exists():
+        return cand
+
+    name_alt = cand.name
+    # try scanning dataset variants: use all dataset keys and try their canonical folders
+    for key in _all_dataset_keys():
+        try:
+            dp = server.dataset_paths(key)
+            can = Path(dp.get("canonical") if isinstance(dp.get("canonical"), (str, Path)) else dp["canonical"])
+            p = can / name_alt
+            if p.exists():
+                return p
+        except Exception:
+            continue
+
+    # try variant-level index roots
+    for vf in _variant_folders():
+        # try both CURATED_CONTAINER/variant and CURATED_ROOT_RAW/variant behaviors via server._variant_dir_for if available
+        try:
+            vroot = server._variant_dir_for(vf)
+            p = Path(vroot) / name_alt
+            if p.exists():
+                return p
+            # also check canonical under each base dataset in that variant
+            for base in server.BASE_DATASETS:
+                p2 = Path(vroot) / base / "canonical" / name_alt
+                if p2.exists():
+                    return p2
+        except Exception:
+            continue
+
+    # legacy effective curated root - server.EFFECTIVE_CURATED_ROOT
+    try:
+        eff = Path(server.EFFECTIVE_CURATED_ROOT)
+        p = eff / name_alt
+        if p.exists():
+            return p
+        # also try canonical and ndjson/metadata places
+        for sub in ("canonical", "ndjson", "metadata"):
+            p2 = eff / sub / name_alt
+            if p2.exists():
+                return p2
+    except Exception:
+        pass
+
+    # finally, return the initial candidate (may not exist)
+    return cand
+
+def read_json_file_if_exists(p: Path) -> Dict[str, Any]:
+    try:
+        if p and p.exists():
+            txt = p.read_text(encoding="utf-8")
+            try:
+                return json.loads(txt)
+            except Exception:
+                # try YAML via server helper if available
+                try:
+                    return server._load_json_or_yaml(p)
+                except Exception:
+                    return {}
+        return {}
+    except Exception:
+        return {}
 
 def dereference_components(spec: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -132,7 +220,11 @@ def load_json_text(text: str) -> Dict[str, Any]:
     try:
         return json.loads(text)
     except Exception:
-        return {}
+        # fallback to server helper if available
+        try:
+            return server._load_json_or_yaml(Path(text)) if False else {}
+        except Exception:
+            return {}
 
 def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -202,8 +294,16 @@ def main():
 
     # filter for likely API/canonical changes
     api_files = [f for f in changed if f.lower().endswith(".json") or f.lower().endswith((".yaml", ".yml"))]
-    # prefer canonical curated files inside datasets path
-    api_files = [f for f in api_files if "datasets/curated" in f or "canonical" in f] or api_files
+
+    # --- Updated: prefer curated_* variant folders (curated_clean, curated_noisy_light, curated_noisy_heavy)
+    curated_tokens = ["datasets/curated", "canonical"]
+    # also include curated_* tokens discovered from server.VARIANT_MAP if available
+    try:
+        curated_tokens += list(server.VARIANT_MAP.values())
+    except Exception:
+        curated_tokens += ["curated_clean", "curated_noisy_light", "curated_noisy_heavy"]
+
+    api_files = [f for f in api_files if any(tok in f for tok in curated_tokens) or "canonical" in f] or api_files
 
     results: List[Dict[str, Any]] = []
     files_processed: List[str] = []
@@ -211,17 +311,19 @@ def main():
     for rel in api_files:
         p = Path(rel)
         files_processed.append(rel)
-        # if v2 canonical file, try to find v1 on filesystem
+        # if v2 canonical file, try to find v1 on filesystem (including across curated variants)
         # otherwise, try to fetch origin/main copy
         try:
             if p.exists():
-                new_doc = json.loads(p.read_text(encoding="utf-8"))
-                # find local v1 counterpart first
-                v1cand = find_counterpart_v1(p)
+                # local workspace file present
+                # read it (try JSON, fallback YAML via server helper)
+                new_doc = read_json_file_if_exists(p)
+                # find local v1 counterpart across variants first
+                v1cand = find_local_v1_across_variants(p)
                 if v1cand.exists():
-                    old_doc = json.loads(v1cand.read_text(encoding="utf-8"))
+                    old_doc = read_json_file_if_exists(v1cand)
                 else:
-                    # try to fetch from origin/main
+                    # try to fetch from origin/main (path relative to repo root)
                     blob = git_show_file(f"origin/main:{rel}")
                     if blob:
                         old_doc = load_json_text(blob)
@@ -231,7 +333,9 @@ def main():
                         old_doc = load_json_text(out) if code == 0 else {}
             else:
                 # file doesn't exist in workspace (maybe deleted) -> try git show for new and old
-                blob_new = git_show_file(f"origin/{os.environ.get('GITHUB_REF_NAME', 'HEAD')}:{rel}") or git_show_file(f"HEAD:{rel}")
+                # prefer the PR branch ref name if present, else HEAD
+                ref_branch = os.environ.get("GITHUB_REF_NAME", None) or os.environ.get("BRANCH", None) or "HEAD"
+                blob_new = git_show_file(f"origin/{ref_branch}:{rel}") or git_show_file(f"HEAD:{rel}") or git_show_file(f"origin/main:{rel}")
                 new_doc = load_json_text(blob_new)
                 blob_old = git_show_file(f"origin/main:{rel}")
                 old_doc = load_json_text(blob_old) if blob_old else {}
@@ -266,9 +370,12 @@ def main():
     for e in results:
         analy = e["result"].get("analyze", {}) or {}
         summary = analy.get("summary") or {}
-        s_r = float(summary.get("service_risk", 0.0))
+        try:
+            s_r = float(summary.get("service_risk", 0.0))
+        except Exception:
+            s_r = 0.0
         max_risk = max(max_risk, s_r)
-        naces = int(summary.get("num_aces", 0))
+        naces = int(summary.get("num_aces", 0) or 0)
         total_aces += naces
         # collect diffs (atomic change events)
         for d in e["result"].get("diffs", []):
