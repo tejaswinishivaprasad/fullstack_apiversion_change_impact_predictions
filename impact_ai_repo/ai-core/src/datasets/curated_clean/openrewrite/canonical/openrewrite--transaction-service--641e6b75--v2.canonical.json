@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ReplaceConstantWithAnotherConstant",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.io.File.pathSeparator",
+        "java.io.File.separator"
+      ],
+      "sources": [
+        {
+          "before": "import java.io.File;\n\nimport static java.io.File.pathSeparator;\n\nclass Test {\n    Object o = File.pathSeparator;\n    void foo() {\n        System.out.println(pathSeparator);\n        System.out.println(java.io.File.pathSeparator);\n    }\n}\n",
+          "after": "import java.io.File;\n\nimport static java.io.File.separator;\n\nclass Test {\n    Object o = File.separator;\n    void foo() {\n        System.out.println(separator);\n        System.out.println(File.separator);\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id-v2"
+      }
+    }
+  }
+}

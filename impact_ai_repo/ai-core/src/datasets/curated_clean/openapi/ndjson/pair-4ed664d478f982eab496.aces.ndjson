@@ -1,0 +1,1 @@
+{"pair_id": "pair-4ed664d478f982eab496", "ace_index": 0, "ace_id": "pair-4ed664d478f982eab496::ace::0", "type": "PARAM_ADDED", "path": "/v1/agreements", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "713ef7c234ee3fdd2175", "new_sha": "45dc207d78854eeb0920"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

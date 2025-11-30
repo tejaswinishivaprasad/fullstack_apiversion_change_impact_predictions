@@ -1,0 +1,1 @@
+{"pair_id": "pair-e64985e304b597cc8237", "ace_index": 0, "ace_id": "pair-e64985e304b597cc8237::ace::0", "type": "PARAM_ADDED", "path": "/transactions/{id}", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "385103e5b3268886830c", "new_sha": "3b5649dee1a2d562d13a"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

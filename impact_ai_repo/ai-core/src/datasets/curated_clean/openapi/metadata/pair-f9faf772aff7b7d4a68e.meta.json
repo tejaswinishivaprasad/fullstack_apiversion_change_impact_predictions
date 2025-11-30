@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-f9faf772aff7b7d4a68e",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--f9faf772--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--f9faf772--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f9faf772--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f9faf772--v2.canonical.json",
+  "old_sha": "cf15da73899cd81380de",
+  "new_sha": "cf98ec7e958fd4fb849e",
+  "generated_at": "2025-11-30T11:50:00+00:00",
+  "producers_sample": [
+    "/id/api/where/metadata",
+    "/id/api/where/multi-route-details",
+    "/id/api/where/plan-trip",
+    "/id/api/where/route-details-for-stop",
+    "/id/api/where/statistics",
+    "/id/api/where/bicycle-rental",
+    "/id/api/where/plan-access",
+    "/id/api/where/references",
+    "/id/api/where/statistics",
+    "/id/api/where/ticketing-locations"
+  ]
+}

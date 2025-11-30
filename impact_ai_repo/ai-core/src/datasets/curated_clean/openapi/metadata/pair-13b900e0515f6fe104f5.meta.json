@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-13b900e0515f6fe104f5",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--13b900e0--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--13b900e0--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--13b900e0--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--13b900e0--v2.canonical.json",
+  "old_sha": "7457d642b5e293e3f01f",
+  "new_sha": "70cca864217d1be639d8",
+  "generated_at": "2025-11-30T11:49:31+00:00",
+  "producers_sample": [
+    "/v1/domains",
+    "/v1/domains/agreements",
+    "/v1/domains/available",
+    "/v1/domains/contacts/validate",
+    "/v1/domains/id/records",
+    "/v1/domains",
+    "/v1/domains/agreements",
+    "/v1/domains/available",
+    "/v1/domains/contacts/validate",
+    "/v1/domains/id/privacy/purchase"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-360467f76e7c95eed3d9",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--360467f7--v1.canonical.json",
+  "new_canonical": "openapi--search-service--360467f7--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--360467f7--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--360467f7--v2.canonical.json",
+  "old_sha": "dda804976b3777d2900a",
+  "new_sha": "58ee65fbdf42a48e8bcc",
+  "generated_at": "2025-11-30T11:50:46+00:00",
+  "producers_sample": [
+    "/authentication/forgotpassword",
+    "/authentication/register",
+    "/authentication/setforgotpassword",
+    "/authentication/token",
+    "/authentication/validatemailtoken",
+    "/authentication/forgotpassword",
+    "/authentication/register",
+    "/authentication/setforgotpassword",
+    "/authentication/token",
+    "/authentication/validatemailtoken"
+  ]
+}

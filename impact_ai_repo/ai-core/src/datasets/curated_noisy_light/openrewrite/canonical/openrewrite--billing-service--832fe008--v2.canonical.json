@@ -1,0 +1,35 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.ChangeTagAttribute",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "bean",
+        "id",
+        "myBean2.subpackage",
+        "myBean.subpackage",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "<beans>\n    <bean id='myBean.subpackage.subpackage2'/>\n    <other id='myBean.subpackage.subpackage2'/>\n</beans>\n",
+          "after": "<beans>\n    <bean id='myBean2.subpackage.subpackage2'/>\n    <other id='myBean.subpackage.subpackage2'/>\n</beans>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

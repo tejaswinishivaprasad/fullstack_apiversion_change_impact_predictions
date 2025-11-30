@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindMethodDeclaration",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "A a(int)",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "class A {\n    void a(int n) {\n      a(1);\n    }\n    void a(String s) {\n    }\n}\n",
+          "after": "class A {\n    /*~~>*/void a(int n) {\n      a(1);\n    }\n    void a(String s) {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id"
+      }
+    }
+  }
+}

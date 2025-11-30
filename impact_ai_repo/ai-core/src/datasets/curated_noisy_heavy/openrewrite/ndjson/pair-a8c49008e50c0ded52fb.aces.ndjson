@@ -1,0 +1,1 @@
+{"pair_id": "pair-a8c49008e50c0ded52fb", "ace_index": 0, "ace_id": "pair-a8c49008e50c0ded52fb::ace::0", "type": "ENDPOINT_ADDED", "path": "/transactions/{id}", "method": "get", "detail": "/transactions/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "592ea42f3030c354f82d"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

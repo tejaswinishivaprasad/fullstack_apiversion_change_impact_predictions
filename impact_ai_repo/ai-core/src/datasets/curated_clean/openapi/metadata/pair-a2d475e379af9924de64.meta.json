@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-a2d475e379af9924de64",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--a2d475e3--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--a2d475e3--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a2d475e3--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a2d475e3--v2.canonical.json",
+  "old_sha": "d214d890e900e5aac583",
+  "new_sha": "03e2060e984d1cf1ed68",
+  "generated_at": "2025-11-30T11:51:47+00:00",
+  "producers_sample": [
+    "/consumer/v1/appointments",
+    "/consumer/v1/appointments/bookingfields",
+    "/consumer/v1/appointments/customfields",
+    "/consumer/v1/appointments/id/reschedule",
+    "/consumer/v1/appointments/orderid/reserve",
+    "/consumer/v1/appointments",
+    "/consumer/v1/appointments/bookingfields",
+    "/consumer/v1/appointments/customfields",
+    "/consumer/v1/appointments/id/reschedule",
+    "/consumer/v1/appointments/orderid/confirm"
+  ]
+}

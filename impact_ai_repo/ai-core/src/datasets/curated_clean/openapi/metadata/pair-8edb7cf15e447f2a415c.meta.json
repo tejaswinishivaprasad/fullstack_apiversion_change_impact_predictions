@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-8edb7cf15e447f2a415c",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--8edb7cf1--v1.canonical.json",
+  "new_canonical": "openapi--search-service--8edb7cf1--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--8edb7cf1--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--8edb7cf1--v2.canonical.json",
+  "old_sha": "04daf352d394f023a993",
+  "new_sha": "de207f2f7a24e0a78344",
+  "generated_at": "2025-11-30T11:51:02+00:00",
+  "producers_sample": [
+    "/shopping/seatmaps",
+    "/shopping/seatmaps"
+  ]
+}

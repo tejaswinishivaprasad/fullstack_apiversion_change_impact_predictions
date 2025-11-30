@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.HasBuildToolVersion",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "BuildTool.Type.Maven",
+        "3.6.0-3.8.0"
+      ],
+      "sources": [
+        {
+          "before": "class A {}",
+          "after": "/*~~>*/class A {}",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-ff17d4e6fb9cdcb1c586",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--ff17d4e6--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--ff17d4e6--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ff17d4e6--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ff17d4e6--v2.canonical.json",
+  "old_sha": "f31f27392cf7fa88aba7",
+  "new_sha": "c62b06dcf31e5363ec7f",
+  "generated_at": "2025-11-30T11:52:07+00:00",
+  "producers_sample": [
+    "/id/playersbyteam/orderid",
+    "/id/schedule/orderid",
+    "/id/seasonteams/sku",
+    "/id/venues",
+    "/orderid/boxscores/sku",
+    "/id/boxscore/sku",
+    "/id/spells",
+    "/id/standings/userid",
+    "/orderid/boxscores/sku",
+    "/orderid/champions"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-39b2dc7d38fc77678ed5",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--39b2dc7d--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--39b2dc7d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--39b2dc7d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--39b2dc7d--v2.canonical.json",
+  "old_sha": "229191851cf5a6051d55",
+  "new_sha": "63c6ca01f2029eb2065b",
+  "generated_at": "2025-11-30T11:49:58+00:00",
+  "producers_sample": [
+    "/",
+    "/carts/{id}",
+    "/id/admin-events",
+    "/id/authentication/executions/userid/config",
+    "/id/authentication/flows/orderid/executions/execution",
+    "/",
+    "/id/admin-events",
+    "/id/attack-detection/brute-force/users",
+    "/id/authentication/authenticator-providers",
+    "/id/authentication/executions"
+  ]
+}

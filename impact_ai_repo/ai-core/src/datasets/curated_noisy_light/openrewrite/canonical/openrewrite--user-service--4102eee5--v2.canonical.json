@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindTypes",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "a.A1",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "import a.A1;\npublic class B extends A1 {}\n",
+          "after": "import a.A1;\npublic class B extends /*~~>*/A1 {}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangePackage",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "a.b",
+        "x.y",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "import a.b.Original\n\nclass A {\n    val type = Original()\n}\n",
+          "after": "import x.y.Original\n\nclass A {\n    val type = Original()\n}\n",
+          "language": "kotlin"
+        },
+        {
+          "before": "package a.b\nclass Original\n",
+          "after": "package x.y\nclass Original\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id-v2"
+      }
+    }
+  }
+}

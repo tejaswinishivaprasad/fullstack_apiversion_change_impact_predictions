@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "Moderne Cloud Team",
+  "packageName": "io.moderne.cloud",
+  "description": "Cloud Team best practices.",
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id"
+      }
+    }
+  }
+}

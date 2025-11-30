@@ -1,0 +1,25 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "io.moderne.rewrite.BetterText",
+  "displayName": "Moderne change text",
+  "description": "A basic recipe with no real purpose.",
+  "recipeList": [
+    {
+      "org.openrewrite.text.ChangeText": {
+        "toText": "Moderne says."
+      }
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-5565d696983ce455c87b", "ace_index": 0, "ace_id": "pair-5565d696983ce455c87b::ace::0", "type": "ENDPOINT_ADDED", "path": "/reviews/{id}", "method": "get", "detail": "/reviews/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "820deb00c1bb2d0bd66b"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

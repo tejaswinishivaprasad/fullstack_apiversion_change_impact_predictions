@@ -1,0 +1,1 @@
+{"pair_id": "pair-e174afa48dac1354aa61", "ace_index": 0, "ace_id": "pair-e174afa48dac1354aa61::ace::0", "type": "PARAM_ADDED", "path": "/shopping/flight-destinations", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "8ff855e4a57c0031c82e", "new_sha": "0a50cefeef8850563863"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

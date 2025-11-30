@@ -1,9 +1,0 @@
-{
-  "paths": {
-    "/shipping-service": {
-      "get": {
-        "description": "orig"
-      }
-    }
-  }
-}

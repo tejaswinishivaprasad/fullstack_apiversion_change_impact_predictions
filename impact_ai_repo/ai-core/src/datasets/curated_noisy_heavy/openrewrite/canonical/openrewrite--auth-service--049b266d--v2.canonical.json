@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.format.PadEmptyForLoopComponents",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "public class A {\n    {\n        int i = 0;\n        int j = 10;\n        for (; i < j; i++, j--) { }\n    }\n}\n",
+          "after": "public class A {\n    {\n        int i = 0;\n        int j = 10;\n        for ( ; i < j; i++, j--) { }\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.ChangeNamespaceValue",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "web-app",
+        "null",
+        "http://java.sun.com/xml/ns/j2ee",
+        "2.4",
+        "false",
+        "null",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "<web-app xmlns=\"http://java.sun.com/xml/ns/javaee\" version=\"2.4\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n    xsi:schemaLocation=\"http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd\"\n    id=\"WebApp_ID\">\n    <display-name>testWebDDNamespace</display-name>\n</web-app>\n",
+          "after": "<web-app xmlns=\"http://java.sun.com/xml/ns/j2ee\" version=\"2.4\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n    xsi:schemaLocation=\"http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd\"\n    id=\"WebApp_ID\">\n    <display-name>testWebDDNamespace</display-name>\n</web-app>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id"
+      }
+    }
+  }
+}

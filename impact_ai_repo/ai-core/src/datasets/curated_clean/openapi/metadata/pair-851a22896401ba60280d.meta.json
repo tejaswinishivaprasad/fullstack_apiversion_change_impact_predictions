@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-851a22896401ba60280d",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--851a2289--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--851a2289--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--851a2289--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--851a2289--v2.canonical.json",
+  "old_sha": "41f960ef3a6ea3c9aaf1",
+  "new_sha": "a776cd9f82c23048bf98",
+  "generated_at": "2025-11-30T11:52:30+00:00",
+  "producers_sample": [
+    "/conversations/v3/visitor-identification/tokens/create",
+    "/conversations/v3/visitor-identification/tokens/create"
+  ]
+}

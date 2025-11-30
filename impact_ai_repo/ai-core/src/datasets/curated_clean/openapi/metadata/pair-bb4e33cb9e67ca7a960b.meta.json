@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-bb4e33cb9e67ca7a960b",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--bb4e33cb--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--bb4e33cb--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--bb4e33cb--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--bb4e33cb--v2.canonical.json",
+  "old_sha": "8fe2992c5cbb39d1b5b8",
+  "new_sha": "927672bfbb6f84811994",
+  "generated_at": "2025-11-30T11:51:45+00:00",
+  "producers_sample": [
+    "/agr/affectedgenomicmodels/id",
+    "/agr/alleles/userid",
+    "/agr/expression/id",
+    "/agr/orderid",
+    "/agr/phenotypes/sku",
+    "/agr/affectedgenomicmodels/id",
+    "/agr/alleles/id",
+    "/agr/expression/orderid",
+    "/agr/id",
+    "/agr/phenotypes/orderid"
+  ]
+}

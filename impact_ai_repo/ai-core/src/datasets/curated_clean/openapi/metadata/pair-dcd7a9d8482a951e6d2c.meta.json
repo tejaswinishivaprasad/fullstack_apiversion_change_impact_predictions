@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-dcd7a9d8482a951e6d2c",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--dcd7a9d8--v1.canonical.json",
+  "new_canonical": "openapi--search-service--dcd7a9d8--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--dcd7a9d8--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--dcd7a9d8--v2.canonical.json",
+  "old_sha": "a2bfe4754d779605744e",
+  "new_sha": "6c59fdb55691bc50f7b7",
+  "generated_at": "2025-11-30T11:50:58+00:00",
+  "producers_sample": [
+    "/travel/analytics/air-traffic/traveled",
+    "/travel/analytics/air-traffic/traveled"
+  ]
+}

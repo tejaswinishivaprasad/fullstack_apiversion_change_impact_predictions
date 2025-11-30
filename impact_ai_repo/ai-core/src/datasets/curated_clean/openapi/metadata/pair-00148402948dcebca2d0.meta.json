@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-00148402948dcebca2d0",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--00148402--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--00148402--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--00148402--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--00148402--v2.canonical.json",
+  "old_sha": "f25629c293324baa2b2d",
+  "new_sha": "a7a06cfe8ceb1fdd665e",
+  "generated_at": "2025-11-30T11:52:08+00:00",
+  "producers_sample": [
+    "/id/rotoballerpremiumnewsbydate/sku",
+    "/orderid/rotoballerpremiumnews",
+    "/orderid/rotoballerpremiumnewsbyteam/userid",
+    "/paymentid/rotoballerpremiumnewsbyplayerid/id",
+    "/paymentid/rotoballerpremiumnewsbydate/sku",
+    "/sku/rotoballerpremiumnewsbyteam/paymentid",
+    "/userid/rotoballerpremiumnews",
+    "/userid/rotoballerpremiumnewsbyplayerid/userid"
+  ]
+}

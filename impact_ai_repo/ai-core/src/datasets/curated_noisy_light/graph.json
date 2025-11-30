@@ -1,0 +1,580 @@
+{
+  "edges": [
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:notifications-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.81
+    },
+    {
+      "src": "svc:petclinic-order-service",
+      "dst": "svc:notifications-service",
+      "path": "/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.7
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:notifications-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.42
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:notifications-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.53
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:notifications-service",
+      "path": "/notifications-service/reports",
+      "evidence": "curation",
+      "confidence": 0.71
+    },
+    {
+      "src": "svc:notifications-service",
+      "dst": "svc:transaction-service",
+      "path": "/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.82
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:transaction-service",
+      "path": "/transaction-service/reports",
+      "evidence": "curation",
+      "confidence": 0.63
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:transaction-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.52
+    },
+    {
+      "src": "svc:transaction-service",
+      "dst": "svc:transaction-service",
+      "path": "/owners",
+      "evidence": "curation-svc",
+      "confidence": 0.45
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:transaction-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.87
+    },
+    {
+      "src": "svc:shipping-service",
+      "dst": "svc:billing-service",
+      "path": "/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.44
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:billing-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.75
+    },
+    {
+      "src": "svc:auth-service",
+      "dst": "svc:billing-service",
+      "path": "/pets",
+      "evidence": "curation-svc",
+      "confidence": 0.72
+    },
+    {
+      "src": "svc:notifications-service",
+      "dst": "svc:billing-service",
+      "path": "/owners",
+      "evidence": "curation-svc",
+      "confidence": 0.76
+    },
+    {
+      "src": "svc:transaction-service",
+      "dst": "svc:billing-service",
+      "path": "/billing-service/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.87
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:search-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.6
+    },
+    {
+      "src": "svc:catalog-service",
+      "dst": "svc:search-service",
+      "path": "/search-service/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.92
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:search-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.74
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:search-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.8
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:search-service",
+      "path": "/reports",
+      "evidence": "curation",
+      "confidence": 0.61
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:payment-service",
+      "path": "/reports",
+      "evidence": "curation",
+      "confidence": 0.42
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:payment-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.55
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:payment-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.92
+    },
+    {
+      "src": "svc:auth-service",
+      "dst": "svc:payment-service",
+      "path": "/payment-service/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.52
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:payment-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.89
+    },
+    {
+      "src": "svc:order-service",
+      "dst": "svc:auth-service",
+      "path": "/auth-service/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.54
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:auth-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.89
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:auth-service",
+      "path": "/reports",
+      "evidence": "curation",
+      "confidence": 0.52
+    },
+    {
+      "src": "svc:order-service",
+      "dst": "svc:auth-service",
+      "path": "/pets",
+      "evidence": "curation-svc",
+      "confidence": 0.67
+    },
+    {
+      "src": "svc:petclinic-shipping-service",
+      "dst": "svc:auth-service",
+      "path": "/appointments",
+      "evidence": "curation-svc",
+      "confidence": 0.46
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:shipping-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.95
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:shipping-service",
+      "path": "/shipping-service/reports",
+      "evidence": "curation",
+      "confidence": 0.93
+    },
+    {
+      "src": "svc:notifications-service",
+      "dst": "svc:shipping-service",
+      "path": "/appointments",
+      "evidence": "curation-svc",
+      "confidence": 0.77
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:shipping-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.89
+    },
+    {
+      "src": "svc:petclinic-analytics-service",
+      "dst": "svc:shipping-service",
+      "path": "/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.75
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:user-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.8
+    },
+    {
+      "src": "svc:order-service",
+      "dst": "svc:user-service",
+      "path": "/appointments",
+      "evidence": "curation-svc",
+      "confidence": 0.82
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:user-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.46
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:user-service",
+      "path": "/reports",
+      "evidence": "curation",
+      "confidence": 0.86
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:user-service",
+      "path": "/user-service/reports",
+      "evidence": "curation",
+      "confidence": 0.51
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:order-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.46
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:order-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.94
+    },
+    {
+      "src": "svc:search-service",
+      "dst": "svc:order-service",
+      "path": "/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.43
+    },
+    {
+      "src": "svc:transaction-service",
+      "dst": "svc:order-service",
+      "path": "/pets",
+      "evidence": "curation-svc",
+      "confidence": 0.45
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:order-service",
+      "path": "/order-service/reports",
+      "evidence": "curation",
+      "confidence": 0.44
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:analytics-service",
+      "path": "/reports",
+      "evidence": "curation",
+      "confidence": 0.88
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:analytics-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.52
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:analytics-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.8
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:analytics-service",
+      "path": "/analytics-service/reports",
+      "evidence": "curation",
+      "confidence": 0.57
+    },
+    {
+      "src": "svc:inventory-service",
+      "dst": "svc:analytics-service",
+      "path": "/appointments",
+      "evidence": "curation-svc",
+      "confidence": 0.61
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:inventory-service",
+      "path": "/reports",
+      "evidence": "curation",
+      "confidence": 0.41
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:inventory-service",
+      "path": "/inventory-service/reports",
+      "evidence": "curation",
+      "confidence": 0.72
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:inventory-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.79
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:inventory-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.44
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:inventory-service",
+      "path": "/owners",
+      "evidence": "curation",
+      "confidence": 0.58
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:catalog-service",
+      "path": "/reports",
+      "evidence": "curation",
+      "confidence": 0.8
+    },
+    {
+      "src": "svc:analytics-service",
+      "dst": "svc:catalog-service",
+      "path": "/owners",
+      "evidence": "curation-svc",
+      "confidence": 0.66
+    },
+    {
+      "src": "svc:petclinic-analytics-service",
+      "dst": "svc:catalog-service",
+      "path": "/catalog-service/reports",
+      "evidence": "curation-svc",
+      "confidence": 0.62
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:catalog-service",
+      "path": "/appointments",
+      "evidence": "curation",
+      "confidence": 0.76
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:catalog-service",
+      "path": "/pets",
+      "evidence": "curation",
+      "confidence": 0.63
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:petclinic-analytics-service",
+      "path": "/analytics-service/new0",
+      "evidence": "curation",
+      "confidence": 0.8
+    },
+    {
+      "src": "svc:transaction-service",
+      "dst": "svc:petclinic-analytics-service",
+      "path": "/analytics-service",
+      "evidence": "curation-svc",
+      "confidence": 0.54
+    },
+    {
+      "src": "ui:portal-ui",
+      "dst": "svc:petclinic-analytics-service",
+      "path": "/analytics-service/new5",
+      "evidence": "curation",
+      "confidence": 0.65
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:petclinic-shipping-service",
+      "path": "/shipping-service/new5",
+      "evidence": "curation",
+      "confidence": 0.88
+    },
+    {
+      "src": "ui:admin-ui",
+      "dst": "svc:petclinic-shipping-service",
+      "path": "/shipping-service",
+      "evidence": "curation",
+      "confidence": 0.84
+    },
+    {
+      "src": "svc:transaction-service",
+      "dst": "svc:petclinic-shipping-service",
+      "path": "/shipping-service/new0",
+      "evidence": "curation-svc",
+      "confidence": 0.43
+    },
+    {
+      "src": "svc:petclinic-shipping-service",
+      "dst": "svc:petclinic-order-service",
+      "path": "/order-service/new0",
+      "evidence": "curation-svc",
+      "confidence": 0.53
+    },
+    {
+      "src": "ui:mobile-ui",
+      "dst": "svc:petclinic-order-service",
+      "path": "/order-service",
+      "evidence": "curation",
+      "confidence": 0.66
+    }
+  ],
+  "producers": {
+    "notifications-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/notifications-service/reports",
+      "/reports"
+    ],
+    "transaction-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/transaction-service/reports",
+      "/reports"
+    ],
+    "billing-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/billing-service/reports",
+      "/reports"
+    ],
+    "search-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/search-service/reports",
+      "/reports"
+    ],
+    "payment-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/payment-service/reports",
+      "/reports"
+    ],
+    "auth-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/auth-service/reports",
+      "/reports"
+    ],
+    "shipping-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/shipping-service/reports",
+      "/reports"
+    ],
+    "user-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/user-service/reports",
+      "/reports"
+    ],
+    "order-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/order-service/reports",
+      "/reports"
+    ],
+    "analytics-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/analytics-service/reports",
+      "/reports"
+    ],
+    "inventory-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/inventory-service/reports",
+      "/reports"
+    ],
+    "catalog-service": [
+      "/pets",
+      "/owners",
+      "/appointments",
+      "/catalog-service/reports",
+      "/reports"
+    ],
+    "petclinic-analytics-service": [
+      "/analytics-service",
+      "/analytics-service/new5",
+      "/analytics-service/new0"
+    ],
+    "petclinic-shipping-service": [
+      "/shipping-service",
+      "/shipping-service/new5",
+      "/shipping-service/new0"
+    ],
+    "petclinic-order-service": [
+      "/order-service/new0",
+      "/order-service"
+    ]
+  }
+}

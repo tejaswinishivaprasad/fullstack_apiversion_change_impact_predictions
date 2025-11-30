@@ -1,0 +1,36 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.AddJUnitPlatformLauncher",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "import org.junit.jupiter.api.Test;\npublic class A {\n    @Test\n    void foo() {\n    }\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "plugins {\n    id \"java-library\"\n}\n\nrepositories {\n    mavenCentral()\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        },
+        {
+          "before": "project",
+          "language": "mavenProject"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id-v2"
+      }
+    }
+  }
+}

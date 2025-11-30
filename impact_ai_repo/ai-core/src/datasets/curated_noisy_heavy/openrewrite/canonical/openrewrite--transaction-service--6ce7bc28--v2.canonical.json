@@ -1,0 +1,29 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "org.openrewrite.text.HelloKotlin",
+  "displayName": "Hello Kotlin",
+  "description": "Changes Text to \"Hello Kotlin.\"",
+  "tags": [
+    "testing",
+    "plain text"
+  ],
+  "recipeList": [
+    {
+      "org.openrewrite.text.KotlinDataClassChangeText": {
+        "toText": "Hello Kotlin"
+      }
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id"
+      }
+    }
+  }
+}

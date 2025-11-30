@@ -1,0 +1,1 @@
+{"pair_id": "pair-7241aff366c91e345d02", "ace_index": 0, "ace_id": "pair-7241aff366c91e345d02::ace::0", "type": "PARAM_ADDED", "path": "/shakespeare/generate/insult", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "beec6ede55da68a662f0", "new_sha": "15f54fec7ca20b040d10"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

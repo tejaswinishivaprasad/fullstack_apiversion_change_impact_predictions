@@ -1,0 +1,1 @@
+{"pair_id": "pair-82ba61bdeb6eaea4dcdb", "ace_index": 0, "ace_id": "pair-82ba61bdeb6eaea4dcdb::ace::0", "type": "PARAM_ADDED", "path": "/v1/countries", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "689f4e6882ca6286c458", "new_sha": "7989709337ef1957faf4"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

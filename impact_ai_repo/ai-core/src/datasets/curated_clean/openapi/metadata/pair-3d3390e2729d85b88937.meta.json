@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-3d3390e2729d85b88937",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--3d3390e2--v1.canonical.json",
+  "new_canonical": "openapi--search-service--3d3390e2--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--3d3390e2--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--3d3390e2--v2.canonical.json",
+  "old_sha": "1c6aded60b7c757b79f7",
+  "new_sha": "f0bc3a095b299eefb8a7",
+  "generated_at": "2025-11-30T11:51:58+00:00",
+  "producers_sample": [
+    "/1-0/artist/paymentid/setlists",
+    "/1-0/artist/userid",
+    "/1-0/city/paymentid",
+    "/1-0/search/artists",
+    "/1-0/search/cities",
+    "/1-0/artist/id/setlists",
+    "/1-0/artist/paymentid",
+    "/1-0/city/userid",
+    "/1-0/search/artists",
+    "/1-0/search/cities"
+  ]
+}

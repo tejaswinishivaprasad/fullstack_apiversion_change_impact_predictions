@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-38290913935c06a53ba9",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--38290913--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--38290913--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--38290913--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--38290913--v2.canonical.json",
+  "old_sha": "176ac43abd51df993c0d",
+  "new_sha": "4b2c7f3e927032e6bd00",
+  "generated_at": "2025-11-30T11:51:38+00:00",
+  "producers_sample": [
+    "/barcode/decode",
+    "/barcode/decode/types",
+    "/barcode/encode",
+    "/barcode/encode/types",
+    "/barcode/decode",
+    "/barcode/decode/types",
+    "/barcode/encode",
+    "/barcode/encode/types"
+  ]
+}

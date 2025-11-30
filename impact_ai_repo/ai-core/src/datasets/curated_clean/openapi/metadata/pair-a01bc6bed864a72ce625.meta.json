@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-a01bc6bed864a72ce625",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--a01bc6be--v1.canonical.json",
+  "new_canonical": "openapi--search-service--a01bc6be--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--a01bc6be--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--a01bc6be--v2.canonical.json",
+  "old_sha": "d5ca35383dc226cab081",
+  "new_sha": "d03d1be59af5e7811e4b",
+  "generated_at": "2025-11-30T11:51:43+00:00",
+  "producers_sample": [
+    "/products/{id}",
+    "/tickets/id",
+    "/tickets/paymentid/serviceticket",
+    "/billing/{id}",
+    "/tickets/paymentid/serviceticket",
+    "/tickets/sku"
+  ]
+}

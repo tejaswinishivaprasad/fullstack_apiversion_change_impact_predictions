@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "Moderne Rewrite Team",
+  "packageName": "io.moderne.rewrite",
+  "description": "Rewrite Team best practices.",
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

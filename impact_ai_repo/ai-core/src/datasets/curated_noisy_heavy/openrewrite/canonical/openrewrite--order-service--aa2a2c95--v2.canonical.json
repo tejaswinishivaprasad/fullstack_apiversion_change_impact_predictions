@@ -1,0 +1,45 @@
+{
+  "type": "specs.openrewrite.org/v1beta/style",
+  "name": "org.openrewrite.java.SpringFormat",
+  "displayName": "Spring format",
+  "styleConfigs": [
+    {
+      "org.openrewrite.java.style.ImportLayoutStyle": {
+        "classCountToUseStarImport": 999,
+        "nameCountToUseStarImport": 999,
+        "layout": [
+          "import java.*",
+          "<blank line>",
+          "import javax.*",
+          "<blank line>",
+          "import all other imports",
+          "<blank line>",
+          "import org.springframework.*",
+          "<blank line>",
+          "import static all other imports"
+        ]
+      }
+    },
+    {
+      "org.openrewrite.java.style.TabsAndIndentsStyle": {
+        "useTabCharacter": true,
+        "tabSize": 4,
+        "indentSize": 4,
+        "continuationIndent": 8,
+        "indentsRelativeToExpressionStart": false
+      }
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id-v2"
+      }
+    }
+  }
+}

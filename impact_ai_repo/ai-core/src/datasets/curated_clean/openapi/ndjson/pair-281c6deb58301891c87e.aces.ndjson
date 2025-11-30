@@ -1,0 +1,1 @@
+{"pair_id": "pair-281c6deb58301891c87e", "ace_index": 0, "ace_id": "pair-281c6deb58301891c87e::ace::0", "type": "PARAM_ADDED", "path": "/analytics/itinerary-price-metrics", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "d20f0935e8d1f0fb4372", "new_sha": "04560efce5cfab70a55e"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

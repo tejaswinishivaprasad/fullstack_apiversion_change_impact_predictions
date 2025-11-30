@@ -1,0 +1,18 @@
+{
+  "pair_id": "pair-e4b40079a621c2f38c45",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--e4b40079--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--e4b40079--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e4b40079--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e4b40079--v2.canonical.json",
+  "old_sha": "3e3840f1a847822da9b6",
+  "new_sha": "7deaed0af7c5fb2a8789",
+  "generated_at": "2025-11-30T11:51:57+00:00",
+  "producers_sample": [
+    "/routing/orderid/calculatereachablerange/id/userid",
+    "/routing/sku/calculateroute/userid/id",
+    "/routing/id/calculateroute/sku/paymentid",
+    "/routing/paymentid/calculatereachablerange/orderid/orderid"
+  ]
+}

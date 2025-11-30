@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-fb128ff1a439",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-fb128ff1a439/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

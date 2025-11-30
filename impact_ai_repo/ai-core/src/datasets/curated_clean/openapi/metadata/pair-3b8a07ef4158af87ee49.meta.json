@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-3b8a07ef4158af87ee49",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--3b8a07ef--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--3b8a07ef--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3b8a07ef--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3b8a07ef--v2.canonical.json",
+  "old_sha": "a647959a89651a6183cf",
+  "new_sha": "e28c1c0a23ea974cd3fa",
+  "generated_at": "2025-11-30T11:51:07+00:00",
+  "producers_sample": [
+    "/api/v1/bills",
+    "/api/v1/bills/id/stages/id/amendments",
+    "/api/v1/bills/id/stages/id/publications",
+    "/api/v1/bills/orderid",
+    "/api/v1/bills/paymentid/stages",
+    "/api/v1/bills",
+    "/api/v1/bills/id/stages/id/publications",
+    "/api/v1/bills/id/stages/userid",
+    "/api/v1/bills/orderid/publications",
+    "/api/v1/bills/paymentid/newsarticles"
+  ]
+}

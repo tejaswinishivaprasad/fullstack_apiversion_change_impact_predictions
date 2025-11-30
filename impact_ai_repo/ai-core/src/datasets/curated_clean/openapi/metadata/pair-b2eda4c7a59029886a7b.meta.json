@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-b2eda4c7a59029886a7b",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--b2eda4c7--v1.canonical.json",
+  "new_canonical": "openapi--search-service--b2eda4c7--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--b2eda4c7--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--b2eda4c7--v2.canonical.json",
+  "old_sha": "8cb82a3b81cd3707f589",
+  "new_sha": "a3886d01a2f6d5ada57b",
+  "generated_at": "2025-11-30T11:49:44+00:00",
+  "producers_sample": [
+    "/api/docs/swagger",
+    "/v1/events",
+    "/v1/events/info",
+    "/v1/financials/event-costs",
+    "/v1/financials/misc-annual-expense-costs",
+    "/api/docs/swagger",
+    "/v1/events",
+    "/v1/events/info",
+    "/v1/financials/event-costs",
+    "/v1/financials/misc-annual-expense-costs"
+  ]
+}

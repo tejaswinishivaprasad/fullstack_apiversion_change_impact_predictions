@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.cleanup.RemoveLambdaArgumentParentheses",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "fun method(number: Int) {\n    val foo = number.let({ it + 1 })\n}\n",
+          "after": "fun method(number: Int) {\n    val foo = number.let { it + 1 }\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id"
+      }
+    }
+  }
+}

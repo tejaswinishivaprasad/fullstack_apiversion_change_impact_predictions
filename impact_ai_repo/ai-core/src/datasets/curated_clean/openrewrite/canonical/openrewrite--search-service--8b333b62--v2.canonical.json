@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.RenameTypeAlias",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "OldAlias",
+        "NewAlias",
+        "Test"
+      ],
+      "sources": [
+        {
+          "before": "class Test\ntypealias OldAlias = Test\n",
+          "after": "class Test\ntypealias NewAlias = Test\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "counts": {
+    "openapi": 500,
+    "petclinic": 28,
+    "openrewrite": 313
+  },
+  "generated_at": "2025-11-30T13:07:45+00:00"
+}

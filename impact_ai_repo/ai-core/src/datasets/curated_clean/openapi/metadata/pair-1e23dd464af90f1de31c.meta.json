@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-1e23dd464af90f1de31c",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--1e23dd46--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--1e23dd46--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1e23dd46--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1e23dd46--v2.canonical.json",
+  "old_sha": "c57380457388c044b6a3",
+  "new_sha": "42c4d1185555e855d7d3",
+  "generated_at": "2025-11-30T11:52:03+00:00",
+  "producers_sample": [
+    "/v0-1/bulkcall",
+    "/v0-1/call",
+    "/v0-1/cancelscheduledhangup",
+    "/v0-1/cancelscheduledplay",
+    "/v0-1/conferencedeaf",
+    "/v0-1/bulkcall",
+    "/v0-1/call",
+    "/v0-1/cancelscheduledhangup",
+    "/v0-1/cancelscheduledplay",
+    "/v0-1/conferencedeaf"
+  ]
+}

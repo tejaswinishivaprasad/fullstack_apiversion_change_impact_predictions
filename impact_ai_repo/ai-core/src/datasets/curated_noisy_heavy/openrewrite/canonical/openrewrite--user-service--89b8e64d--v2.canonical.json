@@ -1,0 +1,38 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.text.FindAndReplace",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "Test",
+        "Replaced",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "class Test {}",
+          "after": "class Replaced {}",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id-v2"
+      }
+    }
+  }
+}

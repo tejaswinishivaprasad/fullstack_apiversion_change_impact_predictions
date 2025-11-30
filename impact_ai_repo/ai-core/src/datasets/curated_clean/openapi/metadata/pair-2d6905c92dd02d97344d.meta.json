@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-2d6905c92dd02d97344d",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--2d6905c9--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--2d6905c9--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2d6905c9--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2d6905c9--v2.canonical.json",
+  "old_sha": "321a4a4c889223103844",
+  "new_sha": "ac9d5c8cfeb1bcc5f7ed",
+  "generated_at": "2025-11-30T11:52:43+00:00",
+  "producers_sample": [
+    "/cardvalidationdata/generate",
+    "/cardvalidationdata/verify",
+    "/cryptogram/verify",
+    "/keys/id/encrypt",
+    "/keys/orderid/decrypt",
+    "/cardvalidationdata/generate",
+    "/cardvalidationdata/verify",
+    "/cryptogram/verify",
+    "/keys/orderid/reencrypt",
+    "/keys/sku/decrypt"
+  ]
+}

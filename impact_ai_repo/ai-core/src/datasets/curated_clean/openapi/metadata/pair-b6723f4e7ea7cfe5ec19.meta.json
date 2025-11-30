@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-b6723f4e7ea7cfe5ec19",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--b6723f4e--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--b6723f4e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--b6723f4e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--b6723f4e--v2.canonical.json",
+  "old_sha": "3763f0fbb4424571946e",
+  "new_sha": "7e588fbb61cb5ff34ae4",
+  "generated_at": "2025-11-30T11:52:17+00:00",
+  "producers_sample": [
+    "/orderid/dfsslatesbydate/paymentid",
+    "/orderid/playergameprojectionstatsbydate/orderid",
+    "/paymentid/playergameprojectionstatsbyplayer/sku/sku",
+    "/id/playergameprojectionstatsbydate/userid",
+    "/orderid/playergameprojectionstatsbyplayer/paymentid/sku",
+    "/sku/dfsslatesbydate/userid"
+  ]
+}

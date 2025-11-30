@@ -1,0 +1,18 @@
+{
+  "pair_id": "pair-d54318783e1625b926ea",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--d5431878--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--d5431878--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--d5431878--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--d5431878--v2.canonical.json",
+  "old_sha": "0811726b5873e4add2e0",
+  "new_sha": "e12f567c78295bc17ff2",
+  "generated_at": "2025-11-30T11:49:29+00:00",
+  "producers_sample": [
+    "/v1/aftermarket/listings",
+    "/v1/aftermarket/listings/expiry",
+    "/v1/aftermarket/listings",
+    "/v1/aftermarket/listings/expiry"
+  ]
+}

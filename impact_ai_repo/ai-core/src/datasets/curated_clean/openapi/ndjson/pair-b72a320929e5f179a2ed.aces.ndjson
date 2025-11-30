@@ -1,0 +1,1 @@
+{"pair_id": "pair-b72a320929e5f179a2ed", "ace_index": 0, "ace_id": "pair-b72a320929e5f179a2ed::ace::0", "type": "PARAM_ADDED", "path": "/v1/categories", "method": "post", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "52c8ad8c0dcc93015e6f", "new_sha": "0898c61a7a2fda7bd626"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

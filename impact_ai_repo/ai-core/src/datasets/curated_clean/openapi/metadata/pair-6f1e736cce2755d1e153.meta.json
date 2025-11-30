@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-6f1e736cce2755d1e153",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--6f1e736c--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--6f1e736c--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6f1e736c--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6f1e736c--v2.canonical.json",
+  "old_sha": "c40b207dcb2022bec091",
+  "new_sha": "44ae38b569faf261dd03",
+  "generated_at": "2025-11-30T11:52:28+00:00",
+  "producers_sample": [
+    "/companies/id/connections/paymentid/data/commerce-productcategories",
+    "/companies/id/connections/paymentid/data/commerce-transactions",
+    "/companies/id/connections/sku/data/commerce-products",
+    "/companies/orderid/connections/orderid/data/commerce-info",
+    "/companies/orderid/connections/paymentid/data/commerce-disputes",
+    "/companies/id/connections/paymentid/data/commerce-customers",
+    "/companies/id/connections/userid/data/commerce-transactions",
+    "/companies/orderid/connections/sku/data/commerce-locations",
+    "/companies/paymentid/connections/id/data/commerce-payments",
+    "/companies/paymentid/connections/orderid/data/commerce-productcategories"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-3e08956e4419e8280b5d",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--3e08956e--v1.canonical.json",
+  "new_canonical": "openapi--search-service--3e08956e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--3e08956e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--3e08956e--v2.canonical.json",
+  "old_sha": "01adcab6a463207f4d0d",
+  "new_sha": "9cdb65e5ac8411b96de4",
+  "generated_at": "2025-11-30T11:51:11+00:00",
+  "producers_sample": [
+    "/4od/episode-list/date/orderid/userid/paymentid-atom",
+    "/4od/episode-list/popular-atom",
+    "/4od/recently-added/videos-atom",
+    "/atoz/userid-atom",
+    "/atoz/userid/page-sku-atom",
+    "/4od/episode-list/date/userid/sku/orderid-atom",
+    "/4od/episode-list/popular-atom",
+    "/4od/recently-added/videos-atom",
+    "/atoz/orderid/page-id-atom",
+    "/atoz/paymentid-atom"
+  ]
+}

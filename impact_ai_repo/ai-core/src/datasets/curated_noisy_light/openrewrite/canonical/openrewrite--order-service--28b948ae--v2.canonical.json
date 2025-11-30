@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ReplaceAnnotation",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "@org.jetbrains.annotations.NotNull(\"Test\")",
+        "@lombok.NonNull",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "import org.jetbrains.annotations.NotNull;\n\nclass A {\n    @NotNull(\"Test\")\n    String testMethod() {}\n}\n",
+          "after": "import lombok.NonNull;\n\nclass A {\n    @NonNull\n    String testMethod() {}\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id-v2"
+      }
+    }
+  }
+}

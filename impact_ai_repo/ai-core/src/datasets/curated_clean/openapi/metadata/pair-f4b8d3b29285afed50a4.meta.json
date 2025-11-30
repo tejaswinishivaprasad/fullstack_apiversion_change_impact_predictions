@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-f4b8d3b29285afed50a4",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--f4b8d3b2--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--f4b8d3b2--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f4b8d3b2--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f4b8d3b2--v2.canonical.json",
+  "old_sha": "26e09c2f82f71ba46906",
+  "new_sha": "824703887e19ad0924dc",
+  "generated_at": "2025-11-30T11:53:25+00:00",
+  "producers_sample": [
+    "/greengrass/bulk/deployments",
+    "/greengrass/bulk/deployments/id/detailed-reports",
+    "/greengrass/bulk/deployments/orderid/status",
+    "/greengrass/bulk/deployments/orderid/stop",
+    "/greengrass/definition/connectors",
+    "/greengrass/bulk/deployments",
+    "/greengrass/bulk/deployments/id/status",
+    "/greengrass/bulk/deployments/orderid/detailed-reports",
+    "/greengrass/bulk/deployments/paymentid/stop",
+    "/greengrass/definition/connectors"
+  ]
+}

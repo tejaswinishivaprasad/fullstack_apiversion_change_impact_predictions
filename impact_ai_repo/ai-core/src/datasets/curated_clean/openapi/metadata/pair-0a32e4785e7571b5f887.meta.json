@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-0a32e4785e7571b5f887",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--0a32e478--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--0a32e478--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--0a32e478--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--0a32e478--v2.canonical.json",
+  "old_sha": "d3bc870c2ead195c413c",
+  "new_sha": "83c3677fda173506acb6",
+  "generated_at": "2025-11-30T11:49:30+00:00",
+  "producers_sample": [
+    "/v1/certificates",
+    "/v1/certificates/id",
+    "/v1/certificates/id/renew",
+    "/v1/certificates/id/siteseal",
+    "/v1/certificates/orderid/download",
+    "/v1/certificates",
+    "/v1/certificates/id",
+    "/v1/certificates/id/callback",
+    "/v1/certificates/id/email/history",
+    "/v1/certificates/id/email/userid/resend/orderid"
+  ]
+}

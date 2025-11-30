@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-8b8a3a67044b58386c8e",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--8b8a3a67--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--8b8a3a67--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8b8a3a67--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8b8a3a67--v2.canonical.json",
+  "old_sha": "6bb3b2e1db16ee907599",
+  "new_sha": "5b68d79bc8647aec9625",
+  "generated_at": "2025-11-30T11:54:28+00:00",
+  "producers_sample": [
+    "/graph/datasources/get",
+    "/graph/datasources/list",
+    "/graph/datasources/update",
+    "/graph/member/monitoringstate",
+    "/graph/members",
+    "/graph/datasources/get",
+    "/graph/datasources/list",
+    "/graph/datasources/update",
+    "/graph/member/monitoringstate",
+    "/graph/members"
+  ]
+}

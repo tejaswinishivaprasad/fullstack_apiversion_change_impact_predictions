@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-220646056ad13d11f6d1",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--22064605--v1.canonical.json",
+  "new_canonical": "openapi--search-service--22064605--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--22064605--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--22064605--v2.canonical.json",
+  "old_sha": "5aa0ea38931539902abc",
+  "new_sha": "b5a6d8f86a02a752e9cb",
+  "generated_at": "2025-11-30T11:50:56+00:00",
+  "producers_sample": [
+    "/v1/restrooms",
+    "/v1/restrooms/by-date",
+    "/v1/restrooms/by-location",
+    "/v1/restrooms/search",
+    "/v1/restrooms",
+    "/v1/restrooms/by-date",
+    "/v1/restrooms/by-location",
+    "/v1/restrooms/search"
+  ]
+}

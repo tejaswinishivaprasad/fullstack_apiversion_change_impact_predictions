@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.format.SingleLineComments",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "//hi\nclass Test {\n}\n",
+          "after": "// hi\nclass Test {\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

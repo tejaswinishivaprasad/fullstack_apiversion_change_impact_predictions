@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-fd0120826c862b0f0bc5",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--fd012082--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--fd012082--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--fd012082--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--fd012082--v2.canonical.json",
+  "old_sha": "0957b95d86a6c1d41f60",
+  "new_sha": "48457215ae8be45c0037",
+  "generated_at": "2025-11-30T11:50:09+00:00",
+  "producers_sample": [
+    "/word-json/id/examples",
+    "/word-json/orderid/scrabblescore",
+    "/word-json/paymentid/etymologies",
+    "/word-json/paymentid/phrases",
+    "/word-json/sku/definitions",
+    "/word-json/id/hyphenation",
+    "/word-json/orderid/frequency",
+    "/word-json/orderid/phrases",
+    "/word-json/orderid/pronunciations",
+    "/word-json/paymentid/definitions"
+  ]
+}

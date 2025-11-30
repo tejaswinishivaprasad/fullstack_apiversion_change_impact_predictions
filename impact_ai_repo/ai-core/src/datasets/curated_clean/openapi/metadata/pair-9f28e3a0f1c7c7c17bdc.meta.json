@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-9f28e3a0f1c7c7c17bdc",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--9f28e3a0--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--9f28e3a0--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9f28e3a0--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9f28e3a0--v2.canonical.json",
+  "old_sha": "90c2b399facbe305a35d",
+  "new_sha": "e7b0d2c0a4b751179a66",
+  "generated_at": "2025-11-30T11:52:45+00:00",
+  "producers_sample": [
+    "/carts/{id}",
+    "/environments/id/applications",
+    "/environments/id/applications/sku/routes/userid",
+    "/environments/orderid/vpcs",
+    "/environments/paymentid/applications/orderid",
+    "/carts/{id}",
+    "/environments/orderid/applications/orderid/services",
+    "/environments/paymentid/applications",
+    "/environments/paymentid/applications/id",
+    "/environments/paymentid/vpcs"
+  ]
+}

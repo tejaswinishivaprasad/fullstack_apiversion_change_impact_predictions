@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.format.TypecastParenPad",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "class Test {\n    static void method() {\n        long m = 0L;\n        int n = (int) m;\n        n = ( int) m;\n        n = (int ) m;\n        n = ( int ) m;\n    }\n}\n",
+          "after": "class Test {\n    static void method() {\n        long m = 0L;\n        int n = ( int ) m;\n        n = ( int ) m;\n        n = ( int ) m;\n        n = ( int ) m;\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id-v2"
+      }
+    }
+  }
+}

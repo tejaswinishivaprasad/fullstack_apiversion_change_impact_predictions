@@ -1,0 +1,1 @@
+{"pair_id": "pair-582af556f9d0615523fe", "ace_index": 0, "ace_id": "pair-582af556f9d0615523fe::ace::0", "type": "ENDPOINT_ADDED", "path": "/profiles/{id}", "method": "get", "detail": "/profiles/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "2ae73cc85d057ff03fad"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

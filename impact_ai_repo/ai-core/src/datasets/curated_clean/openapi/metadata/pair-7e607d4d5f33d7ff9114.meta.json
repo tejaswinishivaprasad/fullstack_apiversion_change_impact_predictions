@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-7e607d4d5f33d7ff9114",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--7e607d4d--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--7e607d4d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7e607d4d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7e607d4d--v2.canonical.json",
+  "old_sha": "b2bf33fc852f005f54db",
+  "new_sha": "809ba5edf63fe76771a5",
+  "generated_at": "2025-11-30T11:52:19+00:00",
+  "producers_sample": [
+    "/id/byes/paymentid",
+    "/id/fantasydefensebygamebyteam/paymentid/sku/id",
+    "/id/finalboxscores",
+    "/id/gamestats/orderid",
+    "/id/playergameredzonestats/sku/sku",
+    "/id/boxscorebyscoreidv3/userid",
+    "/id/boxscorev3/id/userid/userid",
+    "/id/fantasydefensebyseasonbyteam/id/orderid",
+    "/id/finalboxscores",
+    "/id/gameleagueleaders/userid/paymentid/paymentid/orderid"
+  ]
+}

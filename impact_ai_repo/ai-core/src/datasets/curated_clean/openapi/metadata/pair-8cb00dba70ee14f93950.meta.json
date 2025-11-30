@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-8cb00dba70ee14f93950",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--8cb00dba--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--8cb00dba--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8cb00dba--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8cb00dba--v2.canonical.json",
+  "old_sha": "f3a6713caddbc7c0ba99",
+  "new_sha": "caa2f8a9fba3a81704b0",
+  "generated_at": "2025-11-30T11:52:02+00:00",
+  "producers_sample": [
+    "/v1/tax/countrycode",
+    "/v1/tax/ip",
+    "/v3/tax/rates",
+    "/v1/tax/countrycode",
+    "/v1/tax/ip",
+    "/v3/tax/rates"
+  ]
+}

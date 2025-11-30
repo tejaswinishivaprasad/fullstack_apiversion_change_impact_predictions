@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-6f154d2833e1a42534e8",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--6f154d28--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--6f154d28--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6f154d28--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6f154d28--v2.canonical.json",
+  "old_sha": "80fe56aec03e533b7558",
+  "new_sha": "e76d5d0c9234801a2961",
+  "generated_at": "2025-11-30T11:53:47+00:00",
+  "producers_sample": [
+    "/carts/{id}",
+    "/human-loops/sku",
+    "/human-loops/stop",
+    "/profiles/{id}",
+    "/carts/{id}",
+    "/human-loops/sku",
+    "/human-loops/stop",
+    "/reviews/{id}"
+  ]
+}

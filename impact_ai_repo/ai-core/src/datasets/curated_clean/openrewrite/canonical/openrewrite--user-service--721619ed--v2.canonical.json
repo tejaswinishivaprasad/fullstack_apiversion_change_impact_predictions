@@ -1,0 +1,47 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.properties.CreatePropertiesFile",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "test/test.properties",
+        "# This is a comment\nx.y=z\n",
+        "null"
+      ],
+      "sources": [
+        {
+          "after": "# This is a comment\nx.y=z\n",
+          "language": "properties"
+        }
+      ]
+    },
+    {
+      "description": "",
+      "parameters": [
+        "test/test.properties",
+        "after=true",
+        "true"
+      ],
+      "sources": [
+        {
+          "before": "test.property=test",
+          "after": "after=true",
+          "language": "properties"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

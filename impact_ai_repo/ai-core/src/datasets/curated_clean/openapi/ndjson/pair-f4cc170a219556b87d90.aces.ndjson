@@ -1,0 +1,1 @@
+{"pair_id": "pair-f4cc170a219556b87d90", "ace_index": 0, "ace_id": "pair-f4cc170a219556b87d90::ace::0", "type": "PARAM_ADDED", "path": "/api/auth/introspect", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "7503ec7abc806e72f726", "new_sha": "56158d70bc9320b6cf6a"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

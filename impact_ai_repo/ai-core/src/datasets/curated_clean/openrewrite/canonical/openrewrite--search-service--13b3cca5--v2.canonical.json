@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "Java",
+  "packageName": "org.openrewrite.java",
+  "description": "Basic building blocks for transforming Java code.",
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-inventory-id"
+      }
+    }
+  }
+}

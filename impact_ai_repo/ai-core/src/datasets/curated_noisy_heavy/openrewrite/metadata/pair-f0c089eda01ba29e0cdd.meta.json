@@ -1,0 +1,13 @@
+{
+  "pair_id": "pair-f0c089eda01ba29e0cdd",
+  "dataset": "openrewrite",
+  "service_name": "catalog-service",
+  "old_canonical": "openrewrite--catalog-service--f0c089ed--v1.canonical.json",
+  "new_canonical": "openrewrite--catalog-service--f0c089ed--v2.canonical.json",
+  "old": "datasets/curated_noisy_heavy/openrewrite/canonical/openrewrite--catalog-service--f0c089ed--v1.canonical.json",
+  "new": "datasets/curated_noisy_heavy/openrewrite/canonical/openrewrite--catalog-service--f0c089ed--v2.canonical.json",
+  "old_sha": "0110552a966c8de4b737",
+  "new_sha": "7775ae3b8676668f60fd",
+  "generated_at": "2025-11-30T13:47:13+00:00",
+  "warnings": []
+}

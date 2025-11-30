@@ -1,0 +1,1 @@
+{"pair_id": "pair-3563c6a9ad0540bfab85", "ace_index": 0, "ace_id": "pair-3563c6a9ad0540bfab85::ace::0", "type": "PARAM_ADDED", "path": "/billing/{id}", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "2625690cde38feac7b7c", "new_sha": "d977a66433be0dcabd90"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

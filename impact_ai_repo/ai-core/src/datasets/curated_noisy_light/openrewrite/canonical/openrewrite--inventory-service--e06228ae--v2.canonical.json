@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.EnableDevelocityBuildCache",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "true",
+        "System.getenv(\"CI\") != null"
+      ],
+      "sources": [
+        {
+          "before": "plugins {\n    id 'com.gradle.develocity' version '3.17.6'\n}\ndevelocity {\n    server = 'https://dev.example.com/'\n}\n",
+          "after": "plugins {\n    id 'com.gradle.develocity' version '3.17.6'\n}\ndevelocity {\n    server = 'https://dev.example.com/'\n    buildCache {\n        remote(develocity.buildCache) {\n            enabled = true\n            push = System.getenv(\"CI\") != null\n        }\n    }\n}\n",
+          "language": "settingsGradle"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id"
+      }
+    }
+  }
+}

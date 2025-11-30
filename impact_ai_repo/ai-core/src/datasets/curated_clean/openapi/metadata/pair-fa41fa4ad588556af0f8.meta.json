@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-fa41fa4ad588556af0f8",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--fa41fa4a--v1.canonical.json",
+  "new_canonical": "openapi--search-service--fa41fa4a--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--fa41fa4a--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--fa41fa4a--v2.canonical.json",
+  "old_sha": "8acd2b04a5a27a28c961",
+  "new_sha": "b34c0116068597482dd5",
+  "generated_at": "2025-11-30T11:50:56+00:00",
+  "producers_sample": [
+    "/billing/{id}",
+    "/episodes/userid",
+    "/languages/paymentid",
+    "/movies/sku",
+    "/orders/{id}",
+    "/episodes/id",
+    "/inventory/{id}",
+    "/languages/paymentid",
+    "/movies/userid",
+    "/payments/{id}"
+  ]
+}

@@ -1,1 +1,0 @@
-{"pair_id": "pair-f5a3044fd2bef7dd7678", "ace_index": 0, "ace_id": "pair-f5a3044fd2bef7dd7678::ace::0", "type": "NON_API_CHANGE", "path": null, "method": null, "detail": "OpenRewrite config changed (other.yml)", "confidence": 0.1, "provenance": {"old_sha": "a70e650ddb204acf2758", "new_sha": "176144594fe5291d4b78"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

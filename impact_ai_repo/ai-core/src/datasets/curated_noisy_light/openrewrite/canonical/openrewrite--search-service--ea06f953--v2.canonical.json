@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/style",
+  "name": "org.openrewrite.SampleStyle",
+  "displayName": "Sample style",
+  "description": "Sample test style.",
+  "tags": [
+    "testing"
+  ],
+  "styleConfigs": [
+    {
+      "org.openrewrite.text.TextStyle": {
+        "charset": "UTF-8"
+      }
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

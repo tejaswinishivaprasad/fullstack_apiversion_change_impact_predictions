@@ -1,0 +1,40 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.AddOrUpdateAnnotationAttribute",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.example.Foo",
+        "null",
+        "hello",
+        "null",
+        "null",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "import org.example.Foo;\n\n@Foo\npublic class A {\n}\n",
+          "after": "import org.example.Foo;\n\n@Foo(\"hello\")\npublic class A {\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "package org.example;\npublic @interface Foo {\n    String value() default \"\";\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

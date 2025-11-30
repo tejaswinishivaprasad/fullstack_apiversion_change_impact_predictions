@@ -1,0 +1,35 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.ChangeDependencyArtifactId",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.springframework.boot",
+        "spring-boot-starter",
+        "new-starter",
+        ""
+      ],
+      "sources": [
+        {
+          "before": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    implementation 'org.springframework.boot:spring-boot-starter:2.5.4'\n}\n",
+          "after": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    implementation 'org.springframework.boot:new-starter:2.5.4'\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id"
+      }
+    }
+  }
+}

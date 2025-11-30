@@ -1,0 +1,1 @@
+{"pair_id": "pair-b4d12d57b6457881a415", "ace_index": 0, "ace_id": "pair-b4d12d57b6457881a415::ace::0", "type": "PARAM_ADDED", "path": "/travel/predictions/trip-purpose", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "45fad7d0f4b7cf254b4e", "new_sha": "422cb59461ec49c46626"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

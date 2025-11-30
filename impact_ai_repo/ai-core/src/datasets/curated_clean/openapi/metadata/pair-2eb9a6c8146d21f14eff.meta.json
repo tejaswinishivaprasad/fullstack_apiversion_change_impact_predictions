@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-2eb9a6c8146d21f14eff",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--2eb9a6c8--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--2eb9a6c8--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2eb9a6c8--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2eb9a6c8--v2.canonical.json",
+  "old_sha": "e4bfdce1349363a6190e",
+  "new_sha": "4adc4fbb650ab7b9e4b5",
+  "generated_at": "2025-11-30T11:52:02+00:00",
+  "producers_sample": [
+    "/v1/en-core-web-sm",
+    "/v1/en-core-web-sm/dependencies",
+    "/v1/en-core-web-sm/entities",
+    "/v1/en-core-web-sm/sentence-dependencies",
+    "/v1/en-core-web-sm/version",
+    "/v1/en-core-web-sm",
+    "/v1/en-core-web-sm/dependencies",
+    "/v1/en-core-web-sm/entities",
+    "/v1/en-core-web-sm/sentence-dependencies",
+    "/v1/en-core-web-sm/version"
+  ]
+}

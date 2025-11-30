@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-57d228be6aacce74cf06",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--57d228be--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--57d228be--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--57d228be--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--57d228be--v2.canonical.json",
+  "old_sha": "d3d4afa09f3b5276528a",
+  "new_sha": "63e0c16fc4b566560b6b",
+  "generated_at": "2025-11-30T11:53:59+00:00",
+  "producers_sample": [
+    "/billing/{id}",
+    "/carts/{id}",
+    "/emergency-calling/address",
+    "/inventory/{id}",
+    "/orders/{id}",
+    "/emergency-calling/address",
+    "/orders/{id}",
+    "/payments/{id}",
+    "/phone-number-orders/userid",
+    "/phone-numbers/id-operation-restore"
+  ]
+}

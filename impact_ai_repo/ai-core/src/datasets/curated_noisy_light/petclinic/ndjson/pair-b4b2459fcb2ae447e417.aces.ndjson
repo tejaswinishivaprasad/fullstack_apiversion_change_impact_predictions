@@ -1,0 +1,1 @@
+{"pair_id": "pair-b4b2459fcb2ae447e417", "ace_index": 0, "ace_id": "pair-b4b2459fcb2ae447e417::ace::0", "type": "PARAM_ADDED", "path": "/analytics-service", "method": "get", "detail": "q1", "confidence": 0.8, "provenance": {"old_sha": "af17474e7a8e8d38e4d8", "new_sha": "16cdd17cbfb7f05a7288"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

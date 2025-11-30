@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-7c7d1f8e63e8e5cbe86b",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--7c7d1f8e--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--7c7d1f8e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7c7d1f8e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7c7d1f8e--v2.canonical.json",
+  "old_sha": "ae1708dadbbd5104ef30",
+  "new_sha": "d9decb632ae3b1303d63",
+  "generated_at": "2025-11-30T11:52:30+00:00",
+  "producers_sample": [
+    "/files/v3/files",
+    "/files/v3/files/id/gdpr-delete",
+    "/files/v3/files/import-from-url/async",
+    "/files/v3/files/import-from-url/async/tasks/sku/status",
+    "/files/v3/files/orderid/signed-url",
+    "/files/v3/files",
+    "/files/v3/files/import-from-url/async",
+    "/files/v3/files/import-from-url/async/tasks/paymentid/status",
+    "/files/v3/files/orderid",
+    "/files/v3/files/paymentid/signed-url"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-429e0b07ade35f8dd28c",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--429e0b07--v1.canonical.json",
+  "new_canonical": "openapi--search-service--429e0b07--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--429e0b07--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--429e0b07--v2.canonical.json",
+  "old_sha": "a40a68901ba77c570671",
+  "new_sha": "3dcd9c2a5838606343d4",
+  "generated_at": "2025-11-30T11:51:43+00:00",
+  "producers_sample": [
+    "/account/balance",
+    "/account/flags",
+    "/account/payments",
+    "/account/pluscard",
+    "/account/pluscard/loststolen",
+    "/account/balance",
+    "/account/flags",
+    "/account/payments",
+    "/account/pluscard",
+    "/account/pluscard/loststolen"
+  ]
+}

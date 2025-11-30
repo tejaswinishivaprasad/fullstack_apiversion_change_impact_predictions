@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-ca181029f261ec0312c2",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--ca181029--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--ca181029--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ca181029--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ca181029--v2.canonical.json",
+  "old_sha": "7aafa2f523c93c695e6c",
+  "new_sha": "35f5708a924458383f02",
+  "generated_at": "2025-11-30T11:54:46+00:00",
+  "producers_sample": [
+    "/inventory/{id}",
+    "/media-insights-pipeline-configurations/id",
+    "/media-insights-pipeline-status/paymentid",
+    "/orders/{id}",
+    "/payments/{id}",
+    "/carts/{id}",
+    "/inventory/{id}",
+    "/media-insights-pipeline-configurations/sku",
+    "/media-insights-pipeline-status/sku",
+    "/orders/{id}"
+  ]
+}

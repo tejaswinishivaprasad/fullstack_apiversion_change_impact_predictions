@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindDeprecatedMethods",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "null",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "class Test {\n    @Deprecated\n    void test(int n) {\n        if(n == 1) {\n            test(n + 1);\n        }\n    }\n}\n",
+          "after": "class Test {\n    @Deprecated\n    void test(int n) {\n        if(n == 1) {\n            /*~~>*/test(n + 1);\n        }\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id-v2"
+      }
+    }
+  }
+}

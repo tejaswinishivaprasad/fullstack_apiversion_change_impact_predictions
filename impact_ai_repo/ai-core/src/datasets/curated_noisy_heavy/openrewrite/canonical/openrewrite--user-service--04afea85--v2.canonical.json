@@ -1,0 +1,19 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "Moderne",
+  "packageName": "io.moderne",
+  "description": "Moderne best practices.",
+  "root": true,
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id-v2"
+      }
+    }
+  }
+}

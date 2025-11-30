@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.cleanup.ReplaceCharToIntWithCode",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "fun decimalDigitalNumber(c : Char) : Int? {\n    if (c in '0'..'9') {\n        return c.toInt() - '0'.toInt()\n    }\n    return null\n}\n",
+          "after": "fun decimalDigitalNumber(c : Char) : Int? {\n    if (c in '0'..'9') {\n        return c.code - '0'.code\n    }\n    return null\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id-v2"
+      }
+    }
+  }
+}

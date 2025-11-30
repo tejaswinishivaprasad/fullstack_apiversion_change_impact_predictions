@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-8617aa09fab539445b93",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--8617aa09--v1.canonical.json",
+  "new_canonical": "openapi--search-service--8617aa09--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--8617aa09--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--8617aa09--v2.canonical.json",
+  "old_sha": "b2fb4fe07c8269894c4a",
+  "new_sha": "3adf5462598cfe5f93d9",
+  "generated_at": "2025-11-30T11:51:38+00:00",
+  "producers_sample": [
+    "/identity/company",
+    "/identity/company/address",
+    "/identity/company/name",
+    "/identity/company/phonenumber",
+    "/identity/person",
+    "/identity/company",
+    "/identity/company/address",
+    "/identity/company/name",
+    "/identity/company/phonenumber",
+    "/identity/person"
+  ]
+}

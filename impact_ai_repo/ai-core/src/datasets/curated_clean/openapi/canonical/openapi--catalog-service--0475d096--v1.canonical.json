@@ -1,0 +1,498 @@
+{
+  "openapi": "3.0.1",
+  "servers": [
+    {
+      "url": "https://extendsclass.com/api/json-storage"
+    }
+  ],
+  "info": {
+    "description": "JSON storage API",
+    "title": "JSON storage",
+    "version": "0.1",
+    "x-apisguru-categories": [
+      "developer_tools"
+    ],
+    "x-origin": [
+      {
+        "converter": {
+          "url": "https://github.com/mermade/oas-kit",
+          "version": "7.0.4"
+        },
+        "format": "openapi",
+        "url": "https://extendsclass.com/json-storage.openapi.json",
+        "version": "3.0"
+      }
+    ],
+    "x-providerName": "extendsclass.com",
+    "x-serviceName": "json-storage"
+  },
+  "paths": {
+    "/payments/{id}": {
+      "post": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "title": "Id of the bin",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Update status (0: Success)",
+                      "type": "integer"
+                    },
+                    "uri": {
+                      "title": "URI of the bin",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bin information (id and URL)"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "'JSON data too large' or 'Security key is too large'"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Security key is required for private bin"
+          }
+        },
+        "summary": "Create a json bin",
+        "operationId": "create-a-json-bin"
+      }
+    },
+    "/bin/orderid": {
+      "delete": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "title": "Update status (0: Success)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Status of the deletion"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Wrong security key"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bin not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Id must be specified"
+          }
+        },
+        "summary": "Delete a json bin",
+        "operationId": "delete-a-json-bin-v2"
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Bin data"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bin not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Id must be specified"
+          }
+        },
+        "summary": "Return a json bin",
+        "operationId": "return-a-json-bin-v2"
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "patch": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "title": "Data updated",
+                      "type": "object"
+                    },
+                    "status": {
+                      "title": "Update status (0: Success)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bin data updated"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Wrong security key"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bin not found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "JSON data too large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Id must be specified"
+          }
+        },
+        "summary": "Partially update a json bin with JSON Merge Patch",
+        "operationId": "partially-update-a-json-bin-with-json-merge-patch-v2"
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "title": "Data updated",
+                      "type": "object"
+                    },
+                    "status": {
+                      "title": "Update status (0: Success)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bin data updated"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Wrong security key"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bin not found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "JSON data too large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "title": "Error message",
+                      "type": "string"
+                    },
+                    "status": {
+                      "title": "Status (1: Error)",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Id must be specified"
+          }
+        },
+        "summary": "Update a json bin",
+        "operationId": "update-a-json-bin-v2"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateStatus": {
+        "properties": {
+          "id": {
+            "title": "Id of the bin",
+            "type": "string"
+          },
+          "status": {
+            "title": "Update status (0: Success)",
+            "type": "integer"
+          },
+          "uri": {
+            "title": "URI of the bin",
+            "type": "string"
+          }
+        }
+      },
+      "DeleteStatus": {
+        "properties": {
+          "status": {
+            "title": "Update status (0: Success)",
+            "type": "integer"
+          }
+        }
+      },
+      "Error": {
+        "properties": {
+          "message": {
+            "title": "Error message",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status (1: Error)",
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateStatus": {
+        "properties": {
+          "data": {
+            "title": "Data updated",
+            "type": "object"
+          },
+          "status": {
+            "title": "Update status (0: Success)",
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-245181b37fa8796a30ad", "ace_index": 0, "ace_id": "pair-245181b37fa8796a30ad::ace::0", "type": "PARAM_ADDED", "path": "/v1/nutrition", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "d8e6348d353ce6f06543", "new_sha": "0e01047a8e71aa882e69"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

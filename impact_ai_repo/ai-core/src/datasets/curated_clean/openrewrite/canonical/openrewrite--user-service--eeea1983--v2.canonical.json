@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.CreateXmlFile",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "test/test.xml",
+        "fileContents",
+        "true"
+      ],
+      "sources": [
+        {
+          "before": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<before/>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

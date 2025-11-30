@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-e06e372e7fe7b7231035",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--e06e372e--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--e06e372e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e06e372e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e06e372e--v2.canonical.json",
+  "old_sha": "575f42cab7c5abba8b25",
+  "new_sha": "5421fd41a77328a2f6c6",
+  "generated_at": "2025-11-30T11:52:38+00:00",
+  "producers_sample": [
+    "/sol/nsd/v1/ns-descriptors",
+    "/sol/nsd/v1/ns-descriptors/id/nsd-content/validate",
+    "/sol/nsd/v1/ns-descriptors/orderid",
+    "/sol/nsd/v1/ns-descriptors/paymentid/nsd-content",
+    "/sol/nsd/v1/ns-descriptors/sku/nsd",
+    "/sol/nsd/v1/ns-descriptors",
+    "/sol/nsd/v1/ns-descriptors/id/nsd-content",
+    "/sol/nsd/v1/ns-descriptors/orderid/nsd",
+    "/sol/nsd/v1/ns-descriptors/orderid/nsd-content-accept",
+    "/sol/nsd/v1/ns-descriptors/orderid/nsd-content/validate"
+  ]
+}

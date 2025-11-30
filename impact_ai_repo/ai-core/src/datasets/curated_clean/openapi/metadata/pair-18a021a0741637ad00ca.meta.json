@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-18a021a0741637ad00ca",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--18a021a0--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--18a021a0--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--18a021a0--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--18a021a0--v2.canonical.json",
+  "old_sha": "fb80526c48c8098e8c02",
+  "new_sha": "431df321a3796bdca8d5",
+  "generated_at": "2025-11-30T11:49:28+00:00",
+  "producers_sample": [
+    "/v2/incidents",
+    "/v2/incidents/paymentid",
+    "/v2/locations",
+    "/v2/locations/markers",
+    "/v2/incidents",
+    "/v2/incidents/userid",
+    "/v2/locations",
+    "/v2/locations/markers"
+  ]
+}

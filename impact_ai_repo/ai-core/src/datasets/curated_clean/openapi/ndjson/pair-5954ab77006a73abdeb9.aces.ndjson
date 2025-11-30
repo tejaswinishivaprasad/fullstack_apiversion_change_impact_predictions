@@ -1,0 +1,1 @@
+{"pair_id": "pair-5954ab77006a73abdeb9", "ace_index": 0, "ace_id": "pair-5954ab77006a73abdeb9::ace::0", "type": "PARAM_ADDED", "path": "/api/client/all", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "f52b35dea0a4d104c5f8", "new_sha": "71065ed39ba3ceb8f4df"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

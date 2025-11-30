@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-585de4fe96ca6f1fdf46",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--585de4fe--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--585de4fe--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--585de4fe--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--585de4fe--v2.canonical.json",
+  "old_sha": "e5ca29cf79a6b83fc357",
+  "new_sha": "1089854b7446a0b7027b",
+  "generated_at": "2025-11-30T11:51:39+00:00",
+  "producers_sample": [
+    "/pirate/generate/insult",
+    "/pirate/generate/lorem-ipsum",
+    "/pirate/generate/name",
+    "/pirate/translate",
+    "/pirate/generate/insult",
+    "/pirate/generate/lorem-ipsum",
+    "/pirate/generate/name",
+    "/pirate/translate"
+  ]
+}

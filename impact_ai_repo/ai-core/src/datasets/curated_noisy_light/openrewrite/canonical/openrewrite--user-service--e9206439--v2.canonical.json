@@ -1,0 +1,54 @@
+{
+  "name": "Dependency Submission",
+  "true": {
+    "workflow_run": {
+      "workflows": [
+        "publish"
+      ],
+      "types": [
+        "completed"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "write"
+  },
+  "jobs": {
+    "dependency-submission": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "name": "Checkout sources",
+          "uses": "actions/checkout@v6"
+        },
+        {
+          "uses": "actions/setup-java@v5",
+          "with": {
+            "distribution": "temurin",
+            "java-version": "25\n21\n"
+          }
+        },
+        {
+          "name": "Generate and submit dependency graph",
+          "uses": "gradle/actions/dependency-submission@v5",
+          "env": {
+            "DEPENDENCY_GRAPH_EXCLUDE_PROJECTS": ":buildSrc",
+            "DEPENDENCY_GRAPH_EXCLUDE_CONFIGURATIONS": ".*[Tt]est(Compile|Runtime)Classpath"
+          }
+        }
+      ]
+    }
+  },
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-inventory-id"
+      }
+    }
+  }
+}

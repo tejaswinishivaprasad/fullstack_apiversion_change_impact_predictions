@@ -1,0 +1,14 @@
+{
+  "paths": {
+    "/analytics-service": {
+      "get": {
+        "description": "orig",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

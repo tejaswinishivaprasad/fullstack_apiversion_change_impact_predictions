@@ -1,0 +1,34 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.properties.ChangePropertyKey",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "management.metrics.binders.files.enabled",
+        "management.metrics.enable.process.files",
+        "null",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "management.metrics.binders.files.enabled=true",
+          "after": "management.metrics.enable.process.files=true",
+          "language": "properties"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-inventory-id"
+      }
+    }
+  }
+}

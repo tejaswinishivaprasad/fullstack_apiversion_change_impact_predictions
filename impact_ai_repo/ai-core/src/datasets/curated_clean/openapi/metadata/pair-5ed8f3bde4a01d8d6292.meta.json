@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-5ed8f3bde4a01d8d6292",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--5ed8f3bd--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--5ed8f3bd--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--5ed8f3bd--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--5ed8f3bd--v2.canonical.json",
+  "old_sha": "8cc258039c2c81c66d95",
+  "new_sha": "53b007f0b69878f54b7e",
+  "generated_at": "2025-11-30T11:49:52+00:00",
+  "producers_sample": [
+    "/gcr/flux-dlr",
+    "/trapped/flux-mean",
+    "/trapped/flux-percentile",
+    "/gcr/flux-dlr",
+    "/trapped/flux-mean",
+    "/trapped/flux-percentile"
+  ]
+}

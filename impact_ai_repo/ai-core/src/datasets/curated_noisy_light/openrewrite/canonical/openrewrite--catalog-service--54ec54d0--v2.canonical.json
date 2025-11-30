@@ -1,0 +1,39 @@
+{
+  "name": "receive-pr",
+  "true": {
+    "pull_request": {
+      "types": [
+        "opened",
+        "synchronize"
+      ],
+      "branches": [
+        "main"
+      ]
+    }
+  },
+  "concurrency": {
+    "group": "${{ github.workflow }} @ ${{ github.ref }}",
+    "cancel-in-progress": true
+  },
+  "jobs": {
+    "upload-patch": {
+      "uses": "openrewrite/gh-automation/.github/workflows/receive-pr.yml@main",
+      "with": {
+        "java_version": "25\n21\n",
+        "recipe": "org.openrewrite.recipes.rewrite.OpenRewriteRecipeBestPracticesSubset"
+      }
+    }
+  },
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

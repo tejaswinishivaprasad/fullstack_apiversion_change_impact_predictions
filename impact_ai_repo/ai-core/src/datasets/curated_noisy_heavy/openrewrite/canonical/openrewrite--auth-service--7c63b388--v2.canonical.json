@@ -1,0 +1,36 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.HasMinimumJavaVersion",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "8-21",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "class Higher {\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "class Test {\n}\n",
+          "after": "/*~~(Java version 8)~~>*/class Test {\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id"
+      }
+    }
+  }
+}

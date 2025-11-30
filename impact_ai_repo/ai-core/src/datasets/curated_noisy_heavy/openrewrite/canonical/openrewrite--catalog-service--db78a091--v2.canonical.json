@@ -1,0 +1,38 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.cleanup.UnnecessaryTypeParentheses",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "val x : (Int) = 42\nval y : (((Int))) = 42\n",
+          "after": "val x : Int = 42\nval y : Int = 42\n",
+          "language": "kotlin"
+        }
+      ]
+    },
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "val sum : (Int, Int) -> (Int) = { a, b -> a + b }\nval double : ((Int)) -> ((Int)) = { a -> a * 2 }\n",
+          "after": "val sum : (Int, Int) -> Int = { a, b -> a + b }\nval double : (Int) -> Int = { a -> a * 2 }\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

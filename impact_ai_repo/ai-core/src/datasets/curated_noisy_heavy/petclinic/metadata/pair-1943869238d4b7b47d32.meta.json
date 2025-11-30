@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-1943869238d4b7b47d32",
+  "service_name": "petclinic-shipping-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--petclinic-shipping-service--19438692--v1.canonical.json",
+  "new_canonical": "petclinic--petclinic-shipping-service--19438692--v2.canonical.json",
+  "old": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--petclinic-shipping-service--19438692--v1.canonical.json",
+  "new": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--petclinic-shipping-service--19438692--v2.canonical.json",
+  "old_sha": "5b5589b344fca6280e0d",
+  "new_sha": "dbc18bcf380af640a7ef",
+  "generated_at": "2025-11-30T13:46:44+00:00"
+}

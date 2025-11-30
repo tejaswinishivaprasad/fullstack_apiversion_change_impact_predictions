@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "Dataflow analysis",
+  "packageName": "org.openrewrite.java.dataflow",
+  "description": "Analysis that helps recipes understand the flow of data across a codebase.",
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id"
+      }
+    }
+  }
+}

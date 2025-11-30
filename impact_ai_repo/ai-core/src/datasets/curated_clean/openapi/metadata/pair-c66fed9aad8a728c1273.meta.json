@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-c66fed9aad8a728c1273",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--c66fed9a--v1.canonical.json",
+  "new_canonical": "openapi--search-service--c66fed9a--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--c66fed9a--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--c66fed9a--v2.canonical.json",
+  "old_sha": "9d6709a4597fd984b14e",
+  "new_sha": "996f3c9561d284db1a1a",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/shopping/flight-offers/upselling",
+    "/shopping/flight-offers/upselling"
+  ]
+}

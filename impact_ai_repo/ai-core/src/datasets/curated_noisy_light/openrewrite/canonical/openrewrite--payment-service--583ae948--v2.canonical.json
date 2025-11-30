@@ -1,0 +1,29 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.DependencyConstraintToRule",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "plugins {\n    id 'java'\n}\nrepositories { mavenCentral() }\ndependencies {\n    constraints {\n        implementation('com.fasterxml.jackson.core:jackson-core:2.12.5') {\n            because 'CVE-2024-BAD'\n        }\n    }\n    implementation 'org.openrewrite:rewrite-java:7.0.0'\n}\n",
+          "after": "plugins {\n    id 'java'\n}\nrepositories { mavenCentral() }\nconfigurations.all {\n    resolutionStrategy.eachDependency { details ->\n        if (details.requested.group == 'com.fasterxml.jackson.core' && details.requested.name == 'jackson-core') {\n            details.useVersion('2.12.5')\n            details.because('CVE-2024-BAD')\n        }\n    }\n}\ndependencies {\n    implementation 'org.openrewrite:rewrite-java:7.0.0'\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id"
+      }
+    }
+  }
+}

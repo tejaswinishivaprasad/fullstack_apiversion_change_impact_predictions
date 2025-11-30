@@ -1,0 +1,17 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "packageName": "ai",
+  "root": true,
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

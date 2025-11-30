@@ -1,0 +1,1 @@
+{"pair_id": "pair-6afee6adbea692331816", "ace_index": 0, "ace_id": "pair-6afee6adbea692331816::ace::0", "type": "PARAM_ADDED", "path": "/api/v1/donations/carbon-calculate", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "05c7f76df6d5f11f532a", "new_sha": "b9473722b16b704a2606"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

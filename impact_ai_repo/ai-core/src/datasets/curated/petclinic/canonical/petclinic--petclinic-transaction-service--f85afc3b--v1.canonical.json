@@ -1,9 +1,0 @@
-{
-  "paths": {
-    "/transaction-service": {
-      "get": {
-        "description": "orig"
-      }
-    }
-  }
-}

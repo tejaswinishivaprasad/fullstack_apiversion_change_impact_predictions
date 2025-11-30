@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-fda56f44088482c2610d",
+  "service_name": "notifications-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--notifications-service--fda56f44--v1.canonical.json",
+  "new_canonical": "petclinic--notifications-service--fda56f44--v2.canonical.json",
+  "old": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--notifications-service--fda56f44--v1.canonical.json",
+  "new": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--notifications-service--fda56f44--v2.canonical.json",
+  "old_sha": "30ad1771e97a5a01c720",
+  "new_sha": "39f3861e0ad87afe868a",
+  "generated_at": "2025-11-30T13:20:31+00:00"
+}

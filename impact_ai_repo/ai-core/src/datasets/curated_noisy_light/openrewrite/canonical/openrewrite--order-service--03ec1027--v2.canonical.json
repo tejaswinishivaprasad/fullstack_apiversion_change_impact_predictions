@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindComments",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "Arrays.asList(\"test\", \"12.*\")"
+      ],
+      "sources": [
+        {
+          "before": "// not this one\n// test\n// not this one, either\n// comment 123\nclass Test {\n    int n = 123;\n    String s = \"test\";\n    String s = \"mytest\";\n}\n",
+          "after": "// not this one\n/*~~>*/// test\n// not this one, either\n/*~~>*/// comment 123\nclass Test {\n    int n = /*~~>*/123;\n    String s = /*~~>*/\"test\";\n    String s = /*~~>*/\"mytest\";\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

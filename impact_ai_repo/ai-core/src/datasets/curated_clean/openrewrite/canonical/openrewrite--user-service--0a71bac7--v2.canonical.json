@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.FindKotlinSources",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "class A\n",
+          "after": "/*~~>*/class A\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id-v2"
+      }
+    }
+  }
+}

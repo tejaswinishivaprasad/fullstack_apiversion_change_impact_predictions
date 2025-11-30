@@ -1,0 +1,1 @@
+{"pair_id": "pair-ad098486bec7516122a4", "ace_index": 0, "ace_id": "pair-ad098486bec7516122a4::ace::0", "type": "PARAM_ADDED", "path": "/food/branded/barcode-php", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "a2243a208be7369d2d51", "new_sha": "ed313520d84c4644ff35"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

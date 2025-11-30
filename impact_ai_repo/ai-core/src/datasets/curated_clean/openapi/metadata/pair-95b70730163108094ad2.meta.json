@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-95b70730163108094ad2",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--95b70730--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--95b70730--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--95b70730--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--95b70730--v2.canonical.json",
+  "old_sha": "0ae4991e35cc7dde5058",
+  "new_sha": "d11fdf216f06581c50fe",
+  "generated_at": "2025-11-30T11:49:53+00:00",
+  "producers_sample": [
+    "/cari7/ambient-dose",
+    "/cari7/effective-dose",
+    "/parma/ambient-dose",
+    "/parma/differential-intensity",
+    "/parma/effective-dose",
+    "/cari7/ambient-dose",
+    "/cari7/effective-dose",
+    "/parma/ambient-dose",
+    "/parma/differential-intensity",
+    "/parma/effective-dose"
+  ]
+}

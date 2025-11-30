@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindFields",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.nio.charset.StandardCharsets",
+        "null",
+        "UTF_8"
+      ],
+      "sources": [
+        {
+          "before": "class Test {\n    Object o = java.nio.charset.StandardCharsets.UTF_8;\n}\n",
+          "after": "class Test {\n    Object o = /*~~>*/java.nio.charset.StandardCharsets.UTF_8;\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id-v2"
+      }
+    }
+  }
+}

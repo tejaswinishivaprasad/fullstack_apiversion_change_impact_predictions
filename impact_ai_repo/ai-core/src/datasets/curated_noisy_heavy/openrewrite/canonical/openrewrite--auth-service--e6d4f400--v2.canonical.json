@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "OpenRewrite best practices",
+  "packageName": "org.openrewrite.java.recipes",
+  "description": "Apply best practices to OpenRewrite recipes.",
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

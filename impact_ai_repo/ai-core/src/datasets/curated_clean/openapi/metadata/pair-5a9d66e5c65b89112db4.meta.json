@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-5a9d66e5c65b89112db4",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--5a9d66e5--v1.canonical.json",
+  "new_canonical": "openapi--search-service--5a9d66e5--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--5a9d66e5--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--5a9d66e5--v2.canonical.json",
+  "old_sha": "58ac6fdd14689e1ae702",
+  "new_sha": "f463db3f7219ce339a95",
+  "generated_at": "2025-11-30T11:50:58+00:00",
+  "producers_sample": [
+    "/reference-data/locations/hotel",
+    "/reference-data/locations/hotel"
+  ]
+}

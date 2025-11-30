@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-b8cf956317d53496ed23",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--b8cf9563--v1.canonical.json",
+  "new_canonical": "openapi--search-service--b8cf9563--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--b8cf9563--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--b8cf9563--v2.canonical.json",
+  "old_sha": "fbb69fbe2e5e7143dfad",
+  "new_sha": "8d27d4fba7bdff0bfc94",
+  "generated_at": "2025-11-30T11:51:45+00:00",
+  "producers_sample": [
+    "/info/configuration-userid",
+    "/links/shares-id",
+    "/payments/{id}",
+    "/profiles/id/schedules-sku",
+    "/profiles/id/updates/pending-sku",
+    "/info/configuration-id",
+    "/links/shares-paymentid",
+    "/products/{id}",
+    "/profiles/id-paymentid",
+    "/profiles/id/updates/pending-userid"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.RemoveAnnotationAttribute",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Deprecated",
+        "since"
+      ],
+      "sources": [
+        {
+          "before": "@Deprecated(since = \"1.0\", forRemoval = true)\nclass A {}\n",
+          "after": "@Deprecated(forRemoval = true)\nclass A {}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.AddCommentToMethod",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "SHORT_COMMENT",
+        "foo.Foo bar(..)",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "package foo;\npublic class Foo {\n    public void bar(String arg) {}\n}\n",
+          "after": "package foo;\npublic class Foo {\n    // Short comment to add\n    public void bar(String arg) {}\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id-v2"
+      }
+    }
+  }
+}

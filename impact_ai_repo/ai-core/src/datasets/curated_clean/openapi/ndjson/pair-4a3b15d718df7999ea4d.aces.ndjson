@@ -1,0 +1,1 @@
+{"pair_id": "pair-4a3b15d718df7999ea4d", "ace_index": 0, "ace_id": "pair-4a3b15d718df7999ea4d::ace::0", "type": "PARAM_ADDED", "path": "/taunt/categories", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "92e48bde4c89c6639654", "new_sha": "d8f284d601eefa330ae4"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-979f00df6a82c9e609f7", "ace_index": 0, "ace_id": "pair-979f00df6a82c9e609f7::ace::0", "type": "RESPONSE_CODE_REMOVED", "path": "/analytics-service", "method": "get", "detail": ["201"], "confidence": 0.8, "provenance": {"old_sha": "af17474e7a8e8d38e4d8", "new_sha": "af17474e7a8e8d38e4d8"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

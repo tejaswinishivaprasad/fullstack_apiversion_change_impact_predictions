@@ -1,0 +1,1 @@
+{"pair_id": "pair-197f5877775c5a8e2d04", "ace_index": 0, "ace_id": "pair-197f5877775c5a8e2d04::ace::0", "type": "ENDPOINT_ADDED", "path": "/inventory/{id}", "method": "get", "detail": "/inventory/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "3abddb769c298b47e29c"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

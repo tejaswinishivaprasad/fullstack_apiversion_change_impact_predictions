@@ -1,0 +1,34 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.AddLiteralMethodArgument",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "B foo(int, int)",
+        "1",
+        "-1",
+        "int"
+      ],
+      "sources": [
+        {
+          "before": "class A {{ B.foo(0, 1); }}",
+          "after": "class A {{ B.foo(0, -1, 1); }}",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-inventory-id"
+      }
+    }
+  }
+}

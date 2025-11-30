@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-3e2bce92cea8b3599132",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--3e2bce92--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--3e2bce92--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3e2bce92--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3e2bce92--v2.canonical.json",
+  "old_sha": "beacf23a6f144bd37907",
+  "new_sha": "e74051f07d6d28603b89",
+  "generated_at": "2025-11-30T11:52:39+00:00",
+  "producers_sample": [
+    "/things/id/jobs/next",
+    "/things/paymentid/jobs/sku",
+    "/things/sku/jobs",
+    "/things/id/jobs/next",
+    "/things/paymentid/jobs",
+    "/things/userid/jobs/paymentid"
+  ]
+}

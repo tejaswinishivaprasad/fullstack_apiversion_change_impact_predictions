@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.RemoveAnnotation",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "@java.lang.Deprecated"
+      ],
+      "sources": [
+        {
+          "before": "import java.util.List;\n\n@Deprecated\npublic class Test {\n    @Deprecated\n    void test() {\n        @Deprecated int n;\n    }\n}\n",
+          "after": "import java.util.List;\n\npublic class Test {\n    void test() {\n        int n;\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-e3a7503d02c65d03cdd5",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--e3a7503d--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--e3a7503d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e3a7503d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e3a7503d--v2.canonical.json",
+  "old_sha": "ee52a0400afd8906d89d",
+  "new_sha": "696e7df77c6341f9735f",
+  "generated_at": "2025-11-30T11:52:29+00:00",
+  "producers_sample": [
+    "/marketing/v3/marketing-events/attendance/sku/id/email-create",
+    "/marketing/v3/marketing-events/attendance/sku/paymentid/create",
+    "/marketing/v3/marketing-events/events",
+    "/marketing/v3/marketing-events/events/delete",
+    "/marketing/v3/marketing-events/events/orderid/orderid/email-upsert",
+    "/marketing/v3/marketing-events/attendance/paymentid/sku/email-create",
+    "/marketing/v3/marketing-events/attendance/sku/paymentid/create",
+    "/marketing/v3/marketing-events/events",
+    "/marketing/v3/marketing-events/events/delete",
+    "/marketing/v3/marketing-events/events/id/userid/email-upsert"
+  ]
+}

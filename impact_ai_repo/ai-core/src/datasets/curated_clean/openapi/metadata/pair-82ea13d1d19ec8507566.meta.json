@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-82ea13d1d19ec8507566",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--82ea13d1--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--82ea13d1--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--82ea13d1--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--82ea13d1--v2.canonical.json",
+  "old_sha": "22f025c3ea62b715b9b1",
+  "new_sha": "e1c66538fc3469a93ed2",
+  "generated_at": "2025-11-30T11:52:15+00:00",
+  "producers_sample": [
+    "/id/boxscoresdeltabycompetition/paymentid/sku/sku",
+    "/id/competitiondetails/paymentid",
+    "/id/playersbyteam/orderid",
+    "/id/recentlychangedmemberships/sku",
+    "/id/schedule/orderid",
+    "/id/boxscore/sku",
+    "/id/boxscoresdelta/userid/orderid",
+    "/id/membershipsbycompetition/sku",
+    "/id/standings/userid",
+    "/orderid/boxscores/sku"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-b84de9d5bd8837a2dcce",
+  "service_name": "billing-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--billing-service--b84de9d5--v1.canonical.json",
+  "new_canonical": "petclinic--billing-service--b84de9d5--v2.canonical.json",
+  "old": "datasets/curated_noisy_light/petclinic/canonical/petclinic--billing-service--b84de9d5--v1.canonical.json",
+  "new": "datasets/curated_noisy_light/petclinic/canonical/petclinic--billing-service--b84de9d5--v2.canonical.json",
+  "old_sha": "30ad1771e97a5a01c720",
+  "new_sha": "39f3861e0ad87afe868a",
+  "generated_at": "2025-11-30T12:27:04+00:00"
+}

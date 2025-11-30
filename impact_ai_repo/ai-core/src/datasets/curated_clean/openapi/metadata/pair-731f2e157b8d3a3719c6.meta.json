@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-731f2e157b8d3a3719c6",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--731f2e15--v1.canonical.json",
+  "new_canonical": "openapi--search-service--731f2e15--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--731f2e15--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--731f2e15--v2.canonical.json",
+  "old_sha": "f0e9af585c29d0d9e83d",
+  "new_sha": "8f1ab3a195dd0eeb6d63",
+  "generated_at": "2025-11-30T11:49:38+00:00",
+  "producers_sample": [
+    "/news/search",
+    "/news/trendingtopics",
+    "/products/{id}",
+    "/news/search",
+    "/news/trendingtopics",
+    "/users/{id}"
+  ]
+}

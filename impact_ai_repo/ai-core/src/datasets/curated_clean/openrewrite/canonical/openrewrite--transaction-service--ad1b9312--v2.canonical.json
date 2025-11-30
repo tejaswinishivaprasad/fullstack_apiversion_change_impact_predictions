@@ -1,0 +1,20 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "OpenRewrite",
+  "packageName": "org.openrewrite",
+  "description": "All OSS repositories.",
+  "root": false,
+  "priority": 1,
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

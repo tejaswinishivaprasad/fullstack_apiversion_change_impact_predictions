@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-a145e454e10c439f1dc8",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--a145e454--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--a145e454--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a145e454--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a145e454--v2.canonical.json",
+  "old_sha": "ab2e0b0def9578e23559",
+  "new_sha": "3b7c883ae2d610a7db4a",
+  "generated_at": "2025-11-30T11:52:07+00:00",
+  "producers_sample": [
+    "/id/teamgamestatsbyseason/sku/userid/userid",
+    "/orderid/areanygamesinprogress",
+    "/orderid/currentseason",
+    "/orderid/player/id",
+    "/orderid/players",
+    "/id/depthcharts",
+    "/id/playersbasic/paymentid",
+    "/id/stadiums",
+    "/orderid/gamesbydate/paymentid",
+    "/orderid/schedulesbasic/orderid"
+  ]
+}

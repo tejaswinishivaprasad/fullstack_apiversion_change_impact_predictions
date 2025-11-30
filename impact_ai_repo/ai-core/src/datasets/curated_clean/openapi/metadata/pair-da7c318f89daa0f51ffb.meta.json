@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-da7c318f89daa0f51ffb",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--da7c318f--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--da7c318f--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--da7c318f--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--da7c318f--v2.canonical.json",
+  "old_sha": "652ff9b087d4e5a54e83",
+  "new_sha": "3d07c318d1f3e88e9daa",
+  "generated_at": "2025-11-30T11:50:46+00:00",
+  "producers_sample": [
+    "/activities/allowed",
+    "/activities/count",
+    "/activities/id",
+    "/activities/paged",
+    "/activitygroups/count",
+    "/activities/allowed",
+    "/activities/count",
+    "/activities/paged",
+    "/activities/sku",
+    "/activitygroups/count"
+  ]
+}

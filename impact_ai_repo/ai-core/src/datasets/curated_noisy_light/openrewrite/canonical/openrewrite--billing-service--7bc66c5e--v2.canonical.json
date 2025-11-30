@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangeMethodInvocationReturnType",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Integer parseInt(String)",
+        "long"
+      ],
+      "sources": [
+        {
+          "before": "class Foo {\n    void bar() {\n        int one = Integer.parseInt(\"1\");\n    }\n}\n",
+          "after": "class Foo {\n    void bar() {\n        long one = Integer.parseInt(\"1\");\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

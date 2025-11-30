@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.NoStaticImport",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.util.Collections emptyList()"
+      ],
+      "sources": [
+        {
+          "before": "import static java.util.Collections.emptyList;\nclass Test {\n    void test() {\n        Object o = emptyList();\n    }\n}\n",
+          "after": "import java.util.Collections;\n\nclass Test {\n    void test() {\n        Object o = Collections.emptyList();\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id"
+      }
+    }
+  }
+}

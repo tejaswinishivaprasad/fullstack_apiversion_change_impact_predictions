@@ -1,0 +1,1 @@
+{"pair_id": "pair-585de4fe96ca6f1fdf46", "ace_index": 0, "ace_id": "pair-585de4fe96ca6f1fdf46::ace::0", "type": "PARAM_ADDED", "path": "/pirate/generate/insult", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "e5ca29cf79a6b83fc357", "new_sha": "1089854b7446a0b7027b"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

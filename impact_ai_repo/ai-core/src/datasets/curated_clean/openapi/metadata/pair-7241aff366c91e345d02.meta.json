@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-7241aff366c91e345d02",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--7241aff3--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--7241aff3--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7241aff3--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7241aff3--v2.canonical.json",
+  "old_sha": "beec6ede55da68a662f0",
+  "new_sha": "15f54fec7ca20b040d10",
+  "generated_at": "2025-11-30T11:51:39+00:00",
+  "producers_sample": [
+    "/shakespeare/generate/insult",
+    "/shakespeare/generate/lorem-ipsum",
+    "/shakespeare/generate/name",
+    "/shakespeare/quote",
+    "/shakespeare/translate",
+    "/shakespeare/generate/insult",
+    "/shakespeare/generate/lorem-ipsum",
+    "/shakespeare/generate/name",
+    "/shakespeare/quote",
+    "/shakespeare/translate"
+  ]
+}

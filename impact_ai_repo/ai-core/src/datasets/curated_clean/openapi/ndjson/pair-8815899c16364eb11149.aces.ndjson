@@ -1,0 +1,1 @@
+{"pair_id": "pair-8815899c16364eb11149", "ace_index": 0, "ace_id": "pair-8815899c16364eb11149::ace::0", "type": "PARAM_ADDED", "path": "/reference-data/urls/checkin-links", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "49c9bd5591c5b3a70180", "new_sha": "5f1fcd9bad48496a9e6c"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

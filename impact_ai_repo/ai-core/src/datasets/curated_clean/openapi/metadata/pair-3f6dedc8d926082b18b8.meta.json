@@ -1,0 +1,18 @@
+{
+  "pair_id": "pair-3f6dedc8d926082b18b8",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--3f6dedc8--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--3f6dedc8--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3f6dedc8--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3f6dedc8--v2.canonical.json",
+  "old_sha": "987cb1607b9436a11cd5",
+  "new_sha": "4cb23c0c5d6bedc1e538",
+  "generated_at": "2025-11-30T11:49:29+00:00",
+  "producers_sample": [
+    "/v1/abuse/tickets",
+    "/v1/abuse/tickets/sku",
+    "/v1/abuse/tickets",
+    "/v1/abuse/tickets/userid"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-5735ae054fe77f16b191",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--5735ae05--v1.canonical.json",
+  "new_canonical": "openapi--search-service--5735ae05--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--5735ae05--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--5735ae05--v2.canonical.json",
+  "old_sha": "ccece3181613d2979cd6",
+  "new_sha": "420e9148e29540d24089",
+  "generated_at": "2025-11-30T11:51:38+00:00",
+  "producers_sample": [
+    "/lottery/countries",
+    "/lottery/draw",
+    "/lottery/supported",
+    "/lottery/countries",
+    "/lottery/draw",
+    "/lottery/supported"
+  ]
+}

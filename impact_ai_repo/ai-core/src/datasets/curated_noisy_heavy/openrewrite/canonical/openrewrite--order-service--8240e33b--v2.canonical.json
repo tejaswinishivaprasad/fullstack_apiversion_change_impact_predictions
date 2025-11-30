@@ -1,0 +1,21 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "test.declarative.sample.a",
+  "displayName": "Test Recipe",
+  "description": "Test Recipe.",
+  "recipeList": [
+    "test.declarative.sample.b"
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

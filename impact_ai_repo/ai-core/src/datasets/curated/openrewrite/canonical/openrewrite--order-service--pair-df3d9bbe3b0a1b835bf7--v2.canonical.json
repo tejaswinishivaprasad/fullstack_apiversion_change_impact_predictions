@@ -1,7 +1,0 @@
-{
-  "type": "specs.openrewrite.org/v1beta/category",
-  "name": "JSON",
-  "packageName": "org.openrewrite.json",
-  "description": "Basic building blocks for transforming JSON.",
-  "_rw_change_marker_": "change_48"
-}

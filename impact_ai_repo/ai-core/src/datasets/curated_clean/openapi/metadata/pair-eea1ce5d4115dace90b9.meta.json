@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-eea1ce5d4115dace90b9",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--eea1ce5d--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--eea1ce5d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--eea1ce5d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--eea1ce5d--v2.canonical.json",
+  "old_sha": "2707074029370c67d351",
+  "new_sha": "9b509976cb1795ba9f3b",
+  "generated_at": "2025-11-30T11:50:46+00:00",
+  "producers_sample": [
+    "/mbus/api",
+    "/mbus/get/id/sku/userid",
+    "/mbus/getmulti/sku/sku/orderid/sku",
+    "/mbus/hat",
+    "/mbus/hat/off",
+    "/mbus/api",
+    "/mbus/get/orderid/sku/userid",
+    "/mbus/getmulti/userid/userid/sku/sku",
+    "/mbus/hat",
+    "/mbus/hat/off"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.search.HasNamespaceUri",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "http://www.w3.org/2001/XMLSchema-instance",
+        "null"
+      ],
+      "sources": [
+        {
+          "after": "<!--~~>--><beans xmlns=\"http://www.springframework.org/schema/beans\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n    xsi:schemaLocation=\"\n        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd\n        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd\">\n\n    <jaxws:client name=\"{http://cxf.apache.org/hello_world_soap_http}SoapPort\" createdFromAPI=\"true\" xmlns:jaxws=\"http://cxf.apache.org/jaxws\">\n        <jaxws:conduitSelector>\n            <bean class=\"org.apache.cxf.endpoint.DeferredConduitSelector\"/>\n        </jaxws:conduitSelector>\n    </jaxws:client>\n</beans>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

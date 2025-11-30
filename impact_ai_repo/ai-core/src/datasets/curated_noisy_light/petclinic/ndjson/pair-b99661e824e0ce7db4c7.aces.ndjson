@@ -1,0 +1,1 @@
+{"pair_id": "pair-b99661e824e0ce7db4c7", "ace_index": 0, "ace_id": "pair-b99661e824e0ce7db4c7::ace::0", "type": "SCHEMA_PROPERTY_CHANGED", "path": "/analytics-service", "method": "get", "detail": "p3", "confidence": 0.8, "provenance": {"old_sha": "af17474e7a8e8d38e4d8", "new_sha": "af0860d9bffea7108494"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

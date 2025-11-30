@@ -1,0 +1,352 @@
+{
+  "swagger": "2.0",
+  "basePath": "/",
+  "info": {
+    "description": "CyCAT - The Cybersecurity Resource Catalogue public API services.",
+    "license": {
+      "name": "CC-BY"
+    },
+    "title": "CyCAT.org API",
+    "version": "0.9",
+    "x-apisguru-categories": [
+      "security"
+    ],
+    "x-logo": {
+      "url": "https://cycat.org/images/illustrations/pointing.svg"
+    },
+    "x-origin": [
+      {
+        "format": "swagger",
+        "url": "https://api.cycat.org/swagger.json",
+        "version": "2.0"
+      }
+    ],
+    "x-providerName": "cycat.org"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "responses": {
+    "MaskError": {
+      "description": "When any error occurs on mask"
+    },
+    "ParseError": {
+      "description": "When a mask can't be parsed"
+    }
+  },
+  "tags": [
+    {
+      "description": "Default namespace",
+      "name": "default"
+    }
+  ],
+  "paths": {
+    "/child/paymentid": {
+      "get": {
+        "description": "Get child UUID(s) from a specified project or publisher UUID.",
+        "operationId": "get-child-v2",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ],
+        "parameters": [
+          {
+            "name": "q040394",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "uuid",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/generate/ud": {
+      "get": {
+        "description": "Generate an UUID version 4 RFC4122-compliant.",
+        "operationId": "get-generate-ud",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    },
+    "/shipments/{id}": {
+      "get": {
+        "description": "Get information about the CyCAT backend services including status, overall statistics and version.",
+        "operationId": "get-info",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    },
+    "/list/project/paymentid/paymentid": {
+      "get": {
+        "description": "List projects registered in CyCAT by pagination (start,end).",
+        "operationId": "get-list-project-v2",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "start",
+          "required": true,
+          "type": "integer"
+        },
+        {
+          "in": "path",
+          "name": "end",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/list/publisher/orderid/sku": {
+      "get": {
+        "description": "List publishers registered in CyCAT by pagination (start,end).",
+        "operationId": "get-list-publisher",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "start",
+          "required": true,
+          "type": "integer"
+        },
+        {
+          "in": "path",
+          "name": "end",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/lookup/userid": {
+      "get": {
+        "description": "Lookup UUID registered in CyCAT.",
+        "operationId": "get-lookup",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "uuid",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/namespace/findud/id/sku": {
+      "get": {
+        "description": "Get all known UUID for a given namespace id.",
+        "operationId": "get-namespacefindud-v2",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "namespace",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "namespaceid",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/namespace/getall": {
+      "get": {
+        "description": "List all known namespaces.",
+        "operationId": "get-namespacegetall",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    },
+    "/namespace/getid/id": {
+      "get": {
+        "description": "Get all ID from a given namespace.",
+        "operationId": "get-namespacegetid",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "namespace",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/parent/sku": {
+      "get": {
+        "description": "Get parent UUID(s) from a specified project or item UUID.",
+        "operationId": "get-parent",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "uuid",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/inventory/{id}": {
+      "post": {
+        "description": "Propose new resource to CyCAT.",
+        "operationId": "post-propose",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    },
+    "/relationships/expanded/paymentid": {
+      "get": {
+        "description": "Get relationship(s) UUID from a specified UUID including the relationships meta information.",
+        "operationId": "get-relationshipsexpanded-v2",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "uuid",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/relationships/sku": {
+      "get": {
+        "description": "Get relationship(s) UUID from a specified UUID.",
+        "operationId": "get-relationships",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "uuid",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/search/id": {
+      "get": {
+        "description": "Full-text search in CyCAT and return matching UUID.",
+        "operationId": "get-search-v2",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "searchquery",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  }
+}

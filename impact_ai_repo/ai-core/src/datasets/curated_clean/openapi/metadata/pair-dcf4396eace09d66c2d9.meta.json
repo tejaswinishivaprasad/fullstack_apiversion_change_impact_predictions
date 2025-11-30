@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-dcf4396eace09d66c2d9",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--dcf4396e--v1.canonical.json",
+  "new_canonical": "openapi--search-service--dcf4396e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--dcf4396e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--dcf4396e--v2.canonical.json",
+  "old_sha": "ca0536230fe5edc9286b",
+  "new_sha": "7c54f1e874887fc5f176",
+  "generated_at": "2025-11-30T11:51:08+00:00",
+  "producers_sample": [
+    "/id/attributeset",
+    "/id/xrefsbatch",
+    "/orderid/attributesearch/paymentid",
+    "/orderid/isfreesearchsupported",
+    "/orderid/properties",
+    "/id/xrefs/userid/id",
+    "/orderid/attributeset",
+    "/orderid/properties",
+    "/orderid/sourcedatasources",
+    "/orderid/xrefexists/paymentid/userid"
+  ]
+}

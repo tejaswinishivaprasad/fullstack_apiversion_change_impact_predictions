@@ -1,0 +1,36 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindMethods",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "A <constructor>(String)",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "class A {\n    public A(String s) {}\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "class Test {\n    A a = new A(\"test\");\n}\n",
+          "after": "class Test {\n    A a = /*~~>*/new A(\"test\");\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-866bc0253c8c072be132",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--866bc025--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--866bc025--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--866bc025--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--866bc025--v2.canonical.json",
+  "old_sha": "b10aae5b863241bb632c",
+  "new_sha": "61c8746e43b2488406d0",
+  "generated_at": "2025-11-30T11:54:49+00:00",
+  "producers_sample": [
+    "/v1/canceljob",
+    "/v1/createcomputeenvironment",
+    "/v1/createjobqueue",
+    "/v1/createschedulingpolicy",
+    "/v1/deletecomputeenvironment",
+    "/v1/canceljob",
+    "/v1/createcomputeenvironment",
+    "/v1/createjobqueue",
+    "/v1/createschedulingpolicy",
+    "/v1/deletecomputeenvironment"
+  ]
+}

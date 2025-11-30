@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-ec33b8f9bb6e1a1ec37c",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--ec33b8f9--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--ec33b8f9--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ec33b8f9--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ec33b8f9--v2.canonical.json",
+  "old_sha": "c9d7911df628e7979389",
+  "new_sha": "380ce5d38516e9062f3e",
+  "generated_at": "2025-11-30T11:49:31+00:00",
+  "producers_sample": [
+    "/api/v2/podcasts/categories",
+    "/api/v2/podcasts/countries",
+    "/api/v2/podcasts/create",
+    "/api/v2/podcasts/id",
+    "/api/v2/podcasts/languages",
+    "/api/v2/podcasts/categories",
+    "/api/v2/podcasts/countries",
+    "/api/v2/podcasts/create",
+    "/api/v2/podcasts/id",
+    "/api/v2/podcasts/id/episodes/id"
+  ]
+}

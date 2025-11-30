@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangeAnnotationAttributeName",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Deprecated",
+        "since",
+        "asOf"
+      ],
+      "sources": [
+        {
+          "before": "@Deprecated(since = \"1.0\")\nclass A {}\n",
+          "after": "@Deprecated(asOf = \"1.0\")\nclass A {}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id-v2"
+      }
+    }
+  }
+}

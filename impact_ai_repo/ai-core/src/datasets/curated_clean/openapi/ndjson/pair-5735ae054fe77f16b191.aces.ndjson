@@ -1,0 +1,1 @@
+{"pair_id": "pair-5735ae054fe77f16b191", "ace_index": 0, "ace_id": "pair-5735ae054fe77f16b191::ace::0", "type": "PARAM_ADDED", "path": "/lottery/countries", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "ccece3181613d2979cd6", "new_sha": "420e9148e29540d24089"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

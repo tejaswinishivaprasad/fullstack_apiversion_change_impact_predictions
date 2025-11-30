@@ -1,0 +1,17 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "packageName": "org",
+  "root": true,
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id-v2"
+      }
+    }
+  }
+}

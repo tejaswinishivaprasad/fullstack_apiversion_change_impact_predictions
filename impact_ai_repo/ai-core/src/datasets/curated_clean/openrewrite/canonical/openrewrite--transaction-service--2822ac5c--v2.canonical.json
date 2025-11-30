@@ -1,0 +1,37 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "org.openrewrite.recipes.JavaRecipeBestPracticesSubset",
+  "displayName": "Java Recipe best practices",
+  "description": "Best practices for Java recipe development.",
+  "preconditions": [
+    {
+      "org.openrewrite.java.search.FindTypes": {
+        "fullyQualifiedTypeName": "org.openrewrite.Recipe",
+        "checkAssignability": true
+      }
+    }
+  ],
+  "recipeList": [
+    "org.openrewrite.java.recipes.BlankLinesAroundFieldsWithAnnotations",
+    "org.openrewrite.java.recipes.CorrectlySpacedDescriptions",
+    "org.openrewrite.java.recipes.IsLiteralNullRecipe",
+    "org.openrewrite.java.recipes.MissingOptionExample",
+    "org.openrewrite.java.recipes.NoMutableStaticFieldsInRecipes",
+    "org.openrewrite.java.recipes.RecipeEqualsAndHashCodeCallSuper",
+    "org.openrewrite.java.recipes.UseTreeRandomId",
+    "org.openrewrite.java.recipes.migrate.RemoveTraitsUsageRecipes",
+    "org.openrewrite.staticanalysis.NeedBraces"
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id-v2"
+      }
+    }
+  }
+}

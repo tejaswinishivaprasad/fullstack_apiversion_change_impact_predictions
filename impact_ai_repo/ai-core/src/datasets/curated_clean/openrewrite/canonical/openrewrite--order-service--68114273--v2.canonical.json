@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ShortenFullyQualifiedTypeReferences",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "import java.util.List;\n\nclass T {\n    java.util.List<String> list;\n}\n",
+          "after": "import java.util.List;\n\nclass T {\n    List<String> list;\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-7363a635c7dfc9513f89",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--7363a635--v1.canonical.json",
+  "new_canonical": "openapi--search-service--7363a635--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--7363a635--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--7363a635--v2.canonical.json",
+  "old_sha": "b5ed660c6d6589c1c93c",
+  "new_sha": "2e78fd8b808eac9a94a5",
+  "generated_at": "2025-11-30T11:51:04+00:00",
+  "producers_sample": [
+    "/travel/predictions/flight-delay",
+    "/travel/predictions/flight-delay"
+  ]
+}

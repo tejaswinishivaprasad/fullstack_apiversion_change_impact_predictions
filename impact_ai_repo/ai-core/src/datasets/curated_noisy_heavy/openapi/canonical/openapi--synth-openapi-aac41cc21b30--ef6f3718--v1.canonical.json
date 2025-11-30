@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-aac41cc21b30",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-aac41cc21b30/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

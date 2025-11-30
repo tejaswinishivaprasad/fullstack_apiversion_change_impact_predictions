@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-cb98822dacbe21ec6fe8",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--cb98822d--v1.canonical.json",
+  "new_canonical": "openapi--search-service--cb98822d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--cb98822d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--cb98822d--v2.canonical.json",
+  "old_sha": "b4f28878373069da172e",
+  "new_sha": "abac9ecd691b4fc22e50",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/schedule/flights",
+    "/schedule/flights"
+  ]
+}

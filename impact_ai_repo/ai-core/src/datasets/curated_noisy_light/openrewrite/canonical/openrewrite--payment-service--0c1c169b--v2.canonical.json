@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "XML",
+  "packageName": "org.openrewrite.xml",
+  "description": "Basic building blocks for transforming XML.",
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id-v2"
+      }
+    }
+  }
+}

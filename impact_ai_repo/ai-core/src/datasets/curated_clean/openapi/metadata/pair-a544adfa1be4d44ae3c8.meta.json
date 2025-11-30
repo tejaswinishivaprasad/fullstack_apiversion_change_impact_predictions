@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-a544adfa1be4d44ae3c8",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--a544adfa--v1.canonical.json",
+  "new_canonical": "openapi--search-service--a544adfa--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--a544adfa--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--a544adfa--v2.canonical.json",
+  "old_sha": "2fd478cf4f45206c3bba",
+  "new_sha": "fad7bdfec64fac5083eb",
+  "generated_at": "2025-11-30T11:51:03+00:00",
+  "producers_sample": [
+    "/booking/flight-orders",
+    "/booking/flight-orders"
+  ]
+}

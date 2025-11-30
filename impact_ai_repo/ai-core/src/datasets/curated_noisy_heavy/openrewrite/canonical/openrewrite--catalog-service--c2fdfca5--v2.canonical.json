@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.search.FindTags",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "/dependencies/dependency"
+      ],
+      "sources": [
+        {
+          "before": "<dependencies>\n    <dependency>\n        <artifactId scope=\"compile\">org.openrewrite</artifactId>\n    </dependency>\n</dependencies>\n",
+          "after": "<dependencies>\n    <!--~~>--><dependency>\n        <artifactId scope=\"compile\">org.openrewrite</artifactId>\n    </dependency>\n</dependencies>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

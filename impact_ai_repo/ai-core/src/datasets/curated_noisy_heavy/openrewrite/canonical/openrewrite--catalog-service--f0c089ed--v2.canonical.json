@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.format.RemoveTrailingWhitespace",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "class Test {\n\n    public void method(Test t) {  \n    }  \n}  \n",
+          "after": "class Test {\n\n    public void method(Test t) {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id"
+      }
+    }
+  }
+}

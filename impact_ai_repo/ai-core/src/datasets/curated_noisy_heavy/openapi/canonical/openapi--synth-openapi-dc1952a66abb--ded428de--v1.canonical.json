@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-dc1952a66abb",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-dc1952a66abb/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

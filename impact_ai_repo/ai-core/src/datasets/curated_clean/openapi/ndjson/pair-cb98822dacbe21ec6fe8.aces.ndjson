@@ -1,0 +1,1 @@
+{"pair_id": "pair-cb98822dacbe21ec6fe8", "ace_index": 0, "ace_id": "pair-cb98822dacbe21ec6fe8::ace::0", "type": "PARAM_ADDED", "path": "/schedule/flights", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "b4f28878373069da172e", "new_sha": "abac9ecd691b4fc22e50"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

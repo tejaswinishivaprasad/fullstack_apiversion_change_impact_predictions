@@ -1,0 +1,38 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindCompileErrors",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "package com.example.demo;\nclass Bar {\n    pet\n    public void test() {\n    }\n}\n",
+          "after": "package com.example.demo;\nclass Bar {\n    /*~~>*/pet\n    public void test() {\n    }\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "package com.example.demo;\nclass Baz {\n    -pet\n    public void test() {\n    }\n}\n",
+          "after": "package com.example.demo;\nclass Baz {\n    /*~~>*/-/*~~>*/pet\n    public void test() {\n    }\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "package com.example.demo;\nclass Foo {\n    /pet\n    public void test() {\n    }\n}\n",
+          "after": "package com.example.demo;\nclass Foo {\n    /*~~>*///*~~>*/pet\n    public void test() {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

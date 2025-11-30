@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-6df7dac888d45c06cdb1",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--6df7dac8--v1.canonical.json",
+  "new_canonical": "openapi--search-service--6df7dac8--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--6df7dac8--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--6df7dac8--v2.canonical.json",
+  "old_sha": "b88a3ce22ec16d973357",
+  "new_sha": "614869204ef98eaaa7cb",
+  "generated_at": "2025-11-30T11:52:04+00:00",
+  "producers_sample": [
+    "/account/encrypt",
+    "/billing/{id}",
+    "/bldjobs/orderid/log",
+    "/bldjobs/paymentid/artifacts/sku",
+    "/bldjobs/userid/artifacts",
+    "/account/encrypt",
+    "/billing/{id}",
+    "/bldjobs/orderid/log",
+    "/bldjobs/paymentid/artifacts",
+    "/bldjobs/paymentid/artifacts/sku"
+  ]
+}

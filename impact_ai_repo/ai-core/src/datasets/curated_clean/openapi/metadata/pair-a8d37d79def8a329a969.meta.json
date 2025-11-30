@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-a8d37d79def8a329a969",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--a8d37d79--v1.canonical.json",
+  "new_canonical": "openapi--search-service--a8d37d79--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--a8d37d79--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--a8d37d79--v2.canonical.json",
+  "old_sha": "efedee2026397c3ddeff",
+  "new_sha": "35635ed0a5117c633a00",
+  "generated_at": "2025-11-30T11:50:08+00:00",
+  "producers_sample": [
+    "/analyses/copynumber/genes/all",
+    "/analyses/copynumber/genes/amplified",
+    "/analyses/copynumber/genes/deleted",
+    "/analyses/copynumber/genes/focal",
+    "/analyses/copynumber/genes/thresholded",
+    "/analyses/copynumber/genes/all",
+    "/analyses/copynumber/genes/amplified",
+    "/analyses/copynumber/genes/deleted",
+    "/analyses/copynumber/genes/focal",
+    "/analyses/copynumber/genes/thresholded"
+  ]
+}

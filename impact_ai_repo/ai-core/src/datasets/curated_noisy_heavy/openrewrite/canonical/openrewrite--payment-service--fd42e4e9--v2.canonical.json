@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangeAnnotationAttributeName",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.junit.jupiter.api.Tag",
+        "value",
+        "newValue"
+      ],
+      "sources": [
+        {
+          "before": "package sample\n\nimport org.junit.jupiter.api.Tag\nimport org.junit.jupiter.api.Tags\n\nclass SampleTest {\n\n    @Tags(\n        value = [\n            Tag(value = \"Sample01\"),\n            Tag(value = \"Sample02\"),\n        ]\n    )\n    fun run() {\n    }\n}\n",
+          "after": "package sample\n\nimport org.junit.jupiter.api.Tag\nimport org.junit.jupiter.api.Tags\n\nclass SampleTest {\n\n    @Tags(\n        value = [\n            Tag(newValue = \"Sample01\"),\n            Tag(newValue = \"Sample02\"),\n        ]\n    )\n    fun run() {\n    }\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id-v2"
+      }
+    }
+  }
+}

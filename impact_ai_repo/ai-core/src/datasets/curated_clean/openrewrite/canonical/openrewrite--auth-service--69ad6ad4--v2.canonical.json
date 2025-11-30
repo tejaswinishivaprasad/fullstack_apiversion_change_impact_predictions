@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.format.AutoFormat",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "<project>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-test</artifactId>\n      <scope>test</scope>\n      <exclusions>\n        <exclusion>\n  <groupId>org.junit.vintage</groupId>\n  <artifactId>junit-vintage-engine</artifactId>\n</exclusion>\n      </exclusions>\n    </dependency>\n  </dependencies>\n</project>\n",
+          "after": "<project>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-test</artifactId>\n      <scope>test</scope>\n      <exclusions>\n        <exclusion>\n          <groupId>org.junit.vintage</groupId>\n          <artifactId>junit-vintage-engine</artifactId>\n        </exclusion>\n      </exclusions>\n    </dependency>\n  </dependencies>\n</project>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

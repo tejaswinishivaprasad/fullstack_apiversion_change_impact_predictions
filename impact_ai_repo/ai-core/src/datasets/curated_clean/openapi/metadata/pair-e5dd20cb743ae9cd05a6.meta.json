@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-e5dd20cb743ae9cd05a6",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--e5dd20cb--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--e5dd20cb--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e5dd20cb--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e5dd20cb--v2.canonical.json",
+  "old_sha": "5cb54b4fe16c7edc856a",
+  "new_sha": "3820a14d92aee053d2ce",
+  "generated_at": "2025-11-30T11:52:09+00:00",
+  "producers_sample": [
+    "/id/linesbyseason/paymentid",
+    "/id/teamgamestatsbyseason/sku/userid/userid",
+    "/orderid/areanygamesinprogress",
+    "/orderid/boxscores/sku",
+    "/orderid/currentseason",
+    "/id/boxscore/sku",
+    "/id/boxscoresdelta/userid/orderid",
+    "/id/linesbyseason/sku",
+    "/id/stadiums",
+    "/orderid/boxscores/sku"
+  ]
+}

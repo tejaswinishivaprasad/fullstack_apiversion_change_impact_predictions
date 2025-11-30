@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-855f3a52eb870840189f",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--855f3a52--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--855f3a52--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--855f3a52--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--855f3a52--v2.canonical.json",
+  "old_sha": "71a93422185a3a6b7b0b",
+  "new_sha": "e465f84e7f24f8235751",
+  "generated_at": "2025-11-30T11:51:07+00:00",
+  "producers_sample": [
+    "/api/dailyreports/dailyreports",
+    "/api/writtenquestions/questions",
+    "/api/writtenquestions/questions/id/id",
+    "/api/writtenquestions/questions/paymentid",
+    "/api/writtenstatements/statements",
+    "/api/dailyreports/dailyreports",
+    "/api/writtenquestions/questions",
+    "/api/writtenquestions/questions/paymentid",
+    "/api/writtenquestions/questions/paymentid/userid",
+    "/api/writtenstatements/statements"
+  ]
+}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-5a9d66e5c65b89112db4", "ace_index": 0, "ace_id": "pair-5a9d66e5c65b89112db4::ace::0", "type": "PARAM_ADDED", "path": "/reference-data/locations/hotel", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "58ac6fdd14689e1ae702", "new_sha": "f463db3f7219ce339a95"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

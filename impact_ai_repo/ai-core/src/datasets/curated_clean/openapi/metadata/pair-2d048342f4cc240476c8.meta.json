@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-2d048342f4cc240476c8",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--2d048342--v1.canonical.json",
+  "new_canonical": "openapi--search-service--2d048342--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--2d048342--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--2d048342--v2.canonical.json",
+  "old_sha": "7333c5c4a6e04ba3ead5",
+  "new_sha": "acf9b213cd10a7dd8c4a",
+  "generated_at": "2025-11-30T11:50:56+00:00",
+  "producers_sample": [
+    "/api/v1/dictionaries/countries",
+    "/api/v1/dictionaries/currencies",
+    "/api/v1/dictionaries/product-types",
+    "/api/v1/geoip",
+    "/api/v1/geoip/sku",
+    "/api/v1/dictionaries/countries",
+    "/api/v1/dictionaries/currencies",
+    "/api/v1/dictionaries/product-types",
+    "/api/v1/geoip",
+    "/api/v1/geoip/paymentid"
+  ]
+}

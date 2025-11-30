@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-e2d98c59f68dde5bb959",
+  "service_name": "search-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--search-service--e2d98c59--v1.canonical.json",
+  "new_canonical": "petclinic--search-service--e2d98c59--v2.canonical.json",
+  "old": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--search-service--e2d98c59--v1.canonical.json",
+  "new": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--search-service--e2d98c59--v2.canonical.json",
+  "old_sha": "30ad1771e97a5a01c720",
+  "new_sha": "39f3861e0ad87afe868a",
+  "generated_at": "2025-11-30T13:20:31+00:00"
+}

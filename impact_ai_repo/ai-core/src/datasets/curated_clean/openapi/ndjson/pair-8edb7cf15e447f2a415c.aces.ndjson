@@ -1,0 +1,1 @@
+{"pair_id": "pair-8edb7cf15e447f2a415c", "ace_index": 0, "ace_id": "pair-8edb7cf15e447f2a415c::ace::0", "type": "PARAM_ADDED", "path": "/shopping/seatmaps", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "04daf352d394f023a993", "new_sha": "de207f2f7a24e0a78344"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

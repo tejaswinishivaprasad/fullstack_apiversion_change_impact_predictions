@@ -1,0 +1,25 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "io.moderne.cloud.BestText",
+  "displayName": "Moderne Cloud change text",
+  "description": "A basic recipe with no real purpose.",
+  "recipeList": [
+    {
+      "org.openrewrite.text.ChangeText": {
+        "toText": "Moderne Cloud says."
+      }
+    }
+  ],
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-inventory-id-v2"
+      }
+    }
+  }
+}

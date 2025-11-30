@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.RemoveEmptyXmlTags",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "<project>\n    <modelVersion>4.0.0</modelVersion>\n    <groupId>com.example</groupId>\n    <artifactId>sample-app</artifactId>\n    <version>1.0-SNAPSHOT</version>\n    <pluginRepositories>\n    </pluginRepositories>\n</project>\n",
+          "after": "<project>\n    <modelVersion>4.0.0</modelVersion>\n    <groupId>com.example</groupId>\n    <artifactId>sample-app</artifactId>\n    <version>1.0-SNAPSHOT</version>\n</project>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangeType",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "file",
+        "newFile",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "class file {\n}\n",
+          "after": "class newFile {\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

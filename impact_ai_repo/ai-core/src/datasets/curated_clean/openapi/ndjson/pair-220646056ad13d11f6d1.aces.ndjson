@@ -1,0 +1,1 @@
+{"pair_id": "pair-220646056ad13d11f6d1", "ace_index": 0, "ace_id": "pair-220646056ad13d11f6d1::ace::0", "type": "PARAM_ADDED", "path": "/v1/restrooms", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "5aa0ea38931539902abc", "new_sha": "b5a6d8f86a02a752e9cb"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

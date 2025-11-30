@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-6afee6adbea692331816",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--6afee6ad--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--6afee6ad--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6afee6ad--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6afee6ad--v2.canonical.json",
+  "old_sha": "05c7f76df6d5f11f532a",
+  "new_sha": "b9473722b16b704a2606",
+  "generated_at": "2025-11-30T11:50:54+00:00",
+  "producers_sample": [
+    "/api/v1/donations/carbon-calculate",
+    "/api/v1/donations/carbon-stats",
+    "/api/v1/donations/create",
+    "/api/v1/donations/crypto-calculate",
+    "/api/v1/donations/index",
+    "/api/v1/donations/carbon-calculate",
+    "/api/v1/donations/carbon-stats",
+    "/api/v1/donations/create",
+    "/api/v1/donations/crypto-calculate",
+    "/api/v1/donations/index"
+  ]
+}

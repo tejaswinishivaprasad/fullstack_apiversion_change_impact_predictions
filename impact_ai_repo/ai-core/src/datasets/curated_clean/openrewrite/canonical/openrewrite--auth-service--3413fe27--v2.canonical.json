@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindEmptyClasses",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "class IsEmpty {\n}\n",
+          "after": "/*~~>*/class IsEmpty {\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

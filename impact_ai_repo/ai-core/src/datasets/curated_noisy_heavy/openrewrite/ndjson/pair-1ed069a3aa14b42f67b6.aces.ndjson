@@ -1,0 +1,1 @@
+{"pair_id": "pair-1ed069a3aa14b42f67b6", "ace_index": 0, "ace_id": "pair-1ed069a3aa14b42f67b6::ace::0", "type": "ENDPOINT_ADDED", "path": "/carts/{id}", "method": "get", "detail": "/carts/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "c4697230394dfc336fdd"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

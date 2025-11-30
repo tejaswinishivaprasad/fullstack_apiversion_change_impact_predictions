@@ -1,0 +1,40 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindRepeatableAnnotations",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "import org.mapstruct.*;\nclass Test {\n    @ValueMappings({\n            @ValueMapping(source = \"UNKNOWN\", target = MappingConstants.NULL),\n            @ValueMapping(source = \"UNRECOGNIZED\", target = MappingConstants.NULL)\n    })\n    void test() {\n    }\n}\n",
+          "after": "import org.mapstruct.*;\nclass Test {\n    @ValueMappings({\n            /*~~>*/@ValueMapping(source = \"UNKNOWN\", target = MappingConstants.NULL),\n            /*~~>*/@ValueMapping(source = \"UNRECOGNIZED\", target = MappingConstants.NULL)\n    })\n    void test() {\n    }\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "package org.mapstruct;\n\nimport java.lang.annotation.ElementType;\nimport java.lang.annotation.Repeatable;\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\nimport java.lang.annotation.Target;\n\n@Repeatable(ValueMappings.class)\n@Retention(RetentionPolicy.CLASS)\n@Target(ElementType.METHOD)\npublic @interface ValueMapping {\n    String source();\n\n    String target();\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "package org.mapstruct;\n\nimport java.lang.annotation.ElementType;\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\nimport java.lang.annotation.Target;\n\n@Target({ElementType.METHOD})\n@Retention(RetentionPolicy.CLASS)\npublic @interface ValueMappings {\n    ValueMapping[] value();\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "package org.mapstruct;\n\npublic class MappingConstants {\n    public static final String NULL = \"null\";\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id"
+      }
+    }
+  }
+}

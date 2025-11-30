@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.UseStaticImport",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.junit.jupiter.api.Assertions assert*(..)"
+      ],
+      "sources": [
+        {
+          "before": "package org.openrewrite;\n\nimport org.junit.jupiter.api.Test;\nimport org.junit.jupiter.api.Assertions;\n\nclass SampleTest {\n    @Test\n    void sample() {\n        Assertions.assertEquals(42, 21*2);\n    }\n}\n",
+          "after": "package org.openrewrite;\n\nimport org.junit.jupiter.api.Test;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass SampleTest {\n    @Test\n    void sample() {\n        assertEquals(42, 21*2);\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id-v2"
+      }
+    }
+  }
+}

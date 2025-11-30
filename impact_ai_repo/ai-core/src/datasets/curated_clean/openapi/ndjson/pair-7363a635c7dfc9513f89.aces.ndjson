@@ -1,0 +1,1 @@
+{"pair_id": "pair-7363a635c7dfc9513f89", "ace_index": 0, "ace_id": "pair-7363a635c7dfc9513f89::ace::0", "type": "PARAM_ADDED", "path": "/travel/predictions/flight-delay", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "b5ed660c6d6589c1c93c", "new_sha": "2e78fd8b808eac9a94a5"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

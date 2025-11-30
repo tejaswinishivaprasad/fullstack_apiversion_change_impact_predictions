@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindLiterals",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "Hello.*"
+      ],
+      "sources": [
+        {
+          "before": "class Test {\n    String s = \"Hello Jonathan\";\n}\n",
+          "after": "class Test {\n    String s = /*~~>*/\"Hello Jonathan\";\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

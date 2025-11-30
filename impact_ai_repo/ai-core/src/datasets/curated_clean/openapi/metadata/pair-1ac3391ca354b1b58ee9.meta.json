@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-1ac3391ca354b1b58ee9",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--1ac3391c--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--1ac3391c--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1ac3391c--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1ac3391c--v2.canonical.json",
+  "old_sha": "87ec360c406b95a4bd00",
+  "new_sha": "96e4533d8a4c60f844be",
+  "generated_at": "2025-11-30T11:52:14+00:00",
+  "producers_sample": [
+    "/id/byes/paymentid",
+    "/id/gamestats/orderid",
+    "/id/rookies/userid",
+    "/id/teamgamestatsbyseason/sku/userid/userid",
+    "/id/teamsbasic",
+    "/id/depthcharts",
+    "/id/gamestats/sku",
+    "/id/lastcompletedweek",
+    "/id/ping/sku",
+    "/id/playersbasic/paymentid"
+  ]
+}

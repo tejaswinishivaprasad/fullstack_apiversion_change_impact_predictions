@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-126da32ded91e2a66faa",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--126da32d--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--126da32d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--126da32d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--126da32d--v2.canonical.json",
+  "old_sha": "adebc6765c5c633154f5",
+  "new_sha": "8450a7272a63a08dd848",
+  "generated_at": "2025-11-30T11:51:57+00:00",
+  "producers_sample": [
+    "/search/id/geocode/id-userid",
+    "/search/orderid/geometryfilter-orderid",
+    "/search/orderid/geometrysearch/sku-id",
+    "/search/orderid/reversegeocode/crossstreet/orderid-sku",
+    "/search/paymentid/searchalongroute/orderid-id",
+    "/search/id/additionaldata-sku",
+    "/search/id/categorysearch/sku-id",
+    "/search/id/nearbysearch/sku",
+    "/search/orderid/geocode/orderid-orderid",
+    "/search/orderid/structuredgeocode-orderid"
+  ]
+}

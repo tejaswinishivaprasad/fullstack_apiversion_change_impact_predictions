@@ -1,0 +1,28 @@
+{
+  "name": "stale",
+  "true": {
+    "workflow_dispatch": {},
+    "schedule": [
+      {
+        "cron": "36 4 * * 1"
+      }
+    ]
+  },
+  "jobs": {
+    "build": {
+      "uses": "openrewrite/gh-automation/.github/workflows/stale.yml@main"
+    }
+  },
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

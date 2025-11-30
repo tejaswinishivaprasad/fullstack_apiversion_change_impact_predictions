@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-9b5e5ea178dbacffe72e",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--9b5e5ea1--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--9b5e5ea1--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9b5e5ea1--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9b5e5ea1--v2.canonical.json",
+  "old_sha": "125217be918ee0ea2514",
+  "new_sha": "ccb8c0775908d32c1c5e",
+  "generated_at": "2025-11-30T11:50:07+00:00",
+  "producers_sample": [
+    "/containers/create",
+    "/containers/floating-ips",
+    "/containers/floating-ips/request",
+    "/containers/floating-ips/userid/release",
+    "/containers/groups",
+    "/containers/create",
+    "/containers/floating-ips",
+    "/containers/floating-ips/orderid/release",
+    "/containers/floating-ips/request",
+    "/containers/groups"
+  ]
+}

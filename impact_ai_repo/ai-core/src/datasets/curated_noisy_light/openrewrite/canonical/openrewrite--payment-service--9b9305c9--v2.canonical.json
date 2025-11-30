@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.format.AutoFormat",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "/*\n * This is a sample file.\n */\n\n\n\n\npackage com.intellij.samples\n\nclass Test {\n}\n",
+          "after": "/*\n * This is a sample file.\n */\n\n\npackage com.intellij.samples\n\nclass Test {\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id"
+      }
+    }
+  }
+}

@@ -1,0 +1,3697 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "contact": {
+      "email": "enterobase@warwick.ac.uk",
+      "name": "Nabil-Fareed Alikhan"
+    },
+    "description": "\nAPI for EnteroBase (https://enterobase.warwick.ac.uk) \n\nEnteroBase is a user-friendly online resource, where users can upload their \nown sequencing data for de novo assembly by a stream-lined pipeline. The assemblies \nare used for calling MLST and wgMLST patterns, allowing users to compare their strains \nto publically available genotyping data from other EnteroBase users, GenBank and classical MLST databases.\n\nClick here to find how to get and use an API token: http://bit.ly/1TKlaOU\n",
+    "title": "Enterobase-API",
+    "version": "v2.0",
+    "x-apisguru-categories": [
+      "open_data"
+    ],
+    "x-logo": {
+      "backgroundColor": "#FFFFFF",
+      "url": "https://twitter.com/warwickuni/profile_image?size=original"
+    },
+    "x-origin": [
+      {
+        "format": "openapi",
+        "url": "http://enterobase.warwick.ac.uk/api/v2.0/swagger",
+        "version": "3.0"
+      }
+    ],
+    "x-providerName": "warwick.ac.uk",
+    "x-serviceName": "enterobase"
+  },
+  "tags": [],
+  "paths": {
+    "/api/v2-0": {
+      "get": {
+        "description": "Top level information about EnteroBase databases",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "query",
+            "name": "name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Database prefix, e.g. SAL for Salmonella",
+            "in": "query",
+            "name": "prefix",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Database description",
+            "in": "query",
+            "name": "description",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A info object"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource or data"
+          }
+        },
+        "tags": [
+          "Info"
+        ],
+        "operationId": "get-api-v2-0"
+      }
+    },
+    "/api/v2-0/login": {
+      "get": {
+        "description": "Login endpoint, refresh your API token",
+        "parameters": [
+          {
+            "description": "EnteroBase Password",
+            "in": "query",
+            "name": "password",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "EnteroBase username",
+            "in": "query",
+            "name": "username",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A login object"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource or data"
+          }
+        },
+        "tags": [
+          "Login"
+        ],
+        "operationId": "get-api-v2-0-login-v2"
+      }
+    },
+    "/api/v2-0/lookup": {
+      "get": {
+        "description": "Generic endpoint for lookup list of barcodes",
+        "parameters": [
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_<Table code> e.g. SAL_AA0001AA_ST",
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of lookup objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource or data"
+          },
+          "408": {
+            "description": "Connection timeout, please try again later."
+          }
+        },
+        "tags": [
+          "Lookup"
+        ],
+        "operationId": "get-api-v2-0-lookup"
+      }
+    },
+    "/api/v2-0/lookup/orderid": {
+      "get": {
+        "description": "Generic endpoint for lookup of barcodes",
+        "parameters": [
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_<Table code> e.g. SAL_AA0001AA_ST",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A lookup object"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource or data"
+          }
+        },
+        "tags": [
+          "Lookup"
+        ],
+        "operationId": "get-api-v2-0-lookup-orderid-v2"
+      },
+      "post": {
+        "description": "Generic endpoint for lookup of barcodes",
+        "parameters": [
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_<Table code> e.g. SAL_AA0001AA_ST",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "barcode": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A lookup object"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource or data"
+          }
+        },
+        "tags": [
+          "Lookup"
+        ],
+        "operationId": "post-api-v2-0-lookup-orderid-v2"
+      }
+    },
+    "/api/v2-0/sku/assemblies": {
+      "get": {
+        "description": "Genome assemblies",
+        "parameters": [
+          {
+            "description": "",
+            "in": "query",
+            "name": "n50",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_AS e.g. SAL_AA0001AA_AS",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Field to order by. Default: barcode",
+            "in": "query",
+            "name": "orderby",
+            "required": false,
+            "schema": {
+              "default": "barcode",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor position in results",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "assembly_status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "uberstrain",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "top_species",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "reldate",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Order of search results: asc or desc",
+            "in": "query",
+            "name": "sortorder",
+            "required": false,
+            "schema": {
+              "default": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of assemblies objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Assemblies"
+        ],
+        "operationId": "get-api-v2-0-sku-assemblies-v2"
+      }
+    },
+    "/api/v2-0/sku/assemblies/orderid": {
+      "get": {
+        "description": "Genome assemblies",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_AS e.g. SAL_AA0001AA_AS",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "assembly_status": {
+                    "type": "string"
+                  },
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "n50": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "reldate": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "top_species": {
+                    "type": "string"
+                  },
+                  "uberstrain": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of assemblies objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Assemblies"
+        ],
+        "operationId": "get-api-v2-0-sku-assemblies-orderid-v2"
+      },
+      "post": {
+        "description": "Genome assemblies",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_AS e.g. SAL_AA0001AA_AS",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "assembly_status": {
+                    "type": "string"
+                  },
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "n50": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "reldate": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "top_species": {
+                    "type": "string"
+                  },
+                  "uberstrain": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of assemblies objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Assemblies"
+        ],
+        "operationId": "post-api-v2-0-sku-assemblies-orderid-v2"
+      },
+      "put": {
+        "description": "Genome assemblies",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_AS e.g. SAL_AA0001AA_AS",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "assembly_status": {
+                    "type": "string"
+                  },
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "n50": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "reldate": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "top_species": {
+                    "type": "string"
+                  },
+                  "uberstrain": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Assemblies"
+        ],
+        "operationId": "put-api-v2-0-sku-assemblies-orderid-v2"
+      }
+    },
+    "/api/v2-0/sku/schemes": {
+      "get": {
+        "description": "Genotyping schemes",
+        "parameters": [
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Field to order by. Default: barcode",
+            "in": "query",
+            "name": "orderby",
+            "required": false,
+            "schema": {
+              "default": "barcode",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor position in results",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "label",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "created",
+            "required": false,
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "lastmodified",
+            "required": false,
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order of search results: asc or desc",
+            "in": "query",
+            "name": "sortorder",
+            "required": false,
+            "schema": {
+              "default": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "scheme_name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of schemes objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Schemes"
+        ],
+        "operationId": "get-api-v2-0-sku-schemes"
+      }
+    },
+    "/api/v2-0/id/schemes/orderid": {
+      "get": {
+        "description": "Genotyping schemes",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "created": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "lastmodified": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "scheme_name": {
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of schemes objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Schemes"
+        ],
+        "operationId": "get-api-v2-0-id-schemes-orderid-v2"
+      },
+      "post": {
+        "description": "Genotyping schemes",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "created": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "lastmodified": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "scheme_name": {
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of schemes objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Schemes"
+        ],
+        "operationId": "post-api-v2-0-id-schemes-orderid-v2"
+      },
+      "put": {
+        "description": "Genotyping schemes",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "created": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "lastmodified": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "scheme_name": {
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Schemes"
+        ],
+        "operationId": "put-api-v2-0-id-schemes-orderid"
+      }
+    },
+    "/api/v2-0/userid/straindata": {
+      "get": {
+        "description": "Strain data",
+        "parameters": [
+          {
+            "description": "",
+            "in": "query",
+            "name": "continent",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor position in results",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "sample_accession",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "latitude",
+            "required": false,
+            "schema": {
+              "format": "float",
+              "type": "number"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_month",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "strain_name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "lab_contact",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order of search results: asc or desc",
+            "in": "query",
+            "name": "sortorder",
+            "required": false,
+            "schema": {
+              "default": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "n50",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "serotype",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "region",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "country",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_date",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "custom_fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_niche",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_year",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_details",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "substrains",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Field to order by. Default: strain barcode",
+            "in": "query",
+            "name": "orderby",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "my_strains",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_time",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "county",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "uberstrain",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "top_species",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "comment",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "longitude",
+            "required": false,
+            "schema": {
+              "format": "float",
+              "type": "number"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "reldate",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_AS e.g. SAL_AA0001AA_AS",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "postcode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "assembly_status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of straindata objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Straindata"
+        ],
+        "operationId": "get-api-v2-0-userid-straindata-v2"
+      }
+    },
+    "/api/v2-0/sku/strains": {
+      "get": {
+        "description": "Strain metadata",
+        "parameters": [
+          {
+            "description": "",
+            "in": "query",
+            "name": "continent",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor position in results",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "sample_accession",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "latitude",
+            "required": false,
+            "schema": {
+              "format": "float",
+              "type": "number"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_month",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "antigenic_formulas",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "strain_name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "lab_contact",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order of search results: asc or desc",
+            "in": "query",
+            "name": "sortorder",
+            "required": false,
+            "schema": {
+              "default": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "serotype",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "region",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "country",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_date",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "return_all",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_niche",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_year",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_details",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "substrains",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Field to order by. Default: barcode",
+            "in": "query",
+            "name": "orderby",
+            "required": false,
+            "schema": {
+              "default": "barcode",
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "my_strains",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_time",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "county",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "uberstrain",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "comment",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "longitude",
+            "required": false,
+            "schema": {
+              "format": "float",
+              "type": "number"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "reldate",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "assembly_barcode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "postcode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of strains objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Strains"
+        ],
+        "operationId": "get-api-v2-0-sku-strains-v2"
+      }
+    },
+    "/api/v2-0/orderid/strains/paymentid": {
+      "get": {
+        "description": "Strain metadata",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "antigenic_formulas": {
+                    "type": "string"
+                  },
+                  "assembly_barcode": {
+                    "type": "string"
+                  },
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "collection_date": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "collection_month": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "collection_time": {
+                    "type": "string"
+                  },
+                  "collection_year": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "comment": {
+                    "type": "string"
+                  },
+                  "continent": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  },
+                  "county": {
+                    "type": "string"
+                  },
+                  "lab_contact": {
+                    "type": "string"
+                  },
+                  "latitude": {
+                    "format": "float",
+                    "type": "number"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "longitude": {
+                    "format": "float",
+                    "type": "number"
+                  },
+                  "my_strains": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "postcode": {
+                    "type": "string"
+                  },
+                  "region": {
+                    "type": "string"
+                  },
+                  "reldate": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "return_all": {
+                    "type": "boolean"
+                  },
+                  "sample_accession": {
+                    "type": "string"
+                  },
+                  "secondary_sample_accession": {
+                    "type": "string"
+                  },
+                  "serotype": {
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "source_details": {
+                    "type": "string"
+                  },
+                  "source_niche": {
+                    "type": "string"
+                  },
+                  "source_type": {
+                    "type": "string"
+                  },
+                  "strain_name": {
+                    "type": "string"
+                  },
+                  "substrains": {
+                    "type": "boolean"
+                  },
+                  "uberstrain": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of strains objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Strains"
+        ],
+        "operationId": "get-api-v2-0-orderid-strains-paymentid"
+      },
+      "post": {
+        "description": "Strain metadata",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "antigenic_formulas": {
+                    "type": "string"
+                  },
+                  "assembly_barcode": {
+                    "type": "string"
+                  },
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "collection_date": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "collection_month": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "collection_time": {
+                    "type": "string"
+                  },
+                  "collection_year": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "comment": {
+                    "type": "string"
+                  },
+                  "continent": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  },
+                  "county": {
+                    "type": "string"
+                  },
+                  "lab_contact": {
+                    "type": "string"
+                  },
+                  "latitude": {
+                    "format": "float",
+                    "type": "number"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "longitude": {
+                    "format": "float",
+                    "type": "number"
+                  },
+                  "my_strains": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "postcode": {
+                    "type": "string"
+                  },
+                  "region": {
+                    "type": "string"
+                  },
+                  "reldate": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "return_all": {
+                    "type": "boolean"
+                  },
+                  "sample_accession": {
+                    "type": "string"
+                  },
+                  "secondary_sample_accession": {
+                    "type": "string"
+                  },
+                  "serotype": {
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "source_details": {
+                    "type": "string"
+                  },
+                  "source_niche": {
+                    "type": "string"
+                  },
+                  "source_type": {
+                    "type": "string"
+                  },
+                  "strain_name": {
+                    "type": "string"
+                  },
+                  "substrains": {
+                    "type": "boolean"
+                  },
+                  "uberstrain": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of strains objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Strains"
+        ],
+        "operationId": "post-api-v2-0-orderid-strains-paymentid-v2"
+      },
+      "put": {
+        "description": "Strain metadata",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "antigenic_formulas": {
+                    "type": "string"
+                  },
+                  "assembly_barcode": {
+                    "type": "string"
+                  },
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "collection_date": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "collection_month": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "collection_time": {
+                    "type": "string"
+                  },
+                  "collection_year": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "comment": {
+                    "type": "string"
+                  },
+                  "continent": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  },
+                  "county": {
+                    "type": "string"
+                  },
+                  "lab_contact": {
+                    "type": "string"
+                  },
+                  "latitude": {
+                    "format": "float",
+                    "type": "number"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "longitude": {
+                    "format": "float",
+                    "type": "number"
+                  },
+                  "my_strains": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "postcode": {
+                    "type": "string"
+                  },
+                  "region": {
+                    "type": "string"
+                  },
+                  "reldate": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "return_all": {
+                    "type": "boolean"
+                  },
+                  "sample_accession": {
+                    "type": "string"
+                  },
+                  "secondary_sample_accession": {
+                    "type": "string"
+                  },
+                  "serotype": {
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  },
+                  "source_details": {
+                    "type": "string"
+                  },
+                  "source_niche": {
+                    "type": "string"
+                  },
+                  "source_type": {
+                    "type": "string"
+                  },
+                  "strain_name": {
+                    "type": "string"
+                  },
+                  "substrains": {
+                    "type": "boolean"
+                  },
+                  "uberstrain": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "format": "int32",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Strains"
+        ],
+        "operationId": "put-api-v2-0-orderid-strains-paymentid"
+      }
+    },
+    "/api/v2-0/sku/strainsversion": {
+      "get": {
+        "description": "Strain previous metadata",
+        "parameters": [
+          {
+            "description": "",
+            "in": "query",
+            "name": "continent",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor position in results",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "sample_accession",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "latitude",
+            "required": false,
+            "schema": {
+              "format": "float",
+              "type": "number"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_month",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "antigenic_formulas",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "strain_name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "lab_contact",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order of search results: asc or desc",
+            "in": "query",
+            "name": "sortorder",
+            "required": false,
+            "schema": {
+              "default": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "serotype",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "region",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "country",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_date",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "return_all",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_niche",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_year",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_details",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "substrains",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "source_type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Field to order by. Default: barcode",
+            "in": "query",
+            "name": "orderby",
+            "required": false,
+            "schema": {
+              "default": "barcode",
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "my_strains",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "collection_time",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "county",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "uberstrain",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "comment",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "longitude",
+            "required": false,
+            "schema": {
+              "format": "float",
+              "type": "number"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "reldate",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "assembly_barcode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "postcode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of strainsversion objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Strainsversion"
+        ],
+        "operationId": "get-api-v2-0-sku-strainsversion-v2"
+      }
+    },
+    "/api/v2-0/paymentid/traces": {
+      "get": {
+        "description": "Traces (sequence-reads) metadata",
+        "parameters": [
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_TR e.g. SAL_AA0001AA_TR",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Field to order by. Default: barcode",
+            "in": "query",
+            "name": "orderby",
+            "required": false,
+            "schema": {
+              "default": "barcode",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor position in results",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Order of search results: asc or desc",
+            "in": "query",
+            "name": "sortorder",
+            "required": false,
+            "schema": {
+              "default": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of traces objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Traces"
+        ],
+        "operationId": "get-api-v2-0-paymentid-traces-v2"
+      }
+    },
+    "/api/v2-0/id/traces/orderid": {
+      "get": {
+        "description": "Traces (sequence-reads) metadata",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_TR e.g. SAL_AA0001AA_TR",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of traces objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Traces"
+        ],
+        "operationId": "get-api-v2-0-id-traces-orderid"
+      },
+      "post": {
+        "description": "Traces (sequence-reads) metadata",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_TR e.g. SAL_AA0001AA_TR",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of traces objects"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Traces"
+        ],
+        "operationId": "post-api-v2-0-id-traces-orderid-v2"
+      },
+      "put": {
+        "description": "Traces (sequence-reads) metadata",
+        "parameters": [
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique barcode for Traces records, <database prefix>_<ID code>_TR e.g. SAL_AA0001AA_TR",
+            "in": "path",
+            "name": "barcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "barcode": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "only_fields": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "orderby": {
+                    "default": "barcode",
+                    "type": "string"
+                  },
+                  "sortorder": {
+                    "default": "asc",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Traces"
+        ],
+        "operationId": "put-api-v2-0-id-traces-orderid"
+      }
+    },
+    "/api/v2-0/userid/orderid/alleles": {
+      "get": {
+        "description": "Alleles  data ",
+        "parameters": [
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "locus",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "allele_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "seq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "reldate",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "path",
+            "name": "scheme",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of alleles objects"
+          },
+          "400": {
+            "description": "Malformed request, contains an error"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Alleles"
+        ],
+        "operationId": "get-api-v2-0-userid-orderid-alleles"
+      }
+    },
+    "/api/v2-0/orderid/sku/loci": {
+      "get": {
+        "description": "Loci ",
+        "parameters": [
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "locus",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "create_time",
+            "required": false,
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "scheme",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "path",
+            "name": "scheme",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of loci objects"
+          },
+          "400": {
+            "description": "Malformed request, contains an error"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Loci"
+        ],
+        "operationId": "get-api-v2-0-orderid-sku-loci"
+      }
+    },
+    "/api/v2-0/orderid/paymentid/sts": {
+      "get": {
+        "description": "ST profile data",
+        "parameters": [
+          {
+            "description": "Unique barcode for Strain records, <database prefix>_<ID code> e.g. SAL_AA0001AA",
+            "explode": true,
+            "in": "query",
+            "name": "barcode",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "st_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "show_alleles",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "",
+            "explode": true,
+            "in": "query",
+            "name": "only_fields",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "reldate",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "",
+            "in": "query",
+            "name": "scheme",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Species database name (senterica, ecoli, yersinia, mcatarrhalis) for Salmonella, Escherichia, Yersinia, Moraxella respectively",
+            "in": "path",
+            "name": "database",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "",
+            "in": "path",
+            "name": "scheme",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of sts objects"
+          },
+          "400": {
+            "description": "Malformed request, contains an error"
+          },
+          "403": {
+            "description": "Unauthorised access for this specific resource"
+          }
+        },
+        "tags": [
+          "Sts"
+        ],
+        "operationId": "get-api-v2-0-orderid-paymentid-sts-v2"
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "Body": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "antigenic_formulas": {
+                  "type": "string"
+                },
+                "assembly_barcode": {
+                  "type": "string"
+                },
+                "barcode": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "collection_date": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "collection_month": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "collection_time": {
+                  "type": "string"
+                },
+                "collection_year": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "comment": {
+                  "type": "string"
+                },
+                "continent": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "county": {
+                  "type": "string"
+                },
+                "lab_contact": {
+                  "type": "string"
+                },
+                "latitude": {
+                  "format": "float",
+                  "type": "number"
+                },
+                "limit": {
+                  "default": 50,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "longitude": {
+                  "format": "float",
+                  "type": "number"
+                },
+                "my_strains": {
+                  "type": "boolean"
+                },
+                "offset": {
+                  "default": 0,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "only_fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "orderby": {
+                  "default": "barcode",
+                  "type": "string"
+                },
+                "postcode": {
+                  "type": "string"
+                },
+                "region": {
+                  "type": "string"
+                },
+                "reldate": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "return_all": {
+                  "type": "boolean"
+                },
+                "sample_accession": {
+                  "type": "string"
+                },
+                "secondary_sample_accession": {
+                  "type": "string"
+                },
+                "serotype": {
+                  "type": "string"
+                },
+                "sortorder": {
+                  "default": "asc",
+                  "type": "string"
+                },
+                "source_details": {
+                  "type": "string"
+                },
+                "source_niche": {
+                  "type": "string"
+                },
+                "source_type": {
+                  "type": "string"
+                },
+                "strain_name": {
+                  "type": "string"
+                },
+                "substrains": {
+                  "type": "boolean"
+                },
+                "uberstrain": {
+                  "type": "string"
+                },
+                "version": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Body2": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "barcode": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "created": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "lastmodified": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "limit": {
+                  "default": 50,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "offset": {
+                  "default": 0,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "only_fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "orderby": {
+                  "default": "barcode",
+                  "type": "string"
+                },
+                "scheme_name": {
+                  "type": "string"
+                },
+                "sortorder": {
+                  "default": "asc",
+                  "type": "string"
+                },
+                "version": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Body3": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "assembly_status": {
+                  "type": "string"
+                },
+                "barcode": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "limit": {
+                  "default": 50,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "n50": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "offset": {
+                  "default": 0,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "only_fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "orderby": {
+                  "default": "barcode",
+                  "type": "string"
+                },
+                "reldate": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "sortorder": {
+                  "default": "asc",
+                  "type": "string"
+                },
+                "top_species": {
+                  "type": "string"
+                },
+                "uberstrain": {
+                  "type": "string"
+                },
+                "version": {
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Body4": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "barcode": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "limit": {
+                  "default": 50,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "offset": {
+                  "default": 0,
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "only_fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "orderby": {
+                  "default": "barcode",
+                  "type": "string"
+                },
+                "sortorder": {
+                  "default": "asc",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "description": "Basic Authentication is required for all requests ",
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  }
+}

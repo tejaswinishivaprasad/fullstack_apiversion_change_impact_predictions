@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "Kotlin",
+  "packageName": "org.openrewrite.kotlin",
+  "description": "Recipes to search and transform Kotlin.",
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

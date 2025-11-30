@@ -1,0 +1,1 @@
+{"pair_id": "pair-d528a6db946824ebd11f", "ace_index": 0, "ace_id": "pair-d528a6db946824ebd11f::ace::0", "type": "PARAM_ADDED", "path": "/safety/safety-rated-locations", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "3318741af648288fc547", "new_sha": "e92036040366af7417bb"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

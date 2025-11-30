@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindDeprecatedFields",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.old.types..*",
+        "null",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "import org.old.types.D;\nclass Test {\n    void test(int n) {\n        System.out.println(D.FIELD);\n    }\n}\n",
+          "after": "import org.old.types.D;\nclass Test {\n    void test(int n) {\n        System.out.println(D./*~~>*/FIELD);\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

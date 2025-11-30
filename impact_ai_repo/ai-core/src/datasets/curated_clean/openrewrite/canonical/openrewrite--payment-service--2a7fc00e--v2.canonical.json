@@ -1,0 +1,34 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.AddMethodParameter",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "foo.Foo#bar(..)",
+        "int",
+        "i",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "package foo;\n\npublic class Foo {\n    public void bar() {\n    }\n}\n",
+          "after": "package foo;\n\npublic class Foo {\n    public void bar(int i) {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.XsltTransformation",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "xslt",
+        "null",
+        "**/*.xml"
+      ],
+      "sources": [
+        {
+          "before": "<configuration>\n    <activeRecipes>\n        <recipe>org.openrewrite.java.cleanup.UnnecessaryThrows</recipe>\n    </activeRecipes>\n</configuration>\n",
+          "after": "<configuration>\n    <activeRecipes>\n        <activeRecipe>org.openrewrite.java.cleanup.UnnecessaryThrows</activeRecipe>\n    </activeRecipes>\n</configuration>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id"
+      }
+    }
+  }
+}

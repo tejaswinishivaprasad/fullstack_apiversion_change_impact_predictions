@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindEmptyMethods",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "true"
+      ],
+      "sources": [
+        {
+          "before": "import java.util.Collection;\n\nclass Test implements Collection<String> {\n    @Override\n    public boolean isEmpty() {\n    }\n}\n",
+          "after": "import java.util.Collection;\n\nclass Test implements Collection<String> {\n    /*~~>*/@Override\n    public boolean isEmpty() {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id-v2"
+      }
+    }
+  }
+}

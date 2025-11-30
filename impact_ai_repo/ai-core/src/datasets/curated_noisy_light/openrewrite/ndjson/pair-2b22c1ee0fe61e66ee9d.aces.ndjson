@@ -1,0 +1,1 @@
+{"pair_id": "pair-2b22c1ee0fe61e66ee9d", "ace_index": 0, "ace_id": "pair-2b22c1ee0fe61e66ee9d::ace::0", "type": "ENDPOINT_ADDED", "path": "/billing/{id}", "method": "get", "detail": "/billing/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "ca256d1c354676aea9ff"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

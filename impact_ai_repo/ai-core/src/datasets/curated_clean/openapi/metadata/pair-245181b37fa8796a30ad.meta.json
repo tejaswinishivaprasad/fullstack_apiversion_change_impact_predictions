@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-245181b37fa8796a30ad",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--245181b3--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--245181b3--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--245181b3--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--245181b3--v2.canonical.json",
+  "old_sha": "d8e6348d353ce6f06543",
+  "new_sha": "0e01047a8e71aa882e69",
+  "generated_at": "2025-11-30T11:50:46+00:00",
+  "producers_sample": [
+    "/v1/nutrition",
+    "/v1/nutrition"
+  ]
+}

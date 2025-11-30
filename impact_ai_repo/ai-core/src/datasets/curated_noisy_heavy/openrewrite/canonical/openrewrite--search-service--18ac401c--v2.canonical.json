@@ -1,0 +1,55 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "org.openrewrite.recipes.rewrite.OpenRewriteRecipeBestPracticesSubset",
+  "displayName": "OpenRewrite best practices",
+  "description": "Best practices for OpenRewrite recipe development.",
+  "preconditions": [
+    {
+      "org.openrewrite.FindSourceFiles": {
+        "filePattern": "!(**/internal/grammar/*.*)"
+      }
+    }
+  ],
+  "recipeList": [
+    "org.openrewrite.recipes.JavaRecipeBestPracticesSubset",
+    "org.openrewrite.recipes.RecipeTestingBestPracticesSubset",
+    "org.openrewrite.recipes.RecipeNullabilityBestPracticesSubset",
+    "org.openrewrite.java.RemoveUnusedImports",
+    "org.openrewrite.java.SimplifySingleElementAnnotation",
+    "org.openrewrite.java.format.EmptyNewlineAtEndOfFile",
+    "org.openrewrite.java.format.RemoveTrailingWhitespace",
+    "org.openrewrite.staticanalysis.CompareEnumsWithEqualityOperator",
+    "org.openrewrite.staticanalysis.EqualsAvoidsNull",
+    "org.openrewrite.staticanalysis.InlineVariable",
+    "org.openrewrite.staticanalysis.LambdaBlockToExpression",
+    "org.openrewrite.staticanalysis.MissingOverrideAnnotation",
+    {
+      "org.openrewrite.staticanalysis.OperatorWrap": {
+        "wrapOption": "EOL"
+      }
+    },
+    "org.openrewrite.staticanalysis.UseDiamondOperator",
+    {
+      "org.openrewrite.java.UseStaticImport": {
+        "methodPattern": "java.util.stream.Collectors *(..)"
+      }
+    },
+    {
+      "org.openrewrite.java.UseStaticImport": {
+        "methodPattern": "java.util.Collections *(..)"
+      }
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.SimplifyMethodChain",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "Arrays.asList(\"A b()\", \"B c()\")",
+        "c2",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "class A {\n    static B b() { return new B(); }\n    static C c2() { return new C(); }\n}\n\nclass B {\n    C c() { return new C(); }\n}\n\nclass C {\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "class Test {\n    C c = A.b().c();\n}\n",
+          "after": "class Test {\n    C c = A.c2();\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id-v2"
+      }
+    }
+  }
+}

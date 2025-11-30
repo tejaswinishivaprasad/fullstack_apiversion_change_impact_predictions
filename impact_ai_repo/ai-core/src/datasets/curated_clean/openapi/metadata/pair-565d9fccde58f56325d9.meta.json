@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-565d9fccde58f56325d9",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--565d9fcc--v1.canonical.json",
+  "new_canonical": "openapi--search-service--565d9fcc--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--565d9fcc--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--565d9fcc--v2.canonical.json",
+  "old_sha": "d0d620dab36c230d6827",
+  "new_sha": "e5f4c44330dbba84f9ef",
+  "generated_at": "2025-11-30T11:50:05+00:00",
+  "producers_sample": [
+    "/api/accounts",
+    "/api/accounts/id/holdings",
+    "/api/accounts/paymentid/savingsstrategies",
+    "/api/accounts/userid",
+    "/api/accounts/userid/holdings/paymentid",
+    "/api/accounts",
+    "/api/accounts/paymentid/holdings/id",
+    "/api/accounts/sku",
+    "/api/accounts/sku/holdings",
+    "/api/accounts/userid/savingsstrategies"
+  ]
+}

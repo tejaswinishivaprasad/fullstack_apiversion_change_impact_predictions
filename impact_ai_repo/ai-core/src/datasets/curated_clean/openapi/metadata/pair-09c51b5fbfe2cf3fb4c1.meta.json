@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-09c51b5fbfe2cf3fb4c1",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--09c51b5f--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--09c51b5f--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--09c51b5f--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--09c51b5f--v2.canonical.json",
+  "old_sha": "97b3c8a2208ccff4b2d5",
+  "new_sha": "7b7410c340892b06dfef",
+  "generated_at": "2025-11-30T11:54:04+00:00",
+  "producers_sample": [
+    "/billing/{id}",
+    "/carts/{id}",
+    "/earth-observation-jobs/orderid",
+    "/earth-observation-jobs/stop",
+    "/inventory/{id}",
+    "/billing/{id}",
+    "/carts/{id}",
+    "/earth-observation-jobs/stop",
+    "/earth-observation-jobs/userid",
+    "/inventory/{id}"
+  ]
+}

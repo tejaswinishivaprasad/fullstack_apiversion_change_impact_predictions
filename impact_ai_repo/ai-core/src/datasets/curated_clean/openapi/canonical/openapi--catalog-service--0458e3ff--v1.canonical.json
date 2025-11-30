@@ -1,0 +1,5485 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2018-05-10",
+    "x-release": "v4",
+    "title": "AWS IoT RoboRunner",
+    "description": "An example service, deployed with the Octane Service creator, which will echo the string",
+    "x-logo": {
+      "url": "https://twitter.com/awscloud/profile_image?size=original",
+      "backgroundColor": "#FFFFFF"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "contact": {
+      "name": "Mike Ralphson",
+      "email": "mike.ralphson@gmail.com",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "x-providerName": "amazonaws.com",
+    "x-serviceName": "iot-roborunner",
+    "x-aws-signingName": "iotroborunner",
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/iot-roborunner-2018-05-10.normal.json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-preferred": true
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/iotroborunner/"
+  },
+  "servers": [
+    {
+      "url": "http://iotroborunner.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The AWS IoT RoboRunner multi-region endpoint"
+    },
+    {
+      "url": "https://iotroborunner.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The AWS IoT RoboRunner multi-region endpoint"
+    },
+    {
+      "url": "http://iotroborunner.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The AWS IoT RoboRunner endpoint for China (Beijing) and China (Ningxia)"
+    },
+    {
+      "url": "https://iotroborunner.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The AWS IoT RoboRunner endpoint for China (Beijing) and China (Ningxia)"
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "post": {
+        "operationId": "createdestination",
+        "description": "Grants permission to create a destination",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "arn",
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "state"
+                  ],
+                  "properties": {
+                    "arn": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Destination ARN.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Filters access by the destination's identifier",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was created.",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was last updated.",
+                      "format": "date-time"
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "ENABLED",
+                        "DISABLED",
+                        "DECOMMISSIONED"
+                      ],
+                      "description": "State of the destination."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ConflictException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "485": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "486": {
+            "description": "ServiceQuotaExceededException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "site"
+                ],
+                "properties": {
+                  "clientToken": {
+                    "description": "Token used for detecting replayed requests. Replayed requests will not be performed multiple times.",
+                    "type": "string",
+                    "pattern": "[!-~]*",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "name": {
+                    "description": "Human friendly name of the resource.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "site": {
+                    "description": "Site ARN.",
+                    "type": "string",
+                    "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                    "minLength": 1,
+                    "maxLength": 1011
+                  },
+                  "state": {
+                    "description": "State of the destination.",
+                    "type": "string",
+                    "enum": [
+                      "ENABLED",
+                      "DISABLED",
+                      "DECOMMISSIONED"
+                    ]
+                  },
+                  "additionalFixedProperties": {
+                    "description": "JSON document containing additional fixed properties regarding the destination",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 131072
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/profiles/{id}": {
+      "post": {
+        "operationId": "updatedestination-v2",
+        "description": "Grants permission to update a destination",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "arn",
+                    "id",
+                    "name",
+                    "updatedAt",
+                    "state"
+                  ],
+                  "properties": {
+                    "arn": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Destination ARN.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Filters access by the destination's identifier",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Human friendly name of the resource.",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was last updated.",
+                      "format": "date-time"
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "ENABLED",
+                        "DISABLED",
+                        "DECOMMISSIONED"
+                      ],
+                      "description": "State of the destination."
+                    },
+                    "additionalFixedProperties": {
+                      "type": "string",
+                      "description": "JSON document containing additional fixed properties regarding the destination",
+                      "minLength": 1,
+                      "maxLength": 131072
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Destination ARN.",
+                    "type": "string",
+                    "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                    "minLength": 1,
+                    "maxLength": 1011
+                  },
+                  "name": {
+                    "description": "Human friendly name of the resource.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "state": {
+                    "description": "State of the destination.",
+                    "type": "string",
+                    "enum": [
+                      "ENABLED",
+                      "DISABLED",
+                      "DECOMMISSIONED"
+                    ]
+                  },
+                  "additionalFixedProperties": {
+                    "description": "JSON document containing additional fixed properties regarding the destination",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 131072
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/inventory/{id}": {
+      "post": {
+        "operationId": "updateworker-v2",
+        "description": "Grants permission to update a worker",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "arn",
+                    "id",
+                    "fleet",
+                    "updatedAt",
+                    "name"
+                  ],
+                  "properties": {
+                    "arn": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Full ARN of the worker.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Filters access by the workers identifier",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "fleet": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Full ARN of the worker fleet.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was last updated.",
+                      "format": "date-time"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Human friendly name of the resource.",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "additionalTransientProperties": {
+                      "type": "string",
+                      "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+                      "minLength": 1,
+                      "maxLength": 131072
+                    },
+                    "additionalFixedProperties": {
+                      "type": "string",
+                      "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+                      "minLength": 1,
+                      "maxLength": 131072
+                    },
+                    "orientation": {
+                      "type": "object",
+                      "properties": {
+                        "degrees": {
+                          "allOf": [
+                            {
+                              "type": "number",
+                              "format": "double",
+                              "minimum": 0,
+                              "maximum": 360
+                            },
+                            {
+                              "description": "Degrees, limited on [0, 360)"
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        }
+                      },
+                      "description": "Worker orientation measured in units clockwise from north."
+                    },
+                    "vendorProperties": {
+                      "type": "object",
+                      "required": [
+                        "vendorWorkerId"
+                      ],
+                      "properties": {
+                        "vendorWorkerId": {
+                          "type": "string",
+                          "description": "The worker ID defined by the vendor FMS.",
+                          "minLength": 1,
+                          "maxLength": 255
+                        },
+                        "vendorWorkerIpAddress": {
+                          "type": "string",
+                          "description": "The worker IP address defined by the vendor FMS.",
+                          "minLength": 1,
+                          "maxLength": 45
+                        },
+                        "vendorAdditionalTransientProperties": {
+                          "type": "string",
+                          "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                          "minLength": 1,
+                          "maxLength": 131072
+                        },
+                        "vendorAdditionalFixedProperties": {
+                          "type": "string",
+                          "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                          "minLength": 1,
+                          "maxLength": 131072
+                        }
+                      },
+                      "description": "Properties of the worker that are provided by the vendor FMS."
+                    },
+                    "position": {
+                      "type": "object",
+                      "properties": {
+                        "cartesianCoordinates": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "required": [
+                                "x",
+                                "y"
+                              ],
+                              "properties": {
+                                "x": {
+                                  "allOf": [
+                                    {
+                                      "type": "number",
+                                      "format": "double"
+                                    },
+                                    {
+                                      "description": "X coordinate."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "y": {
+                                  "allOf": [
+                                    {
+                                      "type": "number",
+                                      "format": "double"
+                                    },
+                                    {
+                                      "description": "Y coordinate."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                },
+                                "z": {
+                                  "allOf": [
+                                    {
+                                      "type": "number",
+                                      "format": "double"
+                                    },
+                                    {
+                                      "description": "Z coordinate."
+                                    }
+                                  ],
+                                  "_polymorphic_marker": {
+                                    "allOf": true
+                                  }
+                                }
+                              },
+                              "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                            },
+                            {
+                              "description": "Cartesian coordinates."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        }
+                      },
+                      "description": "Supported coordinates for worker position."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Full ARN of the worker.",
+                    "type": "string",
+                    "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                    "minLength": 1,
+                    "maxLength": 1011
+                  },
+                  "name": {
+                    "description": "Human friendly name of the resource.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "additionalTransientProperties": {
+                    "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 131072
+                  },
+                  "additionalFixedProperties": {
+                    "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 131072
+                  },
+                  "vendorProperties": {
+                    "description": "Properties of the worker that are provided by the vendor FMS.",
+                    "type": "object",
+                    "properties": {
+                      "vendorWorkerId": {
+                        "type": "string",
+                        "description": "The worker ID defined by the vendor FMS.",
+                        "minLength": 1,
+                        "maxLength": 255
+                      },
+                      "vendorWorkerIpAddress": {
+                        "type": "string",
+                        "description": "The worker IP address defined by the vendor FMS.",
+                        "minLength": 1,
+                        "maxLength": 45
+                      },
+                      "vendorAdditionalTransientProperties": {
+                        "type": "string",
+                        "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                        "minLength": 1,
+                        "maxLength": 131072
+                      },
+                      "vendorAdditionalFixedProperties": {
+                        "type": "string",
+                        "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                        "minLength": 1,
+                        "maxLength": 131072
+                      }
+                    }
+                  },
+                  "position": {
+                    "description": "Supported coordinates for worker position.",
+                    "type": "object",
+                    "properties": {
+                      "cartesianCoordinates": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "required": [
+                              "x",
+                              "y"
+                            ],
+                            "properties": {
+                              "x": {
+                                "allOf": [
+                                  {
+                                    "type": "number",
+                                    "format": "double"
+                                  },
+                                  {
+                                    "description": "X coordinate."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "y": {
+                                "allOf": [
+                                  {
+                                    "type": "number",
+                                    "format": "double"
+                                  },
+                                  {
+                                    "description": "Y coordinate."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "z": {
+                                "allOf": [
+                                  {
+                                    "type": "number",
+                                    "format": "double"
+                                  },
+                                  {
+                                    "description": "Z coordinate."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                          },
+                          {
+                            "description": "Cartesian coordinates."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    }
+                  },
+                  "orientation": {
+                    "description": "Worker orientation measured in units clockwise from north.",
+                    "type": "object",
+                    "properties": {
+                      "degrees": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "minimum": 0,
+                            "maximum": 360
+                          },
+                          {
+                            "description": "Degrees, limited on [0, 360)"
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/payments/{id}": {
+      "post": {
+        "operationId": "updatesite",
+        "description": "Grants permission to update a site",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "arn",
+                    "id",
+                    "name",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "arn": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Site ARN.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Filters access by the site's identifier",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Human friendly name of the resource.",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "countryCode": {
+                      "type": "string",
+                      "pattern": "[a-zA-Z]{2}",
+                      "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+                      "minLength": 2,
+                      "maxLength": 2
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "A high-level description of the site.",
+                      "minLength": 0,
+                      "maxLength": 140
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was last updated.",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Site ARN.",
+                    "type": "string",
+                    "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                    "minLength": 1,
+                    "maxLength": 1011
+                  },
+                  "name": {
+                    "description": "Human friendly name of the resource.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "countryCode": {
+                    "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+                    "type": "string",
+                    "pattern": "[a-zA-Z]{2}",
+                    "minLength": 2,
+                    "maxLength": 2
+                  },
+                  "description": {
+                    "description": "A high-level description of the site.",
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 140
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/carts/{id}": {
+      "post": {
+        "operationId": "deletedestination",
+        "description": "Grants permission to delete a destination",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "ConflictException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "485": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Destination ARN.",
+                    "type": "string",
+                    "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                    "minLength": 1,
+                    "maxLength": 1011
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/reviews/{id}": {
+      "post": {
+        "operationId": "updateworkerfleet",
+        "description": "Grants permission to update a worker fleet",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "arn",
+                    "id",
+                    "name",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "arn": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Full ARN of the worker fleet.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Filters access by the worker fleet's identifier",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Human friendly name of the resource.",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was last updated.",
+                      "format": "date-time"
+                    },
+                    "additionalFixedProperties": {
+                      "type": "string",
+                      "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+                      "minLength": 1,
+                      "maxLength": 131072
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Full ARN of the worker fleet.",
+                    "type": "string",
+                    "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                    "minLength": 1,
+                    "maxLength": 1011
+                  },
+                  "name": {
+                    "description": "Human friendly name of the resource.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "additionalFixedProperties": {
+                    "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 131072
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/products/{id}": {
+      "get": {
+        "operationId": "listworkers",
+        "description": "Grants permission to list workers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nextToken": {
+                      "type": "string",
+                      "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+                      "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "workers": {
+                      "type": "array",
+                      "description": "List of workers.",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "arn",
+                          "id",
+                          "fleet",
+                          "createdAt",
+                          "updatedAt",
+                          "name",
+                          "site"
+                        ],
+                        "properties": {
+                          "arn": {
+                            "type": "string",
+                            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                            "description": "Full ARN of the worker.",
+                            "minLength": 1,
+                            "maxLength": 1011
+                          },
+                          "id": {
+                            "type": "string",
+                            "description": "Filters access by the workers identifier",
+                            "minLength": 1,
+                            "maxLength": 255
+                          },
+                          "fleet": {
+                            "type": "string",
+                            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                            "description": "Full ARN of the worker fleet.",
+                            "minLength": 1,
+                            "maxLength": 1011
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "Timestamp at which the resource was created.",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "Timestamp at which the resource was last updated.",
+                            "format": "date-time"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Human friendly name of the resource.",
+                            "minLength": 1,
+                            "maxLength": 255
+                          },
+                          "site": {
+                            "type": "string",
+                            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                            "description": "Site ARN.",
+                            "minLength": 1,
+                            "maxLength": 1011
+                          },
+                          "additionalTransientProperties": {
+                            "type": "string",
+                            "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+                            "minLength": 1,
+                            "maxLength": 131072
+                          },
+                          "additionalFixedProperties": {
+                            "type": "string",
+                            "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+                            "minLength": 1,
+                            "maxLength": 131072
+                          },
+                          "vendorProperties": {
+                            "type": "object",
+                            "required": [
+                              "vendorWorkerId"
+                            ],
+                            "properties": {
+                              "vendorWorkerId": {
+                                "type": "string",
+                                "description": "The worker ID defined by the vendor FMS.",
+                                "minLength": 1,
+                                "maxLength": 255
+                              },
+                              "vendorWorkerIpAddress": {
+                                "type": "string",
+                                "description": "The worker IP address defined by the vendor FMS.",
+                                "minLength": 1,
+                                "maxLength": 45
+                              },
+                              "vendorAdditionalTransientProperties": {
+                                "type": "string",
+                                "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                                "minLength": 1,
+                                "maxLength": 131072
+                              },
+                              "vendorAdditionalFixedProperties": {
+                                "type": "string",
+                                "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                                "minLength": 1,
+                                "maxLength": 131072
+                              }
+                            },
+                            "description": "Properties of the worker that are provided by the vendor FMS."
+                          },
+                          "position": {
+                            "type": "object",
+                            "properties": {
+                              "cartesianCoordinates": {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "required": [
+                                      "x",
+                                      "y"
+                                    ],
+                                    "properties": {
+                                      "x": {
+                                        "allOf": [
+                                          {
+                                            "type": "number",
+                                            "format": "double"
+                                          },
+                                          {
+                                            "description": "X coordinate."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      },
+                                      "y": {
+                                        "allOf": [
+                                          {
+                                            "type": "number",
+                                            "format": "double"
+                                          },
+                                          {
+                                            "description": "Y coordinate."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      },
+                                      "z": {
+                                        "allOf": [
+                                          {
+                                            "type": "number",
+                                            "format": "double"
+                                          },
+                                          {
+                                            "description": "Z coordinate."
+                                          }
+                                        ],
+                                        "_polymorphic_marker": {
+                                          "allOf": true
+                                        }
+                                      }
+                                    },
+                                    "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                                  },
+                                  {
+                                    "description": "Cartesian coordinates."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "Supported coordinates for worker position."
+                          },
+                          "orientation": {
+                            "type": "object",
+                            "properties": {
+                              "degrees": {
+                                "allOf": [
+                                  {
+                                    "type": "number",
+                                    "format": "double",
+                                    "minimum": 0,
+                                    "maximum": 360
+                                  },
+                                  {
+                                    "description": "Degrees, limited on [0, 360)"
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "Worker orientation measured in units clockwise from north."
+                          }
+                        },
+                        "description": "A unit capable of performing tasks."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "site",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Site ARN.",
+              "minLength": 1,
+              "maxLength": 1011
+            }
+          },
+          {
+            "name": "maxResults",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "description": "Maximum number of results to retrieve in a single ListWorkers call.",
+              "minimum": 1,
+              "maximum": 25
+            }
+          },
+          {
+            "name": "nextToken",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string",
+              "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+              "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          {
+            "name": "fleet",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Full ARN of the worker fleet.",
+              "minLength": 1,
+              "maxLength": 1011
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/orders/{id}": {
+      "get": {
+        "operationId": "getdestination-v2",
+        "description": "Grants permission to get a destination",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "arn",
+                    "id",
+                    "name",
+                    "site",
+                    "createdAt",
+                    "updatedAt",
+                    "state"
+                  ],
+                  "properties": {
+                    "arn": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Destination ARN.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Filters access by the destination's identifier",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Human friendly name of the resource.",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "site": {
+                      "type": "string",
+                      "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                      "description": "Site ARN.",
+                      "minLength": 1,
+                      "maxLength": 1011
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was created.",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "Timestamp at which the resource was last updated.",
+                      "format": "date-time"
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "ENABLED",
+                        "DISABLED",
+                        "DECOMMISSIONED"
+                      ],
+                      "description": "State of the destination."
+                    },
+                    "additionalFixedProperties": {
+                      "type": "string",
+                      "description": "JSON document containing additional fixed properties regarding the destination",
+                      "minLength": 1,
+                      "maxLength": 131072
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Destination ARN.",
+              "minLength": 1,
+              "maxLength": 1011
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/shipments/{id}": {
+      "get": {
+        "operationId": "listsites-v2",
+        "description": "Grants permission to list sites",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nextToken": {
+                      "type": "string",
+                      "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+                      "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "sites": {
+                      "type": "array",
+                      "description": "List of facilities.",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "arn",
+                          "name",
+                          "countryCode",
+                          "createdAt"
+                        ],
+                        "properties": {
+                          "arn": {
+                            "type": "string",
+                            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                            "description": "Site ARN.",
+                            "minLength": 1,
+                            "maxLength": 1011
+                          },
+                          "name": {
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "description": "Human friendly name of the resource.",
+                                "minLength": 1,
+                                "maxLength": 255
+                              },
+                              {
+                                "description": "The name of the site. Mutable after creation and unique within a given account."
+                              }
+                            ],
+                            "_polymorphic_marker": {
+                              "allOf": true
+                            }
+                          },
+                          "countryCode": {
+                            "type": "string",
+                            "pattern": "[a-zA-Z]{2}",
+                            "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+                            "minLength": 2,
+                            "maxLength": 2
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "Timestamp at which the resource was created.",
+                            "format": "date-time"
+                          }
+                        },
+                        "description": "Facility containing destinations, workers, activities, and tasks."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "AccessDeniedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "ValidationException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "ThrottlingException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "InternalServerException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "maxResults",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "description": "Maximum number of results to retrieve in a single ListSites call.",
+              "minimum": 1,
+              "maximum": 25
+            }
+          },
+          {
+            "name": "nextToken",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string",
+              "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+              "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    }
+  },
+  "components": {
+    "parameters": {
+      "X-Amz-Content-Sha256": {
+        "name": "X-Amz-Content-Sha256",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Date": {
+        "name": "X-Amz-Date",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Algorithm": {
+        "name": "X-Amz-Algorithm",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Credential": {
+        "name": "X-Amz-Credential",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Security-Token": {
+        "name": "X-Amz-Security-Token",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Signature": {
+        "name": "X-Amz-Signature",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-SignedHeaders": {
+        "name": "X-Amz-SignedHeaders",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Amazon Signature authorization v4",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    },
+    "schemas": {
+      "CreateDestinationResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "state"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Destination ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the destination's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ENABLED",
+              "DISABLED",
+              "DECOMMISSIONED"
+            ],
+            "description": "State of the destination."
+          }
+        }
+      },
+      "ConflictException": {},
+      "AccessDeniedException": {},
+      "ValidationException": {},
+      "ResourceNotFoundException": {},
+      "ThrottlingException": {},
+      "InternalServerException": {},
+      "ServiceQuotaExceededException": {},
+      "CreateSiteResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the site's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateWorkerResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "site"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the workers identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          }
+        }
+      },
+      "VendorWorkerId": {
+        "type": "string",
+        "description": "The worker ID defined by the vendor FMS.",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "VendorWorkerIpAddress": {
+        "type": "string",
+        "description": "The worker IP address defined by the vendor FMS.",
+        "minLength": 1,
+        "maxLength": 45
+      },
+      "VendorAdditionalTransientPropertiesJson": {
+        "type": "string",
+        "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+        "minLength": 1,
+        "maxLength": 131072
+      },
+      "VendorAdditionalFixedPropertiesJson": {
+        "type": "string",
+        "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+        "minLength": 1,
+        "maxLength": 131072
+      },
+      "CartesianCoordinates": {
+        "type": "object",
+        "required": [
+          "x",
+          "y"
+        ],
+        "properties": {
+          "x": {
+            "allOf": [
+              {
+                "type": "number",
+                "format": "double"
+              },
+              {
+                "description": "X coordinate."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "y": {
+            "allOf": [
+              {
+                "type": "number",
+                "format": "double"
+              },
+              {
+                "description": "Y coordinate."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "z": {
+            "allOf": [
+              {
+                "type": "number",
+                "format": "double"
+              },
+              {
+                "description": "Z coordinate."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+      },
+      "OrientationDegreesDouble": {
+        "type": "number",
+        "format": "double",
+        "minimum": 0,
+        "maximum": 360
+      },
+      "CreateWorkerFleetResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the worker fleet's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          }
+        }
+      },
+      "DeleteDestinationResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteSiteResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteWorkerResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteWorkerFleetResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "GetDestinationResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "name",
+          "site",
+          "createdAt",
+          "updatedAt",
+          "state"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Destination ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the destination's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ENABLED",
+              "DISABLED",
+              "DECOMMISSIONED"
+            ],
+            "description": "State of the destination."
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON document containing additional fixed properties regarding the destination",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "GetSiteResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "name",
+          "countryCode",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the site's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "[a-zA-Z]{2}",
+            "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "description": {
+            "type": "string",
+            "description": "A high-level description of the site.",
+            "minLength": 0,
+            "maxLength": 140
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetWorkerResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "fleet",
+          "site",
+          "createdAt",
+          "updatedAt",
+          "name"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the workers identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "fleet": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "additionalTransientProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "vendorProperties": {
+            "type": "object",
+            "required": [
+              "vendorWorkerId"
+            ],
+            "properties": {
+              "vendorWorkerId": {
+                "type": "string",
+                "description": "The worker ID defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "vendorWorkerIpAddress": {
+                "type": "string",
+                "description": "The worker IP address defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 45
+              },
+              "vendorAdditionalTransientProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              },
+              "vendorAdditionalFixedProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              }
+            },
+            "description": "Properties of the worker that are provided by the vendor FMS."
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "cartesianCoordinates": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "properties": {
+                      "x": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "X coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "y": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Y coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "z": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Z coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                  },
+                  {
+                    "description": "Cartesian coordinates."
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Supported coordinates for worker position."
+          },
+          "orientation": {
+            "type": "object",
+            "properties": {
+              "degrees": {
+                "allOf": [
+                  {
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0,
+                    "maximum": 360
+                  },
+                  {
+                    "description": "Degrees, limited on [0, 360)"
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Worker orientation measured in units clockwise from north."
+          }
+        }
+      },
+      "GetWorkerFleetResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "arn",
+          "name",
+          "site",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Filters access by the worker fleet's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "ListDestinationsResponse": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string",
+            "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+            "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "destinations": {
+            "type": "array",
+            "description": "List of destinations.",
+            "items": {
+              "type": "object",
+              "required": [
+                "arn",
+                "id",
+                "name",
+                "site",
+                "createdAt",
+                "updatedAt",
+                "state"
+              ],
+              "properties": {
+                "arn": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Destination ARN.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Filters access by the destination's identifier",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Human friendly name of the resource.",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "site": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Site ARN.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "Timestamp at which the resource was created.",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "description": "Timestamp at which the resource was last updated.",
+                  "format": "date-time"
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "ENABLED",
+                    "DISABLED",
+                    "DECOMMISSIONED"
+                  ],
+                  "description": "State of the destination."
+                },
+                "additionalFixedProperties": {
+                  "type": "string",
+                  "description": "JSON document containing additional fixed properties regarding the destination",
+                  "minLength": 1,
+                  "maxLength": 131072
+                }
+              },
+              "description": "Area within a facility where work can be performed."
+            }
+          }
+        }
+      },
+      "ListSitesResponse": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string",
+            "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+            "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "sites": {
+            "type": "array",
+            "description": "List of facilities.",
+            "items": {
+              "type": "object",
+              "required": [
+                "arn",
+                "name",
+                "countryCode",
+                "createdAt"
+              ],
+              "properties": {
+                "arn": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Site ARN.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "name": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "description": "Human friendly name of the resource.",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    {
+                      "description": "The name of the site. Mutable after creation and unique within a given account."
+                    }
+                  ],
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                },
+                "countryCode": {
+                  "type": "string",
+                  "pattern": "[a-zA-Z]{2}",
+                  "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+                  "minLength": 2,
+                  "maxLength": 2
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "Timestamp at which the resource was created.",
+                  "format": "date-time"
+                }
+              },
+              "description": "Facility containing destinations, workers, activities, and tasks."
+            }
+          }
+        }
+      },
+      "ListWorkerFleetsResponse": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string",
+            "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+            "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "workerFleets": {
+            "type": "array",
+            "description": "List of worker fleets.",
+            "items": {
+              "type": "object",
+              "required": [
+                "arn",
+                "id",
+                "name",
+                "site",
+                "createdAt",
+                "updatedAt"
+              ],
+              "properties": {
+                "arn": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Full ARN of the worker fleet.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Filters access by the worker fleet's identifier",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Human friendly name of the resource.",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "site": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Site ARN.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "Timestamp at which the resource was created.",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "description": "Timestamp at which the resource was last updated.",
+                  "format": "date-time"
+                },
+                "additionalFixedProperties": {
+                  "type": "string",
+                  "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+                  "minLength": 1,
+                  "maxLength": 131072
+                }
+              },
+              "description": "A collection of workers organized within a facility."
+            }
+          }
+        }
+      },
+      "ListWorkersResponse": {
+        "type": "object",
+        "properties": {
+          "nextToken": {
+            "type": "string",
+            "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+            "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "workers": {
+            "type": "array",
+            "description": "List of workers.",
+            "items": {
+              "type": "object",
+              "required": [
+                "arn",
+                "id",
+                "fleet",
+                "createdAt",
+                "updatedAt",
+                "name",
+                "site"
+              ],
+              "properties": {
+                "arn": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Full ARN of the worker.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Filters access by the workers identifier",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "fleet": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Full ARN of the worker fleet.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "Timestamp at which the resource was created.",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "description": "Timestamp at which the resource was last updated.",
+                  "format": "date-time"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Human friendly name of the resource.",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "site": {
+                  "type": "string",
+                  "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                  "description": "Site ARN.",
+                  "minLength": 1,
+                  "maxLength": 1011
+                },
+                "additionalTransientProperties": {
+                  "type": "string",
+                  "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+                  "minLength": 1,
+                  "maxLength": 131072
+                },
+                "additionalFixedProperties": {
+                  "type": "string",
+                  "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+                  "minLength": 1,
+                  "maxLength": 131072
+                },
+                "vendorProperties": {
+                  "type": "object",
+                  "required": [
+                    "vendorWorkerId"
+                  ],
+                  "properties": {
+                    "vendorWorkerId": {
+                      "type": "string",
+                      "description": "The worker ID defined by the vendor FMS.",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "vendorWorkerIpAddress": {
+                      "type": "string",
+                      "description": "The worker IP address defined by the vendor FMS.",
+                      "minLength": 1,
+                      "maxLength": 45
+                    },
+                    "vendorAdditionalTransientProperties": {
+                      "type": "string",
+                      "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                      "minLength": 1,
+                      "maxLength": 131072
+                    },
+                    "vendorAdditionalFixedProperties": {
+                      "type": "string",
+                      "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                      "minLength": 1,
+                      "maxLength": 131072
+                    }
+                  },
+                  "description": "Properties of the worker that are provided by the vendor FMS."
+                },
+                "position": {
+                  "type": "object",
+                  "properties": {
+                    "cartesianCoordinates": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "x",
+                            "y"
+                          ],
+                          "properties": {
+                            "x": {
+                              "allOf": [
+                                {
+                                  "type": "number",
+                                  "format": "double"
+                                },
+                                {
+                                  "description": "X coordinate."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "y": {
+                              "allOf": [
+                                {
+                                  "type": "number",
+                                  "format": "double"
+                                },
+                                {
+                                  "description": "Y coordinate."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            },
+                            "z": {
+                              "allOf": [
+                                {
+                                  "type": "number",
+                                  "format": "double"
+                                },
+                                {
+                                  "description": "Z coordinate."
+                                }
+                              ],
+                              "_polymorphic_marker": {
+                                "allOf": true
+                              }
+                            }
+                          },
+                          "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                        },
+                        {
+                          "description": "Cartesian coordinates."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Supported coordinates for worker position."
+                },
+                "orientation": {
+                  "type": "object",
+                  "properties": {
+                    "degrees": {
+                      "allOf": [
+                        {
+                          "type": "number",
+                          "format": "double",
+                          "minimum": 0,
+                          "maximum": 360
+                        },
+                        {
+                          "description": "Degrees, limited on [0, 360)"
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "Worker orientation measured in units clockwise from north."
+                }
+              },
+              "description": "A unit capable of performing tasks."
+            }
+          }
+        }
+      },
+      "UpdateDestinationResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "name",
+          "updatedAt",
+          "state"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Destination ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the destination's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ENABLED",
+              "DISABLED",
+              "DECOMMISSIONED"
+            ],
+            "description": "State of the destination."
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON document containing additional fixed properties regarding the destination",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "UpdateSiteResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "name",
+          "updatedAt"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the site's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "[a-zA-Z]{2}",
+            "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "description": {
+            "type": "string",
+            "description": "A high-level description of the site.",
+            "minLength": 0,
+            "maxLength": 140
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateWorkerResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "fleet",
+          "updatedAt",
+          "name"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the workers identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "fleet": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "additionalTransientProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "orientation": {
+            "type": "object",
+            "properties": {
+              "degrees": {
+                "allOf": [
+                  {
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0,
+                    "maximum": 360
+                  },
+                  {
+                    "description": "Degrees, limited on [0, 360)"
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Worker orientation measured in units clockwise from north."
+          },
+          "vendorProperties": {
+            "type": "object",
+            "required": [
+              "vendorWorkerId"
+            ],
+            "properties": {
+              "vendorWorkerId": {
+                "type": "string",
+                "description": "The worker ID defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "vendorWorkerIpAddress": {
+                "type": "string",
+                "description": "The worker IP address defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 45
+              },
+              "vendorAdditionalTransientProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              },
+              "vendorAdditionalFixedProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              }
+            },
+            "description": "Properties of the worker that are provided by the vendor FMS."
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "cartesianCoordinates": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "properties": {
+                      "x": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "X coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "y": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Y coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "z": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Z coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                  },
+                  {
+                    "description": "Cartesian coordinates."
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Supported coordinates for worker position."
+          }
+        }
+      },
+      "UpdateWorkerFleetResponse": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "name",
+          "updatedAt"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the worker fleet's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "Double": {
+        "type": "number",
+        "format": "double"
+      },
+      "IdempotencyToken": {
+        "type": "string",
+        "pattern": "[!-~]*",
+        "description": "Token used for detecting replayed requests. Replayed requests will not be performed multiple times.",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "Name": {
+        "type": "string",
+        "description": "Human friendly name of the resource.",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "SiteGenericIdentifier": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Site ARN.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "DestinationState": {
+        "type": "string",
+        "enum": [
+          "ENABLED",
+          "DISABLED",
+          "DECOMMISSIONED"
+        ],
+        "description": "State of the destination."
+      },
+      "DestinationAdditionalFixedProperties": {
+        "type": "string",
+        "description": "JSON document containing additional fixed properties regarding the destination",
+        "minLength": 1,
+        "maxLength": 131072
+      },
+      "CreateDestinationRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "site"
+        ],
+        "title": "CreateDestinationRequest",
+        "properties": {
+          "clientToken": {
+            "type": "string",
+            "pattern": "[!-~]*",
+            "description": "Token used for detecting replayed requests. Replayed requests will not be performed multiple times.",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "state": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ENABLED",
+                  "DISABLED",
+                  "DECOMMISSIONED"
+                ],
+                "description": "State of the destination."
+              },
+              {
+                "description": "The state of the destination. Default used if not specified."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON document containing additional fixed properties regarding the destination",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "DestinationArn": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Destination ARN.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "DestinationId": {
+        "type": "string",
+        "description": "Filters access by the destination's identifier",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "CreatedAtTimestamp": {
+        "type": "string",
+        "description": "Timestamp at which the resource was created.",
+        "format": "date-time"
+      },
+      "UpdatedAtTimestamp": {
+        "type": "string",
+        "description": "Timestamp at which the resource was last updated.",
+        "format": "date-time"
+      },
+      "SiteCountryCode": {
+        "type": "string",
+        "pattern": "[a-zA-Z]{2}",
+        "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "SiteDescription": {
+        "type": "string",
+        "description": "A high-level description of the site.",
+        "minLength": 0,
+        "maxLength": 140
+      },
+      "CreateSiteRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "countryCode"
+        ],
+        "title": "CreateSiteRequest",
+        "properties": {
+          "clientToken": {
+            "type": "string",
+            "pattern": "[!-~]*",
+            "description": "Token used for detecting replayed requests. Replayed requests will not be performed multiple times.",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "[a-zA-Z]{2}",
+            "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "description": {
+            "type": "string",
+            "description": "A high-level description of the site.",
+            "minLength": 0,
+            "maxLength": 140
+          }
+        }
+      },
+      "SiteArn": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Site ARN.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "SiteId": {
+        "type": "string",
+        "description": "Filters access by the site's identifier",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "WorkerFleetAdditionalFixedProperties": {
+        "type": "string",
+        "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+        "minLength": 1,
+        "maxLength": 131072
+      },
+      "CreateWorkerFleetRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "site"
+        ],
+        "title": "CreateWorkerFleetRequest",
+        "properties": {
+          "clientToken": {
+            "type": "string",
+            "pattern": "[!-~]*",
+            "description": "Token used for detecting replayed requests. Replayed requests will not be performed multiple times.",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "WorkerFleetArn": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Full ARN of the worker fleet.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "WorkerFleetId": {
+        "type": "string",
+        "description": "Filters access by the worker fleet's identifier",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "WorkerFleetGenericIdentifier": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Full ARN of the worker fleet.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "WorkerAdditionalTransientPropertiesJson": {
+        "type": "string",
+        "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+        "minLength": 1,
+        "maxLength": 131072
+      },
+      "WorkerAdditionalFixedPropertiesJson": {
+        "type": "string",
+        "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+        "minLength": 1,
+        "maxLength": 131072
+      },
+      "VendorProperties": {
+        "type": "object",
+        "required": [
+          "vendorWorkerId"
+        ],
+        "properties": {
+          "vendorWorkerId": {
+            "type": "string",
+            "description": "The worker ID defined by the vendor FMS.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "vendorWorkerIpAddress": {
+            "type": "string",
+            "description": "The worker IP address defined by the vendor FMS.",
+            "minLength": 1,
+            "maxLength": 45
+          },
+          "vendorAdditionalTransientProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "vendorAdditionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        },
+        "description": "Properties of the worker that are provided by the vendor FMS."
+      },
+      "PositionCoordinates": {
+        "type": "object",
+        "properties": {
+          "cartesianCoordinates": {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "x": {
+                    "allOf": [
+                      {
+                        "type": "number",
+                        "format": "double"
+                      },
+                      {
+                        "description": "X coordinate."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "y": {
+                    "allOf": [
+                      {
+                        "type": "number",
+                        "format": "double"
+                      },
+                      {
+                        "description": "Y coordinate."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  },
+                  "z": {
+                    "allOf": [
+                      {
+                        "type": "number",
+                        "format": "double"
+                      },
+                      {
+                        "description": "Z coordinate."
+                      }
+                    ],
+                    "_polymorphic_marker": {
+                      "allOf": true
+                    }
+                  }
+                },
+                "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+              },
+              {
+                "description": "Cartesian coordinates."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Supported coordinates for worker position."
+      },
+      "Orientation": {
+        "type": "object",
+        "properties": {
+          "degrees": {
+            "allOf": [
+              {
+                "type": "number",
+                "format": "double",
+                "minimum": 0,
+                "maximum": 360
+              },
+              {
+                "description": "Degrees, limited on [0, 360)"
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "Worker orientation measured in units clockwise from north."
+      },
+      "CreateWorkerRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "fleet"
+        ],
+        "title": "CreateWorkerRequest",
+        "properties": {
+          "clientToken": {
+            "type": "string",
+            "pattern": "[!-~]*",
+            "description": "Token used for detecting replayed requests. Replayed requests will not be performed multiple times.",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "fleet": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "additionalTransientProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "vendorProperties": {
+            "type": "object",
+            "required": [
+              "vendorWorkerId"
+            ],
+            "properties": {
+              "vendorWorkerId": {
+                "type": "string",
+                "description": "The worker ID defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "vendorWorkerIpAddress": {
+                "type": "string",
+                "description": "The worker IP address defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 45
+              },
+              "vendorAdditionalTransientProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              },
+              "vendorAdditionalFixedProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              }
+            },
+            "description": "Properties of the worker that are provided by the vendor FMS."
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "cartesianCoordinates": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "properties": {
+                      "x": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "X coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "y": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Y coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "z": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Z coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                  },
+                  {
+                    "description": "Cartesian coordinates."
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Supported coordinates for worker position."
+          },
+          "orientation": {
+            "type": "object",
+            "properties": {
+              "degrees": {
+                "allOf": [
+                  {
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0,
+                    "maximum": 360
+                  },
+                  {
+                    "description": "Degrees, limited on [0, 360)"
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Worker orientation measured in units clockwise from north."
+          }
+        }
+      },
+      "WorkerArn": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Full ARN of the worker.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "WorkerId": {
+        "type": "string",
+        "description": "Filters access by the workers identifier",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "DestinationGenericIdentifier": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Destination ARN.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "DeleteDestinationRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "DeleteDestinationRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Destination ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          }
+        }
+      },
+      "DeleteSiteRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "DeleteSiteRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          }
+        }
+      },
+      "DeleteWorkerFleetRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "DeleteWorkerFleetRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          }
+        }
+      },
+      "WorkerGenericIdentifier": {
+        "type": "string",
+        "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "description": "Full ARN of the worker.",
+        "minLength": 1,
+        "maxLength": 1011
+      },
+      "DeleteWorkerRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "DeleteWorkerRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker.",
+            "minLength": 1,
+            "maxLength": 1011
+          }
+        }
+      },
+      "Destination": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "name",
+          "site",
+          "createdAt",
+          "updatedAt",
+          "state"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Destination ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the destination's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ENABLED",
+              "DISABLED",
+              "DECOMMISSIONED"
+            ],
+            "description": "State of the destination."
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON document containing additional fixed properties regarding the destination",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        },
+        "description": "Area within a facility where work can be performed."
+      },
+      "Destinations": {
+        "type": "array",
+        "description": "List of destinations.",
+        "items": {
+          "type": "object",
+          "required": [
+            "arn",
+            "id",
+            "name",
+            "site",
+            "createdAt",
+            "updatedAt",
+            "state"
+          ],
+          "properties": {
+            "arn": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Destination ARN.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "id": {
+              "type": "string",
+              "description": "Filters access by the destination's identifier",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "name": {
+              "type": "string",
+              "description": "Human friendly name of the resource.",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "site": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Site ARN.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Timestamp at which the resource was created.",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Timestamp at which the resource was last updated.",
+              "format": "date-time"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "ENABLED",
+                "DISABLED",
+                "DECOMMISSIONED"
+              ],
+              "description": "State of the destination."
+            },
+            "additionalFixedProperties": {
+              "type": "string",
+              "description": "JSON document containing additional fixed properties regarding the destination",
+              "minLength": 1,
+              "maxLength": 131072
+            }
+          },
+          "description": "Area within a facility where work can be performed."
+        }
+      },
+      "GetDestinationRequest": {
+        "type": "object",
+        "title": "GetDestinationRequest",
+        "properties": {}
+      },
+      "GetSiteRequest": {
+        "type": "object",
+        "title": "GetSiteRequest",
+        "properties": {}
+      },
+      "GetWorkerFleetRequest": {
+        "type": "object",
+        "title": "GetWorkerFleetRequest",
+        "properties": {}
+      },
+      "GetWorkerRequest": {
+        "type": "object",
+        "title": "GetWorkerRequest",
+        "properties": {}
+      },
+      "PageSize": {
+        "type": "integer",
+        "description": "Maximum number of results to retrieve in a single call.",
+        "minimum": 1,
+        "maximum": 1000
+      },
+      "PaginationToken": {
+        "type": "string",
+        "pattern": ".*[a-zA-Z0-9_.-/+=]*.*",
+        "description": "Pagination token returned when another page of data exists. Provide it in your next call to the API to receive the next page.",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "ListDestinationsRequest": {
+        "type": "object",
+        "title": "ListDestinationsRequest",
+        "properties": {}
+      },
+      "ListSitesPageSize": {
+        "type": "integer",
+        "description": "Maximum number of results to retrieve in a single ListSites call.",
+        "minimum": 1,
+        "maximum": 25
+      },
+      "ListSitesRequest": {
+        "type": "object",
+        "title": "ListSitesRequest",
+        "properties": {}
+      },
+      "Sites": {
+        "type": "array",
+        "description": "List of facilities.",
+        "items": {
+          "type": "object",
+          "required": [
+            "arn",
+            "name",
+            "countryCode",
+            "createdAt"
+          ],
+          "properties": {
+            "arn": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Site ARN.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "name": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "Human friendly name of the resource.",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                {
+                  "description": "The name of the site. Mutable after creation and unique within a given account."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "countryCode": {
+              "type": "string",
+              "pattern": "[a-zA-Z]{2}",
+              "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+              "minLength": 2,
+              "maxLength": 2
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Timestamp at which the resource was created.",
+              "format": "date-time"
+            }
+          },
+          "description": "Facility containing destinations, workers, activities, and tasks."
+        }
+      },
+      "ListWorkerFleetsPageSize": {
+        "type": "integer",
+        "description": "Maximum number of results to retrieve in a single ListWorkerFleets call.",
+        "minimum": 1,
+        "maximum": 25
+      },
+      "ListWorkerFleetsRequest": {
+        "type": "object",
+        "title": "ListWorkerFleetsRequest",
+        "properties": {}
+      },
+      "WorkerFleets": {
+        "type": "array",
+        "description": "List of worker fleets.",
+        "items": {
+          "type": "object",
+          "required": [
+            "arn",
+            "id",
+            "name",
+            "site",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": {
+            "arn": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Full ARN of the worker fleet.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "id": {
+              "type": "string",
+              "description": "Filters access by the worker fleet's identifier",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "name": {
+              "type": "string",
+              "description": "Human friendly name of the resource.",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "site": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Site ARN.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Timestamp at which the resource was created.",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Timestamp at which the resource was last updated.",
+              "format": "date-time"
+            },
+            "additionalFixedProperties": {
+              "type": "string",
+              "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+              "minLength": 1,
+              "maxLength": 131072
+            }
+          },
+          "description": "A collection of workers organized within a facility."
+        }
+      },
+      "ListWorkersPageSize": {
+        "type": "integer",
+        "description": "Maximum number of results to retrieve in a single ListWorkers call.",
+        "minimum": 1,
+        "maximum": 25
+      },
+      "ListWorkersRequest": {
+        "type": "object",
+        "title": "ListWorkersRequest",
+        "properties": {}
+      },
+      "Workers": {
+        "type": "array",
+        "description": "List of workers.",
+        "items": {
+          "type": "object",
+          "required": [
+            "arn",
+            "id",
+            "fleet",
+            "createdAt",
+            "updatedAt",
+            "name",
+            "site"
+          ],
+          "properties": {
+            "arn": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Full ARN of the worker.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "id": {
+              "type": "string",
+              "description": "Filters access by the workers identifier",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "fleet": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Full ARN of the worker fleet.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Timestamp at which the resource was created.",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Timestamp at which the resource was last updated.",
+              "format": "date-time"
+            },
+            "name": {
+              "type": "string",
+              "description": "Human friendly name of the resource.",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "site": {
+              "type": "string",
+              "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+              "description": "Site ARN.",
+              "minLength": 1,
+              "maxLength": 1011
+            },
+            "additionalTransientProperties": {
+              "type": "string",
+              "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+              "minLength": 1,
+              "maxLength": 131072
+            },
+            "additionalFixedProperties": {
+              "type": "string",
+              "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+              "minLength": 1,
+              "maxLength": 131072
+            },
+            "vendorProperties": {
+              "type": "object",
+              "required": [
+                "vendorWorkerId"
+              ],
+              "properties": {
+                "vendorWorkerId": {
+                  "type": "string",
+                  "description": "The worker ID defined by the vendor FMS.",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "vendorWorkerIpAddress": {
+                  "type": "string",
+                  "description": "The worker IP address defined by the vendor FMS.",
+                  "minLength": 1,
+                  "maxLength": 45
+                },
+                "vendorAdditionalTransientProperties": {
+                  "type": "string",
+                  "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                  "minLength": 1,
+                  "maxLength": 131072
+                },
+                "vendorAdditionalFixedProperties": {
+                  "type": "string",
+                  "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                  "minLength": 1,
+                  "maxLength": 131072
+                }
+              },
+              "description": "Properties of the worker that are provided by the vendor FMS."
+            },
+            "position": {
+              "type": "object",
+              "properties": {
+                "cartesianCoordinates": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "x",
+                        "y"
+                      ],
+                      "properties": {
+                        "x": {
+                          "allOf": [
+                            {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            {
+                              "description": "X coordinate."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "y": {
+                          "allOf": [
+                            {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            {
+                              "description": "Y coordinate."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        },
+                        "z": {
+                          "allOf": [
+                            {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            {
+                              "description": "Z coordinate."
+                            }
+                          ],
+                          "_polymorphic_marker": {
+                            "allOf": true
+                          }
+                        }
+                      },
+                      "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                    },
+                    {
+                      "description": "Cartesian coordinates."
+                    }
+                  ],
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "description": "Supported coordinates for worker position."
+            },
+            "orientation": {
+              "type": "object",
+              "properties": {
+                "degrees": {
+                  "allOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "minimum": 0,
+                      "maximum": 360
+                    },
+                    {
+                      "description": "Degrees, limited on [0, 360)"
+                    }
+                  ],
+                  "_polymorphic_marker": {
+                    "allOf": true
+                  }
+                }
+              },
+              "description": "Worker orientation measured in units clockwise from north."
+            }
+          },
+          "description": "A unit capable of performing tasks."
+        }
+      },
+      "Site": {
+        "type": "object",
+        "required": [
+          "arn",
+          "name",
+          "countryCode",
+          "createdAt"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "name": {
+            "allOf": [
+              {
+                "type": "string",
+                "description": "Human friendly name of the resource.",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              {
+                "description": "The name of the site. Mutable after creation and unique within a given account."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "[a-zA-Z]{2}",
+            "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          }
+        },
+        "description": "Facility containing destinations, workers, activities, and tasks."
+      },
+      "UpdateDestinationRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "UpdateDestinationRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/destination/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Destination ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ENABLED",
+              "DISABLED",
+              "DECOMMISSIONED"
+            ],
+            "description": "State of the destination."
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON document containing additional fixed properties regarding the destination",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "UpdateSiteRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "UpdateSiteRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "[a-zA-Z]{2}",
+            "description": "A valid ISO 3166-1 alpha-2 code for the country in which the site resides. e.g., US.",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "description": {
+            "type": "string",
+            "description": "A high-level description of the site.",
+            "minLength": 0,
+            "maxLength": 140
+          }
+        }
+      },
+      "UpdateWorkerFleetRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "UpdateWorkerFleetRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        }
+      },
+      "UpdateWorkerRequest": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "UpdateWorkerRequest",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "additionalTransientProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "vendorProperties": {
+            "type": "object",
+            "required": [
+              "vendorWorkerId"
+            ],
+            "properties": {
+              "vendorWorkerId": {
+                "type": "string",
+                "description": "The worker ID defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "vendorWorkerIpAddress": {
+                "type": "string",
+                "description": "The worker IP address defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 45
+              },
+              "vendorAdditionalTransientProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              },
+              "vendorAdditionalFixedProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              }
+            },
+            "description": "Properties of the worker that are provided by the vendor FMS."
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "cartesianCoordinates": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "properties": {
+                      "x": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "X coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "y": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Y coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "z": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Z coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                  },
+                  {
+                    "description": "Cartesian coordinates."
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Supported coordinates for worker position."
+          },
+          "orientation": {
+            "type": "object",
+            "properties": {
+              "degrees": {
+                "allOf": [
+                  {
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0,
+                    "maximum": 360
+                  },
+                  {
+                    "description": "Degrees, limited on [0, 360)"
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Worker orientation measured in units clockwise from north."
+          }
+        }
+      },
+      "Worker": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "fleet",
+          "createdAt",
+          "updatedAt",
+          "name",
+          "site"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the workers identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "fleet": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "additionalTransientProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are transient and may change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing unstructured worker properties that are fixed and won't change during regular operation.",
+            "minLength": 1,
+            "maxLength": 131072
+          },
+          "vendorProperties": {
+            "type": "object",
+            "required": [
+              "vendorWorkerId"
+            ],
+            "properties": {
+              "vendorWorkerId": {
+                "type": "string",
+                "description": "The worker ID defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "vendorWorkerIpAddress": {
+                "type": "string",
+                "description": "The worker IP address defined by the vendor FMS.",
+                "minLength": 1,
+                "maxLength": 45
+              },
+              "vendorAdditionalTransientProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are transient and may change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              },
+              "vendorAdditionalFixedProperties": {
+                "type": "string",
+                "description": "JSON blob containing unstructured vendor properties that are fixed and won't change during regular operation.",
+                "minLength": 1,
+                "maxLength": 131072
+              }
+            },
+            "description": "Properties of the worker that are provided by the vendor FMS."
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "cartesianCoordinates": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "properties": {
+                      "x": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "X coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "y": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Y coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      },
+                      "z": {
+                        "allOf": [
+                          {
+                            "type": "number",
+                            "format": "double"
+                          },
+                          {
+                            "description": "Z coordinate."
+                          }
+                        ],
+                        "_polymorphic_marker": {
+                          "allOf": true
+                        }
+                      }
+                    },
+                    "description": "Cartesian coordinates in 3D space relative to the RoboRunner origin."
+                  },
+                  {
+                    "description": "Cartesian coordinates."
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Supported coordinates for worker position."
+          },
+          "orientation": {
+            "type": "object",
+            "properties": {
+              "degrees": {
+                "allOf": [
+                  {
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0,
+                    "maximum": 360
+                  },
+                  {
+                    "description": "Degrees, limited on [0, 360)"
+                  }
+                ],
+                "_polymorphic_marker": {
+                  "allOf": true
+                }
+              }
+            },
+            "description": "Worker orientation measured in units clockwise from north."
+          }
+        },
+        "description": "A unit capable of performing tasks."
+      },
+      "WorkerFleet": {
+        "type": "object",
+        "required": [
+          "arn",
+          "id",
+          "name",
+          "site",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "arn": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/worker-fleet/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Full ARN of the worker fleet.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "id": {
+            "type": "string",
+            "description": "Filters access by the worker fleet's identifier",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Human friendly name of the resource.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "site": {
+            "type": "string",
+            "pattern": "arn:aws:iotroborunner:[\\w-]+:\\w+:site/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "description": "Site ARN.",
+            "minLength": 1,
+            "maxLength": 1011
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp at which the resource was last updated.",
+            "format": "date-time"
+          },
+          "additionalFixedProperties": {
+            "type": "string",
+            "description": "JSON blob containing additional fixed properties regarding the worker fleet",
+            "minLength": 1,
+            "maxLength": 131072
+          }
+        },
+        "description": "A collection of workers organized within a facility."
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ]
+}

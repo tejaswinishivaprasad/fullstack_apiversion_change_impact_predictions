@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-acd51177c6d952c42255",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--acd51177--v1.canonical.json",
+  "new_canonical": "openapi--search-service--acd51177--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--acd51177--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--acd51177--v2.canonical.json",
+  "old_sha": "3b6d5fe9494d84274b2e",
+  "new_sha": "fb3da712bc1d9ce1183e",
+  "generated_at": "2025-11-30T11:50:57+00:00",
+  "producers_sample": [
+    "/reference-data/locations/airports",
+    "/reference-data/locations/airports"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.DeleteMethodArgument",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "B foo(int, int, int)",
+        "1"
+      ],
+      "sources": [
+        {
+          "before": "public class A {{ B.foo(0, 1, 2); }}",
+          "after": "public class A {{ B.foo(0, 2); }}",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id-v2"
+      }
+    }
+  }
+}

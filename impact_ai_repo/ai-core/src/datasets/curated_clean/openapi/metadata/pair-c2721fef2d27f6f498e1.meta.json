@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-c2721fef2d27f6f498e1",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--c2721fef--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--c2721fef--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--c2721fef--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--c2721fef--v2.canonical.json",
+  "old_sha": "4932abcbc694dbb05e59",
+  "new_sha": "b16ce1f53c4d962c4cbb",
+  "generated_at": "2025-11-30T11:52:32+00:00",
+  "producers_sample": [
+    "/billing/{id}",
+    "/bookings/id",
+    "/bookings/userid/booking-contact",
+    "/hotels/paymentid",
+    "/hotels/sku/rate-plans/paymentid",
+    "/bookings/sku",
+    "/bookings/sku/booking-contact",
+    "/hotels/id",
+    "/hotels/orderid/rate-plans",
+    "/hotels/userid/rate-plans/userid"
+  ]
+}

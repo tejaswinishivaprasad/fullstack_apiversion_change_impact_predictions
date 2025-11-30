@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-64644856ab24201b1c50",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--64644856--v1.canonical.json",
+  "new_canonical": "openapi--search-service--64644856--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--64644856--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--64644856--v2.canonical.json",
+  "old_sha": "a14d1f13fe23ce4fa249",
+  "new_sha": "843408f870ecfb2536ad",
+  "generated_at": "2025-11-30T11:51:43+00:00",
+  "producers_sample": [
+    "/carts/{id}",
+    "/classes/sku/competitions",
+    "/classes/userid/events",
+    "/competitions/id/events",
+    "/competitions/sku",
+    "/carts/{id}",
+    "/classes/orderid/competitions",
+    "/classes/orderid/events",
+    "/competitions/id",
+    "/competitions/orderid/marketgroups"
+  ]
+}

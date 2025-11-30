@@ -1,0 +1,1 @@
+{"pair_id": "pair-f3a62b56afa9e83c57a2", "ace_index": 0, "ace_id": "pair-f3a62b56afa9e83c57a2::ace::0", "type": "PARAM_ADDED", "path": "/events/v3/send", "method": "post", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "0f2c0845845b658f6961", "new_sha": "9252a9ec45831b1b1e69"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

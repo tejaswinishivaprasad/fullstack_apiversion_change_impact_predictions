@@ -1,0 +1,37 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.cleanup.RemoveTrailingSemicolon",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "fun method() {\n    var foo = 1;\n    var bar: Int;\n    var baz: String = \"a\";\n}\n",
+          "after": "fun method() {\n    var foo = 1\n    var bar: Int\n    var baz: String = \"a\"\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    },
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "fun method() {\n    var foo = 1; var bar: Int\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

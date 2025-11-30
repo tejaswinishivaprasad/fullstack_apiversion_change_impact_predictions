@@ -1,7 +1,0 @@
-{
-  "name": "please-work",
-  "dependencies": {
-    "@openrewrite/recipes-npm": "^0.1.9"
-  },
-  "_rw_change_marker_": "change_61"
-}

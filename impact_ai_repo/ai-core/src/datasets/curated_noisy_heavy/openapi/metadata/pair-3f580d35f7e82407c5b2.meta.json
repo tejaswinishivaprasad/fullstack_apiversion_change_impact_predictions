@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-3f580d35f7e82407c5b2",
+  "service_name": "synth-openapi-3d483e1551e0",
+  "dataset": "openapi",
+  "old_canonical": "openapi--synth-openapi-3d483e1551e0--3f580d35--v1.canonical.json",
+  "new_canonical": "openapi--synth-openapi-3d483e1551e0--3f580d35--v2.canonical.json",
+  "old": "datasets/curated_noisy_heavy/openapi/canonical/openapi--synth-openapi-3d483e1551e0--3f580d35--v1.canonical.json",
+  "new": "datasets/curated_noisy_heavy/openapi/canonical/openapi--synth-openapi-3d483e1551e0--3f580d35--v2.canonical.json",
+  "old_sha": "81a9cd97eb25d2da8867",
+  "new_sha": "a47cfb78a5003bbbd777",
+  "generated_at": "2025-11-30T13:20:30+00:00"
+}

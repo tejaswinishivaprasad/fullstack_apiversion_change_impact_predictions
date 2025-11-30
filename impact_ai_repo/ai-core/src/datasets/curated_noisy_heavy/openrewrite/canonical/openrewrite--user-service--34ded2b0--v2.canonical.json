@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ReplaceStringLiteralValue",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "apple",
+        "orange"
+      ],
+      "sources": [
+        {
+          "before": "class Test {\n    String s = \"apple\";\n}\n",
+          "after": "class Test {\n    String s = \"orange\";\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id-v2"
+      }
+    }
+  }
+}

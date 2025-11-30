@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-bb5809f07994f4177b57",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--bb5809f0--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--bb5809f0--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--bb5809f0--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--bb5809f0--v2.canonical.json",
+  "old_sha": "55feabd361c7bca36a91",
+  "new_sha": "3f9b37e7e4252aafa38b",
+  "generated_at": "2025-11-30T11:54:19+00:00",
+  "producers_sample": [
+    "/alarm-models/paymentid",
+    "/alarm-models/paymentid/versions",
+    "/analysis/detector-models",
+    "/analysis/detector-models/id/results",
+    "/analysis/detector-models/orderid",
+    "/alarm-models/id",
+    "/alarm-models/paymentid/versions",
+    "/analysis/detector-models",
+    "/analysis/detector-models/id",
+    "/analysis/detector-models/userid/results"
+  ]
+}

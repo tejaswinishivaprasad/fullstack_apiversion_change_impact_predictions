@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindFieldsOfType",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.String",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "import java.util.*;\npublic class A {\n   private String[] s;\n}\n",
+          "after": "import java.util.*;\npublic class A {\n   /*~~>*/private String[] s;\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-b739d950448b77ffbf2e",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--b739d950--v1.canonical.json",
+  "new_canonical": "openapi--search-service--b739d950--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--b739d950--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--b739d950--v2.canonical.json",
+  "old_sha": "805ba67276ea5a15e520",
+  "new_sha": "8f77a3828c755c148067",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/travel/analytics/air-traffic/busiest-period",
+    "/travel/analytics/air-traffic/busiest-period"
+  ]
+}

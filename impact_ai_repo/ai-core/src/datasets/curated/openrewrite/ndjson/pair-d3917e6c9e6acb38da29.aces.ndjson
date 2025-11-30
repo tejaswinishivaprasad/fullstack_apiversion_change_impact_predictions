@@ -1,1 +1,0 @@
-{"type": "METHOD_REMOVED", "path": "org.openrewrite.literaltest.Literaltest.processV1", "detail": null, "confidence": 0.75, "pair_id": "pair-d3917e6c9e6acb38da29", "ace_index": 0, "ace_id": "pair-d3917e6c9e6acb38da29::ace::0", "provenance": {"old_sha": "184cc24b76c5f9b7189f", "new_sha": "0fa0dee7185c69014104"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

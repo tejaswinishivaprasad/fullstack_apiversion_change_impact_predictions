@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindMissingTypes",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "import org.junit.Test;\n\nclass ATest {\n    @Test\n    void foo() {}\n}\n",
+          "after": "import org.junit.Test;\n\nclass ATest {\n    @/*~~(Identifier type is missing or malformed)~~>*/Test\n    void foo() {}\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id-v2"
+      }
+    }
+  }
+}

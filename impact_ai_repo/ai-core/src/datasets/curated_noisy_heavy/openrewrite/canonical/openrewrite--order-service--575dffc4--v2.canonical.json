@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.properties.DeleteProperty",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "delete.me",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "delete.me = baz\n",
+          "language": "properties"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id-v2"
+      }
+    }
+  }
+}

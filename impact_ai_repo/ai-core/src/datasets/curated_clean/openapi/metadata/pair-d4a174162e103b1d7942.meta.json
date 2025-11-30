@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-d4a174162e103b1d7942",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--d4a17416--v1.canonical.json",
+  "new_canonical": "openapi--search-service--d4a17416--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--d4a17416--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--d4a17416--v2.canonical.json",
+  "old_sha": "da8d31c820d5c472c34c",
+  "new_sha": "d6271351e18a095eecdf",
+  "generated_at": "2025-11-30T11:51:43+00:00",
+  "producers_sample": [
+    "/address/lookup",
+    "/countries/sku",
+    "/currencies/orderid",
+    "/inventory/{id}",
+    "/reviews/{id}",
+    "/address/lookup",
+    "/billing/{id}",
+    "/countries/userid",
+    "/currencies/userid",
+    "/transactions/{id}"
+  ]
+}

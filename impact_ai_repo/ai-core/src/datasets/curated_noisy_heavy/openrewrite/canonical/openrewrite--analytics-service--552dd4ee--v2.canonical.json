@@ -1,0 +1,25 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "test.declarative.sample.b",
+  "displayName": "Test Recipe",
+  "description": "Test Recipe.",
+  "recipeList": [
+    {
+      "org.openrewrite.text.ChangeText": {
+        "toText": "after"
+      }
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-e64985e304b597cc8237",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--e64985e3--v1.canonical.json",
+  "new_canonical": "openapi--search-service--e64985e3--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--e64985e3--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--e64985e3--v2.canonical.json",
+  "old_sha": "385103e5b3268886830c",
+  "new_sha": "3b5649dee1a2d562d13a",
+  "generated_at": "2025-11-30T11:49:37+00:00",
+  "producers_sample": [
+    "/transactions/{id}",
+    "/transactions/{id}"
+  ]
+}

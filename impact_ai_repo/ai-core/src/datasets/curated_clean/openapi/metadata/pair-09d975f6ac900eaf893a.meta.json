@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-09d975f6ac900eaf893a",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--09d975f6--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--09d975f6--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--09d975f6--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--09d975f6--v2.canonical.json",
+  "old_sha": "20f7e4321b53811b6278",
+  "new_sha": "4afc5d36a5d504f43e77",
+  "generated_at": "2025-11-30T11:52:06+00:00",
+  "producers_sample": [
+    "/",
+    "/async/download",
+    "/billing/{id}",
+    "/cache/sku",
+    "/carts/{id}",
+    "/",
+    "/async/download",
+    "/billing/{id}",
+    "/cache/paymentid",
+    "/carts/{id}"
+  ]
+}

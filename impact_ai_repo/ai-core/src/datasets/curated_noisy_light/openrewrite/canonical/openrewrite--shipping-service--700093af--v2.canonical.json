@@ -1,0 +1,53 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.CreateEmptyJavaClass",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "src/main/java",
+        "org.openrewrite.example",
+        "public",
+        "ExampleClass",
+        "null",
+        "foo/bar/"
+      ],
+      "sources": [
+        {
+          "after": "package org.openrewrite.example;\n\npublic class ExampleClass {\n}\n",
+          "language": "java"
+        }
+      ]
+    },
+    {
+      "description": "",
+      "parameters": [
+        "src/main/java",
+        "org.openrewrite.example",
+        "protected",
+        "ExampleClass",
+        "true",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "package org.openrewrite.example;\n\npublic class ExampleClass { Object o = null; }\n",
+          "after": "package org.openrewrite.example;\n\nprotected class ExampleClass {\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

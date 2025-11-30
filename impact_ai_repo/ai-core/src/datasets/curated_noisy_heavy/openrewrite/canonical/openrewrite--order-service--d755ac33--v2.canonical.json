@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindMethods",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Integer decode(..)",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "import java.lang.Integer\nimport java.lang.Integer.decode\n\nval i1 = java.lang.Integer.decode(\"1\")\nval i2 = Integer.decode(\"1\")\nval i3 = decode(\"1\")\nval i4 = listOf(\"1\").map {Integer::decode}\nval i5 = listOf(\"1\").map {::decode}\nval i6 = listOf(\"1\").map {::`decode`}\n",
+          "after": "import java.lang.Integer\nimport java.lang.Integer.decode\n\nval i1 = /*~~>*/java.lang.Integer.decode(\"1\")\nval i2 = /*~~>*/Integer.decode(\"1\")\nval i3 = /*~~>*/decode(\"1\")\nval i4 = listOf(\"1\").map {Integer::/*~~>*/decode}\nval i5 = listOf(\"1\").map {::/*~~>*/decode}\nval i6 = listOf(\"1\").map {::/*~~>*/`decode`}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id-v2"
+      }
+    }
+  }
+}

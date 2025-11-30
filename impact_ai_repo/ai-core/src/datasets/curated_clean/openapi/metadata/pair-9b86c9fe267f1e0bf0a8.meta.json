@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-9b86c9fe267f1e0bf0a8",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--9b86c9fe--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--9b86c9fe--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9b86c9fe--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9b86c9fe--v2.canonical.json",
+  "old_sha": "9e086b575b54e374289a",
+  "new_sha": "db25f7dc570abeaf9a46",
+  "generated_at": "2025-11-30T11:51:40+00:00",
+  "producers_sample": [
+    "/avm/rent/long-term",
+    "/avm/value",
+    "/billing/{id}",
+    "/carts/{id}",
+    "/listings/rental/long-term",
+    "/avm/rent/long-term",
+    "/avm/value",
+    "/listings/rental/long-term",
+    "/listings/rental/long-term/id",
+    "/listings/sale"
+  ]
+}

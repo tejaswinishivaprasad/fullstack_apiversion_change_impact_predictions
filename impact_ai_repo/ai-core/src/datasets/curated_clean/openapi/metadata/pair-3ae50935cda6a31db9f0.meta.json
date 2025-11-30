@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-3ae50935cda6a31db9f0",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--3ae50935--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--3ae50935--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3ae50935--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3ae50935--v2.canonical.json",
+  "old_sha": "ffa1111b54a48819dfe7",
+  "new_sha": "c7f5b6e2babf20b53864",
+  "generated_at": "2025-11-30T11:52:08+00:00",
+  "producers_sample": [
+    "/id/rotoballerarticles",
+    "/userid/rotoballerarticlesbydate/orderid",
+    "/userid/rotoballerarticlesbyplayerid/orderid",
+    "/sku/rotoballerarticles",
+    "/sku/rotoballerarticlesbyplayerid/orderid",
+    "/userid/rotoballerarticlesbydate/userid"
+  ]
+}

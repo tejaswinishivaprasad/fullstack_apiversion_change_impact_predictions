@@ -1,7 +1,0 @@
-{
-  "type": "specs.openrewrite.org/v1beta/category",
-  "name": "HashiCorp Configuration Language",
-  "packageName": "org.openrewrite.hcl",
-  "description": "Recipes to search and transform HCL.",
-  "_rw_change_marker_": "change_42"
-}

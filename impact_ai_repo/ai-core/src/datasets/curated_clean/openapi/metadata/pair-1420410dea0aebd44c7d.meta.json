@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-1420410dea0aebd44c7d",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--1420410d--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--1420410d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1420410d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1420410d--v2.canonical.json",
+  "old_sha": "70ff843a48657a613953",
+  "new_sha": "29523f7feb7fc3b60e6c",
+  "generated_at": "2025-11-30T11:49:56+00:00",
+  "producers_sample": [
+    "/classifications/address-types",
+    "/classifications/business-name-lifecycle-states",
+    "/classifications/electronic-address-types",
+    "/classifications/genders",
+    "/classifications/legal-entity-types",
+    "/billing/{id}",
+    "/classifications/address-types",
+    "/classifications/business-name-lifecycle-states",
+    "/classifications/electronic-address-types",
+    "/classifications/genders"
+  ]
+}

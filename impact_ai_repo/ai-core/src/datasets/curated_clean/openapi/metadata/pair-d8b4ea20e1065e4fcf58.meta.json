@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-d8b4ea20e1065e4fcf58",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--d8b4ea20--v1.canonical.json",
+  "new_canonical": "openapi--search-service--d8b4ea20--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--d8b4ea20--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--d8b4ea20--v2.canonical.json",
+  "old_sha": "aaf3347776dcf78e91cc",
+  "new_sha": "e0c95969ebfa0e7c8113",
+  "generated_at": "2025-11-30T11:51:06+00:00",
+  "producers_sample": [
+    "/data/division/userid-id",
+    "/data/divisions-id/groupedbyparty",
+    "/data/divisions-id/membervoting",
+    "/data/divisions-orderid/searchtotalresults",
+    "/data/divisions-userid/search",
+    "/data/division/id-userid",
+    "/data/divisions-id/membervoting",
+    "/data/divisions-paymentid/search",
+    "/data/divisions-paymentid/searchtotalresults",
+    "/data/divisions-userid/groupedbyparty"
+  ]
+}

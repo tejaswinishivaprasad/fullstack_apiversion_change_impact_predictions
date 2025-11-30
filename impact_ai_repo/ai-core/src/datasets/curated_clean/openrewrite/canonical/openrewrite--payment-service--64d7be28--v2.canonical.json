@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.RemoveImplements",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.io.Serializable",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "import java.io.Serializable;\n\nclass A implements Serializable {\n}\n",
+          "after": "class A {\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id"
+      }
+    }
+  }
+}

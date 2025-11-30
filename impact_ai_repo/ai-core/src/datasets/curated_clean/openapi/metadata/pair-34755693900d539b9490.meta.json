@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-34755693900d539b9490",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--34755693--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--34755693--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--34755693--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--34755693--v2.canonical.json",
+  "old_sha": "f7d257c1276cfbb621ee",
+  "new_sha": "a08c2093068ce86f6647",
+  "generated_at": "2025-11-30T11:52:08+00:00",
+  "producers_sample": [
+    "/orderid/raceresult/id",
+    "/orderid/races/sku",
+    "/orderid/series",
+    "/sku/driver/userid",
+    "/sku/driverraceprojections/paymentid",
+    "/id/races/userid",
+    "/paymentid/driverraceprojections/orderid",
+    "/paymentid/series",
+    "/sku/driver/id",
+    "/userid/drivers"
+  ]
+}

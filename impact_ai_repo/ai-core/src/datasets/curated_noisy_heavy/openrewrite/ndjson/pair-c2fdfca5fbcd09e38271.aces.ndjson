@@ -1,0 +1,1 @@
+{"pair_id": "pair-c2fdfca5fbcd09e38271", "ace_index": 0, "ace_id": "pair-c2fdfca5fbcd09e38271::ace::0", "type": "ENDPOINT_ADDED", "path": "/shipments/{id}", "method": "get", "detail": "/shipments/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "41f70f0c9f848762173f"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

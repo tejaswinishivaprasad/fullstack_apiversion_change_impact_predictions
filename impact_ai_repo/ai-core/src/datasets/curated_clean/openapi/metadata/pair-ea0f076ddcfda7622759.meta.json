@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-ea0f076ddcfda7622759",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--ea0f076d--v1.canonical.json",
+  "new_canonical": "openapi--search-service--ea0f076d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--ea0f076d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--ea0f076d--v2.canonical.json",
+  "old_sha": "fd0570c830225f635700",
+  "new_sha": "30feaf82211d961e5ecb",
+  "generated_at": "2025-11-30T11:51:04+00:00",
+  "producers_sample": [
+    "/reference-data/locations/pois",
+    "/reference-data/locations/pois/by-square",
+    "/reference-data/locations/pois/id",
+    "/reference-data/locations/pois",
+    "/reference-data/locations/pois/by-square",
+    "/reference-data/locations/pois/id"
+  ]
+}

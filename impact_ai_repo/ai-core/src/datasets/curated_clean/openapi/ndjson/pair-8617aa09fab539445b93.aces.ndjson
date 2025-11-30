@@ -1,0 +1,1 @@
+{"pair_id": "pair-8617aa09fab539445b93", "ace_index": 0, "ace_id": "pair-8617aa09fab539445b93::ace::0", "type": "PARAM_ADDED", "path": "/identity/company", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "b2fb4fe07c8269894c4a", "new_sha": "3adf5462598cfe5f93d9"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

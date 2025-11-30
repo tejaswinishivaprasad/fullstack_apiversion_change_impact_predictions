@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ReplaceConstant",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "com.google.common.base.Charsets",
+        "UTF_8",
+        "\"UTF_8\""
+      ],
+      "sources": [
+        {
+          "before": "import com.google.common.base.Charsets;\nclass Test {\n    Object o = Charsets.UTF_8;\n}\n",
+          "after": "class Test {\n    Object o = \"UTF_8\";\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id"
+      }
+    }
+  }
+}

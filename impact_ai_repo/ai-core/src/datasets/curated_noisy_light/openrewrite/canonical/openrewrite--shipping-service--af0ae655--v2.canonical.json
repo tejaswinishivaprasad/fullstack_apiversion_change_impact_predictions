@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.RemoveXmlTag",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "//bean",
+        "**/beans.xml"
+      ],
+      "sources": [
+        {
+          "before": "<beans>\n    <bean id='myBean.subpackage.subpackage2'/>\n    <other id='myBean.subpackage.subpackage2'/>\n</beans>\n",
+          "after": "<beans>\n    <other id='myBean.subpackage.subpackage2'/>\n</beans>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

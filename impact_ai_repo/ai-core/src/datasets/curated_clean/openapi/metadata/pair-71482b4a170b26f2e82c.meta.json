@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-71482b4a170b26f2e82c",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--71482b4a--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--71482b4a--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--71482b4a--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--71482b4a--v2.canonical.json",
+  "old_sha": "fc00030f5d840cd4a1d9",
+  "new_sha": "c3f99fbfbcd1710f037d",
+  "generated_at": "2025-11-30T11:49:35+00:00",
+  "producers_sample": [
+    "/domains/paymentid",
+    "/projects/id/images/predictions",
+    "/projects/id/images/untagged/count",
+    "/projects/id/iterations/id/performance",
+    "/projects/id/iterations/id/publish",
+    "/carts/{id}",
+    "/domains/id",
+    "/profiles/{id}",
+    "/projects/id/images/files",
+    "/projects/id/images/id"
+  ]
+}

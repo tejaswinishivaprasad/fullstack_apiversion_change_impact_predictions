@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.format.MethodParamPad",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "enum E {\n    E1()\n}\n\nclass B {\n}\n\nclass A extends B {\n    A() {\n        super();\n    }\n\n    static void method(int x, int y) {\n        A a = new A();\n        method(0, 1);\n    }\n}\n",
+          "after": "enum E {\n    E1 ()\n}\n\nclass B {\n}\n\nclass A extends B {\n    A () {\n        super ();\n    }\n\n    static void method (int x, int y) {\n        A a = new A ();\n        method (0, 1);\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

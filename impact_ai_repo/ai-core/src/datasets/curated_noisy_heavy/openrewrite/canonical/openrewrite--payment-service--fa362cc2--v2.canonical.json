@@ -1,0 +1,35 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.AddNullMethodArgument",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "B foo(Integer, Integer)",
+        "1",
+        "java.lang.Integer",
+        "n2",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "class A {{ B.foo(0, 1); }}",
+          "after": "class A {{ B.foo(0, null, 1); }}",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id-v2"
+      }
+    }
+  }
+}

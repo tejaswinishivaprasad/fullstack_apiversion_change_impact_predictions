@@ -1,0 +1,37 @@
+{
+  "type": "specs.openrewrite.org/v1beta/style",
+  "name": "org.openrewrite.java.GoogleJavaFormat",
+  "displayName": "Google java format",
+  "styleConfigs": [
+    {
+      "org.openrewrite.java.style.ImportLayoutStyle": {
+        "classCountToUseStarImport": 999,
+        "nameCountToUseStarImport": 999,
+        "layout": [
+          "import static all other imports",
+          "<blank line>",
+          "import all other imports"
+        ]
+      }
+    },
+    {
+      "org.openrewrite.java.style.SpacesStyle": {
+        "beforeLeftBrace": {
+          "arrayInitializerLeftBrace": true
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

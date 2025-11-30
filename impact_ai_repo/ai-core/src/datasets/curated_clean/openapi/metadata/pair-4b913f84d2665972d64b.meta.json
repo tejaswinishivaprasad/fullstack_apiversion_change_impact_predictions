@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-4b913f84d2665972d64b",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--4b913f84--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--4b913f84--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--4b913f84--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--4b913f84--v2.canonical.json",
+  "old_sha": "6f8f0bbba2518bfc1e9f",
+  "new_sha": "ea81205721637fc0e81d",
+  "generated_at": "2025-11-30T11:50:46+00:00",
+  "producers_sample": [
+    "/profiles/{id}",
+    "/surveys/paymentid/metadata",
+    "/surveys/userid/interviews",
+    "/carts/{id}",
+    "/surveys/orderid/metadata",
+    "/surveys/userid/interviews"
+  ]
+}

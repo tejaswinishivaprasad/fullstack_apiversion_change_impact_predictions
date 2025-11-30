@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindDeprecatedClasses",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.old..*",
+        "false",
+        "true"
+      ],
+      "sources": [
+        {
+          "before": "import org.old.types.D;\nclass Test {\n    D d;\n}\n",
+          "after": "import org.old.types.D;\nclass Test {\n    /*~~>*/D d;\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

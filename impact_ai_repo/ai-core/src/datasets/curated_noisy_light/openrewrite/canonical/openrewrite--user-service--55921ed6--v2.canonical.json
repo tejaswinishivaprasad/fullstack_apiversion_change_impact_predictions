@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.properties.search.FindProperties",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "management.metrics.binders.files.enabled",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "management.metrics.binders.files.enabled=true",
+          "after": "management.metrics.binders.files.enabled=~~>true",
+          "language": "properties"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

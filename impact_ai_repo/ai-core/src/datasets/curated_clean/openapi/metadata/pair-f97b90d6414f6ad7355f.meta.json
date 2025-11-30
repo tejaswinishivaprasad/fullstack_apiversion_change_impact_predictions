@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-f97b90d6414f6ad7355f",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--f97b90d6--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--f97b90d6--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f97b90d6--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f97b90d6--v2.canonical.json",
+  "old_sha": "6e25a2ddeeb33e19b40b",
+  "new_sha": "2ba00e61cd79e90cee1d",
+  "generated_at": "2025-11-30T11:52:25+00:00",
+  "producers_sample": [
+    "/channels/id",
+    "/channels/orderid/messages",
+    "/channels/paymentid/presence",
+    "/channels/paymentid/presence/history",
+    "/keys/orderid/requesttoken",
+    "/channels/id/presence",
+    "/channels/orderid",
+    "/channels/orderid/messages",
+    "/channels/userid/presence/history",
+    "/keys/userid/requesttoken"
+  ]
+}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-38290913935c06a53ba9", "ace_index": 0, "ace_id": "pair-38290913935c06a53ba9::ace::0", "type": "PARAM_ADDED", "path": "/barcode/decode", "method": "post", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "176ac43abd51df993c0d", "new_sha": "4b2c7f3e927032e6bd00"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-6217b035750e2c21f189",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--6217b035--v1.canonical.json",
+  "new_canonical": "openapi--search-service--6217b035--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--6217b035--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--6217b035--v2.canonical.json",
+  "old_sha": "4d20c8906ba9505921f3",
+  "new_sha": "a6a46accd13c5ddfaba8",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/shopping/availability/flight-availabilities",
+    "/shopping/availability/flight-availabilities"
+  ]
+}

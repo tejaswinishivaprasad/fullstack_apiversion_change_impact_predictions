@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-a15603e58e6b455298a8",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--a15603e5--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--a15603e5--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a15603e5--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a15603e5--v2.canonical.json",
+  "old_sha": "fe98662345e9406863a3",
+  "new_sha": "2ee7cd0b03bce6a5dd6c",
+  "generated_at": "2025-11-30T11:52:02+00:00",
+  "producers_sample": [
+    "/enm/id/substance",
+    "/enm/id/substance/paymentid/structures",
+    "/enm/orderid/investigation",
+    "/enm/orderid/query/smarts",
+    "/enm/paymentid/query/study",
+    "/enm/id/investigation",
+    "/enm/id/query/study",
+    "/enm/id/substance/id/structures",
+    "/enm/id/substance/sku/composition",
+    "/enm/orderid/query/smarts"
+  ]
+}

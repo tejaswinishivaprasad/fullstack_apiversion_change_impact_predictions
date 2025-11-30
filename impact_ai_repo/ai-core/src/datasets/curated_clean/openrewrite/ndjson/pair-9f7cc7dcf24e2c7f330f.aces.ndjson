@@ -1,0 +1,1 @@
+{"pair_id": "pair-9f7cc7dcf24e2c7f330f", "ace_index": 0, "ace_id": "pair-9f7cc7dcf24e2c7f330f::ace::0", "type": "ENDPOINT_ADDED", "path": "/users/{id}", "method": "get", "detail": "/users/{id}", "confidence": 0.9, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "91a7a9593b457b77f830"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

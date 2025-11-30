@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-8a942e4b697bf59c291f",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--8a942e4b--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--8a942e4b--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8a942e4b--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8a942e4b--v2.canonical.json",
+  "old_sha": "c29050c836a8ce99a103",
+  "new_sha": "e5a3ad272f82caab372e",
+  "generated_at": "2025-11-30T11:51:06+00:00",
+  "producers_sample": [
+    "/api/location/browse/userid/orderid",
+    "/api/location/constituency/orderid/electionresults",
+    "/api/location/constituency/orderid/geometry",
+    "/api/location/constituency/paymentid",
+    "/api/location/constituency/paymentid/electionresult/sku",
+    "/api/location/browse/userid/paymentid",
+    "/api/location/constituency/id/geometry",
+    "/api/location/constituency/id/synopsis",
+    "/api/location/constituency/paymentid",
+    "/api/location/constituency/paymentid/electionresult/latest"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-e4fb4954d7da95afc3ae",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--e4fb4954--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--e4fb4954--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e4fb4954--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e4fb4954--v2.canonical.json",
+  "old_sha": "14e0ecaa3fa5b3a330a3",
+  "new_sha": "894fd77fc77e80a8c356",
+  "generated_at": "2025-11-30T11:54:29+00:00",
+  "producers_sample": [
+    "/environment/userid",
+    "/kx/environments",
+    "/kx/environments/id/clusters/orderid",
+    "/kx/environments/id/clusters/userid/configuration/databases",
+    "/kx/environments/orderid/clusters",
+    "/environment/userid",
+    "/kx/environments",
+    "/kx/environments/id/clusters",
+    "/kx/environments/id/clusters/sku/configuration/databases",
+    "/kx/environments/id/clusters/sku/nodes"
+  ]
+}

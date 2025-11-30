@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-98e21647713a91dba559",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--98e21647--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--98e21647--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--98e21647--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--98e21647--v2.canonical.json",
+  "old_sha": "0262a8ef739e486d85a9",
+  "new_sha": "ae45519d8eab01e92147",
+  "generated_at": "2025-11-30T11:50:09+00:00",
+  "producers_sample": [
+    "/billing/{id}",
+    "/jobs/blend",
+    "/jobs/button",
+    "/jobs/cancel",
+    "/jobs/describe",
+    "/jobs/blend",
+    "/jobs/button",
+    "/jobs/cancel",
+    "/jobs/describe",
+    "/jobs/imagine"
+  ]
+}

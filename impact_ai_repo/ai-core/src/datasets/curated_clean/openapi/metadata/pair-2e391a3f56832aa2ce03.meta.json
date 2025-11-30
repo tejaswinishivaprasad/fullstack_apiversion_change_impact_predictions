@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-2e391a3f56832aa2ce03",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--2e391a3f--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--2e391a3f--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2e391a3f--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2e391a3f--v2.canonical.json",
+  "old_sha": "55ebb0ab7d75eec92eeb",
+  "new_sha": "93e6099f0eb3cb922400",
+  "generated_at": "2025-11-30T11:50:59+00:00",
+  "producers_sample": [
+    "/travel/trip-parser",
+    "/travel/trip-parser"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-ba22691ca8879ab6b138",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--ba22691c--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--ba22691c--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ba22691c--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ba22691c--v2.canonical.json",
+  "old_sha": "383cc075c107eb887598",
+  "new_sha": "482ed3fc8b10efd31881",
+  "generated_at": "2025-11-30T11:53:11+00:00",
+  "producers_sample": [
+    "/app-instance-bots/id",
+    "/app-instance-users/id/expiration-settings",
+    "/app-instance-users/orderid/endpoints",
+    "/app-instance-users/paymentid",
+    "/app-instance-users/paymentid/endpoints/paymentid",
+    "/app-instance-bots/id",
+    "/app-instance-users/orderid",
+    "/app-instance-users/paymentid/endpoints",
+    "/app-instance-users/paymentid/endpoints/paymentid",
+    "/app-instance-users/sku/expiration-settings"
+  ]
+}

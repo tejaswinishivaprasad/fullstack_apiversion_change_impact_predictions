@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-85409d78cf33c9a30dcf",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--85409d78--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--85409d78--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--85409d78--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--85409d78--v2.canonical.json",
+  "old_sha": "ba13753995760d36cbc0",
+  "new_sha": "d3e9b1393680b847090e",
+  "generated_at": "2025-11-30T11:53:58+00:00",
+  "producers_sample": [
+    "/identitypools/id/identities/id",
+    "/identitypools/orderid/getbulkpublishdetails",
+    "/identitypools/orderid/identities/sku/datasets/paymentid",
+    "/identitypools/orderid/identity/sku/device",
+    "/identitypools/paymentid/identities/userid/datasets",
+    "/identitypools/id/bulkpublish",
+    "/identitypools/orderid/identities/paymentid/datasets",
+    "/identitypools/paymentid/configuration",
+    "/identitypools/paymentid/getbulkpublishdetails",
+    "/identitypools/paymentid/identities/orderid/datasets/sku/subscriptions/id"
+  ]
+}

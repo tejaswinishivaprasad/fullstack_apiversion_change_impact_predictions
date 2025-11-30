@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-3afff15e3e613613cf5c",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--3afff15e--v1.canonical.json",
+  "new_canonical": "openapi--search-service--3afff15e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--3afff15e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--3afff15e--v2.canonical.json",
+  "old_sha": "b46dd2898e95d249d7be",
+  "new_sha": "9b711b05b845f5837e56",
+  "generated_at": "2025-11-30T11:51:59+00:00",
+  "producers_sample": [
+    "/geo/admindivisions",
+    "/geo/admindivisions/paymentid",
+    "/geo/admindivisions/paymentid/nearbydivisions",
+    "/geo/admindivisions/userid/nearbycities",
+    "/geo/cities",
+    "/geo/admindivisions",
+    "/geo/admindivisions/orderid",
+    "/geo/admindivisions/sku/nearbycities",
+    "/geo/admindivisions/sku/nearbydivisions",
+    "/geo/cities"
+  ]
+}

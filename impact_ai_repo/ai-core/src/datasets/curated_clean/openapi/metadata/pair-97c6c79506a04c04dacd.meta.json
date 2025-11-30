@@ -1,0 +1,18 @@
+{
+  "pair_id": "pair-97c6c79506a04c04dacd",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--97c6c795--v1.canonical.json",
+  "new_canonical": "openapi--search-service--97c6c795--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--97c6c795--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--97c6c795--v2.canonical.json",
+  "old_sha": "1a3a9b130d539aaa1add",
+  "new_sha": "05ff4f7d6c42023c8a56",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/shopping/hotel-offers",
+    "/shopping/hotel-offers/sku",
+    "/shopping/hotel-offers",
+    "/shopping/hotel-offers/id"
+  ]
+}

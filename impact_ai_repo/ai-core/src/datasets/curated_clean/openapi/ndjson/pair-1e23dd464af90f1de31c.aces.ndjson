@@ -1,0 +1,1 @@
+{"pair_id": "pair-1e23dd464af90f1de31c", "ace_index": 0, "ace_id": "pair-1e23dd464af90f1de31c::ace::0", "type": "PARAM_ADDED", "path": "/v0-1/bulkcall", "method": "post", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "c57380457388c044b6a3", "new_sha": "42c4d1185555e855d7d3"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

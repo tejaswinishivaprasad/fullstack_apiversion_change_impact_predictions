@@ -1,0 +1,35 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.ChangeDependencyClassifier",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.openrewrite",
+        "*",
+        "classified",
+        ""
+      ],
+      "sources": [
+        {
+          "before": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    api 'org.openrewrite:rewrite-gradle:latest.release:javadoc'\n}\n",
+          "after": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    api 'org.openrewrite:rewrite-gradle:latest.release:classified'\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id-v2"
+      }
+    }
+  }
+}

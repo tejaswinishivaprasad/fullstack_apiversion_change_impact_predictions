@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-cff49e255fab",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-cff49e255fab/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

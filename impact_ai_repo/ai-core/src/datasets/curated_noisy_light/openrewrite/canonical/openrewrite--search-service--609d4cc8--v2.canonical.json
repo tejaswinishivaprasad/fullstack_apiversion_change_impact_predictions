@@ -1,0 +1,35 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.ChangeDependencyConfiguration",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.openrewrite",
+        "*",
+        "implementation",
+        ""
+      ],
+      "sources": [
+        {
+          "before": "plugins {\n    id 'java-library'\n}\nrepositories {\n    mavenCentral()\n}\ndependencies {\n    api 'org.openrewrite:rewrite-gradle:latest.release'\n}\n",
+          "after": "plugins {\n    id 'java-library'\n}\nrepositories {\n    mavenCentral()\n}\ndependencies {\n    implementation 'org.openrewrite:rewrite-gradle:latest.release'\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

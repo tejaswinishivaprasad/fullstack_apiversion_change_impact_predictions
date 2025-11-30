@@ -1,0 +1,29 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.DependencyUseStringNotation",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    api(group: 'org.openrewrite', name: 'rewrite-core', version: 'latest.release')\n    implementation group: 'org.openrewrite', name: 'rewrite-core', version: 'latest.release'\n}\n",
+          "after": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    api(\"org.openrewrite:rewrite-core:latest.release\")\n    implementation \"org.openrewrite:rewrite-core:latest.release\"\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

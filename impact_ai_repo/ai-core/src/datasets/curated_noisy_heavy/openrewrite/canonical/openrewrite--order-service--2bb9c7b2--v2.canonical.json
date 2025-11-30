@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.ChangeExtraProperty",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "foo",
+        "baz"
+      ],
+      "sources": [
+        {
+          "before": "buildscript {\n    ext {\n        foo = \"bar\"\n    }\n}\next {\n    foo = \"bar\"\n}\n",
+          "after": "buildscript {\n    ext {\n        foo = \"baz\"\n    }\n}\next {\n    foo = \"baz\"\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id-v2"
+      }
+    }
+  }
+}

@@ -1,1 +1,0 @@
-{"type": "METHOD_REMOVED", "path": "org.openrewrite.annotationtest.Annotationtest.compute", "detail": null, "confidence": 0.75, "pair_id": "pair-a583aa3593fe4162f30d", "ace_index": 0, "ace_id": "pair-a583aa3593fe4162f30d::ace::0", "provenance": {"old_sha": "b134c241b992b1dc42d9", "new_sha": "5117687793b4b69e2683"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

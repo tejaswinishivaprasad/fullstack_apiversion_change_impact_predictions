@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-14ab595630dc553a9f73",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--14ab5956--v1.canonical.json",
+  "new_canonical": "openapi--search-service--14ab5956--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--14ab5956--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--14ab5956--v2.canonical.json",
+  "old_sha": "4820168c6f007ba34290",
+  "new_sha": "c6d7f862bba091e8ba5b",
+  "generated_at": "2025-11-30T11:51:03+00:00",
+  "producers_sample": [
+    "/shopping/flight-offers/pricing",
+    "/shopping/flight-offers/pricing"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-00134a2bfba54ec30ea0",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--00134a2b--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--00134a2b--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--00134a2b--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--00134a2b--v2.canonical.json",
+  "old_sha": "78f701eeb0963d631df6",
+  "new_sha": "def0c5bfe6b5845b6ebe",
+  "generated_at": "2025-11-30T11:52:26+00:00",
+  "producers_sample": [
+    "/companies/id/sync/expenses/syncs/list/status",
+    "/companies/id/sync/expenses/syncs/orderid/transactions",
+    "/companies/orderid/sync/expenses/syncs/id/status",
+    "/companies/paymentid/sync/expenses/config",
+    "/companies/paymentid/sync/expenses/connections/partnerexpense",
+    "/companies/id/sync/expenses/config",
+    "/companies/id/sync/expenses/connections/partnerexpense",
+    "/companies/id/sync/expenses/syncs/list/status",
+    "/companies/id/sync/expenses/syncs/paymentid/transactions/userid/attachments",
+    "/companies/orderid/sync/expenses/syncs"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-3ca95a810dabfb61c7b6",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--3ca95a81--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--3ca95a81--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3ca95a81--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--3ca95a81--v2.canonical.json",
+  "old_sha": "459a9405162775c82f74",
+  "new_sha": "e095fb24e40d05cdc7a5",
+  "generated_at": "2025-11-30T11:54:31+00:00",
+  "producers_sample": [
+    "/v1/email/account",
+    "/v1/email/account/dedicated-ips/warmup",
+    "/v1/email/account/sending",
+    "/v1/email/configuration-sets",
+    "/v1/email/configuration-sets/orderid/event-destinations",
+    "/v1/email/account",
+    "/v1/email/account/dedicated-ips/warmup",
+    "/v1/email/account/sending",
+    "/v1/email/configuration-sets",
+    "/v1/email/configuration-sets/id/tracking-options"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-ebd200e60719",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-ebd200e60719/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

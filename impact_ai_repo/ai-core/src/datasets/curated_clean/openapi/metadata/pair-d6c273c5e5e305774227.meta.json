@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-d6c273c5e5e305774227",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--d6c273c5--v1.canonical.json",
+  "new_canonical": "openapi--search-service--d6c273c5--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--d6c273c5--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--d6c273c5--v2.canonical.json",
+  "old_sha": "ed416a7b88fb8e3d4246",
+  "new_sha": "2ec45cd0c7ff3f154a72",
+  "generated_at": "2025-11-30T11:52:02+00:00",
+  "producers_sample": [
+    "/account/change-password",
+    "/account/places",
+    "/account/tokens",
+    "/account/tokens/id",
+    "/account/users",
+    "/account/change-password",
+    "/account/places",
+    "/account/tokens",
+    "/account/tokens/sku",
+    "/account/users"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.ChangeTagValue",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "/dependency/version",
+        "null",
+        "2.0",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "<dependency>\n    <version/>\n</dependency>\n",
+          "after": "<dependency>\n    <version>2.0</version>\n</dependency>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/products/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-products-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-e71fa6921a6d6a07adcc",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--e71fa692--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--e71fa692--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e71fa692--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--e71fa692--v2.canonical.json",
+  "old_sha": "3bbd34b2c7f653197186",
+  "new_sha": "f409dbb0265942b7079b",
+  "generated_at": "2025-11-30T11:51:58+00:00",
+  "producers_sample": [
+    "/billing/{id}",
+    "/orders/{id}",
+    "/payments/{id}",
+    "/personas/orderid",
+    "/playlists/orderid",
+    "/billing/{id}",
+    "/inventory/{id}",
+    "/payments/{id}",
+    "/personas/sku",
+    "/playlists/paymentid"
+  ]
+}

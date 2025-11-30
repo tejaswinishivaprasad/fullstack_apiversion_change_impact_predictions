@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-2db493e83386f0328305",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--2db493e8--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--2db493e8--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2db493e8--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--2db493e8--v2.canonical.json",
+  "old_sha": "d7c436f2b7afdeb17fae",
+  "new_sha": "437df8a7e797d5ab7af9",
+  "generated_at": "2025-11-30T11:51:32+00:00",
+  "producers_sample": [
+    "/similarity/by-content",
+    "/similarity/by-song",
+    "/song/search",
+    "/similarity/by-content",
+    "/similarity/by-song",
+    "/song/search"
+  ]
+}

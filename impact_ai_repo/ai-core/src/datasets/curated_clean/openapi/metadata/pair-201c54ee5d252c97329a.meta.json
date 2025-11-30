@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-201c54ee5d252c97329a",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--201c54ee--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--201c54ee--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--201c54ee--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--201c54ee--v2.canonical.json",
+  "old_sha": "0ac978eb9c946982c24e",
+  "new_sha": "ad745f20b835e91b43ab",
+  "generated_at": "2025-11-30T11:52:12+00:00",
+  "producers_sample": [
+    "/id/competitiondetails/paymentid",
+    "/id/playersbyteam/orderid",
+    "/id/recentlychangedmemberships/sku",
+    "/id/schedule/orderid",
+    "/id/seasonteams/sku",
+    "/id/membershipsbycompetition/sku",
+    "/id/standings/userid",
+    "/orderid/canceledmemberships",
+    "/orderid/competitionhierarchy",
+    "/orderid/gamesbydate/paymentid"
+  ]
+}

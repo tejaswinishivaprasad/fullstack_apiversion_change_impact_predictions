@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.security.IsOwaspSuppressionsFile",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<suppressions xmlns=\"https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd\">\n    <suppress>\n        <notes>\n        </notes>\n    </suppress>\n</suppressions>",
+          "after": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!--~~>--><suppressions xmlns=\"https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd\">\n    <suppress>\n        <notes>\n        </notes>\n    </suppress>\n</suppressions>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

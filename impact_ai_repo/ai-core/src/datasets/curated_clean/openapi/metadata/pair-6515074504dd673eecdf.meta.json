@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-6515074504dd673eecdf",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--65150745--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--65150745--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--65150745--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--65150745--v2.canonical.json",
+  "old_sha": "7b7990b731a71e9b8ffc",
+  "new_sha": "f69e388001f367f90013",
+  "generated_at": "2025-11-30T11:54:11+00:00",
+  "producers_sample": [
+    "/v1/broker-engine-types",
+    "/v1/broker-instance-options",
+    "/v1/brokers",
+    "/v1/brokers/orderid",
+    "/v1/brokers/orderid/users/orderid",
+    "/v1/broker-engine-types",
+    "/v1/broker-instance-options",
+    "/v1/brokers",
+    "/v1/brokers/orderid/reboot",
+    "/v1/brokers/orderid/users"
+  ]
+}

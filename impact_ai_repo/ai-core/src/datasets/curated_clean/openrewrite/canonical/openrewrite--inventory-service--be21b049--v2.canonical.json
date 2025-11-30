@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindImplementations",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Runnable"
+      ],
+      "sources": [
+        {
+          "before": "class Test implements Runnable {\n    @Override\n    public void run() {\n    }\n}\n",
+          "after": "/*~~>*/class Test implements Runnable {\n    @Override\n    public void run() {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

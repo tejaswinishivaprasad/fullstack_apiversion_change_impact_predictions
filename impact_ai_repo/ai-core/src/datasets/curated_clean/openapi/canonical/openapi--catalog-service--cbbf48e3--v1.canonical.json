@@ -1,0 +1,4110 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "contact": {
+      "email": "softwareengineering@parliament.uk",
+      "name": "UK Parliament",
+      "url": "https://www.parliament.uk/"
+    },
+    "description": "An API exposing details of the treaties laid before Parliament.",
+    "title": "Treaties API",
+    "version": "v1",
+    "x-apisguru-categories": [
+      "open_data"
+    ],
+    "x-origin": [
+      {
+        "format": "openapi",
+        "url": "https://treaties-api.parliament.uk/swagger/v1/swagger.json",
+        "version": "3.0"
+      }
+    ],
+    "x-providerName": "parliament.uk",
+    "x-serviceName": "treaties"
+  },
+  "paths": {
+    "/api/businessitem/paymentid": {
+      "get": {
+        "operationId": "getbusinessitembyid-v2",
+        "parameters": [
+          {
+            "description": "Business item with the ID specified",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Business item with the ID specified",
+              "nullable": true,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "value": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "businessItemUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houses": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "house": {
+                                "enum": [
+                                  "Commons",
+                                  "Lords"
+                                ],
+                                "type": "string"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "nullable": true,
+                          "type": "array"
+                        },
+                        "id": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "itemDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "link": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "procedureStepId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "procedureStepUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "sequence": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "stepName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "treatyId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "treatyUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "workpackageProcedureUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "value": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "businessItemUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houses": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "house": {
+                                "enum": [
+                                  "Commons",
+                                  "Lords"
+                                ],
+                                "type": "string"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "nullable": true,
+                          "type": "array"
+                        },
+                        "id": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "itemDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "link": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "procedureStepId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "procedureStepUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "sequence": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "stepName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "treatyId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "treatyUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "workpackageProcedureUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "value": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "businessItemUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houseUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "houses": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "house": {
+                                "enum": [
+                                  "Commons",
+                                  "Lords"
+                                ],
+                                "type": "string"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "nullable": true,
+                          "type": "array"
+                        },
+                        "id": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "itemDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "link": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "procedureStepId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "procedureStepUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "sequence": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "stepName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "treatyId": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "treatyUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "workpackageProcedureUri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The requested business item"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "If the item doesn't exist"
+          }
+        },
+        "summary": "Returns business item by ID.",
+        "tags": [
+          "BusinessItem"
+        ]
+      }
+    },
+    "/api/governmentorganisation": {
+      "get": {
+        "operationId": "getorganisations-v2",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "format": "int32",
+                                "type": "integer"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "format": "int32",
+                                "type": "integer"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "format": "int32",
+                                "type": "integer"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "summary": "Returns all government organisations.",
+        "tags": [
+          "GovernmentOrganisation"
+        ]
+      }
+    },
+    "/api/seriesmembership": {
+      "get": {
+        "operationId": "getseriesmemberships-v2",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "description": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "id": {
+                                "format": "int32",
+                                "type": "integer"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "description": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "id": {
+                                "format": "int32",
+                                "type": "integer"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "description": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "id": {
+                                "format": "int32",
+                                "type": "integer"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "summary": "Returns all series memberships.",
+        "tags": [
+          "SeriesMembership"
+        ]
+      }
+    },
+    "/api/treaty": {
+      "get": {
+        "operationId": "gettreaties-v2",
+        "parameters": [
+          {
+            "description": "Treaties which contains the search text specified",
+            "in": "query",
+            "name": "SearchText",
+            "schema": {
+              "description": "Treaties which contains the search text specified",
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Treaties with the government organisation id specified",
+            "in": "query",
+            "name": "GovernmentOrganisationId",
+            "schema": {
+              "description": "Treaties with the government organisation id specified",
+              "format": "int32",
+              "maximum": 2147483647,
+              "minimum": 1,
+              "nullable": true,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Treaties with the series membership type specified",
+            "in": "query",
+            "name": "Series",
+            "schema": {
+              "enum": [
+                "CountrySeriesMembership",
+                "EuropeanUnionSeriesMembership",
+                "MiscellaneousSeriesMembership"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Treaties where the parliamentary process is concluded or notconcluded",
+            "in": "query",
+            "name": "ParliamentaryProcess",
+            "schema": {
+              "enum": [
+                "NotConcluded",
+                "Concluded"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Treaties which contain a scheduled debate",
+            "in": "query",
+            "name": "DebateScheduled",
+            "schema": {
+              "description": "Treaties which contain a scheduled debate",
+              "nullable": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Treaties which contain a motion to not ratify",
+            "in": "query",
+            "name": "MotionToNotRatify",
+            "schema": {
+              "description": "Treaties which contain a motion to not ratify",
+              "nullable": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Treaties which are recommended to not ratify",
+            "in": "query",
+            "name": "RecommendedNotRatify",
+            "schema": {
+              "description": "Treaties which are recommended to not ratify",
+              "nullable": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Treaties which are laid in the specified house",
+            "in": "query",
+            "name": "House",
+            "schema": {
+              "enum": [
+                "Commons",
+                "Lords"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The number of records to skip from the first, default is 0",
+            "in": "query",
+            "name": "Skip",
+            "schema": {
+              "description": "The number of records to skip from the first, default is 0",
+              "format": "int32",
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The number of records to return, default is 20",
+            "in": "query",
+            "name": "Take",
+            "schema": {
+              "description": "The number of records to return, default is 20",
+              "format": "int32",
+              "maximum": 2147483647,
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "commandPaperNumber": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "commandPaperPrefix": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "commonsLayingDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "countrySeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "countrySeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "debateScheduled": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "europeanSeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "europeanUnionSeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "id": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "layingBodyDepartment": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "format": "int32",
+                                    "type": "integer"
+                                  },
+                                  "name": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "layingBodyDepartmentId": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "layingBodyName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "leadDepartment": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "format": "int32",
+                                    "type": "integer"
+                                  },
+                                  "name": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "leadGovernmentOrganisationDepartmentId": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "leadGovernmentOrganisationGroupName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "lordsLayingDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "miscSeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "miscellaneousSeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "parliamentaryConclusion": {
+                                "enum": [
+                                  "NotConcluded",
+                                  "CanRatify",
+                                  "CantRatify"
+                                ],
+                                "type": "string"
+                              },
+                              "treatySeriesMembership": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "citation": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  },
+                                  "seriesMembershipType": {
+                                    "enum": [
+                                      "CountrySeriesMembership",
+                                      "EuropeanUnionSeriesMembership",
+                                      "MiscellaneousSeriesMembership"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "uri": {
+                                    "format": "uri",
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "uri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "webLink": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "commandPaperNumber": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "commandPaperPrefix": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "commonsLayingDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "countrySeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "countrySeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "debateScheduled": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "europeanSeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "europeanUnionSeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "id": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "layingBodyDepartment": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "format": "int32",
+                                    "type": "integer"
+                                  },
+                                  "name": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "layingBodyDepartmentId": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "layingBodyName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "leadDepartment": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "format": "int32",
+                                    "type": "integer"
+                                  },
+                                  "name": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "leadGovernmentOrganisationDepartmentId": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "leadGovernmentOrganisationGroupName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "lordsLayingDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "miscSeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "miscellaneousSeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "parliamentaryConclusion": {
+                                "enum": [
+                                  "NotConcluded",
+                                  "CanRatify",
+                                  "CantRatify"
+                                ],
+                                "type": "string"
+                              },
+                              "treatySeriesMembership": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "citation": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  },
+                                  "seriesMembershipType": {
+                                    "enum": [
+                                      "CountrySeriesMembership",
+                                      "EuropeanUnionSeriesMembership",
+                                      "MiscellaneousSeriesMembership"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "uri": {
+                                    "format": "uri",
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "uri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "webLink": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "commandPaperNumber": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "commandPaperPrefix": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "commonsLayingDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "countrySeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "countrySeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "debateScheduled": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "europeanSeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "europeanUnionSeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "id": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "layingBodyDepartment": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "format": "int32",
+                                    "type": "integer"
+                                  },
+                                  "name": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "layingBodyDepartmentId": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "layingBodyName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "leadDepartment": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "format": "int32",
+                                    "type": "integer"
+                                  },
+                                  "name": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "leadGovernmentOrganisationDepartmentId": {
+                                "format": "int32",
+                                "nullable": true,
+                                "type": "integer"
+                              },
+                              "leadGovernmentOrganisationGroupName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "lordsLayingDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "miscSeriesItemCitation": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "miscellaneousSeriesMembership": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "parliamentaryConclusion": {
+                                "enum": [
+                                  "NotConcluded",
+                                  "CanRatify",
+                                  "CantRatify"
+                                ],
+                                "type": "string"
+                              },
+                              "treatySeriesMembership": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "citation": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  },
+                                  "seriesMembershipType": {
+                                    "enum": [
+                                      "CountrySeriesMembership",
+                                      "EuropeanUnionSeriesMembership",
+                                      "MiscellaneousSeriesMembership"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "uri": {
+                                    "format": "uri",
+                                    "nullable": true,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "uri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "webLink": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of treaties"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "summary": "Returns a list of treaties.",
+        "tags": [
+          "Treaty"
+        ]
+      }
+    },
+    "/api/treaty/sku": {
+      "get": {
+        "operationId": "gettreatybyid",
+        "parameters": [
+          {
+            "description": "Treaty with ID specified",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Treaty with ID specified",
+              "nullable": true,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "value": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "commandPaperNumber": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "commandPaperPrefix": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "commonsLayingDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "countrySeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "countrySeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "debateScheduled": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "europeanSeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "europeanUnionSeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "id": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "layingBodyDepartment": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "name": {
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "layingBodyDepartmentId": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "layingBodyName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "leadDepartment": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "name": {
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "leadGovernmentOrganisationDepartmentId": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "leadGovernmentOrganisationGroupName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "lordsLayingDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "miscSeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "miscellaneousSeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "name": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "parliamentaryConclusion": {
+                          "enum": [
+                            "NotConcluded",
+                            "CanRatify",
+                            "CantRatify"
+                          ],
+                          "type": "string"
+                        },
+                        "treatySeriesMembership": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "citation": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "seriesMembershipType": {
+                              "enum": [
+                                "CountrySeriesMembership",
+                                "EuropeanUnionSeriesMembership",
+                                "MiscellaneousSeriesMembership"
+                              ],
+                              "type": "string"
+                            },
+                            "uri": {
+                              "format": "uri",
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "uri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "webLink": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "value": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "commandPaperNumber": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "commandPaperPrefix": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "commonsLayingDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "countrySeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "countrySeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "debateScheduled": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "europeanSeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "europeanUnionSeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "id": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "layingBodyDepartment": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "name": {
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "layingBodyDepartmentId": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "layingBodyName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "leadDepartment": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "name": {
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "leadGovernmentOrganisationDepartmentId": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "leadGovernmentOrganisationGroupName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "lordsLayingDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "miscSeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "miscellaneousSeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "name": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "parliamentaryConclusion": {
+                          "enum": [
+                            "NotConcluded",
+                            "CanRatify",
+                            "CantRatify"
+                          ],
+                          "type": "string"
+                        },
+                        "treatySeriesMembership": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "citation": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "seriesMembershipType": {
+                              "enum": [
+                                "CountrySeriesMembership",
+                                "EuropeanUnionSeriesMembership",
+                                "MiscellaneousSeriesMembership"
+                              ],
+                              "type": "string"
+                            },
+                            "uri": {
+                              "format": "uri",
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "uri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "webLink": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "value": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "commandPaperNumber": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "commandPaperPrefix": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "commonsLayingDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "countrySeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "countrySeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "debateScheduled": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "europeanSeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "europeanUnionSeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "id": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "layingBodyDepartment": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "name": {
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "layingBodyDepartmentId": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "layingBodyName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "leadDepartment": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "name": {
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "leadGovernmentOrganisationDepartmentId": {
+                          "format": "int32",
+                          "nullable": true,
+                          "type": "integer"
+                        },
+                        "leadGovernmentOrganisationGroupName": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "lordsLayingDate": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "miscSeriesItemCitation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "miscellaneousSeriesMembership": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "name": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "parliamentaryConclusion": {
+                          "enum": [
+                            "NotConcluded",
+                            "CanRatify",
+                            "CantRatify"
+                          ],
+                          "type": "string"
+                        },
+                        "treatySeriesMembership": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "citation": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "seriesMembershipType": {
+                              "enum": [
+                                "CountrySeriesMembership",
+                                "EuropeanUnionSeriesMembership",
+                                "MiscellaneousSeriesMembership"
+                              ],
+                              "type": "string"
+                            },
+                            "uri": {
+                              "format": "uri",
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "uri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "webLink": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Details of the requested treaty"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "If the treaty can't be found"
+          }
+        },
+        "summary": "Returns a treaty by ID.",
+        "tags": [
+          "Treaty"
+        ]
+      }
+    },
+    "/api/treaty/sku/businessitems": {
+      "get": {
+        "operationId": "getbusinessitemsbytreatyid-v2",
+        "parameters": [
+          {
+            "description": "Business items belonging to treaty with the ID specified",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Business items belonging to treaty with the ID specified",
+              "nullable": true,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "businessItemUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houses": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "house": {
+                                      "enum": [
+                                        "Commons",
+                                        "Lords"
+                                      ],
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "nullable": true,
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "nullable": true,
+                                "type": "array"
+                              },
+                              "id": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "itemDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "link": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "procedureStepId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "procedureStepUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "sequence": {
+                                "format": "int32",
+                                "type": "integer"
+                              },
+                              "stepName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "treatyId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "treatyUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "workpackageProcedureUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "businessItemUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houses": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "house": {
+                                      "enum": [
+                                        "Commons",
+                                        "Lords"
+                                      ],
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "nullable": true,
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "nullable": true,
+                                "type": "array"
+                              },
+                              "id": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "itemDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "link": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "procedureStepId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "procedureStepUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "sequence": {
+                                "format": "int32",
+                                "type": "integer"
+                              },
+                              "stepName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "treatyId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "treatyUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "workpackageProcedureUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "links": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "method": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "rel": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "nullable": true,
+                            "type": "array"
+                          },
+                          "value": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "businessItemUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houseUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "houses": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "house": {
+                                      "enum": [
+                                        "Commons",
+                                        "Lords"
+                                      ],
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "nullable": true,
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "nullable": true,
+                                "type": "array"
+                              },
+                              "id": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "itemDate": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "link": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "procedureStepId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "procedureStepUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "sequence": {
+                                "format": "int32",
+                                "type": "integer"
+                              },
+                              "stepName": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "treatyId": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "treatyUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "workpackageProcedureUri": {
+                                "format": "uri",
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "itemsPerPage": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "links": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "href": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "method": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "rel": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "totalResults": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The business items for the requested treaty"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "If the treaty cannot be found"
+          }
+        },
+        "summary": "Returns business items belonging to the treaty with ID.",
+        "tags": [
+          "Treaty"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BusinessItem": {
+        "additionalProperties": false,
+        "properties": {
+          "businessItemUri": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "houseId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "houseName": {
+            "nullable": true,
+            "type": "string"
+          },
+          "houseUri": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "houses": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "house": {
+                  "enum": [
+                    "Commons",
+                    "Lords"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "id": {
+            "nullable": true,
+            "type": "string"
+          },
+          "itemDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "link": {
+            "nullable": true,
+            "type": "string"
+          },
+          "procedureStepId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "procedureStepUri": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "sequence": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "stepName": {
+            "nullable": true,
+            "type": "string"
+          },
+          "treatyId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "treatyUri": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "workpackageProcedureUri": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BusinessItemHouse": {
+        "additionalProperties": false,
+        "properties": {
+          "house": {
+            "enum": [
+              "Commons",
+              "Lords"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BusinessItemResource": {
+        "additionalProperties": false,
+        "properties": {
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "value": {
+            "additionalProperties": false,
+            "properties": {
+              "businessItemUri": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "houseId": {
+                "nullable": true,
+                "type": "string"
+              },
+              "houseName": {
+                "nullable": true,
+                "type": "string"
+              },
+              "houseUri": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "houses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "house": {
+                      "enum": [
+                        "Commons",
+                        "Lords"
+                      ],
+                      "type": "string"
+                    },
+                    "name": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "nullable": true,
+                "type": "array"
+              },
+              "id": {
+                "nullable": true,
+                "type": "string"
+              },
+              "itemDate": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "link": {
+                "nullable": true,
+                "type": "string"
+              },
+              "procedureStepId": {
+                "nullable": true,
+                "type": "string"
+              },
+              "procedureStepUri": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "sequence": {
+                "format": "int32",
+                "type": "integer"
+              },
+              "stepName": {
+                "nullable": true,
+                "type": "string"
+              },
+              "treatyId": {
+                "nullable": true,
+                "type": "string"
+              },
+              "treatyUri": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "workpackageProcedureUri": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "BusinessItemResourceCollection": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "links": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "href": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "method": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "rel": {
+                        "nullable": true,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "nullable": true,
+                  "type": "array"
+                },
+                "value": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "businessItemUri": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "houseId": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "houseName": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "houseUri": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "houses": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "house": {
+                            "enum": [
+                              "Commons",
+                              "Lords"
+                            ],
+                            "type": "string"
+                          },
+                          "name": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "nullable": true,
+                      "type": "array"
+                    },
+                    "id": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "itemDate": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "link": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "procedureStepId": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "procedureStepUri": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "sequence": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "stepName": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "treatyId": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "treatyUri": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "workpackageProcedureUri": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "itemsPerPage": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "Department": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GovernmentOrganisation": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GovernmentOrganisationResource": {
+        "additionalProperties": false,
+        "properties": {
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "value": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "format": "int32",
+                "type": "integer"
+              },
+              "name": {
+                "nullable": true,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "GovernmentOrganisationResourceCollection": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "links": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "href": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "method": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "rel": {
+                        "nullable": true,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "nullable": true,
+                  "type": "array"
+                },
+                "value": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "itemsPerPage": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "House": {
+        "enum": [
+          "Commons",
+          "Lords"
+        ],
+        "type": "string"
+      },
+      "Link": {
+        "additionalProperties": false,
+        "properties": {
+          "href": {
+            "nullable": true,
+            "type": "string"
+          },
+          "method": {
+            "nullable": true,
+            "type": "string"
+          },
+          "rel": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ParliamentaryConclusion": {
+        "enum": [
+          "NotConcluded",
+          "CanRatify",
+          "CantRatify"
+        ],
+        "type": "string"
+      },
+      "ParliamentaryProcess": {
+        "enum": [
+          "NotConcluded",
+          "Concluded"
+        ],
+        "type": "string"
+      },
+      "SeriesMembership": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "nullable": true,
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "SeriesMembershipResource": {
+        "additionalProperties": false,
+        "properties": {
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "value": {
+            "additionalProperties": false,
+            "properties": {
+              "description": {
+                "nullable": true,
+                "type": "string"
+              },
+              "id": {
+                "format": "int32",
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "SeriesMembershipResourceCollection": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "links": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "href": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "method": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "rel": {
+                        "nullable": true,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "nullable": true,
+                  "type": "array"
+                },
+                "value": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "itemsPerPage": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "SeriesMembershipType": {
+        "enum": [
+          "CountrySeriesMembership",
+          "EuropeanUnionSeriesMembership",
+          "MiscellaneousSeriesMembership"
+        ],
+        "type": "string"
+      },
+      "Treaty": {
+        "additionalProperties": false,
+        "properties": {
+          "commandPaperNumber": {
+            "format": "int32",
+            "nullable": true,
+            "type": "integer"
+          },
+          "commandPaperPrefix": {
+            "nullable": true,
+            "type": "string"
+          },
+          "commonsLayingDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "countrySeriesItemCitation": {
+            "nullable": true,
+            "type": "string"
+          },
+          "countrySeriesMembership": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "debateScheduled": {
+            "nullable": true,
+            "type": "string"
+          },
+          "europeanSeriesItemCitation": {
+            "nullable": true,
+            "type": "string"
+          },
+          "europeanUnionSeriesMembership": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "id": {
+            "nullable": true,
+            "type": "string"
+          },
+          "layingBodyDepartment": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "format": "int32",
+                "type": "integer"
+              },
+              "name": {
+                "nullable": true,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "layingBodyDepartmentId": {
+            "format": "int32",
+            "nullable": true,
+            "type": "integer"
+          },
+          "layingBodyName": {
+            "nullable": true,
+            "type": "string"
+          },
+          "leadDepartment": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "format": "int32",
+                "type": "integer"
+              },
+              "name": {
+                "nullable": true,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "leadGovernmentOrganisationDepartmentId": {
+            "format": "int32",
+            "nullable": true,
+            "type": "integer"
+          },
+          "leadGovernmentOrganisationGroupName": {
+            "nullable": true,
+            "type": "string"
+          },
+          "lordsLayingDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "miscSeriesItemCitation": {
+            "nullable": true,
+            "type": "string"
+          },
+          "miscellaneousSeriesMembership": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "name": {
+            "nullable": true,
+            "type": "string"
+          },
+          "parliamentaryConclusion": {
+            "enum": [
+              "NotConcluded",
+              "CanRatify",
+              "CantRatify"
+            ],
+            "type": "string"
+          },
+          "treatySeriesMembership": {
+            "additionalProperties": false,
+            "properties": {
+              "citation": {
+                "nullable": true,
+                "type": "string"
+              },
+              "seriesMembershipType": {
+                "enum": [
+                  "CountrySeriesMembership",
+                  "EuropeanUnionSeriesMembership",
+                  "MiscellaneousSeriesMembership"
+                ],
+                "type": "string"
+              },
+              "uri": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "uri": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          },
+          "webLink": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TreatyResource": {
+        "additionalProperties": false,
+        "properties": {
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "value": {
+            "additionalProperties": false,
+            "properties": {
+              "commandPaperNumber": {
+                "format": "int32",
+                "nullable": true,
+                "type": "integer"
+              },
+              "commandPaperPrefix": {
+                "nullable": true,
+                "type": "string"
+              },
+              "commonsLayingDate": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "countrySeriesItemCitation": {
+                "nullable": true,
+                "type": "string"
+              },
+              "countrySeriesMembership": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "debateScheduled": {
+                "nullable": true,
+                "type": "string"
+              },
+              "europeanSeriesItemCitation": {
+                "nullable": true,
+                "type": "string"
+              },
+              "europeanUnionSeriesMembership": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "id": {
+                "nullable": true,
+                "type": "string"
+              },
+              "layingBodyDepartment": {
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "name": {
+                    "nullable": true,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "layingBodyDepartmentId": {
+                "format": "int32",
+                "nullable": true,
+                "type": "integer"
+              },
+              "layingBodyName": {
+                "nullable": true,
+                "type": "string"
+              },
+              "leadDepartment": {
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "name": {
+                    "nullable": true,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "leadGovernmentOrganisationDepartmentId": {
+                "format": "int32",
+                "nullable": true,
+                "type": "integer"
+              },
+              "leadGovernmentOrganisationGroupName": {
+                "nullable": true,
+                "type": "string"
+              },
+              "lordsLayingDate": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "miscSeriesItemCitation": {
+                "nullable": true,
+                "type": "string"
+              },
+              "miscellaneousSeriesMembership": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "name": {
+                "nullable": true,
+                "type": "string"
+              },
+              "parliamentaryConclusion": {
+                "enum": [
+                  "NotConcluded",
+                  "CanRatify",
+                  "CantRatify"
+                ],
+                "type": "string"
+              },
+              "treatySeriesMembership": {
+                "additionalProperties": false,
+                "properties": {
+                  "citation": {
+                    "nullable": true,
+                    "type": "string"
+                  },
+                  "seriesMembershipType": {
+                    "enum": [
+                      "CountrySeriesMembership",
+                      "EuropeanUnionSeriesMembership",
+                      "MiscellaneousSeriesMembership"
+                    ],
+                    "type": "string"
+                  },
+                  "uri": {
+                    "format": "uri",
+                    "nullable": true,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "uri": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              },
+              "webLink": {
+                "format": "uri",
+                "nullable": true,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "TreatyResourceCollection": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "links": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "href": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "method": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "rel": {
+                        "nullable": true,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "nullable": true,
+                  "type": "array"
+                },
+                "value": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandPaperNumber": {
+                      "format": "int32",
+                      "nullable": true,
+                      "type": "integer"
+                    },
+                    "commandPaperPrefix": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "commonsLayingDate": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "countrySeriesItemCitation": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "countrySeriesMembership": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "debateScheduled": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "europeanSeriesItemCitation": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "europeanUnionSeriesMembership": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "id": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "layingBodyDepartment": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "name": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "layingBodyDepartmentId": {
+                      "format": "int32",
+                      "nullable": true,
+                      "type": "integer"
+                    },
+                    "layingBodyName": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "leadDepartment": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "format": "int32",
+                          "type": "integer"
+                        },
+                        "name": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "leadGovernmentOrganisationDepartmentId": {
+                      "format": "int32",
+                      "nullable": true,
+                      "type": "integer"
+                    },
+                    "leadGovernmentOrganisationGroupName": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "lordsLayingDate": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "miscSeriesItemCitation": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "miscellaneousSeriesMembership": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "name": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "parliamentaryConclusion": {
+                      "enum": [
+                        "NotConcluded",
+                        "CanRatify",
+                        "CantRatify"
+                      ],
+                      "type": "string"
+                    },
+                    "treatySeriesMembership": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "citation": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "seriesMembershipType": {
+                          "enum": [
+                            "CountrySeriesMembership",
+                            "EuropeanUnionSeriesMembership",
+                            "MiscellaneousSeriesMembership"
+                          ],
+                          "type": "string"
+                        },
+                        "uri": {
+                          "format": "uri",
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "uri": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "webLink": {
+                      "format": "uri",
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "itemsPerPage": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "links": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "method": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "rel": {
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "TreatySeriesMembership": {
+        "additionalProperties": false,
+        "properties": {
+          "citation": {
+            "nullable": true,
+            "type": "string"
+          },
+          "seriesMembershipType": {
+            "enum": [
+              "CountrySeriesMembership",
+              "EuropeanUnionSeriesMembership",
+              "MiscellaneousSeriesMembership"
+            ],
+            "type": "string"
+          },
+          "uri": {
+            "format": "uri",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  }
+}

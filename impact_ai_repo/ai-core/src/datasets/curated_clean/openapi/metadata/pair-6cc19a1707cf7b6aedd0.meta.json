@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-6cc19a1707cf7b6aedd0",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--6cc19a17--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--6cc19a17--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6cc19a17--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6cc19a17--v2.canonical.json",
+  "old_sha": "e31f20a26f373a3db07d",
+  "new_sha": "ffacb09e26bd4ee645ed",
+  "generated_at": "2025-11-30T11:52:27+00:00",
+  "producers_sample": [
+    "/companies/orderid/reports/enhancedprofitandloss/accounts",
+    "/companies/paymentid/reports/enhancedcashflow/transactions",
+    "/companies/sku/reports/enhancedbalancesheet/accounts",
+    "/companies/sku/reports/enhancedinvoices",
+    "/data/assess/accounts/categories",
+    "/companies/id/reports/enhancedinvoices",
+    "/companies/sku/reports/enhancedbalancesheet/accounts",
+    "/companies/sku/reports/enhancedprofitandloss/accounts",
+    "/companies/userid/reports/enhancedcashflow/transactions",
+    "/data/assess/accounts/categories"
+  ]
+}

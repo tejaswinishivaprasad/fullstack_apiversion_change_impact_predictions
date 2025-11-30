@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ExtractInterfaceTest$ExtractTestInterface",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "after": "package org.openrewrite.interfaces;\n\ninterface ITest {\n\n    int test();\n}\n",
+          "language": "java"
+        },
+        {
+          "before": "package org.openrewrite;\n\nclass Test {\n    int f;\n\n    public Test() {\n    }\n\n    public final int test() {\n        return 0;\n    }\n\n    private int privateTest() {\n    }\n\n    public static int staticTest() {\n    }\n}\n",
+          "after": "package org.openrewrite;\n\nimport org.openrewrite.interfaces.ITest;\n\nclass Test implements ITest {\n    int f;\n\n    public Test() {\n    }\n\n    @Override\n    public final int test() {\n        return 0;\n    }\n\n    private int privateTest() {\n    }\n\n    public static int staticTest() {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id"
+      }
+    }
+  }
+}

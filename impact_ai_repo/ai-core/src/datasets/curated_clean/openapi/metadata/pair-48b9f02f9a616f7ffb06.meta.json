@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-48b9f02f9a616f7ffb06",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--48b9f02f--v1.canonical.json",
+  "new_canonical": "openapi--search-service--48b9f02f--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--48b9f02f--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--48b9f02f--v2.canonical.json",
+  "old_sha": "343905ba1fac8537c7d3",
+  "new_sha": "d522b33725e3fe1e1c57",
+  "generated_at": "2025-11-30T11:51:40+00:00",
+  "producers_sample": [
+    "/api/rest/v1/account/balance",
+    "/api/rest/v1/account/statistics",
+    "/api/rest/v1/account/transfer",
+    "/api/rest/v1/account/user",
+    "/api/rest/v1/account/user/paymentid",
+    "/api/rest/v1/account/balance",
+    "/api/rest/v1/account/statistics",
+    "/api/rest/v1/account/transfer",
+    "/api/rest/v1/account/user",
+    "/api/rest/v1/account/user/paymentid"
+  ]
+}

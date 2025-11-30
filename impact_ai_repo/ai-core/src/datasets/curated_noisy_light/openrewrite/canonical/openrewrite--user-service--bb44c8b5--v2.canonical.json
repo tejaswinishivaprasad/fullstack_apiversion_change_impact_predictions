@@ -1,0 +1,31 @@
+{
+  "name": "comment-pr",
+  "true": {
+    "workflow_run": {
+      "workflows": [
+        "receive-pr"
+      ],
+      "types": [
+        "completed"
+      ]
+    }
+  },
+  "jobs": {
+    "post-suggestions": {
+      "if": "${{ github.event.workflow_run.conclusion == 'success' }}",
+      "uses": "openrewrite/gh-automation/.github/workflows/comment-pr.yml@main"
+    }
+  },
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-4c9f8d9cb4dc7e016785", "ace_index": 0, "ace_id": "pair-4c9f8d9cb4dc7e016785::ace::0", "type": "PARAM_ADDED", "path": "/v1/verification/result", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "37bb0775eba68c0cacd9", "new_sha": "097dd7b891fca5581016"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

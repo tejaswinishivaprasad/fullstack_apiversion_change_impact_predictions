@@ -1,0 +1,21 @@
+{
+  "type": "specs.openrewrite.org/v1beta/recipe",
+  "name": "org.openrewrite.HelloJon2",
+  "displayName": "Hello Jon 2 - Electric Boogaloo",
+  "description": "Also Changes Text to \"Hello Jon!\", but with extra indirection",
+  "recipeList": [
+    "org.openrewrite.HelloJon"
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

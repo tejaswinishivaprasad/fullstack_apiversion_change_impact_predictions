@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-b72a320929e5f179a2ed",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--b72a3209--v1.canonical.json",
+  "new_canonical": "openapi--search-service--b72a3209--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--b72a3209--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--b72a3209--v2.canonical.json",
+  "old_sha": "52c8ad8c0dcc93015e6f",
+  "new_sha": "0898c61a7a2fda7bd626",
+  "generated_at": "2025-11-30T11:51:08+00:00",
+  "producers_sample": [
+    "/v1/categories",
+    "/v1/charitybasic",
+    "/v1/charityfinancial",
+    "/v1/charitygeolocation",
+    "/v1/charitypremium",
+    "/v1/categories",
+    "/v1/charitybasic",
+    "/v1/charityfinancial",
+    "/v1/charitygeolocation",
+    "/v1/charitypremium"
+  ]
+}

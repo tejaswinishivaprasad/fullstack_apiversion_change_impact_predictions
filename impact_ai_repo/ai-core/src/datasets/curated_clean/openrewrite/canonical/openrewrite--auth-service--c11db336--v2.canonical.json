@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.ResultOfMethodCallIgnored",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.io.File mkdir*()",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "import java.io.File;\nclass Test {\n    void test() {\n        new File(\"dir\").mkdirs();\n        new File(\"dir\").mkdir();\n        boolean b1 = new File(\"dir\").mkdirs();\n        if(!new File(\"dir\").mkdirs()) {\n            throw new IllegalStateException(\"oops\");\n        }\n    }\n}\n",
+          "after": "import java.io.File;\nclass Test {\n    void test() {\n        /*~~>*/new File(\"dir\").mkdirs();\n        /*~~>*/new File(\"dir\").mkdir();\n        boolean b1 = new File(\"dir\").mkdirs();\n        if(!new File(\"dir\").mkdirs()) {\n            throw new IllegalStateException(\"oops\");\n        }\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

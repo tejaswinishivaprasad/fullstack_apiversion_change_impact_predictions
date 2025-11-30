@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-10a3a4c867951059dd28",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--10a3a4c8--v1.canonical.json",
+  "new_canonical": "openapi--search-service--10a3a4c8--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--10a3a4c8--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--10a3a4c8--v2.canonical.json",
+  "old_sha": "ddf34c7e71d9499bbe48",
+  "new_sha": "a9cc48a47730a4d4e546",
+  "generated_at": "2025-11-30T11:50:57+00:00",
+  "producers_sample": [
+    "/e-reputation/hotel-sentiments",
+    "/e-reputation/hotel-sentiments"
+  ]
+}

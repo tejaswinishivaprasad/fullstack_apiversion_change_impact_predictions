@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-c48a9293b8570c48503a",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--c48a9293--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--c48a9293--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--c48a9293--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--c48a9293--v2.canonical.json",
+  "old_sha": "33ad7c5cf517360f365a",
+  "new_sha": "d4d17c96ce97255e1750",
+  "generated_at": "2025-11-30T11:52:16+00:00",
+  "producers_sample": [
+    "/id/playergameprojectionstatsbycompetition/id/id",
+    "/id/upcomingdfsslatesbycompetition/sku",
+    "/orderid/dfsslatesbydate/paymentid",
+    "/orderid/playergameprojectionstatsbydate/orderid",
+    "/paymentid/playergameprojectionstatsbyplayer/sku/sku",
+    "/id/playergameprojectionstatsbydate/userid",
+    "/orderid/injuredplayers/sku",
+    "/orderid/playergameprojectionstatsbycompetition/orderid/id",
+    "/orderid/playergameprojectionstatsbyplayer/paymentid/sku",
+    "/sku/dfsslatesbydate/userid"
+  ]
+}

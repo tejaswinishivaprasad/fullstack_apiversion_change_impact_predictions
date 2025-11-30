@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-d528a6db946824ebd11f",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--d528a6db--v1.canonical.json",
+  "new_canonical": "openapi--search-service--d528a6db--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--d528a6db--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--d528a6db--v2.canonical.json",
+  "old_sha": "3318741af648288fc547",
+  "new_sha": "e92036040366af7417bb",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/safety/safety-rated-locations",
+    "/safety/safety-rated-locations/by-square",
+    "/safety/safety-rated-locations/paymentid",
+    "/safety/safety-rated-locations",
+    "/safety/safety-rated-locations/by-square",
+    "/safety/safety-rated-locations/paymentid"
+  ]
+}

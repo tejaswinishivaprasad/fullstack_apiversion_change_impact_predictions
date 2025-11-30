@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangeType",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Integer",
+        "java.lang.Long",
+        "true"
+      ],
+      "sources": [
+        {
+          "before": "public class ThinkPositive { private Integer fred = 1;}",
+          "after": "public class ThinkPositive { private Long fred = 1;}",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

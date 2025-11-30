@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.cleanup.ImplicitParameterInLambda",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "fun method() {\n    listOf(1, 2, 3).forEach { it -> it.and(6) }\n    val a: (Int) -> Int = { it -> it + 5 }\n}\n",
+          "after": "fun method() {\n    listOf(1, 2, 3).forEach { it.and(6) }\n    val a: (Int) -> Int = { it + 5 }\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-users-id"
+      }
+    }
+  }
+}

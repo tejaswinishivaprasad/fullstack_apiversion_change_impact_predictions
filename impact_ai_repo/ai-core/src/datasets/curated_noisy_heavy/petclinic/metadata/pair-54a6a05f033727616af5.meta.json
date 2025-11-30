@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-54a6a05f033727616af5",
+  "service_name": "petclinic-order-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--petclinic-order-service--54a6a05f--v1.canonical.json",
+  "new_canonical": "petclinic--petclinic-order-service--54a6a05f--v2.canonical.json",
+  "old": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--petclinic-order-service--54a6a05f--v1.canonical.json",
+  "new": "datasets/curated_noisy_heavy/petclinic/canonical/petclinic--petclinic-order-service--54a6a05f--v2.canonical.json",
+  "old_sha": "6d4ab5cd24f74056fe9c",
+  "new_sha": "6640227981b8d3e35825",
+  "generated_at": "2025-11-30T13:46:44+00:00"
+}

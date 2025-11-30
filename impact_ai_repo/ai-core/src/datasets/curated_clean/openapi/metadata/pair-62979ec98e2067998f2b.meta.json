@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-62979ec98e2067998f2b",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--62979ec9--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--62979ec9--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--62979ec9--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--62979ec9--v2.canonical.json",
+  "old_sha": "656917faa96a7eab68c1",
+  "new_sha": "eb721aa08be647ac7574",
+  "generated_at": "2025-11-30T11:51:39+00:00",
+  "producers_sample": [
+    "/profiles/{id}",
+    "/riddle/random",
+    "/riddle/search",
+    "/reviews/{id}",
+    "/riddle/random",
+    "/riddle/search"
+  ]
+}

@@ -1,0 +1,1 @@
+{"pair_id": "pair-fc417a0b5d0299db2bf8", "ace_index": 0, "ace_id": "pair-fc417a0b5d0299db2bf8::ace::0", "type": "NON_API_CHANGE", "path": null, "method": null, "detail": "examples.yml#doc10#v0", "confidence": 0.1, "provenance": {"old_sha": "0110552a966c8de4b737", "new_sha": "0110552a966c8de4b737"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

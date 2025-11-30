@@ -1,0 +1,24 @@
+{
+  "paths": {
+    "/order-service": {
+      "get": {
+        "description": "orig",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "parameters": [
+          {
+            "name": "q1",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ]
+      }
+    }
+  }
+}

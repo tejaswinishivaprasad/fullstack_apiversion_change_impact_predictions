@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-7f9f0035fcb0a282d0c1",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--7f9f0035--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--7f9f0035--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7f9f0035--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--7f9f0035--v2.canonical.json",
+  "old_sha": "8c7a6f717f5484e3381b",
+  "new_sha": "d4ef1fd8f4e87d052f02",
+  "generated_at": "2025-11-30T11:52:12+00:00",
+  "producers_sample": [
+    "/id/tournaments/userid",
+    "/orderid/currentseason",
+    "/orderid/player/id",
+    "/orderid/players",
+    "/orderid/playerseasonstats/sku",
+    "/orderid/playerseasonstats/paymentid",
+    "/paymentid/players",
+    "/paymentid/playertournamentprojectionstats/sku",
+    "/paymentid/tournaments/id",
+    "/sku/injuries"
+  ]
+}

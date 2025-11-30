@@ -1,0 +1,18 @@
+{
+  "pair_id": "pair-bca098bf7c9082bb1b13",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--bca098bf--v1.canonical.json",
+  "new_canonical": "openapi--search-service--bca098bf--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--bca098bf--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--bca098bf--v2.canonical.json",
+  "old_sha": "c3fe57dcdd2142d751f3",
+  "new_sha": "e2efc46bd7bee1745eb4",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/reference-data/locations",
+    "/reference-data/locations/sku",
+    "/reference-data/locations",
+    "/reference-data/locations/userid"
+  ]
+}

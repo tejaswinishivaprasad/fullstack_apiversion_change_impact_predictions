@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-adbf519a30da8726275e",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--adbf519a--v1.canonical.json",
+  "new_canonical": "openapi--search-service--adbf519a--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--adbf519a--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--adbf519a--v2.canonical.json",
+  "old_sha": "e12c416c8e6856b59669",
+  "new_sha": "dc187f284bd2a3a450c3",
+  "generated_at": "2025-11-30T11:50:59+00:00",
+  "producers_sample": [
+    "/shopping/flight-offers/prediction",
+    "/shopping/flight-offers/prediction"
+  ]
+}

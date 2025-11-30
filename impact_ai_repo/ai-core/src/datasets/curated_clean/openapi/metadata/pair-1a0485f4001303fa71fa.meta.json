@@ -1,0 +1,18 @@
+{
+  "pair_id": "pair-1a0485f4001303fa71fa",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--1a0485f4--v1.canonical.json",
+  "new_canonical": "openapi--search-service--1a0485f4--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--1a0485f4--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--1a0485f4--v2.canonical.json",
+  "old_sha": "dac9a55e5a96e69cec6c",
+  "new_sha": "8c48a181fc10a4e9af40",
+  "generated_at": "2025-11-30T11:51:32+00:00",
+  "producers_sample": [
+    "/inventory/{id}",
+    "/users/{id}",
+    "/carts/{id}",
+    "/transactions/{id}"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindAnnotations",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "@org.jspecify.annotations.Nullable",
+        "true"
+      ],
+      "sources": [
+        {
+          "before": "import org.openrewrite.internal.lang.Nullable;\npublic class Test {\n    @Nullable String name;\n}\n",
+          "after": "import org.openrewrite.internal.lang.Nullable;\npublic class Test {\n    /*~~>*/@Nullable String name;\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id"
+      }
+    }
+  }
+}

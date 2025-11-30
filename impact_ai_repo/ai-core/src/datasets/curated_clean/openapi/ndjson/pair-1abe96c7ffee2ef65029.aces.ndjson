@@ -1,0 +1,1 @@
+{"pair_id": "pair-1abe96c7ffee2ef65029", "ace_index": 0, "ace_id": "pair-1abe96c7ffee2ef65029::ace::0", "type": "PARAM_ADDED", "path": "/booking/hotel-bookings", "method": "post", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "2e118d7f83736684a5eb", "new_sha": "4133cd1c29ef8bb99f69"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

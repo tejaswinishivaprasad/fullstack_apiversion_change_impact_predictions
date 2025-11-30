@@ -1,0 +1,17 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "packageName": "io",
+  "root": true,
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

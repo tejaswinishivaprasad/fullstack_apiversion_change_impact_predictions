@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-f9944115e0f23dd09ef8",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--f9944115--v1.canonical.json",
+  "new_canonical": "openapi--search-service--f9944115--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--f9944115--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--f9944115--v2.canonical.json",
+  "old_sha": "bab4e7196dfe7f539afe",
+  "new_sha": "0c933eb2f8b1b8cd142a",
+  "generated_at": "2025-11-30T11:51:00+00:00",
+  "producers_sample": [
+    "/reference-data/airlines",
+    "/reference-data/airlines"
+  ]
+}

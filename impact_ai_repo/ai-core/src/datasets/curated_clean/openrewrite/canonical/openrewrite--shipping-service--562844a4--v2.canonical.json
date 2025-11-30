@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.cleanup.EqualsMethodUsage",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "fun isSame(obj1 : String, obj2: String) : Boolean {\n    val isSame = obj1.equals(obj2)\n}\n",
+          "after": "fun isSame(obj1 : String, obj2: String) : Boolean {\n    val isSame = obj1 == obj2\n}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-3d85ba743846af76c346",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--3d85ba74--v1.canonical.json",
+  "new_canonical": "openapi--search-service--3d85ba74--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--3d85ba74--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--3d85ba74--v2.canonical.json",
+  "old_sha": "80a530748de2b9fa2115",
+  "new_sha": "45c06fe140ace1ddd897",
+  "generated_at": "2025-11-30T11:51:39+00:00",
+  "producers_sample": [
+    "/qrcode/business-card",
+    "/qrcode/decode",
+    "/qrcode/email",
+    "/qrcode/phone",
+    "/qrcode/raw",
+    "/qrcode/business-card",
+    "/qrcode/decode",
+    "/qrcode/email",
+    "/qrcode/phone",
+    "/qrcode/raw"
+  ]
+}

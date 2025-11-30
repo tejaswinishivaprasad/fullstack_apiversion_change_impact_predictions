@@ -1,0 +1,1 @@
+{"pair_id": "pair-14ab595630dc553a9f73", "ace_index": 0, "ace_id": "pair-14ab595630dc553a9f73::ace::0", "type": "PARAM_ADDED", "path": "/shopping/flight-offers/pricing", "method": "post", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "4820168c6f007ba34290", "new_sha": "c6d7f862bba091e8ba5b"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

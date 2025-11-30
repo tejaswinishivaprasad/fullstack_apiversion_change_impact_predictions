@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-99c23aca5a61243a65ee",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--99c23aca--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--99c23aca--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--99c23aca--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--99c23aca--v2.canonical.json",
+  "old_sha": "365c8dc646c3bffd43ff",
+  "new_sha": "d2b7e39234001b011eaa",
+  "generated_at": "2025-11-30T11:54:20+00:00",
+  "producers_sample": [
+    "/application-instances/id/package-dependencies",
+    "/application-instances/orderid/details",
+    "/application-instances/paymentid/node-instances",
+    "/application-instances/userid",
+    "/application-instances/userid/node-signals",
+    "/application-instances/orderid",
+    "/application-instances/orderid/node-signals",
+    "/application-instances/userid/details",
+    "/application-instances/userid/node-instances",
+    "/application-instances/userid/package-dependencies"
+  ]
+}

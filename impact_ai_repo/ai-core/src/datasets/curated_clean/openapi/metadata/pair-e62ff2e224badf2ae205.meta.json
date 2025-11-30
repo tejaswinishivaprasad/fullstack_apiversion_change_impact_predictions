@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-e62ff2e224badf2ae205",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--e62ff2e2--v1.canonical.json",
+  "new_canonical": "openapi--search-service--e62ff2e2--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--e62ff2e2--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--e62ff2e2--v2.canonical.json",
+  "old_sha": "3a32d3d8287707aaed5c",
+  "new_sha": "3ad216441b5dc36e437d",
+  "generated_at": "2025-11-30T11:50:08+00:00",
+  "producers_sample": [
+    "/api/account/v1/feedback",
+    "/api/account/v1/merchantname/add",
+    "/api/receipt/v1/match/file",
+    "/api/receipt/v1/simple/encoded",
+    "/api/receipt/v1/simple/file",
+    "/api/account/v1/feedback",
+    "/api/account/v1/merchantname/add",
+    "/api/receipt/v1/match/file",
+    "/api/receipt/v1/simple/encoded",
+    "/api/receipt/v1/simple/file"
+  ]
+}

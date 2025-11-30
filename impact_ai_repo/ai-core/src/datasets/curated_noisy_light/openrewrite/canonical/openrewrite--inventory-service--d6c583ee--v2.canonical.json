@@ -1,0 +1,38 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.format.TabsAndIndents",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "class Test {{\n    if (true == false)\n    doTheThing();\n\n    doTheOtherThing();\n    somethingElseEntirely();\n\n    foo();\n}\n    public static void doTheThing() {}\n    public static void doTheOtherThing() {}\n    public static void somethingElseEntirely() {}\n    public static void foo() {}\n}\n",
+          "after": "class Test {{\n    if (true == false)\n        doTheThing();\n\n    doTheOtherThing();\n    somethingElseEntirely();\n\n    foo();\n}\n    public static void doTheThing() {}\n    public static void doTheOtherThing() {}\n    public static void somethingElseEntirely() {}\n    public static void foo() {}\n}\n",
+          "language": "java"
+        }
+      ]
+    },
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "class Test {\n    @Deprecated\n    public void method(Test t) {\n    }\n}\n",
+          "after": "class Test {\n\n    public void method(Test t) {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/shipments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-shipments-id-v2"
+      }
+    }
+  }
+}

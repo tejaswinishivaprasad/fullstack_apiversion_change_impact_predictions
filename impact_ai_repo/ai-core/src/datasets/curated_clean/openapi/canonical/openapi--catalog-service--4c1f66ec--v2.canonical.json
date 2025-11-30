@@ -1,0 +1,6346 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "/"
+    },
+    {
+      "url": "http://adobe.local"
+    }
+  ],
+  "info": {
+    "contact": {
+      "email": "opensource@shinesolutions.com",
+      "name": "Shine Solutions",
+      "url": "http://shinesolutions.com",
+      "x-twitter": "Adobe"
+    },
+    "description": "Swagger AEM is an OpenAPI specification for Adobe Experience Manager (AEM) API",
+    "title": "Adobe Experience Manager (AEM) API",
+    "version": "3.7.1-pre.0",
+    "x-apisguru-categories": [
+      "marketing"
+    ],
+    "x-logo": {
+      "url": "https://twitter.com/Adobe/profile_image?size=original"
+    },
+    "x-origin": [
+      {
+        "format": "openapi",
+        "url": "https://raw.githubusercontent.com/shinesolutions/swagger-aem/master/conf/api.yml",
+        "version": "3.0"
+      }
+    ],
+    "x-providerName": "adobe.com",
+    "x-serviceName": "aem",
+    "x-unofficialSpec": true
+  },
+  "security": [
+    {
+      "aemAuth": []
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "post": {
+        "operationId": "postcqactions",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "authorizableId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "changelog",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "qce2618",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "cq"
+        ]
+      }
+    },
+    "/apps/system/config/com-adobe-granite-auth-saml-samlauthenticationhandler-config": {
+      "post": {
+        "operationId": "postconfigadobegranitesamlauthenticationhandler-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "keyStorePassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "service.ranking",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "service.ranking@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpHttpRedirect",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpHttpRedirect@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createUser",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createUser@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "defaultRedirectUrl",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userIDAttribute",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userIDAttribute@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "defaultGroups",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "defaultGroups@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpCertAlias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpCertAlias@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "addGroupMemberships",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "path",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "path@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "synchronizeAttributes",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "clockTolerance",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "clockTolerance@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "groupMembershipAttribute",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpUrl",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpUrl@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "logoutUrl",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "logoutUrl@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceProviderEntityId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "handleLogout",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "handleLogout@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "spPrivateKeyAlias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "useEncryption",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "useEncryption@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "nameIdFormat",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "nameIdFormat@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "digestMethod",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "digestMethod@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "signatureMethod",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "signatureMethod@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userIntermediatePath",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/apps/system/config/com-shinesolutions-aem-passwordreset-activator": {
+      "post": {
+        "operationId": "postconfigaempasswordreset",
+        "parameters": [
+          {
+            "explode": true,
+            "in": "query",
+            "name": "pwdreset.authorizables",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "custom"
+        ]
+      }
+    },
+    "/apps/system/config/com-shinesolutions-healthcheck-hc-impl-activebundlehealthcheck": {
+      "post": {
+        "operationId": "postconfigaemhealthcheckservlet-v2",
+        "parameters": [
+          {
+            "explode": true,
+            "in": "query",
+            "name": "bundles.ignored",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "bundles.ignored@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "custom"
+        ]
+      }
+    },
+    "/apps/system/config/org-apache-felix-http": {
+      "post": {
+        "operationId": "postconfigapachefelixjettybasedhttpservice",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/apps/system/config/org-apache-http-proxyconfigurator-config": {
+      "post": {
+        "operationId": "postconfigapachehttpcomponentsproxyconfiguration",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "proxy.host",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.host@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.port",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.port@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "proxy.exceptions",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.enabled",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.enabled@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.user",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.user@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.password",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proxy.password@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/apps/system/config/org-apache-sling-jcr-davex-impl-servlets-slingdavexservlet": {
+      "post": {
+        "operationId": "postconfigapacheslingdavexservlet",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "alias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "alias@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dav.create-absolute-uri",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/apps/system/config/org-apache-sling-security-impl-referrerfilter": {
+      "post": {
+        "operationId": "postconfigapacheslingreferrerfilter",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "allow.empty",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "allow.empty@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "allow.hosts",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "allow.hosts@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "allow.hosts.regexp",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter.methods",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter.methods@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/apps/system/config/org-apache-sling-servlets-get-defaultgetservlet": {
+      "post": {
+        "operationId": "postconfigapacheslinggetservlet-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "json.maximumresults",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "enable.html",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "enable.html@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "enable.txt",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "enable.txt@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "enable.xml",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "enable.xml@TypeHint",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/apps/system/config/sku": {
+      "post": {
+        "operationId": "postconfigproperty",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "configNodeName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/bin/queryblder-json": {
+      "get": {
+        "operationId": "getquery-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "p.limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      },
+      "post": {
+        "operationId": "postquery",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "p.limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/crx/explorer/ui/setpassword-jsp": {
+      "post": {
+        "operationId": "postsetpassword-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "old",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "plain",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "verify",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "crx"
+        ]
+      }
+    },
+    "/crx/packmgr/installstatus-jsp": {
+      "get": {
+        "operationId": "getinstallstatus-v2",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "properties": {
+                        "finished": {
+                          "type": "boolean"
+                        },
+                        "itemCount": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Retrieved CRX package manager install status"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "crx"
+        ]
+      }
+    },
+    "/crx/packmgr/service-jsp": {
+      "post": {
+        "operationId": "postpackageservice",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cmd",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "text/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "crx"
+        ]
+      }
+    },
+    "/crx/packmgr/service/json/orderid": {
+      "post": {
+        "operationId": "postpackageservicejson",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cmd",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "groupName",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "packageName",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "packageVersion",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "_charset_",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "force",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "recursive",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "package": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "crx"
+        ]
+      }
+    },
+    "/crx/packmgr/service/script-html": {
+      "get": {
+        "operationId": "getpackagemanagerservlet-v2",
+        "responses": {
+          "404": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Package Manager Servlet is disabled"
+          },
+          "405": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Package Manager Servlet is active"
+          }
+        },
+        "tags": [
+          "crx"
+        ]
+      }
+    },
+    "/crx/packmgr/update-jsp": {
+      "post": {
+        "operationId": "postpackageupdate",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "groupName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "packageName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "_charset_",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "crx"
+        ]
+      }
+    },
+    "/crx/server/crx-default/jcr-root/1-json": {
+      "get": {
+        "operationId": "getcrxdestatus",
+        "responses": {
+          "200": {
+            "content": {
+              "plain/text": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "CRXDE is enabled"
+          },
+          "404": {
+            "content": {
+              "plain/text": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "CRXDE is disabled"
+          }
+        },
+        "tags": [
+          "crx"
+        ]
+      }
+    },
+    "/etc/packages/id/paymentid-sku-zip": {
+      "get": {
+        "operationId": "getpackage-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/etc/packages/paymentid/sku-orderid-zip/jcr-content/vlt-definition/filter-tidy-2-json": {
+      "get": {
+        "operationId": "getpackagefilter-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/etc/replication/agents-orderid-1-json": {
+      "get": {
+        "operationId": "getagents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runmode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/etc/replication/agents-orderid/paymentid": {
+      "delete": {
+        "operationId": "deleteagent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runmode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      },
+      "get": {
+        "operationId": "getagent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runmode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      },
+      "post": {
+        "operationId": "postagent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runmode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/cq:name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/cq:template",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/enabled",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/jcr:title",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/logLevel",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/noVersioning",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/proxyHost",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/proxyPort",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/proxyUser",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/retryDelay",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/ssl",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/transportUri",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sku",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:content/userId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:primaryType",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": ":operation",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/etc/truststore": {
+      "post": {
+        "operationId": "posttruststorepkcs12",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "truststore.p12": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/etc/truststore/{id}": {
+      "get": {
+        "operationId": "gettruststore",
+        "responses": {
+          "default": {
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/libs/granite/core/content/login-html": {
+      "get": {
+        "operationId": "getloginpage-v2",
+        "responses": {
+          "default": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "security": [],
+        "tags": [
+          "cq"
+        ]
+      }
+    },
+    "/libs/granite/security/post/authorizables": {
+      "post": {
+        "operationId": "postauthorizables-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "authorizableId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "intermediatePath",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createUser",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createGroup",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rep:password",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "profile/givenName",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/libs/granite/security/post/sslsetup-html": {
+      "post": {
+        "operationId": "sslsetup-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "keystorePassword",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keystorePasswordConfirm",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "truststorePassword",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "httpsHostname",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "httpsPort",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "certificateFile": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "privatekeyFile": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "granite"
+        ]
+      }
+    },
+    "/libs/granite/security/post/truststore": {
+      "post": {
+        "operationId": "posttruststore",
+        "parameters": [
+          {
+            "in": "query",
+            "name": ":operation",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "newPassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rePassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keyStoreType",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "removeAlias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "certificate": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/libs/granite/security/truststore-json": {
+      "get": {
+        "operationId": "gettruststoreinfo",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "aliases": {
+                      "items": {
+                        "properties": {
+                          "alias": {
+                            "description": "Truststore alias name",
+                            "type": "string"
+                          },
+                          "entryType": {
+                            "type": "string"
+                          },
+                          "issuer": {
+                            "description": "e.g. \"CN=Admin\"",
+                            "type": "string"
+                          },
+                          "notAfter": {
+                            "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+                            "type": "string"
+                          },
+                          "notBefore": {
+                            "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+                            "type": "string"
+                          },
+                          "serialNumber": {
+                            "description": "18165099476682912368",
+                            "type": "integer"
+                          },
+                          "subject": {
+                            "description": "e.g. \"CN=localhost\"",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "exists": {
+                      "description": "False if truststore don't exist",
+                      "type": "boolean"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Retrieved AEM Truststore info"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/libs/replication/treeactivation-html": {
+      "post": {
+        "operationId": "posttreeactivation",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ignoredeactivated",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "onlymodified",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cmd",
+            "required": true,
+            "schema": {
+              "default": "activate",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/system/console/bundles/orderid": {
+      "post": {
+        "operationId": "postbundle-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "console"
+        ]
+      }
+    },
+    "/system/console/bundles/orderid-json": {
+      "get": {
+        "operationId": "getbundleinfo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "properties": {
+                          "category": {
+                            "description": "Bundle category",
+                            "type": "string"
+                          },
+                          "fragment": {
+                            "description": "Is bundle a fragment",
+                            "type": "boolean"
+                          },
+                          "id": {
+                            "description": "Bundle ID",
+                            "type": "integer"
+                          },
+                          "name": {
+                            "description": "Bundle name",
+                            "type": "string"
+                          },
+                          "props": {
+                            "items": {
+                              "properties": {
+                                "key": {
+                                  "description": "Bundle data key",
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "description": "Bundle data value",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "state": {
+                            "description": "Bundle state value",
+                            "type": "string"
+                          },
+                          "stateRaw": {
+                            "description": "Numeric raw bundle state value",
+                            "type": "integer"
+                          },
+                          "symbolicName": {
+                            "description": "Bundle symbolic name",
+                            "type": "string"
+                          },
+                          "version": {
+                            "description": "Bundle version",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "s": {
+                      "items": {
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "Status description of all bundles",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Retrieved bundle info"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "console"
+        ]
+      }
+    },
+    "/system/console/configmgr": {
+      "get": {
+        "operationId": "getconfigmgr",
+        "responses": {
+          "200": {
+            "content": {
+              "text/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        },
+        "tags": [
+          "console"
+        ]
+      }
+    },
+    "/system/console/configmgr/com-adobe-granite-auth-saml-samlauthenticationhandler": {
+      "post": {
+        "operationId": "postsamlconfiguration-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "post",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "apply",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "delete",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "$location",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "path",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "service.ranking",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpUrl",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpCertAlias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idpHttpRedirect",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceProviderEntityId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "spPrivateKeyAlias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keyStorePassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "defaultRedirectUrl",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userIDAttribute",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "useEncryption",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createUser",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "addGroupMemberships",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "groupMembershipAttribute",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "defaultGroups",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "nameIdFormat",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "synchronizeAttributes",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "handleLogout",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "logoutUrl",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "clockTolerance",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "digestMethod",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "signatureMethod",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userIntermediatePath",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "propertylist",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "properties": {
+                    "bundle_location": {
+                      "description": "needed for configuration binding",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "Title",
+                      "type": "string"
+                    },
+                    "pid": {
+                      "description": "Persistent Identity (PID)",
+                      "type": "string"
+                    },
+                    "properties": {
+                      "properties": {
+                        "addGroupMemberships": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "assertionConsumerServiceURL": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "clockTolerance": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "integer"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "createUser": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "defaultGroups": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "values": {
+                              "description": "Property value",
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "defaultRedirectUrl": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "digestMethod": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "groupMembershipAttribute": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "handleLogout": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "idpCertAlias": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "idpHttpRedirect": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "idpUrl": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "keyStorePassword": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "logoutUrl": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "nameIdFormat": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "path": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "values": {
+                              "description": "Property value",
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "service.ranking": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "integer"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "serviceProviderEntityId": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "signatureMethod": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "spPrivateKeyAlias": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "synchronizeAttributes": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "values": {
+                              "description": "Property value",
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "useEncryption": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "userIDAttribute": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "userIntermediatePath": {
+                          "properties": {
+                            "description": {
+                              "description": "Property description",
+                              "type": "string"
+                            },
+                            "is_set": {
+                              "description": "True if property is set",
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "description": "property name",
+                              "type": "string"
+                            },
+                            "optional": {
+                              "description": "True if optional",
+                              "type": "boolean"
+                            },
+                            "type": {
+                              "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                              "type": "integer"
+                            },
+                            "value": {
+                              "description": "Property value",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "service_location": {
+                      "description": "needed for configuraiton binding",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "Title",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Retrieved AEM SAML Configuration"
+          },
+          "302": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          },
+          "default": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "console"
+        ]
+      }
+    },
+    "/system/console/jmx/com-adobe-granite-type-repository/op/userid": {
+      "post": {
+        "operationId": "postjmxrepository-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "console"
+        ]
+      }
+    },
+    "/system/console/status-productinfo-json": {
+      "get": {
+        "operationId": "getaemproductinfo-v2",
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "console"
+        ]
+      }
+    },
+    "/system/health": {
+      "get": {
+        "operationId": "getaemhealthcheck-v2",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tags",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "combineTagsOr",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "custom"
+        ]
+      }
+    },
+    "/paymentid/sku-ks-html": {
+      "post": {
+        "operationId": "postauthorizablekeystore-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "intermediatePath",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "authorizableId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": ":operation",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currentPassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "newPassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rePassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keyPassword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keyStorePass",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "alias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "newAlias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "removeAlias",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "cert-chain": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "keyStore": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "pk": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "properties": {
+                    "aliases": {
+                      "items": {
+                        "properties": {
+                          "algorithm": {
+                            "description": "e.g. \"RSA\"",
+                            "type": "string"
+                          },
+                          "alias": {
+                            "description": "Keystore alias name",
+                            "type": "string"
+                          },
+                          "chain": {
+                            "items": {
+                              "properties": {
+                                "issuer": {
+                                  "description": "e.g. \"CN=Admin\"",
+                                  "type": "string"
+                                },
+                                "notAfter": {
+                                  "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+                                  "type": "string"
+                                },
+                                "notBefore": {
+                                  "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+                                  "type": "string"
+                                },
+                                "serialNumber": {
+                                  "description": "18165099476682912368",
+                                  "type": "integer"
+                                },
+                                "subject": {
+                                  "description": "e.g. \"CN=localhost\"",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "entryType": {
+                            "description": "e.g. \"privateKey\"",
+                            "type": "string"
+                          },
+                          "format": {
+                            "description": "e.g. \"PKCS#8\"",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "exists": {
+                      "description": "False if truststore don't exist",
+                      "type": "boolean"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Retrieved Authorizable Keystore info"
+          },
+          "default": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/userid/sku-ks-json": {
+      "get": {
+        "operationId": "getauthorizablekeystore-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "intermediatePath",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "authorizableId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "properties": {
+                    "aliases": {
+                      "items": {
+                        "properties": {
+                          "algorithm": {
+                            "description": "e.g. \"RSA\"",
+                            "type": "string"
+                          },
+                          "alias": {
+                            "description": "Keystore alias name",
+                            "type": "string"
+                          },
+                          "chain": {
+                            "items": {
+                              "properties": {
+                                "issuer": {
+                                  "description": "e.g. \"CN=Admin\"",
+                                  "type": "string"
+                                },
+                                "notAfter": {
+                                  "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+                                  "type": "string"
+                                },
+                                "notBefore": {
+                                  "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+                                  "type": "string"
+                                },
+                                "serialNumber": {
+                                  "description": "18165099476682912368",
+                                  "type": "integer"
+                                },
+                                "subject": {
+                                  "description": "e.g. \"CN=localhost\"",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "entryType": {
+                            "description": "e.g. \"privateKey\"",
+                            "type": "string"
+                          },
+                          "format": {
+                            "description": "e.g. \"PKCS#8\"",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "exists": {
+                      "description": "False if truststore don't exist",
+                      "type": "boolean"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Retrieved Authorizable Keystore info"
+          },
+          "default": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/paymentid/sku/keystore/{id}": {
+      "get": {
+        "operationId": "getkeystore",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "intermediatePath",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "authorizableId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/products/{id}": {
+      "post": {
+        "operationId": "postpath",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "jcr:primaryType",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": ":name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/userid/id": {
+      "delete": {
+        "operationId": "deletenode-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      },
+      "get": {
+        "operationId": "getnode-v2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      },
+      "post": {
+        "operationId": "postnode",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": ":operation",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "deleteAuthorizable",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    },
+    "/sku/userid-rw-html": {
+      "post": {
+        "operationId": "postnoderw",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "addMembers",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default response"
+          }
+        },
+        "tags": [
+          "sling"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BundleData": {
+        "properties": {
+          "category": {
+            "description": "Bundle category",
+            "type": "string"
+          },
+          "fragment": {
+            "description": "Is bundle a fragment",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "Bundle ID",
+            "type": "integer"
+          },
+          "name": {
+            "description": "Bundle name",
+            "type": "string"
+          },
+          "props": {
+            "items": {
+              "properties": {
+                "key": {
+                  "description": "Bundle data key",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Bundle data value",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "state": {
+            "description": "Bundle state value",
+            "type": "string"
+          },
+          "stateRaw": {
+            "description": "Numeric raw bundle state value",
+            "type": "integer"
+          },
+          "symbolicName": {
+            "description": "Bundle symbolic name",
+            "type": "string"
+          },
+          "version": {
+            "description": "Bundle version",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BundleDataProp": {
+        "properties": {
+          "key": {
+            "description": "Bundle data key",
+            "type": "string"
+          },
+          "value": {
+            "description": "Bundle data value",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BundleInfo": {
+        "properties": {
+          "data": {
+            "items": {
+              "properties": {
+                "category": {
+                  "description": "Bundle category",
+                  "type": "string"
+                },
+                "fragment": {
+                  "description": "Is bundle a fragment",
+                  "type": "boolean"
+                },
+                "id": {
+                  "description": "Bundle ID",
+                  "type": "integer"
+                },
+                "name": {
+                  "description": "Bundle name",
+                  "type": "string"
+                },
+                "props": {
+                  "items": {
+                    "properties": {
+                      "key": {
+                        "description": "Bundle data key",
+                        "type": "string"
+                      },
+                      "value": {
+                        "description": "Bundle data value",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "state": {
+                  "description": "Bundle state value",
+                  "type": "string"
+                },
+                "stateRaw": {
+                  "description": "Numeric raw bundle state value",
+                  "type": "integer"
+                },
+                "symbolicName": {
+                  "description": "Bundle symbolic name",
+                  "type": "string"
+                },
+                "version": {
+                  "description": "Bundle version",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "s": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "status": {
+            "description": "Status description of all bundles",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "InstallStatus": {
+        "properties": {
+          "status": {
+            "properties": {
+              "finished": {
+                "type": "boolean"
+              },
+              "itemCount": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "KeystoreChainItems": {
+        "properties": {
+          "issuer": {
+            "description": "e.g. \"CN=Admin\"",
+            "type": "string"
+          },
+          "notAfter": {
+            "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+            "type": "string"
+          },
+          "notBefore": {
+            "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+            "type": "string"
+          },
+          "serialNumber": {
+            "description": "18165099476682912368",
+            "type": "integer"
+          },
+          "subject": {
+            "description": "e.g. \"CN=localhost\"",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "KeystoreInfo": {
+        "properties": {
+          "aliases": {
+            "items": {
+              "properties": {
+                "algorithm": {
+                  "description": "e.g. \"RSA\"",
+                  "type": "string"
+                },
+                "alias": {
+                  "description": "Keystore alias name",
+                  "type": "string"
+                },
+                "chain": {
+                  "items": {
+                    "properties": {
+                      "issuer": {
+                        "description": "e.g. \"CN=Admin\"",
+                        "type": "string"
+                      },
+                      "notAfter": {
+                        "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+                        "type": "string"
+                      },
+                      "notBefore": {
+                        "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+                        "type": "string"
+                      },
+                      "serialNumber": {
+                        "description": "18165099476682912368",
+                        "type": "integer"
+                      },
+                      "subject": {
+                        "description": "e.g. \"CN=localhost\"",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "entryType": {
+                  "description": "e.g. \"privateKey\"",
+                  "type": "string"
+                },
+                "format": {
+                  "description": "e.g. \"PKCS#8\"",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "exists": {
+            "description": "False if truststore don't exist",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "KeystoreItems": {
+        "properties": {
+          "algorithm": {
+            "description": "e.g. \"RSA\"",
+            "type": "string"
+          },
+          "alias": {
+            "description": "Keystore alias name",
+            "type": "string"
+          },
+          "chain": {
+            "items": {
+              "properties": {
+                "issuer": {
+                  "description": "e.g. \"CN=Admin\"",
+                  "type": "string"
+                },
+                "notAfter": {
+                  "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+                  "type": "string"
+                },
+                "notBefore": {
+                  "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+                  "type": "string"
+                },
+                "serialNumber": {
+                  "description": "18165099476682912368",
+                  "type": "integer"
+                },
+                "subject": {
+                  "description": "e.g. \"CN=localhost\"",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "entryType": {
+            "description": "e.g. \"privateKey\"",
+            "type": "string"
+          },
+          "format": {
+            "description": "e.g. \"PKCS#8\"",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SamlConfigurationInfo": {
+        "properties": {
+          "bundle_location": {
+            "description": "needed for configuration binding",
+            "type": "string"
+          },
+          "description": {
+            "description": "Title",
+            "type": "string"
+          },
+          "pid": {
+            "description": "Persistent Identity (PID)",
+            "type": "string"
+          },
+          "properties": {
+            "properties": {
+              "addGroupMemberships": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              },
+              "assertionConsumerServiceURL": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "clockTolerance": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "createUser": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              },
+              "defaultGroups": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "values": {
+                    "description": "Property value",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "defaultRedirectUrl": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "digestMethod": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "groupMembershipAttribute": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "handleLogout": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              },
+              "idpCertAlias": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "idpHttpRedirect": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              },
+              "idpUrl": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "keyStorePassword": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "logoutUrl": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "nameIdFormat": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "path": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "values": {
+                    "description": "Property value",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "service.ranking": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "serviceProviderEntityId": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "signatureMethod": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "spPrivateKeyAlias": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "synchronizeAttributes": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "values": {
+                    "description": "Property value",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "useEncryption": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              },
+              "userIDAttribute": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "userIntermediatePath": {
+                "properties": {
+                  "description": {
+                    "description": "Property description",
+                    "type": "string"
+                  },
+                  "is_set": {
+                    "description": "True if property is set",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "property name",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "True if optional",
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                    "type": "integer"
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "service_location": {
+            "description": "needed for configuraiton binding",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SamlConfigurationProperties": {
+        "properties": {
+          "addGroupMemberships": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "boolean"
+              }
+            },
+            "type": "object"
+          },
+          "assertionConsumerServiceURL": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "clockTolerance": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "createUser": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "boolean"
+              }
+            },
+            "type": "object"
+          },
+          "defaultGroups": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "values": {
+                "description": "Property value",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "defaultRedirectUrl": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "digestMethod": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "groupMembershipAttribute": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "handleLogout": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "boolean"
+              }
+            },
+            "type": "object"
+          },
+          "idpCertAlias": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "idpHttpRedirect": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "boolean"
+              }
+            },
+            "type": "object"
+          },
+          "idpUrl": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "keyStorePassword": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "logoutUrl": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "nameIdFormat": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "path": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "values": {
+                "description": "Property value",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "service.ranking": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "serviceProviderEntityId": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "signatureMethod": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "spPrivateKeyAlias": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "synchronizeAttributes": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "values": {
+                "description": "Property value",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "useEncryption": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "boolean"
+              }
+            },
+            "type": "object"
+          },
+          "userIDAttribute": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "userIntermediatePath": {
+            "properties": {
+              "description": {
+                "description": "Property description",
+                "type": "string"
+              },
+              "is_set": {
+                "description": "True if property is set",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "property name",
+                "type": "string"
+              },
+              "optional": {
+                "description": "True if optional",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+                "type": "integer"
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "SamlConfigurationPropertyItemsArray": {
+        "properties": {
+          "description": {
+            "description": "Property description",
+            "type": "string"
+          },
+          "is_set": {
+            "description": "True if property is set",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "property name",
+            "type": "string"
+          },
+          "optional": {
+            "description": "True if optional",
+            "type": "boolean"
+          },
+          "type": {
+            "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+            "type": "integer"
+          },
+          "values": {
+            "description": "Property value",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "SamlConfigurationPropertyItemsBoolean": {
+        "properties": {
+          "description": {
+            "description": "Property description",
+            "type": "string"
+          },
+          "is_set": {
+            "description": "True if property is set",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "property name",
+            "type": "string"
+          },
+          "optional": {
+            "description": "True if optional",
+            "type": "boolean"
+          },
+          "type": {
+            "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+            "type": "integer"
+          },
+          "value": {
+            "description": "Property value",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "SamlConfigurationPropertyItemsLong": {
+        "properties": {
+          "description": {
+            "description": "Property description",
+            "type": "string"
+          },
+          "is_set": {
+            "description": "True if property is set",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "property name",
+            "type": "string"
+          },
+          "optional": {
+            "description": "True if optional",
+            "type": "boolean"
+          },
+          "type": {
+            "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+            "type": "integer"
+          },
+          "value": {
+            "description": "Property value",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "SamlConfigurationPropertyItemsString": {
+        "properties": {
+          "description": {
+            "description": "Property description",
+            "type": "string"
+          },
+          "is_set": {
+            "description": "True if property is set",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "property name",
+            "type": "string"
+          },
+          "optional": {
+            "description": "True if optional",
+            "type": "boolean"
+          },
+          "type": {
+            "description": "Property type, 1=String, 3=long, 11=boolean, 12=Password",
+            "type": "integer"
+          },
+          "value": {
+            "description": "Property value",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TruststoreInfo": {
+        "properties": {
+          "aliases": {
+            "items": {
+              "properties": {
+                "alias": {
+                  "description": "Truststore alias name",
+                  "type": "string"
+                },
+                "entryType": {
+                  "type": "string"
+                },
+                "issuer": {
+                  "description": "e.g. \"CN=Admin\"",
+                  "type": "string"
+                },
+                "notAfter": {
+                  "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+                  "type": "string"
+                },
+                "notBefore": {
+                  "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+                  "type": "string"
+                },
+                "serialNumber": {
+                  "description": "18165099476682912368",
+                  "type": "integer"
+                },
+                "subject": {
+                  "description": "e.g. \"CN=localhost\"",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "exists": {
+            "description": "False if truststore don't exist",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "TruststoreItems": {
+        "properties": {
+          "alias": {
+            "description": "Truststore alias name",
+            "type": "string"
+          },
+          "entryType": {
+            "type": "string"
+          },
+          "issuer": {
+            "description": "e.g. \"CN=Admin\"",
+            "type": "string"
+          },
+          "notAfter": {
+            "description": "e.g. \"Sun Jun 30 23:59:50 AEST 2019\"",
+            "type": "string"
+          },
+          "notBefore": {
+            "description": "e.g. \"Sun Jul 01 12:00:00 AEST 2018\"",
+            "type": "string"
+          },
+          "serialNumber": {
+            "description": "18165099476682912368",
+            "type": "integer"
+          },
+          "subject": {
+            "description": "e.g. \"CN=localhost\"",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "aemAuth": {
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  }
+}

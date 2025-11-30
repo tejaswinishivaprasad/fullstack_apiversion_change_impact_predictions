@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-5a3595140a3e9e2e6074",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--5a359514--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--5a359514--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--5a359514--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--5a359514--v2.canonical.json",
+  "old_sha": "6e351e3c1236a5237986",
+  "new_sha": "8cf6fbcf8dced81c711a",
+  "generated_at": "2025-11-30T11:54:32+00:00",
+  "producers_sample": [
+    "/applications/id/batch-job-executions",
+    "/applications/id/dataset-import-tasks/paymentid",
+    "/applications/id/datasets",
+    "/applications/orderid/dataset-import-task",
+    "/applications/orderid/datasets/orderid",
+    "/applications/id/batch-job-definitions",
+    "/applications/id/dataset-import-task",
+    "/applications/orderid",
+    "/applications/orderid/batch-job",
+    "/applications/orderid/datasets/orderid"
+  ]
+}

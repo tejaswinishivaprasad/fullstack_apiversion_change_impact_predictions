@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-ca83f1ee8fb64848f664",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--ca83f1ee--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--ca83f1ee--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ca83f1ee--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ca83f1ee--v2.canonical.json",
+  "old_sha": "a1f6d5ddbb81bf26fe68",
+  "new_sha": "692cdf3a016ec5f40774",
+  "generated_at": "2025-11-30T11:49:56+00:00",
+  "producers_sample": [
+    "/belege/orderid",
+    "/export/csv/registrierkassen/orderid/belege",
+    "/export/dep7/registrierkassen/id/belege",
+    "/export/gobd/registrierkassen/orderid",
+    "/export/html/belege/sku",
+    "/belege/sku",
+    "/export/csv/registrierkassen/sku/belege",
+    "/export/dep7/registrierkassen/orderid/belege",
+    "/export/gobd/registrierkassen/sku",
+    "/export/html/belege/paymentid"
+  ]
+}

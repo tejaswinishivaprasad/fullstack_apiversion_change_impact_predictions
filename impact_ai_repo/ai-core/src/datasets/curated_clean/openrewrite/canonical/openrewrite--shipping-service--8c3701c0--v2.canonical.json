@@ -1,0 +1,38 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.ChangeDependency",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "commons-lang",
+        "commons-lang",
+        "org.apache.commons",
+        "commons-lang3",
+        "3.11.x",
+        "null",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "plugins {\n    id \"java-library\"\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    implementation \"commons-lang:commons-lang:2.6\"\n    implementation group: \"commons-lang\", name: \"commons-lang\", version: \"2.6\"\n}\n",
+          "after": "plugins {\n    id \"java-library\"\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    implementation \"org.apache.commons:commons-lang3:3.11\"\n    implementation group: \"org.apache.commons\", name: \"commons-lang3\", version: \"3.11\"\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/carts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-carts-id"
+      }
+    }
+  }
+}

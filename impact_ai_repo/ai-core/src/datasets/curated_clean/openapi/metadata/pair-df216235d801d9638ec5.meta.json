@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-df216235d801d9638ec5",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--df216235--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--df216235--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--df216235--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--df216235--v2.canonical.json",
+  "old_sha": "323c24c5b8898e27f4fb",
+  "new_sha": "06e22f9a8eadf6e661f5",
+  "generated_at": "2025-11-30T11:50:06+00:00",
+  "producers_sample": [
+    "/ageusd/info",
+    "/cancelbabel/id",
+    "/createbabel/orderid",
+    "/mosaik/babelfee",
+    "/mosaik/babelfee/newoffer",
+    "/ageusd/info",
+    "/cancelbabel/orderid",
+    "/createbabel/paymentid",
+    "/mosaik/babelfee",
+    "/mosaik/babelfee/newoffer"
+  ]
+}

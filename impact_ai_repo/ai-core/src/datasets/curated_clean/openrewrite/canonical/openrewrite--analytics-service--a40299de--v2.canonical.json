@@ -1,0 +1,34 @@
+{
+  "type": "specs.openrewrite.org/v1beta/style",
+  "name": "com.netflix.genie.Style",
+  "displayName": "Genie style",
+  "styleConfigs": [
+    {
+      "org.openrewrite.java.style.ImportLayoutStyle": {
+        "classCountToUseStarImport": 999,
+        "nameCountToUseStarImport": 999,
+        "layout": [
+          "import java.*",
+          "<blank line>",
+          "import javax.*",
+          "<blank line>",
+          "import all other imports",
+          "<blank line>",
+          "import static all other imports"
+        ]
+      }
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id-v2"
+      }
+    }
+  }
+}

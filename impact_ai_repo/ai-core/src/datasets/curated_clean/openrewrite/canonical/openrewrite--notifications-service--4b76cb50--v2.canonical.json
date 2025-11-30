@@ -1,0 +1,35 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.properties.ChangePropertyValue",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "management.metrics.binders.files.enabled",
+        "false",
+        "null",
+        "false",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "management.metrics.binders.files.enabled=true",
+          "after": "management.metrics.binders.files.enabled=false",
+          "language": "properties"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id"
+      }
+    }
+  }
+}

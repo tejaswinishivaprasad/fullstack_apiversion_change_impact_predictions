@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-ef43cee29ddd48fdd9d2",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--ef43cee2--v1.canonical.json",
+  "new_canonical": "openapi--search-service--ef43cee2--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--ef43cee2--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--ef43cee2--v2.canonical.json",
+  "old_sha": "d41d9646ac38df8f6a4f",
+  "new_sha": "ddcbfa021bbcaa2c4c6b",
+  "generated_at": "2025-11-30T11:51:08+00:00",
+  "producers_sample": [
+    "/airportsapi/v1/airports/userid",
+    "/airportsapi/v1/airports/paymentid"
+  ]
+}

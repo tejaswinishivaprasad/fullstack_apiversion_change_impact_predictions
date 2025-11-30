@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-2866f08e2f233737acac",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--2866f08e--v1.canonical.json",
+  "new_canonical": "openapi--search-service--2866f08e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--2866f08e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--2866f08e--v2.canonical.json",
+  "old_sha": "de5fbac19eed63ca55b9",
+  "new_sha": "0939923141520ba9706e",
+  "generated_at": "2025-11-30T11:51:59+00:00",
+  "producers_sample": [
+    "/languages/id",
+    "/languages/paymentid/lexemes",
+    "/languages/userid/lexemes/paymentid",
+    "/lexemes/orderid",
+    "/reviews/{id}",
+    "/inventory/{id}",
+    "/languages/paymentid",
+    "/languages/sku/lexemes",
+    "/languages/userid/lexemes/paymentid",
+    "/lexemes/orderid"
+  ]
+}

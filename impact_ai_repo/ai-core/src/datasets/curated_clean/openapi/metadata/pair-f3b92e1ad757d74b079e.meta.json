@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-f3b92e1ad757d74b079e",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--f3b92e1a--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--f3b92e1a--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f3b92e1a--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f3b92e1a--v2.canonical.json",
+  "old_sha": "49bd3c22b5fe4190cde5",
+  "new_sha": "58db3db266b5e4271d14",
+  "generated_at": "2025-11-30T11:52:15+00:00",
+  "producers_sample": [
+    "/id/teamgamestatsbyseason/sku/userid/userid",
+    "/orderid/areanygamesinprogress",
+    "/orderid/boxscores/sku",
+    "/orderid/currentseason",
+    "/orderid/player/id",
+    "/id/boxscore/sku",
+    "/id/boxscoresdelta/userid/orderid",
+    "/id/injuredplayers",
+    "/id/playergameprojectionstatsbydate/userid",
+    "/id/stadiums"
+  ]
+}

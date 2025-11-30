@@ -1,0 +1,1 @@
+{"pair_id": "pair-3d85ba743846af76c346", "ace_index": 0, "ace_id": "pair-3d85ba743846af76c346::ace::0", "type": "PARAM_ADDED", "path": "/qrcode/business-card", "method": "get", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "80a530748de2b9fa2115", "new_sha": "45c06fe140ace1ddd897"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

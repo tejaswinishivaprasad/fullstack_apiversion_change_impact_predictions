@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangeTypeInStringLiteral",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "javax.type.A",
+        "jakarta.type.B"
+      ],
+      "sources": [
+        {
+          "before": "class Test {\n    String ref = \"javax.type.A\";\n    String refNested = \"javax.type.other.A\";\n    String extendedRef = \"there is a type reference here -> javax.type.A <- hopefully it only replaces that\";\n}\n",
+          "after": "class Test {\n    String ref = \"jakarta.type.B\";\n    String refNested = \"javax.type.other.A\";\n    String extendedRef = \"there is a type reference here -> jakarta.type.B <- hopefully it only replaces that\";\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id"
+      }
+    }
+  }
+}

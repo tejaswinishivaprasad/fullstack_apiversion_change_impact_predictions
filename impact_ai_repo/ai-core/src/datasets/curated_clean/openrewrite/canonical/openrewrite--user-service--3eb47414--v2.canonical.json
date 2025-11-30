@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindFields",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Integer",
+        "false",
+        "MAX_VALUE"
+      ],
+      "sources": [
+        {
+          "before": "import java.lang.Integer\nimport java.lang.Integer.MAX_VALUE\n\nval i1 = java.lang.Integer.MAX_VALUE\nval i2 = Integer.MAX_VALUE\nval i3 = MAX_VALUE\nval i4 = `MAX_VALUE`\n",
+          "after": "import java.lang.Integer\nimport java.lang.Integer.MAX_VALUE\n\nval i1 = /*~~>*/java.lang.Integer.MAX_VALUE\nval i2 = /*~~>*/Integer.MAX_VALUE\nval i3 = /*~~>*/MAX_VALUE\nval i4 = /*~~>*/`MAX_VALUE`\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-orders-id"
+      }
+    }
+  }
+}

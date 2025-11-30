@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.kotlin.cleanup.RemoveTrailingComma",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "fun method(arg1: String,\n           arg2: String,\n) {}\n",
+          "after": "fun method(arg1: String,\n           arg2: String\n) {}\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id"
+      }
+    }
+  }
+}

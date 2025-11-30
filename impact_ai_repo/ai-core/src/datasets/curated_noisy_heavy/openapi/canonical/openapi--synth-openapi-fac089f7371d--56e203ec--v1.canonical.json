@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-fac089f7371d",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-fac089f7371d/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

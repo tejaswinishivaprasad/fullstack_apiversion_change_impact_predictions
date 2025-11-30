@@ -1,0 +1,18 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "name": "AI tools",
+  "packageName": "org.openrewrite.java.ai",
+  "description": "Tools for researching AI integrations.",
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-inventory-id"
+      }
+    }
+  }
+}

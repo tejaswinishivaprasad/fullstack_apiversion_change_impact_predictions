@@ -1,0 +1,1 @@
+{"pair_id": "pair-c2d96db4282807e75fef", "ace_index": 0, "ace_id": "pair-c2d96db4282807e75fef::ace::0", "type": "PARAM_ADDED", "path": "/shipping-service", "method": "get", "detail": "q1", "confidence": 0.8, "provenance": {"old_sha": "5b5589b344fca6280e0d", "new_sha": "e0ef8e5fe217026cbf56"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

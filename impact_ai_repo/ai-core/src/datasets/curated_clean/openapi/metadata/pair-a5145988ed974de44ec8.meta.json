@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-a5145988ed974de44ec8",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--a5145988--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--a5145988--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a5145988--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--a5145988--v2.canonical.json",
+  "old_sha": "914d498fb24b8bfffdeb",
+  "new_sha": "21e72b20cd2ce7e9960d",
+  "generated_at": "2025-11-30T11:52:20+00:00",
+  "producers_sample": [
+    "/curated-podcasts/userid",
+    "/episodes/paymentid/recommendations",
+    "/episodes/sku",
+    "/inventory/{id}",
+    "/orders/{id}",
+    "/billing/{id}",
+    "/carts/{id}",
+    "/curated-podcasts/sku",
+    "/episodes/id/recommendations",
+    "/episodes/orderid"
+  ]
+}

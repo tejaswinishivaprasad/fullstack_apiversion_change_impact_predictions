@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-47cf62d332c1a227b64c",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--47cf62d3--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--47cf62d3--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--47cf62d3--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--47cf62d3--v2.canonical.json",
+  "old_sha": "078292e2717d714f65f1",
+  "new_sha": "1124c8999ff6e790bcc7",
+  "generated_at": "2025-11-30T11:50:07+00:00",
+  "producers_sample": [
+    "/v1/correlation",
+    "/v1/indices",
+    "/v1/investor-grades",
+    "/v1/market-indicator",
+    "/v1/price",
+    "/v1/correlation",
+    "/v1/indices",
+    "/v1/investor-grades",
+    "/v1/market-indicator",
+    "/v1/price"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-5670cff0750b",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-5670cff0750b/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

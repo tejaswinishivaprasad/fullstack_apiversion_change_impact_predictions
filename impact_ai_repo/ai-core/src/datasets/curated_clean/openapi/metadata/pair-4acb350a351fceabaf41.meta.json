@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-4acb350a351fceabaf41",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--4acb350a--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--4acb350a--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--4acb350a--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--4acb350a--v2.canonical.json",
+  "old_sha": "012b55c6dd56e29b3cda",
+  "new_sha": "a680e36364403632dfde",
+  "generated_at": "2025-11-30T11:51:14+00:00",
+  "producers_sample": [
+    "/accidentstats/userid",
+    "/bikepoint/id",
+    "/bikepoint/search",
+    "/billing/{id}",
+    "/cabwise/search",
+    "/accidentstats/paymentid",
+    "/bikepoint/orderid",
+    "/bikepoint/search",
+    "/cabwise/search",
+    "/inventory/{id}"
+  ]
+}

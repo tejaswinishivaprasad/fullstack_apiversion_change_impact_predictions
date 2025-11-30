@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindCompileErrors",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "class A {\n    void test() {\n        owner\n    }\n}\n",
+          "after": "class A {\n    void test() {\n        /*~~>*/owner\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/profiles/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-profiles-id-v2"
+      }
+    }
+  }
+}

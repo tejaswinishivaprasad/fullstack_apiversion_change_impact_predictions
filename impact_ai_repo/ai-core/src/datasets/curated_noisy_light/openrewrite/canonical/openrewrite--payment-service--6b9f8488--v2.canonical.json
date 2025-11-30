@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.properties.AddPropertyComment",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "management.metrics.enable.process.files",
+        "myComment",
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "management.metrics.enable.process.files=true\nyyy=true\n",
+          "after": "# myComment\nmanagement.metrics.enable.process.files=true\nyyy=true\n",
+          "language": "properties"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/inventory/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-inventory-id"
+      }
+    }
+  }
+}

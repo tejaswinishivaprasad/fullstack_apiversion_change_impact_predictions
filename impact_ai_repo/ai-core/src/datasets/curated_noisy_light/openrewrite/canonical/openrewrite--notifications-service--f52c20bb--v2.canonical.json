@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.xml.AddTagAttribute",
+  "examples": [
+    {
+      "description": "Add an attribute to a tag if it doesn't already exist",
+      "parameters": [
+        "bean",
+        "scope",
+        "singleton"
+      ],
+      "sources": [
+        {
+          "before": "<beans>\n    <bean id=\"myBean\"/>\n    <bean id=\"anotherBean\" scope=\"prototype\"/>\n</beans>\n",
+          "after": "<beans>\n    <bean id=\"myBean\" scope=\"singleton\"/>\n    <bean id=\"anotherBean\" scope=\"prototype\"/>\n</beans>\n",
+          "language": "xml"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id"
+      }
+    }
+  }
+}

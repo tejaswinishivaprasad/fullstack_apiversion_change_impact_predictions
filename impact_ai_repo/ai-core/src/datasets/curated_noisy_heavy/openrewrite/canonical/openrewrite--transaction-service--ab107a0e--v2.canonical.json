@@ -1,0 +1,35 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.gradle.ChangeDependencyExtension",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "org.openrewrite",
+        "*",
+        "war",
+        ""
+      ],
+      "sources": [
+        {
+          "before": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    api 'org.openrewrite:rewrite-gradle:latest.integration@jar'\n}\n",
+          "after": "plugins {\n    id 'java-library'\n}\n\nrepositories {\n    mavenCentral()\n}\n\ndependencies {\n    api 'org.openrewrite:rewrite-gradle:latest.integration@war'\n}\n",
+          "path": "build.gradle",
+          "language": "groovy"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

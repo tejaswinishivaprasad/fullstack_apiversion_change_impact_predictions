@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-58216f0f7111289b8cdb",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--58216f0f--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--58216f0f--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--58216f0f--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--58216f0f--v2.canonical.json",
+  "old_sha": "6c9b3bbfd9e085b770cb",
+  "new_sha": "09bf86db8af14836a8ff",
+  "generated_at": "2025-11-30T11:51:49+00:00",
+  "producers_sample": [
+    "/setup/v1/appointments",
+    "/setup/v1/appointments/orderid",
+    "/setup/v1/appointments/sku/reassign/resource/userid",
+    "/setup/v1/businessusers",
+    "/setup/v1/businessusers/permissions",
+    "/setup/v1/appointments",
+    "/setup/v1/appointments/orderid/reassign/resource/paymentid",
+    "/setup/v1/appointments/userid",
+    "/setup/v1/businessusers",
+    "/setup/v1/businessusers/id/companies"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-20ab7e2f78cdd522314c",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--20ab7e2f--v1.canonical.json",
+  "new_canonical": "openapi--search-service--20ab7e2f--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--20ab7e2f--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--20ab7e2f--v2.canonical.json",
+  "old_sha": "0888c11062d1e964faa0",
+  "new_sha": "40ad3453d2afeb97b363",
+  "generated_at": "2025-11-30T11:49:39+00:00",
+  "producers_sample": [
+    "/profiles/{id}",
+    "/profiles/{id}"
+  ]
+}

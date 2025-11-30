@@ -1,0 +1,33 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.ChangeMethodAccessLevel",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "com.abc.A aMethod(..)",
+        "private",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "package com.abc;\n\nclass A {\n    @SuppressWarnings(\"ALL\") // comment\n    public void aMethod(String s) {\n    }\n\n    // comment\n    @SuppressWarnings(\"ALL\")\n    public void aMethod() {\n    }\n\n    // comment\n    public void aMethod(Integer i) {\n    }\n\n    public void aMethod(Double i) {\n    }\n}\n",
+          "after": "package com.abc;\n\nclass A {\n    @SuppressWarnings(\"ALL\") // comment\n    private void aMethod(String s) {\n    }\n\n    // comment\n    @SuppressWarnings(\"ALL\")\n    private void aMethod() {\n    }\n\n    // comment\n    private void aMethod(Integer i) {\n    }\n\n    private void aMethod(Double i) {\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-payments-id"
+      }
+    }
+  }
+}

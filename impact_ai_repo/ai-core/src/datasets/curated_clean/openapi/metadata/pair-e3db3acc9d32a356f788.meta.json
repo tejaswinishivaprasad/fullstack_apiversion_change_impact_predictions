@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-e3db3acc9d32a356f788",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--e3db3acc--v1.canonical.json",
+  "new_canonical": "openapi--search-service--e3db3acc--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--e3db3acc--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--e3db3acc--v2.canonical.json",
+  "old_sha": "ab52c789e2c3510d2dad",
+  "new_sha": "a1e59ee9e51c6d563d53",
+  "generated_at": "2025-11-30T11:49:37+00:00",
+  "producers_sample": [
+    "/v7-0/localbusinesses/search",
+    "/v7-0/localbusinesses/search"
+  ]
+}

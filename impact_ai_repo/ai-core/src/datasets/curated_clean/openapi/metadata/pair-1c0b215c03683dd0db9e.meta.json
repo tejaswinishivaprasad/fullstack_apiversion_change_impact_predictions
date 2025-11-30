@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-1c0b215c03683dd0db9e",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--1c0b215c--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--1c0b215c--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1c0b215c--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1c0b215c--v2.canonical.json",
+  "old_sha": "c516d965973e03d85941",
+  "new_sha": "947431d06e1c4eaf6c3e",
+  "generated_at": "2025-11-30T11:51:07+00:00",
+  "producers_sample": [
+    "/earlydaymotion/id",
+    "/earlydaymotions/list",
+    "/oralquestions/list",
+    "/oralquestiontimes/list",
+    "/earlydaymotion/sku",
+    "/earlydaymotions/list",
+    "/oralquestions/list",
+    "/oralquestiontimes/list"
+  ]
+}

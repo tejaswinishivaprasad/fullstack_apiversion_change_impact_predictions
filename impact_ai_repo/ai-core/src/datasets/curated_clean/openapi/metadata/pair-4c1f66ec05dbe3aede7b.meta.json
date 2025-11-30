@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-4c1f66ec05dbe3aede7b",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--4c1f66ec--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--4c1f66ec--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--4c1f66ec--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--4c1f66ec--v2.canonical.json",
+  "old_sha": "605ba76241f5e7ffde0f",
+  "new_sha": "7b0185878e3bdd6c910e",
+  "generated_at": "2025-11-30T11:50:05+00:00",
+  "producers_sample": [
+    "/apps/system/config/com-adobe-granite-auth-saml-samlauthenticationhandler-config",
+    "/apps/system/config/com-shinesolutions-aem-passwordreset-activator",
+    "/apps/system/config/com-shinesolutions-healthcheck-hc-impl-activebundlehealthcheck",
+    "/apps/system/config/orderid",
+    "/apps/system/config/org-apache-felix-http",
+    "/apps/system/config/com-adobe-granite-auth-saml-samlauthenticationhandler-config",
+    "/apps/system/config/com-shinesolutions-aem-passwordreset-activator",
+    "/apps/system/config/com-shinesolutions-healthcheck-hc-impl-activebundlehealthcheck",
+    "/apps/system/config/org-apache-felix-http",
+    "/apps/system/config/org-apache-http-proxyconfigurator-config"
+  ]
+}

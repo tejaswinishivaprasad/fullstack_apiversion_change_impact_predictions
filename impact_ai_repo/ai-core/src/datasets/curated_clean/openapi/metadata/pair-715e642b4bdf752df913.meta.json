@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-715e642b4bdf752df913",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--715e642b--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--715e642b--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--715e642b--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--715e642b--v2.canonical.json",
+  "old_sha": "26bbfa1164fea08d8f9d",
+  "new_sha": "2bc5ee540a3d4bcfb05e",
+  "generated_at": "2025-11-30T11:52:06+00:00",
+  "producers_sample": [
+    "/atoz/userid/programmes",
+    "/billing/{id}",
+    "/carts/{id}",
+    "/categories/orderid/programmes",
+    "/categories/paymentid",
+    "/atoz/paymentid/programmes",
+    "/carts/{id}",
+    "/categories/id/programmes",
+    "/categories/paymentid/episodes",
+    "/categories/sku"
+  ]
+}

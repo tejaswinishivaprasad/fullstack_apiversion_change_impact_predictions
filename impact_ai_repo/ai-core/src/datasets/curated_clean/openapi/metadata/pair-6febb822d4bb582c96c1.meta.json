@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-6febb822d4bb582c96c1",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--6febb822--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--6febb822--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6febb822--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--6febb822--v2.canonical.json",
+  "old_sha": "d2cd29ac75c2e02e5812",
+  "new_sha": "7d548fe8375c307a7f13",
+  "generated_at": "2025-11-30T11:50:30+00:00",
+  "producers_sample": [
+    "/accountholders/orderid/balanceaccounts",
+    "/accountholders/sku",
+    "/balanceaccounts/userid",
+    "/balanceaccounts/userid/paymentinstruments",
+    "/balanceplatforms/id/accountholders",
+    "/accountholders/paymentid/balanceaccounts",
+    "/accountholders/userid",
+    "/balanceaccounts/paymentid",
+    "/balanceaccounts/paymentid/paymentinstruments",
+    "/balanceplatforms/sku"
+  ]
+}

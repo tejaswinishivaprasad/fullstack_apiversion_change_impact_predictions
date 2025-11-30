@@ -1,9 +1,0 @@
-{
-  "paths": {
-    "/order-service": {
-      "get": {
-        "description": "orig"
-      }
-    }
-  }
-}

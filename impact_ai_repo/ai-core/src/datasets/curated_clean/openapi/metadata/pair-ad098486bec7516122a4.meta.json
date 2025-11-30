@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-ad098486bec7516122a4",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--ad098486--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--ad098486--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ad098486--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--ad098486--v2.canonical.json",
+  "old_sha": "a2243a208be7369d2d51",
+  "new_sha": "ed313520d84c4644ff35",
+  "generated_at": "2025-11-30T11:50:07+00:00",
+  "producers_sample": [
+    "/food/branded/barcode-php",
+    "/food/branded/name-php",
+    "/food/branded/search-php",
+    "/food/ingredient/search-php",
+    "/food/branded/barcode-php",
+    "/food/branded/name-php",
+    "/food/branded/search-php",
+    "/food/ingredient/search-php"
+  ]
+}

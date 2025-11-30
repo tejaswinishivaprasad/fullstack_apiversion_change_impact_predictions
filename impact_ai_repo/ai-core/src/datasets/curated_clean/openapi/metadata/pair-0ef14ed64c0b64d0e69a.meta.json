@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-0ef14ed64c0b64d0e69a",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--0ef14ed6--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--0ef14ed6--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--0ef14ed6--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--0ef14ed6--v2.canonical.json",
+  "old_sha": "3f548d40e3d74f30198b",
+  "new_sha": "401de09c624a73a6c95e",
+  "generated_at": "2025-11-30T11:49:55+00:00",
+  "producers_sample": [
+    "/api/changerequests",
+    "/archives/export",
+    "/archives/import",
+    "/billing/{id}",
+    "/branding/reload",
+    "/api/changerequests",
+    "/archives/export",
+    "/archives/import",
+    "/branding/reload",
+    "/campaigns/events"
+  ]
+}

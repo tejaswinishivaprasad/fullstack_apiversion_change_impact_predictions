@@ -1,0 +1,5864 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2018-09-25",
+    "x-release": "v4",
+    "title": "Amazon WorkLink",
+    "description": "Amazon WorkLink is a cloud-based service that provides secure access to internal websites and web apps from iOS and Android phones. In a single step, your users, such as employees, can access internal websites as efficiently as they access any other public website. They enter a URL in their web browser, or choose a link to an internal website in an email. Amazon WorkLink authenticates the user's access and securely renders authorized internal web content in a secure rendering service in the AWS cloud. Amazon WorkLink doesn't download or store any internal web content on mobile devices.",
+    "x-logo": {
+      "url": "https://twitter.com/awscloud/profile_image?size=original",
+      "backgroundColor": "#FFFFFF"
+    },
+    "termsOfService": "https://aws.amazon.com/service-terms/",
+    "contact": {
+      "name": "Mike Ralphson",
+      "email": "mike.ralphson@gmail.com",
+      "url": "https://github.com/mermade/aws2openapi",
+      "x-twitter": "PermittedSoc"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "http://www.apache.org/licenses/"
+    },
+    "x-providerName": "amazonaws.com",
+    "x-serviceName": "worklink",
+    "x-aws-signingName": "worklink",
+    "x-origin": [
+      {
+        "contentType": "application/json",
+        "url": "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/worklink-2018-09-25.normal.json",
+        "converter": {
+          "url": "https://github.com/mermade/aws2openapi",
+          "version": "1.0.0"
+        },
+        "x-apisguru-driver": "external"
+      }
+    ],
+    "x-apiClientRegistration": {
+      "url": "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-apisguru-categories": [
+      "cloud"
+    ],
+    "x-preferred": true
+  },
+  "externalDocs": {
+    "description": "Amazon Web Services documentation",
+    "url": "https://docs.aws.amazon.com/worklink/"
+  },
+  "servers": [
+    {
+      "url": "http://worklink.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The WorkLink multi-region endpoint"
+    },
+    {
+      "url": "https://worklink.{region}.amazonaws.com",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "us-gov-west-1",
+            "us-gov-east-1",
+            "ca-central-1",
+            "eu-north-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-central-1",
+            "eu-south-1",
+            "af-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-east-1",
+            "ap-south-1",
+            "sa-east-1",
+            "me-south-1"
+          ],
+          "default": "us-east-1"
+        }
+      },
+      "description": "The WorkLink multi-region endpoint"
+    },
+    {
+      "url": "http://worklink.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The WorkLink endpoint for China (Beijing) and China (Ningxia)"
+    },
+    {
+      "url": "https://worklink.{region}.amazonaws.com.cn",
+      "variables": {
+        "region": {
+          "description": "The AWS region",
+          "enum": [
+            "cn-north-1",
+            "cn-northwest-1"
+          ],
+          "default": "cn-north-1"
+        }
+      },
+      "description": "The WorkLink endpoint for China (Beijing) and China (Ningxia)"
+    }
+  ],
+  "x-hasEquivalentPaths": true,
+  "paths": {
+    "/carts/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "updatecompanynetworkconfiguration",
+        "description": "Updates the company network configuration for the fleet.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn",
+                  "VpcId",
+                  "SubnetIds",
+                  "SecurityGroupIds"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "VpcId": {
+                    "description": "The VPC with connectivity to associated websites.",
+                    "type": "string",
+                    "pattern": "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$"
+                  },
+                  "SubnetIds": {
+                    "description": "The subnets used for X-ENI connections from Amazon WorkLink rendering containers.",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$"
+                    }
+                  },
+                  "SecurityGroupIds": {
+                    "description": "The security groups associated with access to the provided subnets.",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^sg-([0-9a-f]{8}|[0-9a-f]{17})$"
+                    },
+                    "maxItems": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/products/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "restoredomainaccess",
+        "description": "Moves a domain to ACTIVE status if it was in the INACTIVE status.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn",
+                  "DomainName"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "DomainName": {
+                    "description": "The name of the domain.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                    "minLength": 1,
+                    "maxLength": 253
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/inventory/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "describedevicepolicyconfiguration",
+        "description": "Describes the device policy configuration for the specified fleet.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "DeviceCaCertificate": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+                          "minLength": 1,
+                          "maxLength": 8192
+                        },
+                        {
+                          "description": "The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/transactions/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "updateidentityproviderconfiguration",
+        "description": "Updates the identity provider configuration for the fleet.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn",
+                  "IdentityProviderType"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "IdentityProviderType": {
+                    "description": "The type of identity provider.",
+                    "type": "string",
+                    "enum": [
+                      "SAML"
+                    ]
+                  },
+                  "IdentityProviderSamlMetadata": {
+                    "description": "The SAML metadata document provided by the customer’s identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 204800
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/reviews/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "listdomains-v2",
+        "description": "Retrieves a list of domains associated to a specified fleet.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Domains": {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "DomainName",
+                              "CreatedTime",
+                              "DomainStatus"
+                            ],
+                            "properties": {
+                              "DomainName": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                                    "minLength": 1,
+                                    "maxLength": 253
+                                  },
+                                  {
+                                    "description": "The name of the domain."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "DisplayName": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "maxLength": 100
+                                  },
+                                  {
+                                    "description": "The name to display."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "CreatedTime": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  {
+                                    "description": "The time that the domain was created."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              },
+                              "DomainStatus": {
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "PENDING_VALIDATION",
+                                      "ASSOCIATING",
+                                      "ACTIVE",
+                                      "INACTIVE",
+                                      "DISASSOCIATING",
+                                      "DISASSOCIATED",
+                                      "FAILED_TO_ASSOCIATE",
+                                      "FAILED_TO_DISASSOCIATE"
+                                    ]
+                                  },
+                                  {
+                                    "description": "The status of the domain."
+                                  }
+                                ],
+                                "_polymorphic_marker": {
+                                  "allOf": true
+                                }
+                              }
+                            },
+                            "description": "The summary of the domain."
+                          }
+                        },
+                        {
+                          "description": "Information about the domains."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "NextToken": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "[\\w\\-]+",
+                          "minLength": 1,
+                          "maxLength": 4096
+                        },
+                        {
+                          "description": "The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "MaxResults",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination limit",
+            "required": false
+          },
+          {
+            "name": "NextToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pagination token",
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "NextToken": {
+                    "description": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.",
+                    "type": "string",
+                    "pattern": "[\\w\\-]+",
+                    "minLength": 1,
+                    "maxLength": 4096
+                  },
+                  "MaxResults": {
+                    "description": "The maximum number of results to be included in the next page.",
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/orders/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "updatedomainmetadata",
+        "description": "Updates domain metadata, such as DisplayName.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn",
+                  "DomainName"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "DomainName": {
+                    "description": "The name of the domain.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                    "minLength": 1,
+                    "maxLength": 253
+                  },
+                  "DisplayName": {
+                    "description": "The name to display.",
+                    "type": "string",
+                    "maxLength": 100
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/billing/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "describefleetmetadata",
+        "description": "Provides basic information for the specified fleet, excluding identity provider, networking, and device configuration details.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "CreatedTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time that the fleet was created."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "LastUpdatedTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time that the fleet was last updated."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "FleetName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$",
+                          "minLength": 1,
+                          "maxLength": 48
+                        },
+                        {
+                          "description": "The name of the fleet."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DisplayName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "maxLength": 100
+                        },
+                        {
+                          "description": "The name to display."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "OptimizeForEndUserLocation": {
+                      "allOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "description": "The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "CompanyCode": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 32
+                        },
+                        {
+                          "description": "The identifier used by users to sign in to the Amazon WorkLink app."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "FleetStatus": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "CREATING",
+                            "ACTIVE",
+                            "DELETING",
+                            "DELETED",
+                            "FAILED_TO_CREATE",
+                            "FAILED_TO_DELETE"
+                          ]
+                        },
+                        {
+                          "description": "The current state of the fleet."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 50,
+                          "additionalProperties": {
+                            "type": "string",
+                            "maxLength": 256
+                          }
+                        },
+                        {
+                          "description": "The tags attached to the resource. A tag is a key-value pair."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The Amazon Resource Name (ARN) of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/profiles/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "updatedevicepolicyconfiguration-v2",
+        "description": "Updates the device policy configuration for the fleet.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "DeviceCaCertificate": {
+                    "description": "The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.",
+                    "type": "string",
+                    "pattern": "(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+                    "minLength": 1,
+                    "maxLength": 32768
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/users/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "disassociatewebsiteauthorizationprovider",
+        "description": "Disassociates a website authorization provider from a specified fleet. After the disassociation, users can't load any associated websites that require this authorization provider.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "ResourceAlreadyExistsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "485": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn",
+                  "AuthorizationProviderId"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "AuthorizationProviderId": {
+                    "description": "A unique identifier for the authorization provider.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/payments/{id}": {
+      "post": {
+        "deprecated": true,
+        "operationId": "updateauditstreamconfiguration-v2",
+        "description": "Updates the audit stream configuration for the fleet.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "UnauthorizedException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "481": {
+            "description": "InternalServerErrorException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "482": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "483": {
+            "description": "ResourceNotFoundException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "484": {
+            "description": "TooManyRequestsException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "FleetArn"
+                ],
+                "properties": {
+                  "FleetArn": {
+                    "description": "The ARN of the fleet.",
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 2048
+                  },
+                  "AuditStreamArn": {
+                    "description": "The ARN of the Amazon Kinesis data stream that receives the audit events.",
+                    "type": "string",
+                    "pattern": "^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    },
+    "/tags/userid": {
+      "get": {
+        "deprecated": true,
+        "operationId": "listtagsforresource-v2",
+        "description": "Retrieves a list of tags for the specified resource.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 50,
+                          "additionalProperties": {
+                            "type": "string",
+                            "maxLength": 256
+                          }
+                        },
+                        {
+                          "description": "The tags attached to the resource. A tag is a key-value pair."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ResourceArn",
+            "in": "path",
+            "required": true,
+            "description": "The Amazon Resource Name (ARN) of the fleet.",
+            "schema": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 2048
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ],
+      "post": {
+        "deprecated": true,
+        "operationId": "tagresource",
+        "description": "Adds or overwrites one or more tags for the specified resource, such as a fleet. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ResourceArn",
+            "in": "path",
+            "required": true,
+            "description": "The Amazon Resource Name (ARN) of the fleet.",
+            "schema": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 2048
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "Tags"
+                ],
+                "properties": {
+                  "Tags": {
+                    "description": "The tags to add to the resource. A tag is a key-value pair.",
+                    "type": "object",
+                    "minProperties": 1,
+                    "maxProperties": 50,
+                    "additionalProperties": {
+                      "type": "string",
+                      "maxLength": 256
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/sku-tagkeys": {
+      "delete": {
+        "deprecated": true,
+        "operationId": "untagresource",
+        "description": "Removes one or more tags from the specified resource.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "InvalidRequestException",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ResourceArn",
+            "in": "path",
+            "required": true,
+            "description": "The Amazon Resource Name (ARN) of the fleet.",
+            "schema": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 2048
+            }
+          },
+          {
+            "name": "tagKeys",
+            "in": "query",
+            "required": true,
+            "description": "The list of tag keys to remove from the resource.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!aws:)[a-zA-Z+-=._:/]+$",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "minItems": 1,
+              "maxItems": 50
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Amz-Content-Sha256",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Date",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Algorithm",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Credential",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Security-Token",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-Signature",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        },
+        {
+          "name": "X-Amz-SignedHeaders",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": false
+        }
+      ]
+    }
+  },
+  "components": {
+    "parameters": {
+      "X-Amz-Content-Sha256": {
+        "name": "X-Amz-Content-Sha256",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Date": {
+        "name": "X-Amz-Date",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Algorithm": {
+        "name": "X-Amz-Algorithm",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Credential": {
+        "name": "X-Amz-Credential",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Security-Token": {
+        "name": "X-Amz-Security-Token",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-Signature": {
+        "name": "X-Amz-Signature",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "X-Amz-SignedHeaders": {
+        "name": "X-Amz-SignedHeaders",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      }
+    },
+    "securitySchemes": {
+      "hmac": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Amazon Signature authorization v4",
+        "x-amazon-apigateway-authtype": "awsSigv4"
+      }
+    },
+    "schemas": {
+      "AssociateDomainResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UnauthorizedException": {},
+      "InternalServerErrorException": {},
+      "InvalidRequestException": {},
+      "ResourceNotFoundException": {},
+      "ResourceAlreadyExistsException": {},
+      "TooManyRequestsException": {},
+      "AssociateWebsiteAuthorizationProviderResponse": {
+        "type": "object",
+        "properties": {
+          "AuthorizationProviderId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for the authorization provider."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "AssociateWebsiteCertificateAuthorityResponse": {
+        "type": "object",
+        "properties": {
+          "WebsiteCaId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for the CA."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "CreateFleetResponse": {
+        "type": "object",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "TagValue": {
+        "type": "string",
+        "maxLength": 256
+      },
+      "DeleteFleetResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "DescribeAuditStreamConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "AuditStreamArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$"
+              },
+              {
+                "description": "The ARN of the Amazon Kinesis data stream that will receive the audit events."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeCompanyNetworkConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "VpcId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$"
+              },
+              {
+                "description": "The VPC with connectivity to associated websites."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SubnetIds": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$"
+                }
+              },
+              {
+                "description": "The subnets used for X-ENI connections from Amazon WorkLink rendering containers."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SecurityGroupIds": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sg-([0-9a-f]{8}|[0-9a-f]{17})$"
+                },
+                "maxItems": 5
+              },
+              {
+                "description": "The security groups associated with access to the provided subnets."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeDeviceResponse": {
+        "type": "object",
+        "properties": {
+          "Status": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "SIGNED_OUT"
+                ]
+              },
+              {
+                "description": "The current state of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Model": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The model of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Manufacturer": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The manufacturer of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "OperatingSystem": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The operating system of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "OperatingSystemVersion": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The operating system version of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "PatchLevel": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The operating system patch level of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "FirstAccessedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The date that the device first signed in to Amazon WorkLink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LastAccessedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The date that the device last accessed Amazon WorkLink."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Username": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The user name associated with the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeDevicePolicyConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "DeviceCaCertificate": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+                "minLength": 1,
+                "maxLength": 8192
+              },
+              {
+                "description": "The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeDomainResponse": {
+        "type": "object",
+        "properties": {
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The name of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CreatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time that the domain was added."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainStatus": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "PENDING_VALIDATION",
+                  "ASSOCIATING",
+                  "ACTIVE",
+                  "INACTIVE",
+                  "DISASSOCIATING",
+                  "DISASSOCIATED",
+                  "FAILED_TO_ASSOCIATE",
+                  "FAILED_TO_DISASSOCIATE"
+                ]
+              },
+              {
+                "description": "The current state for the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "AcmCertificateArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*"
+              },
+              {
+                "description": "The ARN of an issued ACM certificate that is valid for the domain being associated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeFleetMetadataResponse": {
+        "type": "object",
+        "properties": {
+          "CreatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time that the fleet was created."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LastUpdatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time that the fleet was last updated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "FleetName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$",
+                "minLength": 1,
+                "maxLength": 48
+              },
+              {
+                "description": "The name of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "OptimizeForEndUserLocation": {
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "description": "The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CompanyCode": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              },
+              {
+                "description": "The identifier used by users to sign in to the Amazon WorkLink app."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "FleetStatus": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "CREATING",
+                  "ACTIVE",
+                  "DELETING",
+                  "DELETED",
+                  "FAILED_TO_CREATE",
+                  "FAILED_TO_DELETE"
+                ]
+              },
+              {
+                "description": "The current state of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": "The tags attached to the resource. A tag is a key-value pair."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeIdentityProviderConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "IdentityProviderType": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SAML"
+                ]
+              },
+              {
+                "description": "The type of identity provider."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "ServiceProviderSamlMetadata": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 204800
+              },
+              {
+                "description": "The SAML metadata document uploaded to the user’s identity provider."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "IdentityProviderSamlMetadata": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 204800
+              },
+              {
+                "description": "The SAML metadata document provided by the user’s identity provider."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeWebsiteCertificateAuthorityResponse": {
+        "type": "object",
+        "properties": {
+          "Certificate": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+                "minLength": 1,
+                "maxLength": 8192
+              },
+              {
+                "description": "The root certificate of the certificate authority."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CreatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time that the certificate authority was added."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The certificate name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DisassociateDomainResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "DisassociateWebsiteAuthorizationProviderResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "DisassociateWebsiteCertificateAuthorityResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "ListDevicesResponse": {
+        "type": "object",
+        "properties": {
+          "Devices": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "DeviceId": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        {
+                          "description": "The ID of the device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DeviceStatus": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "ACTIVE",
+                            "SIGNED_OUT"
+                          ]
+                        },
+                        {
+                          "description": "The status of the device."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "The summary of devices."
+                }
+              },
+              {
+                "description": "Information about the devices."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListDomainsResponse": {
+        "type": "object",
+        "properties": {
+          "Domains": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "DomainName",
+                    "CreatedTime",
+                    "DomainStatus"
+                  ],
+                  "properties": {
+                    "DomainName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                          "minLength": 1,
+                          "maxLength": 253
+                        },
+                        {
+                          "description": "The name of the domain."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DisplayName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "maxLength": 100
+                        },
+                        {
+                          "description": "The name to display."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "CreatedTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time that the domain was created."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DomainStatus": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "PENDING_VALIDATION",
+                            "ASSOCIATING",
+                            "ACTIVE",
+                            "INACTIVE",
+                            "DISASSOCIATING",
+                            "DISASSOCIATED",
+                            "FAILED_TO_ASSOCIATE",
+                            "FAILED_TO_DISASSOCIATE"
+                          ]
+                        },
+                        {
+                          "description": "The status of the domain."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "The summary of the domain."
+                }
+              },
+              {
+                "description": "Information about the domains."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListFleetsResponse": {
+        "type": "object",
+        "properties": {
+          "FleetSummaryList": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "FleetArn": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 20,
+                          "maxLength": 2048
+                        },
+                        {
+                          "description": "The Amazon Resource Name (ARN) of the fleet."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "CreatedTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time when the fleet was created."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "LastUpdatedTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time when the fleet was last updated."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "FleetName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$",
+                          "minLength": 1,
+                          "maxLength": 48
+                        },
+                        {
+                          "description": "The name of the fleet."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DisplayName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "maxLength": 100
+                        },
+                        {
+                          "description": "The name of the fleet to display."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "CompanyCode": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 32
+                        },
+                        {
+                          "description": "The identifier used by users to sign into the Amazon WorkLink app."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "FleetStatus": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "CREATING",
+                            "ACTIVE",
+                            "DELETING",
+                            "DELETED",
+                            "FAILED_TO_CREATE",
+                            "FAILED_TO_DELETE"
+                          ]
+                        },
+                        {
+                          "description": "The status of the fleet."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "Tags": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 50,
+                          "additionalProperties": {
+                            "type": "string",
+                            "maxLength": 256
+                          }
+                        },
+                        {
+                          "description": "The tags attached to the resource. A tag is a key-value pair."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "The summary of the fleet."
+                }
+              },
+              {
+                "description": "The summary list of the fleets."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTagsForResourceResponse": {
+        "type": "object",
+        "properties": {
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": "The tags attached to the resource. A tag is a key-value pair."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListWebsiteAuthorizationProvidersResponse": {
+        "type": "object",
+        "properties": {
+          "WebsiteAuthorizationProviders": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "AuthorizationProviderType"
+                  ],
+                  "properties": {
+                    "AuthorizationProviderId": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        {
+                          "description": "A unique identifier for the authorization provider."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "AuthorizationProviderType": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "SAML"
+                          ]
+                        },
+                        {
+                          "description": "The authorization provider type."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DomainName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                          "minLength": 1,
+                          "maxLength": 253
+                        },
+                        {
+                          "description": "The domain name of the authorization provider. This applies only to SAML-based authorization providers."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "CreatedTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time of creation."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "The summary of the website authorization provider."
+                }
+              },
+              {
+                "description": "The website authorization providers."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListWebsiteCertificateAuthoritiesResponse": {
+        "type": "object",
+        "properties": {
+          "WebsiteCertificateAuthorities": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "WebsiteCaId": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        {
+                          "description": "A unique identifier for the CA."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "CreatedTime": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "description": "The time when the CA was added."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    },
+                    "DisplayName": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "maxLength": 100
+                        },
+                        {
+                          "description": "The name to display."
+                        }
+                      ],
+                      "_polymorphic_marker": {
+                        "allOf": true
+                      }
+                    }
+                  },
+                  "description": "The summary of the certificate authority (CA)."
+                }
+              },
+              {
+                "description": "Information about the certificates."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "RestoreDomainAccessResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "RevokeDomainAccessResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "SignOutUserResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "TagResourceResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UntagResourceResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "TagKey": {
+        "type": "string",
+        "pattern": "^(?!aws:)[a-zA-Z+-=._:/]+$",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "UpdateAuditStreamConfigurationResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateCompanyNetworkConfigurationResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "SubnetId": {
+        "type": "string",
+        "pattern": "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$"
+      },
+      "SecurityGroupId": {
+        "type": "string",
+        "pattern": "^sg-([0-9a-f]{8}|[0-9a-f]{17})$"
+      },
+      "UpdateDevicePolicyConfigurationResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateDomainMetadataResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateFleetMetadataResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateIdentityProviderConfigurationResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "AcmCertificateArn": {
+        "type": "string",
+        "pattern": "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*"
+      },
+      "FleetArn": {
+        "type": "string",
+        "minLength": 20,
+        "maxLength": 2048
+      },
+      "DomainName": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+        "minLength": 1,
+        "maxLength": 253
+      },
+      "DisplayName": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "AssociateDomainRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "DomainName",
+          "AcmCertificateArn"
+        ],
+        "title": "AssociateDomainRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The fully qualified domain name (FQDN)."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "AcmCertificateArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*"
+              },
+              {
+                "description": "The ARN of an issued ACM certificate that is valid for the domain being associated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "AuthorizationProviderType": {
+        "type": "string",
+        "enum": [
+          "SAML"
+        ]
+      },
+      "AssociateWebsiteAuthorizationProviderRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "AuthorizationProviderType"
+        ],
+        "title": "AssociateWebsiteAuthorizationProviderRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "AuthorizationProviderType": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SAML"
+                ]
+              },
+              {
+                "description": "The authorization provider type."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The domain name of the authorization provider. This applies only to SAML-based authorization providers."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "Certificate": {
+        "type": "string",
+        "pattern": "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+        "minLength": 1,
+        "maxLength": 8192
+      },
+      "AssociateWebsiteCertificateAuthorityRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "Certificate"
+        ],
+        "title": "AssociateWebsiteCertificateAuthorityRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Certificate": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+                "minLength": 1,
+                "maxLength": 8192
+              },
+              {
+                "description": "The root certificate of the CA."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The certificate name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "AuditStreamArn": {
+        "type": "string",
+        "pattern": "^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$"
+      },
+      "Boolean": {
+        "type": "boolean"
+      },
+      "CertificateChain": {
+        "type": "string",
+        "pattern": "(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+        "minLength": 1,
+        "maxLength": 32768
+      },
+      "CompanyCode": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 32
+      },
+      "FleetName": {
+        "type": "string",
+        "pattern": "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$",
+        "minLength": 1,
+        "maxLength": 48
+      },
+      "TagMap": {
+        "type": "object",
+        "minProperties": 1,
+        "maxProperties": 50,
+        "additionalProperties": {
+          "type": "string",
+          "maxLength": 256
+        }
+      },
+      "CreateFleetRequest": {
+        "type": "object",
+        "required": [
+          "FleetName"
+        ],
+        "title": "CreateFleetRequest",
+        "properties": {
+          "FleetName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$",
+                "minLength": 1,
+                "maxLength": 48
+              },
+              {
+                "description": "A unique name for the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The fleet name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "OptimizeForEndUserLocation": {
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "description": "The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": " The tags to add to the resource. A tag is a key-value pair."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DateTime": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "DeleteFleetRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "DeleteFleetRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeAuditStreamConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "DescribeAuditStreamConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeCompanyNetworkConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "DescribeCompanyNetworkConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "VpcId": {
+        "type": "string",
+        "pattern": "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$"
+      },
+      "SubnetIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$"
+        }
+      },
+      "SecurityGroupIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^sg-([0-9a-f]{8}|[0-9a-f]{17})$"
+        },
+        "maxItems": 5
+      },
+      "DescribeDevicePolicyConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "DescribeDevicePolicyConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DescribeDeviceRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "DeviceId"
+        ],
+        "title": "DescribeDeviceRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for a registered user's device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DeviceStatus": {
+        "type": "string",
+        "enum": [
+          "ACTIVE",
+          "SIGNED_OUT"
+        ]
+      },
+      "DeviceModel": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "DeviceManufacturer": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "DeviceOperatingSystemName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "DeviceOperatingSystemVersion": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "DevicePatchLevel": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "Username": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "DescribeDomainRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "DomainName"
+        ],
+        "title": "DescribeDomainRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The name of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DomainStatus": {
+        "type": "string",
+        "enum": [
+          "PENDING_VALIDATION",
+          "ASSOCIATING",
+          "ACTIVE",
+          "INACTIVE",
+          "DISASSOCIATING",
+          "DISASSOCIATED",
+          "FAILED_TO_ASSOCIATE",
+          "FAILED_TO_DISASSOCIATE"
+        ]
+      },
+      "DescribeFleetMetadataRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "DescribeFleetMetadataRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "FleetStatus": {
+        "type": "string",
+        "enum": [
+          "CREATING",
+          "ACTIVE",
+          "DELETING",
+          "DELETED",
+          "FAILED_TO_CREATE",
+          "FAILED_TO_DELETE"
+        ]
+      },
+      "DescribeIdentityProviderConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "DescribeIdentityProviderConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "IdentityProviderType": {
+        "type": "string",
+        "enum": [
+          "SAML"
+        ]
+      },
+      "SamlMetadata": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 204800
+      },
+      "DescribeWebsiteCertificateAuthorityRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "WebsiteCaId"
+        ],
+        "title": "DescribeWebsiteCertificateAuthorityRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "WebsiteCaId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for the certificate authority."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DeviceSummary": {
+        "type": "object",
+        "properties": {
+          "DeviceId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The ID of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceStatus": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "SIGNED_OUT"
+                ]
+              },
+              {
+                "description": "The status of the device."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "The summary of devices."
+      },
+      "DeviceSummaryList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "DeviceId": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                {
+                  "description": "The ID of the device."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DeviceStatus": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "ACTIVE",
+                    "SIGNED_OUT"
+                  ]
+                },
+                {
+                  "description": "The status of the device."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "The summary of devices."
+        }
+      },
+      "DisassociateDomainRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "DomainName"
+        ],
+        "title": "DisassociateDomainRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The name of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DisassociateWebsiteAuthorizationProviderRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "AuthorizationProviderId"
+        ],
+        "title": "DisassociateWebsiteAuthorizationProviderRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "AuthorizationProviderId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for the authorization provider."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DisassociateWebsiteCertificateAuthorityRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "WebsiteCaId"
+        ],
+        "title": "DisassociateWebsiteCertificateAuthorityRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "WebsiteCaId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for the CA."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "DomainSummary": {
+        "type": "object",
+        "required": [
+          "DomainName",
+          "CreatedTime",
+          "DomainStatus"
+        ],
+        "properties": {
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The name of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CreatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time that the domain was created."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainStatus": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "PENDING_VALIDATION",
+                  "ASSOCIATING",
+                  "ACTIVE",
+                  "INACTIVE",
+                  "DISASSOCIATING",
+                  "DISASSOCIATED",
+                  "FAILED_TO_ASSOCIATE",
+                  "FAILED_TO_DISASSOCIATE"
+                ]
+              },
+              {
+                "description": "The status of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "The summary of the domain."
+      },
+      "DomainSummaryList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "DomainName",
+            "CreatedTime",
+            "DomainStatus"
+          ],
+          "properties": {
+            "DomainName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                  "minLength": 1,
+                  "maxLength": 253
+                },
+                {
+                  "description": "The name of the domain."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DisplayName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "description": "The name to display."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "CreatedTime": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The time that the domain was created."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DomainStatus": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "PENDING_VALIDATION",
+                    "ASSOCIATING",
+                    "ACTIVE",
+                    "INACTIVE",
+                    "DISASSOCIATING",
+                    "DISASSOCIATED",
+                    "FAILED_TO_ASSOCIATE",
+                    "FAILED_TO_DISASSOCIATE"
+                  ]
+                },
+                {
+                  "description": "The status of the domain."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "The summary of the domain."
+        }
+      },
+      "FleetSummary": {
+        "type": "object",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The Amazon Resource Name (ARN) of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CreatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time when the fleet was created."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "LastUpdatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time when the fleet was last updated."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "FleetName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$",
+                "minLength": 1,
+                "maxLength": 48
+              },
+              {
+                "description": "The name of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The name of the fleet to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CompanyCode": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              },
+              {
+                "description": "The identifier used by users to sign into the Amazon WorkLink app."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "FleetStatus": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "CREATING",
+                  "ACTIVE",
+                  "DELETING",
+                  "DELETED",
+                  "FAILED_TO_CREATE",
+                  "FAILED_TO_DELETE"
+                ]
+              },
+              {
+                "description": "The status of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": "The tags attached to the resource. A tag is a key-value pair."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "The summary of the fleet."
+      },
+      "FleetSummaryList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "FleetArn": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "minLength": 20,
+                  "maxLength": 2048
+                },
+                {
+                  "description": "The Amazon Resource Name (ARN) of the fleet."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "CreatedTime": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The time when the fleet was created."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "LastUpdatedTime": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The time when the fleet was last updated."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "FleetName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$",
+                  "minLength": 1,
+                  "maxLength": 48
+                },
+                {
+                  "description": "The name of the fleet."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DisplayName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "description": "The name of the fleet to display."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "CompanyCode": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                },
+                {
+                  "description": "The identifier used by users to sign into the Amazon WorkLink app."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "FleetStatus": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "CREATING",
+                    "ACTIVE",
+                    "DELETING",
+                    "DELETED",
+                    "FAILED_TO_CREATE",
+                    "FAILED_TO_DELETE"
+                  ]
+                },
+                {
+                  "description": "The status of the fleet."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "Tags": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "minProperties": 1,
+                  "maxProperties": 50,
+                  "additionalProperties": {
+                    "type": "string",
+                    "maxLength": 256
+                  }
+                },
+                {
+                  "description": "The tags attached to the resource. A tag is a key-value pair."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "The summary of the fleet."
+        }
+      },
+      "NextToken": {
+        "type": "string",
+        "pattern": "[\\w\\-]+",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "MaxResults": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "ListDevicesRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "ListDevicesRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "description": "The maximum number of results to be included in the next page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListDomainsRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "ListDomainsRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "description": "The maximum number of results to be included in the next page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListFleetsRequest": {
+        "type": "object",
+        "title": "ListFleetsRequest",
+        "properties": {
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "description": "The maximum number of results to be included in the next page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "ListTagsForResourceRequest": {
+        "type": "object",
+        "title": "ListTagsForResourceRequest",
+        "properties": {}
+      },
+      "ListWebsiteAuthorizationProvidersRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "ListWebsiteAuthorizationProvidersRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "description": "The maximum number of results to be included in the next page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "WebsiteAuthorizationProvidersSummaryList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "AuthorizationProviderType"
+          ],
+          "properties": {
+            "AuthorizationProviderId": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                {
+                  "description": "A unique identifier for the authorization provider."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "AuthorizationProviderType": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "SAML"
+                  ]
+                },
+                {
+                  "description": "The authorization provider type."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DomainName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                  "minLength": 1,
+                  "maxLength": 253
+                },
+                {
+                  "description": "The domain name of the authorization provider. This applies only to SAML-based authorization providers."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "CreatedTime": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The time of creation."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "The summary of the website authorization provider."
+        }
+      },
+      "ListWebsiteCertificateAuthoritiesRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "ListWebsiteCertificateAuthoritiesRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "MaxResults": {
+            "allOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "description": "The maximum number of results to be included in the next page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "NextToken": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "[\\w\\-]+",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              {
+                "description": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "WebsiteCaSummaryList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "WebsiteCaId": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                {
+                  "description": "A unique identifier for the CA."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "CreatedTime": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "description": "The time when the CA was added."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            },
+            "DisplayName": {
+              "allOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "description": "The name to display."
+                }
+              ],
+              "_polymorphic_marker": {
+                "allOf": true
+              }
+            }
+          },
+          "description": "The summary of the certificate authority (CA)."
+        }
+      },
+      "RestoreDomainAccessRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "DomainName"
+        ],
+        "title": "RestoreDomainAccessRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The name of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "RevokeDomainAccessRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "DomainName"
+        ],
+        "title": "RevokeDomainAccessRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The name of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "SignOutUserRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "Username"
+        ],
+        "title": "SignOutUserRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "Username": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "The name of the user."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "TagKeyList": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?!aws:)[a-zA-Z+-=._:/]+$",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "minItems": 1,
+        "maxItems": 50
+      },
+      "TagResourceRequest": {
+        "type": "object",
+        "required": [
+          "Tags"
+        ],
+        "title": "TagResourceRequest",
+        "properties": {
+          "Tags": {
+            "allOf": [
+              {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 50,
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 256
+                }
+              },
+              {
+                "description": "The tags to add to the resource. A tag is a key-value pair."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UntagResourceRequest": {
+        "type": "object",
+        "title": "UntagResourceRequest",
+        "properties": {}
+      },
+      "UpdateAuditStreamConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "UpdateAuditStreamConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "AuditStreamArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$"
+              },
+              {
+                "description": "The ARN of the Amazon Kinesis data stream that receives the audit events."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UpdateCompanyNetworkConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "VpcId",
+          "SubnetIds",
+          "SecurityGroupIds"
+        ],
+        "title": "UpdateCompanyNetworkConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "VpcId": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$"
+              },
+              {
+                "description": "The VPC with connectivity to associated websites."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SubnetIds": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$"
+                }
+              },
+              {
+                "description": "The subnets used for X-ENI connections from Amazon WorkLink rendering containers."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "SecurityGroupIds": {
+            "allOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sg-([0-9a-f]{8}|[0-9a-f]{17})$"
+                },
+                "maxItems": 5
+              },
+              {
+                "description": "The security groups associated with access to the provided subnets."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UpdateDevicePolicyConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "UpdateDevicePolicyConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DeviceCaCertificate": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?",
+                "minLength": 1,
+                "maxLength": 32768
+              },
+              {
+                "description": "The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UpdateDomainMetadataRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "DomainName"
+        ],
+        "title": "UpdateDomainMetadataRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The name of the domain."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UpdateFleetMetadataRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn"
+        ],
+        "title": "UpdateFleetMetadataRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The fleet name to display. The existing DisplayName is unset if null is passed."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "OptimizeForEndUserLocation": {
+            "allOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "description": "The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "UpdateIdentityProviderConfigurationRequest": {
+        "type": "object",
+        "required": [
+          "FleetArn",
+          "IdentityProviderType"
+        ],
+        "title": "UpdateIdentityProviderConfigurationRequest",
+        "properties": {
+          "FleetArn": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 2048
+              },
+              {
+                "description": "The ARN of the fleet."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "IdentityProviderType": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SAML"
+                ]
+              },
+              {
+                "description": "The type of identity provider."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "IdentityProviderSamlMetadata": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 204800
+              },
+              {
+                "description": "The SAML metadata document provided by the customer’s identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        }
+      },
+      "WebsiteAuthorizationProviderSummary": {
+        "type": "object",
+        "required": [
+          "AuthorizationProviderType"
+        ],
+        "properties": {
+          "AuthorizationProviderId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for the authorization provider."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "AuthorizationProviderType": {
+            "allOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SAML"
+                ]
+              },
+              {
+                "description": "The authorization provider type."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DomainName": {
+            "allOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              {
+                "description": "The domain name of the authorization provider. This applies only to SAML-based authorization providers."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CreatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time of creation."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "The summary of the website authorization provider."
+      },
+      "WebsiteCaSummary": {
+        "type": "object",
+        "properties": {
+          "WebsiteCaId": {
+            "allOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "description": "A unique identifier for the CA."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "CreatedTime": {
+            "allOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "description": "The time when the CA was added."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          },
+          "DisplayName": {
+            "allOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "description": "The name to display."
+              }
+            ],
+            "_polymorphic_marker": {
+              "allOf": true
+            }
+          }
+        },
+        "description": "The summary of the certificate authority (CA)."
+      }
+    }
+  },
+  "security": [
+    {
+      "hmac": []
+    }
+  ]
+}

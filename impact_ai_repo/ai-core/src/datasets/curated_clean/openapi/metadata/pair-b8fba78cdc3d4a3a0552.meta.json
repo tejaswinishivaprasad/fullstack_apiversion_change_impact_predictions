@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-b8fba78cdc3d4a3a0552",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--b8fba78c--v1.canonical.json",
+  "new_canonical": "openapi--search-service--b8fba78c--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--b8fba78c--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--b8fba78c--v2.canonical.json",
+  "old_sha": "ab768318d214bf3b62e2",
+  "new_sha": "5c66af375c6ca36d7005",
+  "generated_at": "2025-11-30T11:51:06+00:00",
+  "producers_sample": [
+    "/bulk/download",
+    "/bulk/id/errors",
+    "/bulk/jobs",
+    "/bulk/paymentid/status",
+    "/bulk/query",
+    "/billing/{id}",
+    "/bulk/download",
+    "/bulk/jobs",
+    "/bulk/paymentid",
+    "/bulk/paymentid/cancel"
+  ]
+}

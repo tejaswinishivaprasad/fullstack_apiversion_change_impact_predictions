@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.OrderImports",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "false"
+      ],
+      "sources": [
+        {
+          "before": "import java.util.List;\nimport java.util.ArrayList;\nimport java.util.regex.Pattern;\nimport java.util.Objects;\nimport java.util.Set;\nimport java.util.Map;\n",
+          "after": "import java.util.*;\nimport java.util.regex.Pattern;\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/transactions/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-transactions-id"
+      }
+    }
+  }
+}

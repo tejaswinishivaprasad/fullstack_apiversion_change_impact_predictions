@@ -1,0 +1,1 @@
+{"pair_id": "pair-08bf18f6bdc741e5e88a", "ace_index": 0, "ace_id": "pair-08bf18f6bdc741e5e88a::ace::0", "type": "PARAM_ADDED", "path": "/utility/v1/health/heartbeat", "method": "get", "detail": "qce2618", "confidence": 0.6, "provenance": {"old_sha": "39e1f75d3d3ab376f117", "new_sha": "4793d241a812dc71f869"}, "side_effect": false, "calls_services": [], "shared_schemas": []}

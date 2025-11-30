@@ -1,0 +1,31 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.UseStaticImport",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.lang.Integer valueOf(..)"
+      ],
+      "sources": [
+        {
+          "before": "val i = Integer.valueOf(1)\n",
+          "after": "import java.lang.Integer.valueOf\n\nval i = valueOf(1)\n",
+          "language": "kotlin"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id"
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "pair_id": "pair-91a948a3eec87809738d",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--91a948a3--v1.canonical.json",
+  "new_canonical": "openapi--search-service--91a948a3--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--91a948a3--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--91a948a3--v2.canonical.json",
+  "old_sha": "3576efe7eeb77b5f7616",
+  "new_sha": "2b7ceab9bb462483f0db",
+  "generated_at": "2025-11-30T11:51:04+00:00",
+  "producers_sample": [
+    "/shopping/activities",
+    "/shopping/activities/by-square",
+    "/shopping/activities/paymentid",
+    "/shopping/activities",
+    "/shopping/activities/by-square",
+    "/shopping/activities/id"
+  ]
+}

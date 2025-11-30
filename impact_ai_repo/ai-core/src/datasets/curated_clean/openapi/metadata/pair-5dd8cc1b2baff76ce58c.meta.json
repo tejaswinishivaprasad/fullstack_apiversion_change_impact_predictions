@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-5dd8cc1b2baff76ce58c",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--5dd8cc1b--v1.canonical.json",
+  "new_canonical": "openapi--search-service--5dd8cc1b--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--5dd8cc1b--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--5dd8cc1b--v2.canonical.json",
+  "old_sha": "889423708a7d32fba013",
+  "new_sha": "ad0a709f70bb642c3d26",
+  "generated_at": "2025-11-30T11:52:24+00:00",
+  "producers_sample": [
+    "/rest/v1-1/account/account",
+    "/rest/v1-1/account/billing",
+    "/rest/v1-1/account/changepassword",
+    "/rest/v1-1/account/login",
+    "/rest/v1-1/analysis/compare",
+    "/rest/v1-1/account/account",
+    "/rest/v1-1/account/billing",
+    "/rest/v1-1/account/changepassword",
+    "/rest/v1-1/account/login",
+    "/rest/v1-1/analysis/compare"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-e174afa48dac1354aa61",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--e174afa4--v1.canonical.json",
+  "new_canonical": "openapi--search-service--e174afa4--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--e174afa4--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--e174afa4--v2.canonical.json",
+  "old_sha": "8ff855e4a57c0031c82e",
+  "new_sha": "0a50cefeef8850563863",
+  "generated_at": "2025-11-30T11:51:03+00:00",
+  "producers_sample": [
+    "/shopping/flight-destinations",
+    "/shopping/flight-destinations"
+  ]
+}

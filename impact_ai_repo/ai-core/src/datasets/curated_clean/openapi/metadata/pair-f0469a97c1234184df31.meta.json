@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-f0469a97c1234184df31",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--f0469a97--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--f0469a97--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f0469a97--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--f0469a97--v2.canonical.json",
+  "old_sha": "253048b12789bc7e07f8",
+  "new_sha": "849f59016b504d3969d0",
+  "generated_at": "2025-11-30T11:52:26+00:00",
+  "producers_sample": [
+    "/companies/id/data/banking-transactions",
+    "/companies/orderid/connections/id/data/banking-transactioncategories",
+    "/companies/orderid/connections/paymentid/data/banking-transactions/id",
+    "/companies/orderid/connections/sku/data/banking-transactions",
+    "/companies/paymentid/connections/id/data/banking-transactioncategories/sku",
+    "/companies/id/connections/orderid/data/banking-transactioncategories",
+    "/companies/id/data/banking-transactions",
+    "/companies/orderid/connections/id/data/banking-transactioncategories/id",
+    "/companies/orderid/connections/orderid/data/banking-accounts/paymentid",
+    "/companies/orderid/connections/sku/data/banking-accounts"
+  ]
+}

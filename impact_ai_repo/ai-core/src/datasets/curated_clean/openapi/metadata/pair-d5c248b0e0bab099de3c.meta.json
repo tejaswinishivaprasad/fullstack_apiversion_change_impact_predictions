@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-d5c248b0e0bab099de3c",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--d5c248b0--v1.canonical.json",
+  "new_canonical": "openapi--search-service--d5c248b0--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--d5c248b0--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--d5c248b0--v2.canonical.json",
+  "old_sha": "8cb961f422cb2dc45a2c",
+  "new_sha": "2ae65ba58fc7b84d41d6",
+  "generated_at": "2025-11-30T11:51:55+00:00",
+  "producers_sample": [
+    "/v3/application/settings",
+    "/v3/ci/lint",
+    "/v3/deploy-keys",
+    "/v3/dockerfiles",
+    "/v3/dockerfiles/sku",
+    "/v3/application/settings",
+    "/v3/ci/lint",
+    "/v3/deploy-keys",
+    "/v3/dockerfiles",
+    "/v3/dockerfiles/sku"
+  ]
+}

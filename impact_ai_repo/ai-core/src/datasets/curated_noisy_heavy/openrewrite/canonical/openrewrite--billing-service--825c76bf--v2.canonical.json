@@ -1,0 +1,32 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.search.FindImports",
+  "examples": [
+    {
+      "description": "",
+      "parameters": [
+        "java.util..*",
+        "null"
+      ],
+      "sources": [
+        {
+          "before": "import java.util.concurrent.atomic.AtomicBoolean;\nclass Test {\n}\n",
+          "after": "/*~~>*/import java.util.concurrent.atomic.AtomicBoolean;\nclass Test {\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-8ed7237ca3e39a2e789a",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--8ed7237c--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--8ed7237c--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8ed7237c--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8ed7237c--v2.canonical.json",
+  "old_sha": "d83e7bfa204016e4dbc1",
+  "new_sha": "dabf3a9222bc82736f74",
+  "generated_at": "2025-11-30T11:52:01+00:00",
+  "producers_sample": [
+    "/billing/{id}",
+    "/carts/{id}",
+    "/creators/id",
+    "/developers/id",
+    "/games/id/twitch",
+    "/billing/{id}",
+    "/carts/{id}",
+    "/creators/orderid",
+    "/developers/paymentid",
+    "/games/id/development-team"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "pair_id": "pair-15143242d90fd0fd5913",
+  "service_name": "inventory-service",
+  "dataset": "petclinic",
+  "old_canonical": "petclinic--inventory-service--15143242--v1.canonical.json",
+  "new_canonical": "petclinic--inventory-service--15143242--v2.canonical.json",
+  "old": "datasets/curated_noisy_light/petclinic/canonical/petclinic--inventory-service--15143242--v1.canonical.json",
+  "new": "datasets/curated_noisy_light/petclinic/canonical/petclinic--inventory-service--15143242--v2.canonical.json",
+  "old_sha": "30ad1771e97a5a01c720",
+  "new_sha": "39f3861e0ad87afe868a",
+  "generated_at": "2025-11-30T12:27:04+00:00"
+}

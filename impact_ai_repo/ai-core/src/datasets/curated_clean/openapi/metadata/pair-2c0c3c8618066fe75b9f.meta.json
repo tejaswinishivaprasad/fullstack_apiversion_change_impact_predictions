@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-2c0c3c8618066fe75b9f",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--2c0c3c86--v1.canonical.json",
+  "new_canonical": "openapi--search-service--2c0c3c86--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--2c0c3c86--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--2c0c3c86--v2.canonical.json",
+  "old_sha": "1544428a170ed564615f",
+  "new_sha": "2cadc956ac660e03843a",
+  "generated_at": "2025-11-30T11:52:01+00:00",
+  "producers_sample": [
+    "/api/hotel/v0/hotels",
+    "/api/hotel/v0/hotels/id/rateplans/id/rates",
+    "/api/hotel/v0/hotels/id/rateplans/userid",
+    "/api/hotel/v0/hotels/id/room-types",
+    "/api/hotel/v0/hotels/id/rooms/available",
+    "/api/hotel/v0/hotels",
+    "/api/hotel/v0/hotels/id/rateplans/count",
+    "/api/hotel/v0/hotels/id/rooms",
+    "/api/hotel/v0/hotels/id/rooms/count",
+    "/api/hotel/v0/hotels/orderid/codes/userid"
+  ]
+}

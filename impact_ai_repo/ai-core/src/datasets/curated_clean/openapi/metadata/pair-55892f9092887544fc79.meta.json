@@ -1,0 +1,18 @@
+{
+  "pair_id": "pair-55892f9092887544fc79",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--55892f90--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--55892f90--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--55892f90--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--55892f90--v2.canonical.json",
+  "old_sha": "3b56d244f76a09e8b0e3",
+  "new_sha": "7f56bc9b485ae0a9e5a8",
+  "generated_at": "2025-11-30T11:52:12+00:00",
+  "producers_sample": [
+    "/id/playbyplay/sku",
+    "/userid/playbyplaydelta/userid/paymentid",
+    "/sku/playbyplay/id",
+    "/sku/playbyplaydelta/userid/userid"
+  ]
+}

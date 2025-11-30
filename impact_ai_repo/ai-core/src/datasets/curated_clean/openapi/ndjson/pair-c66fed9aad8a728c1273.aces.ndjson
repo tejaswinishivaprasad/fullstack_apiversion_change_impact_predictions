@@ -1,0 +1,1 @@
+{"pair_id": "pair-c66fed9aad8a728c1273", "ace_index": 0, "ace_id": "pair-c66fed9aad8a728c1273::ace::0", "type": "PARAM_ADDED", "path": "/shopping/flight-offers/upselling", "method": "post", "detail": "q040394", "confidence": 0.6, "provenance": {"old_sha": "9d6709a4597fd984b14e", "new_sha": "996f3c9561d284db1a1a"}, "side_effect": true, "calls_services": [], "shared_schemas": []}

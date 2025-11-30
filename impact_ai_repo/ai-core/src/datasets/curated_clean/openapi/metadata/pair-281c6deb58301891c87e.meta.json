@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-281c6deb58301891c87e",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--281c6deb--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--281c6deb--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--281c6deb--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--281c6deb--v2.canonical.json",
+  "old_sha": "d20f0935e8d1f0fb4372",
+  "new_sha": "04560efce5cfab70a55e",
+  "generated_at": "2025-11-30T11:51:03+00:00",
+  "producers_sample": [
+    "/analytics/itinerary-price-metrics",
+    "/analytics/itinerary-price-metrics"
+  ]
+}

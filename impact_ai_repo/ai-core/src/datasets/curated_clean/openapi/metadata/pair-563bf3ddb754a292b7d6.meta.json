@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-563bf3ddb754a292b7d6",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--563bf3dd--v1.canonical.json",
+  "new_canonical": "openapi--search-service--563bf3dd--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--563bf3dd--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--563bf3dd--v2.canonical.json",
+  "old_sha": "cff9b0df8927dc5ecdfc",
+  "new_sha": "81b62706536bf51f3bac",
+  "generated_at": "2025-11-30T11:52:00+00:00",
+  "producers_sample": [
+    "/api/booking/v0/addons",
+    "/api/booking/v0/availability",
+    "/api/booking/v0/blocks",
+    "/api/booking/v0/blocks/count",
+    "/api/booking/v0/blocks/id",
+    "/api/booking/v0/addons",
+    "/api/booking/v0/availability",
+    "/api/booking/v0/blocks",
+    "/api/booking/v0/blocks/count",
+    "/api/booking/v0/blocks/sku"
+  ]
+}

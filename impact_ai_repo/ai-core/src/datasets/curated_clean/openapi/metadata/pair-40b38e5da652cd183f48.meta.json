@@ -1,0 +1,16 @@
+{
+  "pair_id": "pair-40b38e5da652cd183f48",
+  "dataset": "openapi",
+  "service_name": "search-service",
+  "old_canonical": "openapi--search-service--40b38e5d--v1.canonical.json",
+  "new_canonical": "openapi--search-service--40b38e5d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--search-service--40b38e5d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--search-service--40b38e5d--v2.canonical.json",
+  "old_sha": "339823c37513a91e410b",
+  "new_sha": "21c9167eb37047e1d67f",
+  "generated_at": "2025-11-30T11:50:58+00:00",
+  "producers_sample": [
+    "/shopping/flight-dates",
+    "/shopping/flight-dates"
+  ]
+}

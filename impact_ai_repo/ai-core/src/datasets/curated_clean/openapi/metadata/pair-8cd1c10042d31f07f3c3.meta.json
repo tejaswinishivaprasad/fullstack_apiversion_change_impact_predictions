@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-8cd1c10042d31f07f3c3",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--8cd1c100--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--8cd1c100--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8cd1c100--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--8cd1c100--v2.canonical.json",
+  "old_sha": "56f0a30321beaef679ef",
+  "new_sha": "44e85a5c18fbaf00cced",
+  "generated_at": "2025-11-30T11:52:28+00:00",
+  "producers_sample": [
+    "/companies/id/connections/id/connectioninfo/bankfeedaccounts/orderid",
+    "/companies/orderid/connections/paymentid/data/bankaccounts/paymentid/banktransactions",
+    "/companies/paymentid/connections/userid/connectioninfo/bankfeedaccounts",
+    "/companies/sku/connections/id/options/bankaccounts/sku/banktransactions",
+    "/companies/sku/connections/sku/push/bankaccounts/userid/banktransactions",
+    "/companies/id/connections/id/data/bankaccounts/userid/banktransactions",
+    "/companies/orderid/connections/userid/connectioninfo/bankfeedaccounts",
+    "/companies/paymentid/connections/userid/options/bankaccounts/orderid/banktransactions",
+    "/companies/userid/connections/id/connectioninfo/bankfeedaccounts/paymentid",
+    "/companies/userid/connections/id/push/bankaccounts/id/banktransactions"
+  ]
+}

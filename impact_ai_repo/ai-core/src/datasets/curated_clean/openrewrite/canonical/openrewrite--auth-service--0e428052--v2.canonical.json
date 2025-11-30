@@ -1,0 +1,17 @@
+{
+  "type": "specs.openrewrite.org/v1beta/category",
+  "packageName": "software",
+  "root": true,
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-reviews-id-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-cfc224f7a203",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-cfc224f7a203/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

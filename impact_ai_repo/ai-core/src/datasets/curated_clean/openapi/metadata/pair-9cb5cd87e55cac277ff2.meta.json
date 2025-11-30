@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-9cb5cd87e55cac277ff2",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--9cb5cd87--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--9cb5cd87--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9cb5cd87--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--9cb5cd87--v2.canonical.json",
+  "old_sha": "c61d42b81ff6996c648b",
+  "new_sha": "d4caa72fe5c0cdb30836",
+  "generated_at": "2025-11-30T11:50:06+00:00",
+  "producers_sample": [
+    "/api/v2-0",
+    "/api/v2-0/id/schemes/orderid",
+    "/api/v2-0/id/traces/orderid",
+    "/api/v2-0/login",
+    "/api/v2-0/lookup",
+    "/api/v2-0",
+    "/api/v2-0/id/id/loci",
+    "/api/v2-0/id/strains",
+    "/api/v2-0/id/traces",
+    "/api/v2-0/id/userid/alleles"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-23788f8befa469dfe7e2",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--23788f8b--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--23788f8b--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--23788f8b--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--23788f8b--v2.canonical.json",
+  "old_sha": "9b3b3c20684761539025",
+  "new_sha": "9283cdfd95c0165d4d87",
+  "generated_at": "2025-11-30T11:52:57+00:00",
+  "producers_sample": [
+    "/carts/{id}",
+    "/inventory/{id}",
+    "/orders/{id}",
+    "/payments/{id}",
+    "/products/{id}",
+    "/billing/{id}",
+    "/carts/{id}",
+    "/inventory/{id}",
+    "/orders/{id}",
+    "/payments/{id}"
+  ]
+}

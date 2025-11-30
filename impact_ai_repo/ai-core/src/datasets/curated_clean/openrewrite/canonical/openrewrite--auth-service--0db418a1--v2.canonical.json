@@ -1,0 +1,28 @@
+{
+  "type": "specs.openrewrite.org/v1beta/example",
+  "recipeName": "org.openrewrite.java.format.NoWhitespaceAfter",
+  "examples": [
+    {
+      "description": "",
+      "sources": [
+        {
+          "before": "class Test {\n    static void method() {\n        int [] [] a;\n        int [] b;\n        int c, d = 0;\n    }\n}\n",
+          "after": "class Test {\n    static void method() {\n        int[][] a;\n        int[] b;\n        int c, d = 0;\n    }\n}\n",
+          "language": "java"
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "/billing/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "operationId": "get-billing-id-v2"
+      }
+    }
+  }
+}

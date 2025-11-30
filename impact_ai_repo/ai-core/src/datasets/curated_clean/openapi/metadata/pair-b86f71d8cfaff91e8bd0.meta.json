@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-b86f71d8cfaff91e8bd0",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--b86f71d8--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--b86f71d8--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--b86f71d8--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--b86f71d8--v2.canonical.json",
+  "old_sha": "8007c48efc43d9ac4eeb",
+  "new_sha": "3f412c0ca58c581540ec",
+  "generated_at": "2025-11-30T11:52:08+00:00",
+  "producers_sample": [
+    "/orderid/dfsslatesbydate/paymentid",
+    "/orderid/playergameprojectionstatsbydate/orderid",
+    "/paymentid/depthcharts",
+    "/paymentid/playergameprojectionstatsbyplayer/sku/sku",
+    "/sku/injuredplayers",
+    "/id/depthcharts",
+    "/id/injuredplayers",
+    "/id/playergameprojectionstatsbydate/userid",
+    "/orderid/playergameprojectionstatsbyplayer/paymentid/sku",
+    "/orderid/playerseasonprojectionstats/sku"
+  ]
+}

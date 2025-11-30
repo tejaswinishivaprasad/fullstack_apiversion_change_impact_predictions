@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "synth-openapi-b2d0bf6b8d77",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/synth-openapi-b2d0bf6b8d77/items": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

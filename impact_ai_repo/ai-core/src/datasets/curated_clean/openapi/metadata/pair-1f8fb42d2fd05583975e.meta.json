@@ -1,0 +1,24 @@
+{
+  "pair_id": "pair-1f8fb42d2fd05583975e",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--1f8fb42d--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--1f8fb42d--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1f8fb42d--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--1f8fb42d--v2.canonical.json",
+  "old_sha": "6a441a86913a5bbe9550",
+  "new_sha": "be8bec326f69e280c4be",
+  "generated_at": "2025-11-30T11:53:08+00:00",
+  "producers_sample": [
+    "/orders/{id}",
+    "/products/{id}",
+    "/v1/lexicons",
+    "/v1/lexicons/userid",
+    "/v1/speech",
+    "/billing/{id}",
+    "/payments/{id}",
+    "/v1/lexicons",
+    "/v1/lexicons/sku",
+    "/v1/speech"
+  ]
+}

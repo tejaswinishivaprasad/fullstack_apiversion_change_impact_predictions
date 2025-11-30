@@ -1,0 +1,22 @@
+{
+  "pair_id": "pair-013d1f5e24eb5c9715fc",
+  "dataset": "openapi",
+  "service_name": "catalog-service",
+  "old_canonical": "openapi--catalog-service--013d1f5e--v1.canonical.json",
+  "new_canonical": "openapi--catalog-service--013d1f5e--v2.canonical.json",
+  "old": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--013d1f5e--v1.canonical.json",
+  "new": "datasets/curated_clean/openapi/canonical/openapi--catalog-service--013d1f5e--v2.canonical.json",
+  "old_sha": "b4c0d2b3d09a32200220",
+  "new_sha": "967ecf71f8324ab247eb",
+  "generated_at": "2025-11-30T11:50:46+00:00",
+  "producers_sample": [
+    "/hackathons/coming-json",
+    "/hackathons/sku-json",
+    "/reviews/{id}",
+    "/swagger-doc/userid-json",
+    "/hackathons/coming-json",
+    "/hackathons/orderid-json",
+    "/inventory/{id}",
+    "/swagger-doc/sku-json"
+  ]
+}

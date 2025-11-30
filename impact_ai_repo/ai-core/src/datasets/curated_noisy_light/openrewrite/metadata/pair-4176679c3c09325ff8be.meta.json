@@ -1,0 +1,13 @@
+{
+  "pair_id": "pair-4176679c3c09325ff8be",
+  "dataset": "openrewrite",
+  "service_name": "shipping-service",
+  "old_canonical": "openrewrite--shipping-service--4176679c--v1.canonical.json",
+  "new_canonical": "openrewrite--shipping-service--4176679c--v2.canonical.json",
+  "old": "datasets/curated_noisy_light/openrewrite/canonical/openrewrite--shipping-service--4176679c--v1.canonical.json",
+  "new": "datasets/curated_noisy_light/openrewrite/canonical/openrewrite--shipping-service--4176679c--v2.canonical.json",
+  "old_sha": "0110552a966c8de4b737",
+  "new_sha": "92a7a128fafca2ee3602",
+  "generated_at": "2025-11-30T13:07:45+00:00",
+  "warnings": []
+}

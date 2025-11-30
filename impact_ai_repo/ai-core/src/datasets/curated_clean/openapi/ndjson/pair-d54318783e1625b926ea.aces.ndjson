@@ -1,0 +1,1 @@
+{"pair_id": "pair-d54318783e1625b926ea", "ace_index": 0, "ace_id": "pair-d54318783e1625b926ea::ace::0", "type": "NON_API_CHANGE", "path": null, "method": null, "detail": "openapi.yaml#doc0", "confidence": 0.6, "provenance": {"old_sha": "0811726b5873e4add2e0", "new_sha": "e12f567c78295bc17ff2"}, "side_effect": false, "calls_services": [], "shared_schemas": []}
