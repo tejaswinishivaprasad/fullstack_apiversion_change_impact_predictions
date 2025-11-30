@@ -1140,6 +1140,147 @@ def curate_openapi(
     logging.info(f"[curate_openapi] Finished: curated {curated} OpenAPI pairs into {paths['canonical']}")
     return
 
+# ---------- Unified noisy-raw helper (paste here) ----------
+import tempfile
+from typing import Union
+
+def generate_noisy_raw_copy(raw_root: Path, target_root: Path, mode: str = "light",
+                            seed: int = 2025, counts: Optional[Dict[str,int]] = None):
+    """
+    Create a noisy copy of raw files into target_root.
+    mode: "light" or "heavy"
+    counts: optional dict like {"openapi":500,"openrewrite":300,"petclinic":30,"synth_openapi":50}
+    Returns target_root Path. Writes noise_manifest.json to target_root.
+    """
+    rnd = random.Random(seed)
+    counts = counts or {"openapi": 500, "openrewrite": 300, "petclinic": 30}
+    datasets = ["openapi", "openrewrite", "petclinic"]
+    # include any synth folders found under raw_root
+    for synth in ["synth_openapi", "synth_openrewrite", "synth_petclinic"]:
+        if (raw_root / synth).exists():
+            datasets.append(synth)
+            counts.setdefault(synth, 50)
+
+    manifest = {"seed": seed, "mode": mode, "entries": []}
+    _ensure_dir(target_root)
+
+    for ds in datasets:
+        src_ds = Path(raw_root) / ds
+        tgt_ds = Path(target_root) / ds
+        if not src_ds.exists():
+            manifest["entries"].append({"dataset": ds, "status": "missing_source"})
+            continue
+        _ensure_dir(tgt_ds)
+
+        # gather candidate files
+        cand = [p for p in src_ds.rglob("*") if p.is_file() and p.suffix.lower() in (".yaml", ".yml", ".json", ".log", ".txt", ".md")]
+        if not cand:
+            # fallback: copy everything
+            for f in src_ds.rglob("*"):
+                if f.is_file():
+                    rel = f.relative_to(src_ds)
+                    dst = tgt_ds / rel
+                    dst.parent.mkdir(parents=True, exist_ok=True)
+                    try:
+                        shutil.copy2(f, dst)
+                    except Exception:
+                        try:
+                            dst.write_text(f.read_text(encoding="utf-8", errors="ignore"), encoding="utf-8")
+                        except Exception:
+                            pass
+            manifest["entries"].append({"dataset": ds, "status": "copied_all_fallback", "count": 0})
+            continue
+
+        target_count = min(len(cand), counts.get(ds, len(cand)))
+        sampled = cand if len(cand) <= target_count else rnd.sample(cand, target_count)
+
+        corrupted_count = 0
+        for src in sampled:
+            rel = src.relative_to(src_ds)
+            dst = tgt_ds / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                raw_text = src.read_text(encoding="utf-8", errors="ignore")
+            except Exception:
+                try:
+                    shutil.copy2(src, dst)
+                    manifest["entries"].append({"dataset": ds, "file": str(rel), "status": "binary_copied"})
+                    continue
+                except Exception:
+                    manifest["entries"].append({"dataset": ds, "file": str(rel), "status": "read_error"})
+                    continue
+
+            # corruption probability depends on mode
+            corr_prob = 0.25 if mode == "light" else 0.45
+            if rnd.random() < corr_prob:
+                if mode == "light":
+                    corrupted_text, changes = apply_noisy_light_text(raw_text, rnd)
+                else:
+                    corrupted_text, changes = apply_noisy_heavy_text(raw_text, rnd)
+                try:
+                    dst.write_text(corrupted_text, encoding="utf-8")
+                except Exception:
+                    dst.write_bytes(corrupted_text.encode("utf-8", errors="replace"))
+                manifest["entries"].append({"dataset": ds, "file": str(rel), "corrupted": True, "changes": changes})
+                corrupted_count += 1
+            else:
+                try:
+                    shutil.copy2(src, dst)
+                except Exception:
+                    try:
+                        dst.write_text(raw_text, encoding="utf-8")
+                    except Exception:
+                        pass
+                manifest["entries"].append({"dataset": ds, "file": str(rel), "corrupted": False})
+
+        # copy remaining non-sampled files so structure remains complete
+        remaining = set(cand) - set(sampled)
+        for src in remaining:
+            rel = src.relative_to(src_ds)
+            dst = tgt_ds / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                shutil.copy2(src, dst)
+            except Exception:
+                try:
+                    dst.write_text(src.read_text(encoding="utf-8", errors="ignore"), encoding="utf-8")
+                except Exception:
+                    pass
+
+        manifest["entries"].append({"dataset": ds, "sampled": len(sampled), "corrupted_count": corrupted_count})
+
+    # write manifest
+    manifest_path = Path(target_root) / "noise_manifest.json"
+    try:
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    except Exception:
+        logging.warning("Failed to write noise manifest")
+
+    return Path(target_root)
+
+
+def get_processing_root(raw_root: Path, curated_root: Path, mode: str, seed: int = 2025,
+                        counts: Optional[Dict[str,int]] = None) -> Path:
+    """
+    Return a raw folder to use for processing. If mode == 'clean' return raw_root.
+    Otherwise generate a noisy copy under parent of curated_root and return it.
+    This is intended to be called once by the main driver before calling all curators.
+    """
+    mode = (mode or "clean")
+    if mode == "clean":
+        return raw_root
+    # create a deterministic target folder next to curated root
+    tgt_parent = Path(curated_root).parent
+    out_name = f"raw_{mode}_{seed}"
+    target_root = tgt_parent / out_name
+    if target_root.exists():
+        # assume reproducible; reuse existing copy to save time
+        return target_root
+    return generate_noisy_raw_copy(raw_root, target_root, mode="light" if mode == "noisy_light" else "heavy",
+                                   seed=seed, counts=counts)
+# ---------- end noisy helper ----------
+
+
 # Petclinic and OpenRewrite curators: 
 
 def synth_curate_petclinic(pair_index: Dict, version_meta: Dict, budget: Dict, seed: int = 43, dry_run: bool = False,
