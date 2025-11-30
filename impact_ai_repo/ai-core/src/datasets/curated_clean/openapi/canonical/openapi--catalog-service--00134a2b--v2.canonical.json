@@ -67,21 +67,13 @@
     }
   ],
   "paths": {
-    "/companies/id/sync/expenses/config": {
+    "/companies/paymentid/sync/expenses/config": {
       "get": {
         "description": "Gets a companies expense sync configuration",
         "operationId": "get-company-configuration",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
-          },
-          {
-            "name": "qce2618",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "required": false
           }
         ],
         "responses": {
@@ -427,10 +419,10 @@
         ]
       }
     },
-    "/companies/id/sync/expenses/connections/partnerexpense": {
+    "/companies/paymentid/sync/expenses/connections/partnerexpense": {
       "post": {
         "description": "Creates a Partner Expense data connection",
-        "operationId": "create-partner-expense-connection",
+        "operationId": "create-partner-expense-connection-v2",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -626,7 +618,7 @@
         ]
       }
     },
-    "/companies/userid/sync/expenses/data/expense-transactions": {
+    "/companies/paymentid/sync/expenses/data/expense-transactions": {
       "parameters": [
         {
           "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -634,7 +626,7 @@
       ],
       "post": {
         "description": "Create an expense transaction",
-        "operationId": "create-expense-dataset-v2",
+        "operationId": "create-expense-dataset",
         "requestBody": {
           "content": {
             "application/json": {
@@ -949,7 +941,7 @@
         ]
       }
     },
-    "/companies/sku/sync/expenses/mappingoptions": {
+    "/companies/paymentid/sync/expenses/mappingoptions": {
       "get": {
         "description": "Gets the expense mapping options for a companies accounting software",
         "operationId": "get-mapping-options-v2",
@@ -1199,7 +1191,7 @@
         }
       ]
     },
-    "/companies/orderid/sync/expenses/syncs": {
+    "/companies/paymentid/sync/expenses/syncs": {
       "parameters": [
         {
           "in": "path",
@@ -1215,7 +1207,7 @@
       ],
       "post": {
         "description": "Initiate sync of pending transactions.",
-        "operationId": "intiate-sync",
+        "operationId": "intiate-sync-v2",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -1686,7 +1678,7 @@
         ]
       }
     },
-    "/companies/orderid/sync/expenses/syncs/lastsuccessful/status": {
+    "/companies/userid/sync/expenses/syncs/lastsuccessful/status": {
       "get": {
         "description": "Gets the status of the last successfull sync",
         "operationId": "get-last-successful-sync-v2",
@@ -1788,10 +1780,10 @@
         }
       ]
     },
-    "/companies/paymentid/sync/expenses/syncs/latest/status": {
+    "/companies/userid/sync/expenses/syncs/latest/status": {
       "get": {
         "description": "Gets the latest sync status",
-        "operationId": "get-latest-sync",
+        "operationId": "get-latest-sync-v2",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -1995,10 +1987,10 @@
         }
       ]
     },
-    "/companies/orderid/sync/expenses/syncs/sku/status": {
+    "/companies/orderid/sync/expenses/syncs/id/status": {
       "get": {
         "description": "Get the sync status for a specified sync",
-        "operationId": "get-sync-by-id-v2",
+        "operationId": "get-sync-by-id",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -2119,7 +2111,7 @@
         }
       ]
     },
-    "/companies/paymentid/sync/expenses/syncs/paymentid/transactions": {
+    "/companies/id/sync/expenses/syncs/orderid/transactions": {
       "get": {
         "description": "Get's the transactions and status for a sync",
         "operationId": "list-sync-transactions-v2",
@@ -2403,7 +2395,7 @@
         }
       ]
     },
-    "/companies/paymentid/sync/expenses/syncs/sku/transactions/id": {
+    "/companies/paymentid/sync/expenses/syncs/sku/transactions/sku": {
       "get": {
         "description": "Gets the status of a transaction for a sync",
         "operationId": "get-sync-transaction",
@@ -2536,7 +2528,7 @@
         }
       ]
     },
-    "/companies/id/sync/expenses/syncs/paymentid/transactions/userid/attachments": {
+    "/companies/sku/sync/expenses/syncs/id/transactions/id/attachments": {
       "parameters": [
         {
           "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -2566,7 +2558,7 @@
       ],
       "post": {
         "description": "Creates an attachment in the accounting software against the given transactionId",
-        "operationId": "upload-attachment",
+        "operationId": "upload-attachment-v2",
         "requestBody": {
           "content": {
             "multipart/form-data": {
