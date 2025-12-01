@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 server.py
 
@@ -291,7 +291,7 @@ def build_ace_index(limit_per_file: int = 10, max_files: Optional[int] = None):
         log.exception("build_ace_index failed")
 
 # do not eagerly build full index by default; keep ACE_INDEX empty until first use
-# call build_ace_index(...) manually or set up a background job if you want full index
+# call build_ace_index(...) 
 
 # ---------- index loader (dataset-aware) ----------
 @lru_cache(maxsize=4)
@@ -403,6 +403,22 @@ def producer_node(service: str) -> str:
         return service
     return f"svc:{service}"
 
+
+def producer_features(g: nx.DiGraph, service: str) -> Dict[str, Any]:
+    node = _fuzzy_find_service_node(g, service) or producer_node(service)
+    if node not in g:
+        return {"centrality": 0.0, "ui_consumers": 0, "two_hop": 0}
+    try:
+        pr = nx.pagerank(g, alpha=0.85) if g.number_of_nodes() < 2000 else {}
+    except Exception:
+        pr = {}
+    central = float(pr.get(node, 0.0)) if pr else 0.0
+    ui_cons = sum(1 for n in g.predecessors(node) if str(n).startswith("ui:"))
+    first = set(g.predecessors(node))
+    two_hop = {x for n in first for x in g.predecessors(n)} if first else set()
+    return {"centrality": central, "ui_consumers": ui_cons, "two_hop": len(two_hop)}
+
+
 def _fuzzy_find_service_node(g: nx.DiGraph, service: Optional[str]) -> Optional[str]:
     if not service:
         return None
@@ -421,19 +437,7 @@ def _fuzzy_find_service_node(g: nx.DiGraph, service: Optional[str]) -> Optional[
                 return f"svc:{name}"
     return svc_nodes[0] if svc_nodes else None
 
-def producer_features(g: nx.DiGraph, service: str) -> Dict[str, Any]:
-    node = _fuzzy_find_service_node(g, service) or producer_node(service)
-    if node not in g:
-        return {"centrality": 0.0, "ui_consumers": 0, "two_hop": 0}
-    try:
-        pr = nx.pagerank(g, alpha=0.85) if g.number_of_nodes() < 2000 else {}
-    except Exception:
-        pr = {}
-    central = float(pr.get(node, 0.0)) if pr else 0.0
-    ui_cons = sum(1 for n in g.predecessors(node) if str(n).startswith("ui:"))
-    first = set(g.predecessors(node))
-    two_hop = {x for n in first for x in g.predecessors(n)} if first else set()
-    return {"centrality": central, "ui_consumers": ui_cons, "two_hop": len(two_hop)}
+
 
 def clean_name(name: str) -> str:
     n = name.split(":")[-1]
@@ -604,55 +608,137 @@ def canonicalize_operation(op: Optional[Dict[str, Any]]) -> Dict[str, Any]:
         responses = {}
     return {"params": params, "requestBody": op.get("requestBody"), "responses": responses}
 
-def diff_operations(path: str, method: str, old_op: Dict[str, Any], new_op: Dict[str, Any]) -> List[DiffItem]:
-    # compute diffs between two operations
-    diffs: List[DiffItem] = []
-    oldc = canonicalize_operation(old_op)
-    newc = canonicalize_operation(new_op)
+# --- helpers used by diff_operations (keeps main function short & readable) ---
+from typing import Iterable
+
+def _param_diffs(path: str, method: str, oldc: Dict[str, Any], newc: Dict[str, Any]) -> Iterable[DiffItem]:
+    """Emit DiffItems for parameters (added/removed/changed) with structured detail."""
     old_params = set(oldc["params"].keys())
     new_params = set(newc["params"].keys())
-    for k in old_params - new_params:
+
+    # removed
+    for k in sorted(old_params - new_params):
         name, loc = k
-        diffs.append(DiffItem(type="param_removed", path=path, method=method, detail=f"Parameter removed: {name} in {loc}"))
-    for k in new_params - old_params:
+        removed_def = oldc["params"].get(k, {})
+        detail = {"kind": "param", "name": name, "in": loc, "old": removed_def, "new": None}
+        yield DiffItem(type="param_removed", path=path, method=method, detail=detail)
+
+    # added
+    for k in sorted(new_params - old_params):
         name, loc = k
-        diffs.append(DiffItem(type="param_added", path=path, method=method, detail=f"Parameter added: {name} in {loc}"))
-    for k in old_params & new_params:
-        if oldc["params"][k] != newc["params"][k]:
-            diffs.append(DiffItem(type="param_changed", path=path, method=method, detail=f"Parameter changed: {k[0]} in {k[1]}"))
+        added_def = newc["params"].get(k, {})
+        detail = {"kind": "param", "name": name, "in": loc, "old": None, "new": added_def}
+        yield DiffItem(type="param_added", path=path, method=method, detail=detail)
+
+    # changed (structured)
+    for k in sorted(old_params & new_params):
+        old_p = oldc["params"].get(k)
+        new_p = newc["params"].get(k)
+        if old_p != new_p:
+            pname, pin = k
+            det: Dict[str, Any] = {"kind": "param", "name": pname, "in": pin, "old": old_p, "new": new_p}
+            try:
+                req_old = bool(old_p.get("required", False)) if isinstance(old_p, dict) else False
+                req_new = bool(new_p.get("required", False)) if isinstance(new_p, dict) else False
+                if req_old != req_new:
+                    det["required_changed"] = {"from": req_old, "to": req_new}
+            except Exception:
+                pass
+            try:
+                old_schema = old_p.get("schema") if isinstance(old_p, dict) else None
+                new_schema = new_p.get("schema") if isinstance(new_p, dict) else None
+                if old_schema != new_schema:
+                    det["schema_changed"] = {"old": old_schema, "new": new_schema}
+                    old_enum = old_schema.get("enum") if isinstance(old_schema, dict) else None
+                    new_enum = new_schema.get("enum") if isinstance(new_schema, dict) else None
+                    if isinstance(old_enum, list) and isinstance(new_enum, list):
+                        removed = [x for x in old_enum if x not in new_enum]
+                        added = [x for x in new_enum if x not in old_enum]
+                        if removed:
+                            det.setdefault("enum_narrowed", {})["removed"] = removed
+                        if added:
+                            det.setdefault("enum_widened", {})["added"] = added
+            except Exception:
+                pass
+            yield DiffItem(type="param_changed", path=path, method=method, detail=det)
+
+
+def _response_diffs(path: str, method: str, oldc: Dict[str, Any], newc: Dict[str, Any]) -> Iterable[DiffItem]:
+    """Emit DiffItems for response-level changes (status codes, media types, schema changes)."""
     old_rs = set(oldc["responses"].keys())
     new_rs = set(newc["responses"].keys())
-    for code in old_rs - new_rs:
-        diffs.append(DiffItem(type="response_removed", path=path, method=method, detail=f"Response {code} removed"))
-    for code in new_rs - old_rs:
-        diffs.append(DiffItem(type="response_added", path=path, method=method, detail=f"Response {code} added"))
-    for code in old_rs & new_rs:
-        old_mtypes = set(oldc["responses"][code].keys())
-        new_mtypes = set(newc["responses"][code].keys())
-        for mt in old_mtypes - new_mtypes:
-            diffs.append(DiffItem(type="response_mediatype_removed", path=path, method=method, detail=f"Media type {mt} removed for {code}"))
-        for mt in new_mtypes - old_mtypes:
-            diffs.append(DiffItem(type="response_mediatype_added", path=path, method=method, detail=f"Media type {mt} added for {code}"))
-        for mt in old_mtypes & new_mtypes:
-            if oldc["responses"][code][mt] != newc["responses"][code][mt]:
-                diffs.append(DiffItem(type="response_schema_changed", path=path, method=method, detail=f"Response schema changed for {code} {mt}"))
-    old_rb, new_rb = oldc["requestBody"], newc["requestBody"]
+
+    for code in sorted(old_rs - new_rs):
+        detail = {"kind": "response", "status_code": code, "old": oldc["responses"].get(code), "new": None}
+        yield DiffItem(type="response_removed", path=path, method=method, detail=detail)
+
+    for code in sorted(new_rs - old_rs):
+        detail = {"kind": "response", "status_code": code, "old": None, "new": newc["responses"].get(code)}
+        yield DiffItem(type="response_added", path=path, method=method, detail=detail)
+
+    for code in sorted(old_rs & new_rs):
+        old_mtypes = set((oldc["responses"][code] or {}).keys())
+        new_mtypes = set((newc["responses"][code] or {}).keys())
+        for mt in sorted(old_mtypes - new_mtypes):
+            detail = {"kind": "response_media", "status_code": code, "media_type": mt, "old": oldc["responses"][code].get(mt), "new": None}
+            yield DiffItem(type="response_mediatype_removed", path=path, method=method, detail=detail)
+        for mt in sorted(new_mtypes - old_mtypes):
+            detail = {"kind": "response_media", "status_code": code, "media_type": mt, "old": None, "new": newc["responses"][code].get(mt)}
+            yield DiffItem(type="response_mediatype_added", path=path, method=method, detail=detail)
+        for mt in sorted(old_mtypes & new_mtypes):
+            old_schema = oldc["responses"][code].get(mt)
+            new_schema = newc["responses"][code].get(mt)
+            if old_schema != new_schema:
+                detail = {"kind": "response_schema", "status_code": code, "media_type": mt, "old": old_schema, "new": new_schema}
+                yield DiffItem(type="response_schema_changed", path=path, method=method, detail=detail)
+
+
+def _requestbody_diffs(path: str, method: str, oldc: Dict[str, Any], newc: Dict[str, Any]) -> Iterable[DiffItem]:
+    """Emit DiffItems for requestBody changes (media types + schema changes)."""
+    old_rb = oldc["requestBody"]
+    new_rb = newc["requestBody"]
     if old_rb and not new_rb:
-        diffs.append(DiffItem(type="requestbody_removed", path=path, method=method, detail="Request body removed"))
-    elif new_rb and not old_rb:
-        diffs.append(DiffItem(type="requestbody_added", path=path, method=method, detail="Request body added"))
-    elif old_rb and new_rb:
+        yield DiffItem(type="requestbody_removed", path=path, method=method, detail={"kind": "requestbody", "old": old_rb, "new": None})
+        return
+    if new_rb and not old_rb:
+        yield DiffItem(type="requestbody_added", path=path, method=method, detail={"kind": "requestbody", "old": None, "new": new_rb})
+        return
+
+    if old_rb and new_rb:
         old_ct = set((old_rb.get("content") or {}).keys())
         new_ct = set((new_rb.get("content") or {}).keys())
-        for mt in old_ct - new_ct:
-            diffs.append(DiffItem(type="requestbody_mediatype_removed", path=path, method=method, detail=f"Request media type {mt} removed"))
-        for mt in new_ct - old_ct:
-            diffs.append(DiffItem(type="requestbody_mediatype_added", path=path, method=method, detail=f"Request media type {mt} added"))
-        for mt in old_ct & new_ct:
+        for mt in sorted(old_ct - new_ct):
+            det = {"kind": "requestbody_media", "media_type": mt, "old": old_rb["content"].get(mt), "new": None}
+            yield DiffItem(type="requestbody_mediatype_removed", path=path, method=method, detail=det)
+        for mt in sorted(new_ct - old_ct):
+            det = {"kind": "requestbody_media", "media_type": mt, "old": None, "new": new_rb["content"].get(mt)}
+            yield DiffItem(type="requestbody_mediatype_added", path=path, method=method, detail=det)
+        for mt in sorted(old_ct & new_ct):
             old_schema = old_rb["content"].get(mt, {}).get("schema")
             new_schema = new_rb["content"].get(mt, {}).get("schema")
             if old_schema != new_schema:
-                diffs.append(DiffItem(type="requestbody_schema_changed", path=path, method=method, detail=f"Request schema changed for {mt}"))
+                det = {"kind": "requestbody_schema", "media_type": mt, "old": old_schema, "new": new_schema}
+                yield DiffItem(type="requestbody_schema_changed", path=path, method=method, detail=det)
+
+
+# --- compact top-level diff_operations (thin wrapper delegating to helpers) ---
+def diff_operations(path: str, method: str, old_op: Dict[str, Any], new_op: Dict[str, Any]) -> List[DiffItem]:
+    """
+    Compute diffs between two operations. This top-level function stays short
+    for thesis excerpts; helpers produce the structured DiffItems.
+    """
+    diffs: List[DiffItem] = []
+    oldc = canonicalize_operation(old_op)
+    newc = canonicalize_operation(new_op)
+
+    # delegate to helpers
+    for d in _param_diffs(path, method, oldc, newc):
+        diffs.append(d)
+    for d in _response_diffs(path, method, oldc, newc):
+        diffs.append(d)
+    for d in _requestbody_diffs(path, method, oldc, newc):
+        diffs.append(d)
+
     return diffs
 
 def diff_openapi(old: Dict[str, Any], new: Dict[str, Any]) -> List[DiffItem]:
@@ -691,46 +777,33 @@ def dedupe_diffitems(items: List[DiffItem]) -> List[DiffItem]:
 @lru_cache(maxsize=128)
 def list_files(dataset: str) -> List[str]:
     """
-    Return sample filenames for a dataset key.
-    Prefer scanning the dataset-specific curated folders (variant-aware).
-    Fall back to global index.json / legacy locations if dataset folders are absent.
+    Return canonical spec filenames for a dataset key.
+    Only canonical OpenAPI spec files are returned for populating the
+    Old Spec / New Spec dropdowns. This avoids exposing internal pair ids
+    or .aces.ndjson files to the UI.
     """
     ds = (dataset or "").lower()
     samples: List[str] = []
 
-    # 1) Try dataset-specific curated folders first (variant-aware).
+    # 1) Prefer dataset-specific canonical folder only
     dp = dataset_paths(ds)
     can = dp["canonical"]
-    nd = dp["ndjson"]
-    md = dp["metadata"]
 
-    # scan canonical jsons if present
     if can.exists():
-        for p in can.rglob("*.json"):
-            samples.append(p.name)
+        # include both yaml and json specs
+        for p in sorted(can.rglob("*")):
+            if p.suffix.lower() in (".json", ".yaml", ".yml"):
+                samples.append(p.name)
 
-    # scan ndjson (aces) if present
-    if nd.exists():
-        for p in nd.rglob("*.aces.ndjson"):
-            samples.append(p.name)
-
-    # scan metadata files if present (pair ids may be stored here)
-    if md.exists():
-        for p in md.glob("*.meta.json"):
-            samples.append(p.name.replace(".meta.json", ""))
-
-    # If we found anything in dataset-specific places, return them (deduped & sorted)
+    # If we found canonical files, return them
     if samples:
-        samples = sorted(dict.fromkeys(samples))
-        return samples
+        return sorted(dict.fromkeys(samples))
 
-    # 2) Dataset-specific folders empty/missing -> fallback to global index.json (legacy behavior)
+    # 2) Fallback: try to read global index.json entries but only pick canonical names
     idx = load_pair_index(ds)
     if idx:
         for pid, entry in idx.items():
-            # match by base dataset name (ignore variant suffixes in requested ds)
             entry_ds = (entry.get("dataset") or "").lower()
-            # allow match if entry dataset matches base of requested ds
             if ds and _parse_dataset_key(entry_ds)[0] != _parse_dataset_key(ds)[0]:
                 continue
             oldv = entry.get("old_canonical") or entry.get("old")
@@ -740,18 +813,15 @@ def list_files(dataset: str) -> List[str]:
             if newv:
                 samples.append(Path(str(newv)).name)
 
-    # 3) still empty -> try global canonical/ndjson legacy locations
+    # 3) final fallback legacy canonical
     if not samples:
-        # try effective curated root canonical
         if LEGACY_CANONICAL.exists():
-            for p in LEGACY_CANONICAL.rglob("*.json"):
-                samples.append(p.name)
-        if LEGACY_NDJSON.exists():
-            for p in LEGACY_NDJSON.rglob("*.aces.ndjson"):
-                samples.append(p.name)
+            for p in LEGACY_CANONICAL.rglob("*"):
+                if p.suffix.lower() in (".json", ".yaml", ".yml"):
+                    samples.append(p.name)
 
-    samples = sorted(dict.fromkeys(samples))
-    return samples
+    return sorted(dict.fromkeys(samples))
+
 
 # resolve a filename relative to a dataset key into an existing Path (variant-aware)
 def resolve_file_for_dataset(ds_key: str, rel: str) -> Optional[Path]:
@@ -910,18 +980,132 @@ def score_from_details(details: List[DiffItem], pfeats: Dict[str, Any], vfeats: 
         log.exception("score_from_details failed; returning 0.0")
         return 0.0
 
+def _explain_diff_item(d: DiffItem) -> List[str]:
+    """
+    Helper: produce 0..N human-readable explanation lines for one DiffItem.
+    Prefers structured d.detail dicts (kind,param,response,requestbody) but
+    falls back to string/detail serialization when necessary.
+    """
+    lines: List[str] = []
+    try:
+        det = d.detail
+        typ = (d.type or "").lower()
+        path = d.path or ""
+        method = (d.method or "").upper() or ""
+
+        # Structured detail path: dicts with 'kind' keys
+        if isinstance(det, dict):
+            kind = det.get("kind") or ""
+            # PARAM handling
+            if kind == "param":
+                name = det.get("name") or "-"
+                loc = det.get("in") or "-"
+                # required flip
+                req = det.get("required_changed")
+                if req:
+                    if req.get("to"):
+                        lines.append(f"Parameter `{name}` in {loc} became REQUIRED (was optional). Clients omitting it may receive validation errors (400).")
+                    else:
+                        lines.append(f"Parameter `{name}` in {loc} became optional (was required).")
+                # schema/type change
+                sch = det.get("schema_changed")
+                if sch:
+                    old_s = sch.get("old")
+                    new_s = sch.get("new")
+                    def _schema_brief(s):
+                        if not s: return "n/a"
+                        if isinstance(s, dict):
+                            t = s.get("type") or s.get("format") or (s.get("$ref") and f"ref:{s.get('$ref')}")
+                            if t: return str(t)
+                            props = s.get("properties")
+                            if isinstance(props, dict):
+                                return f"{len(props)} fields"
+                        return str(s)[:80]
+                    lines.append(f"Parameter `{name}` in {loc} schema/type changed: {_schema_brief(old_s)} → {_schema_brief(new_s)}. This may break clients that validate or parse the parameter.")
+                    # enum narrow/widen
+                    enum_n = det.get("enum_narrowed") or {}
+                    enum_w = det.get("enum_widened") or {}
+                    if enum_n.get("removed"):
+                        lines.append(f"  • Enum narrowed: removed values {enum_n['removed']} — clients using those values may fail.")
+                    if enum_w.get("added"):
+                        lines.append(f"  • Enum widened: new values {enum_w['added']} (generally safe).")
+                # fallback if structured but no flags
+                if not req and not sch:
+                    lines.append(f"Parameter `{name}` in {loc} changed (see ACE for details).")
+
+            # RESPONSE handling
+            elif kind in ("response", "response_media", "response_schema"):
+                code = det.get("status_code") or "-"
+                mt = det.get("media_type") or det.get("media") or "application/json"
+                old_s = det.get("old")
+                new_s = det.get("new")
+                def _summarize(s):
+                    if not s: return "n/a"
+                    if isinstance(s, dict):
+                        props = s.get("properties")
+                        if isinstance(props, dict):
+                            return f"{len(props)} fields"
+                        return "object"
+                    return str(s)[:120]
+                lines.append(f"Response {code} {mt} schema changed ({_summarize(old_s)} → {_summarize(new_s)}). Consumers parsing payloads may break if required fields were removed or types changed.")
+
+            # REQUEST BODY handling
+            elif kind in ("requestbody", "requestbody_media", "requestbody_schema"):
+                mt = det.get("media_type") or det.get("media") or "application/json"
+                old_s = det.get("old")
+                new_s = det.get("new")
+                def _summarize_rb(s):
+                    if not s: return "n/a"
+                    if isinstance(s, dict):
+                        props = s.get("properties")
+                        if isinstance(props, dict):
+                            return f"{len(props)} fields"
+                        return "object"
+                    return str(s)[:120]
+                lines.append(f"Request body ({mt}) schema changed ({_summarize_rb(old_s)} → {_summarize_rb(new_s)}). Clients sending older payload shapes may fail server validation.")
+
+            else:
+                # unknown structured kind: include small debug snippet
+                small = {k: v for k, v in det.items() if k not in ("old", "new")}
+                lines.append(f"{d.type} {method} {path} — details: {json.dumps(small, default=str)[:180]}")
+
+        else:
+            # Unstructured fallback: try to be helpful with the string/detail
+            raw = det if isinstance(det, str) else _safe_json_for_key(det)
+            raw_text = (raw or "")[:300]
+            if typ in ("param_changed", "param_removed", "param_added"):
+                lines.append(f"{d.type} {method} {path}: {raw_text}")
+            elif typ.startswith("response") or typ.startswith("requestbody"):
+                lines.append(f"{d.type} {method} {path}: {raw_text}")
+            else:
+                lines.append(f"{d.type}: {raw_text}")
+
+    except Exception:
+        log.exception("explain_diff_item failed for ace=%s", getattr(d, "ace_id", "-"))
+        # minimal fallback
+        lines = [f"{d.type or 'Change'} at {d.path or '-'}"]
+
+    return lines
+
+
 def make_explanation(score: float, details: List[DiffItem], pfeats: Dict[str, Any], vfeats: Dict[str, Any], be_imp: List[Dict[str, Any]], fe_imp: List[Dict[str, Any]]) -> str:
-    # produce human readable explanation
+    """
+    Top-level explanation (compact). Delegates per-ACE text to _explain_diff_item.
+    Keeps the function short for thesis screenshots while producing rich text.
+    """
     try:
         headline = f"Predicted risk is {_risk_band(score)} ({score:.2f})."
+        bullets: List[str] = []
+
+        # summary counts
         type_counts: Dict[str, int] = {}
         for d in (details or []):
             typ = (d.type or "UNKNOWN").upper()
             type_counts[typ] = type_counts.get(typ, 0) + 1
-        bullets: List[str] = []
         if type_counts:
             top_types = sorted(type_counts.items(), key=lambda x: -x[1])[:6]
             bullets.append("Change types: " + ", ".join([f"{t}={c}" for t, c in top_types]))
+
         if fe_imp:
             bullets.append(f"{len(fe_imp)} frontend module(s) possibly affected")
         if be_imp:
@@ -931,55 +1115,92 @@ def make_explanation(score: float, details: List[DiffItem], pfeats: Dict[str, An
         side_effects = any((d.method or "").lower() in ("post", "put", "patch", "delete") for d in (details or []))
         if side_effects:
             bullets.append("Contains non-GET changes (possible side-effects).")
-        shared_schema = any(isinstance(d.detail, str) and ("schema" in d.detail.lower() or "shared" in d.detail.lower()) for d in (details or []))
-        if shared_schema:
-            bullets.append("Some changes reference shared schemas (schema coupling).")
+
+        # Detailed lines (limit to keep output concise)
+        detailed: List[str] = []
         seen = set()
-        rep_aces = []
         for d in (details or []):
-            k = ((d.type or ""), (d.path or ""), (d.method or ""))
-            if k in seen:
+            # dedupe simple combos so explanation doesn't repeat similar lines
+            key = (d.type or "", d.path or "", d.method or "", _safe_json_for_key(d.detail)[:200])
+            if key in seen:
                 continue
-            seen.add(k)
-            rep_aces.append(d)
-            if len(rep_aces) >= 5:
+            seen.add(key)
+            lines = _explain_diff_item(d)
+            for L in lines:
+                detailed.append(L)
+            if len(detailed) >= 10:
                 break
-        if rep_aces:
-            bullets.append("Sample changes (up to 5):")
-            for d in rep_aces:
-                tid = d.ace_id or "-"
-                typ = d.type or "UNKNOWN"
-                path = d.path or "-"
-                method = (d.method or "").upper() or "-"
-                conf = None
-                try:
-                    if isinstance(d.detail, dict) and "confidence" in d.detail:
-                        conf = d.detail.get("confidence")
-                except Exception:
-                    conf = None
-                conf_str = f" conf={conf:.2f}" if isinstance(conf, (float, int)) else ""
-                bullets.append(f"- [{tid}] {typ} {method} {path}{conf_str}")
+
+        if detailed:
+            bullets.append("Sample changes (detailed):")
+            bullets.extend(detailed[:10])
+
         text = headline + "\n" + "\n".join(["• " + b for b in bullets])
         return text
     except Exception:
         log.exception("make_explanation failed; returning short message")
         return f"Predicted risk: {_risk_band(score)} ({score:.2f})."
 
-# ---------- main report endpoint ----------
+
+# Replace existing Report model with this (adds risk_level and metadata)
+class Report(BaseModel):
+    dataset: str
+    old_file: str
+    new_file: str
+    risk_score: float
+    risk_band: str
+    risk_level: Optional[str] = None               # PASS | WARN | BLOCK
+    summary: str
+    details: List[DiffItem]
+    ai_explanation: str
+    backend: Dict[str, Any]
+    logs: List[str]
+    backend_impacts: List[ImpactItem]
+    frontend_impacts: List[ImpactItem]
+    predicted_risk: float
+    confidence: Dict[str, float]
+    versioning: Dict[str, Any]
+    metadata: Dict[str, Any] = {}                   # canonical metadata (pair_id, generated_at, commit_hash, repo_url, ...)
+
+# ---------- main report endpoint (replacement) ----------
 @app.get("/report", response_model=Report)
 def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(...), pair_id: Optional[str] = None) -> Report:
-    # main report handler
+    # main report handler (enhanced: adds risk_level and metadata/pair_id)
     start = time.time()
     try:
         ds = (dataset or "").lower()
         old, new = unquote(old), unquote(new)
+        log.info("REPORT request dataset=%s old=%s new=%s incoming_pair_id=%s", ds, old, new, pair_id)
+
         if old == new:
-            return Report(dataset=ds, old_file=old, new_file=new, risk_score=0.0, risk_band="None", summary="No change (same file)", details=[], ai_explanation="No diff detected.", backend={"producer": Path(new).stem, "features": {}}, logs=["same-file"], backend_impacts=[], frontend_impacts=[], predicted_risk=0.0, confidence={"overall": 0.0, "backend": 0.0, "frontend": 0.0}, versioning={})
+            meta = {"dataset": ds, "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+            return Report(
+                dataset=ds,
+                old_file=old,
+                new_file=new,
+                risk_score=0.0,
+                risk_band="None",
+                risk_level="PASS",
+                summary="No change (same file)",
+                details=[],
+                ai_explanation="No diff detected.",
+                backend={"producer": Path(new).stem, "features": {}},
+                logs=["same-file"],
+                backend_impacts=[],
+                frontend_impacts=[],
+                predicted_risk=0.0,
+                confidence={"overall": 0.0, "backend": 0.0, "frontend": 0.0},
+                versioning={},
+                metadata=meta,
+            )
+
         if not is_valid_dataset_key(ds):
             raise HTTPException(404, f"Unknown dataset {dataset}")
-        pair_meta = load_pair_metadata(pair_id,ds) if pair_id else None
+
+        pair_meta = load_pair_metadata(pair_id, ds) if pair_id else None
         p_old: Optional[Path] = None
         p_new: Optional[Path] = None
+
         if pair_meta:
             ds_meta = (pair_meta.get("dataset") or "").lower()
             oc = pair_meta.get("old_canonical") or pair_meta.get("old")
@@ -992,30 +1213,46 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                 cand = dataset_paths(ds_meta)["canonical"] / Path(str(nc)).name
                 if cand.exists():
                     p_new = cand
+
         if not p_old:
             p_old = resolve_file_for_dataset(ds, old)
         if not p_new:
             p_new = resolve_file_for_dataset(ds, new)
+
         if not p_old or not p_old.exists():
             raise HTTPException(404, f"Old file not found: {old}")
         if not p_new or not p_new.exists():
             raise HTTPException(404, f"New file not found: {new}")
+
         old_doc = _load_json_or_yaml(p_old)
         new_doc = _load_json_or_yaml(p_new)
+
         pair_identifier = pair_id or None
+
+        # Try to resolve pair_identifier from index using normalized filename comparisons
         if not pair_identifier:
             idx = load_pair_index(ds)
             for pid, meta in idx.items():
                 try:
-                    mo = (meta.get("old_canonical") or meta.get("old") or "").lower()
-                    mn = (meta.get("new_canonical") or meta.get("new") or "").lower()
-                    if Path(mo).name == Path(p_old.name).name and Path(mn).name == Path(p_new.name).name:
+                    mo = str(meta.get("old_canonical") or meta.get("old") or "").strip().lower()
+                    mn = str(meta.get("new_canonical") or meta.get("new") or "").strip().lower()
+                    if not mo or not mn:
+                        continue
+                    try:
+                        mo_name = Path(mo).name.lower()
+                        mn_name = Path(mn).name.lower()
+                    except Exception:
+                        mo_name = Path(str(mo)).name.lower() if mo else ""
+                        mn_name = Path(str(mn)).name.lower() if mn else ""
+                    if mo_name == Path(p_old.name).name.lower() and mn_name == Path(p_new.name).name.lower():
                         pair_identifier = pid
                         pair_meta = meta
                         break
                 except Exception:
                     continue
+
         details: List[DiffItem] = []
+
         if pair_identifier:
             ndpath_candidates: List[Path] = []
             if pair_meta and pair_meta.get("dataset"):
@@ -1024,11 +1261,13 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                 ndpath_candidates.append(dataset_paths(key)["ndjson"] / f"{pair_identifier}.aces.ndjson")
             ndpath_candidates.append(LEGACY_NDJSON / f"{pair_identifier}.aces.ndjson")
             ndpath_candidates.append(EFFECTIVE_CURATED_ROOT / f"{pair_identifier}.aces.ndjson")
+
             found_nd = None
             for p in ndpath_candidates:
                 if p and p.exists():
                     found_nd = p
                     break
+
             if found_nd:
                 try:
                     raw_aces = []
@@ -1056,32 +1295,40 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                         details.append(DiffItem(ace_id=aid, type=(t or "UNKNOWN"), path=pth, method=mtd, detail=(det if det is not None else None)))
                 except Exception:
                     log.exception("Failed to read NDJSON for pair %s at %s", pair_identifier, found_nd)
+
         if not details:
             base_ds = _parse_dataset_key(ds)[0]
             if base_ds == "openapi":
                 details = diff_openapi(old_doc, new_doc)
             else:
                 details = []
+
         details = dedupe_diffitems(details)
+
         g = load_graph()
         service_guess = None
         if pair_meta:
             service_guess = pair_meta.get("service_name") or pair_meta.get("producer") or pair_meta.get("service")
         if not service_guess:
             service_guess = Path(p_new.name).stem.split("-v")[0] if "-v" in Path(p_new.name).stem else Path(p_new.name).stem
+
         node_in_graph = _fuzzy_find_service_node(g, service_guess)
         service = node_in_graph.replace("svc:", "") if node_in_graph else (list(g.nodes)[0].replace("svc:", "") if any(isinstance(n, str) and n.startswith("svc:") for n in g.nodes) else service_guess)
+
         pfeats = producer_features(g, service)
         vfeats = version_meta_lookup(pair_identifier)
         changed = [normalize_path(d.path) for d in details if d.path]
         be_imp = backend_impacts(g, service, changed)
         fe_imp = ui_impacts(g, service, changed)
         feature_record = assemble_feature_record(details, pfeats, vfeats, be_imp, fe_imp)
+
         try:
             normalize_and_export_features([feature_record])
         except Exception:
             log.exception("Feature export failed; continuing")
+
         score = score_from_details(details, pfeats, vfeats, be_imp, fe_imp)
+
         def avg_confidence(items: List[Dict[str, Any]]) -> float:
             vals = []
             for it in items:
@@ -1091,22 +1338,57 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                 except Exception:
                     continue
             return round((sum(vals) / len(vals)) if vals else 0.0, 3)
+
+        # Build logs list but avoid injecting 'n/a' or bogus pair ids; prefer no pair_id entry if unknown
+        logs_list = [f"{ds}:{Path(p_old).name}->{Path(p_new).name}", f"risk={score:.2f}"]
+        if pair_identifier:
+            logs_list.append(f"pair_id={pair_identifier}")
+
+        # include authoritative pair_id in backend dict so client doesn't need to parse logs
+        backend_dict = {"producer": clean_name(service), "features": pfeats}
+        if pair_identifier:
+            backend_dict["pair_id"] = pair_identifier
+
+        # metadata block: canonical place for clients (UI / CI) to read provenance
+        meta_block: Dict[str, Any] = {"dataset": ds, "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+        if pair_identifier:
+            meta_block["pair_id"] = pair_identifier
+        # include commit hash from versioning if present (a common provenance piece)
+        commit_hash = None
+        try:
+            if isinstance(vfeats, dict):
+                commit_hash = vfeats.get("commit") or vfeats.get("git_commit") or vfeats.get("commit_hash")
+        except Exception:
+            commit_hash = None
+        if commit_hash:
+            meta_block["commit_hash"] = commit_hash
+
+        # determine risk band / level
+        band = _risk_band(score)
+        level = "PASS"
+        if band == "Medium":
+            level = "WARN"
+        elif band == "High":
+            level = "BLOCK"
+
         return Report(
             dataset=ds,
             old_file=str(p_old.name),
             new_file=str(p_new.name),
             risk_score=score,
-            risk_band=_risk_band(score),
+            risk_band=band,
+            risk_level=level,
             summary=f"{len(details)} change items detected",
             details=details,
             ai_explanation=make_explanation(score, details, pfeats, vfeats, be_imp, fe_imp),
-            backend={"producer": clean_name(service), "features": pfeats},
-            logs=[f"{ds}:{Path(p_old).name}->{Path(p_new).name}", f"risk={score:.2f}", f"pair_id={pair_identifier or 'n/a'}"],
+            backend=backend_dict,
+            logs=logs_list,
             backend_impacts=[ImpactItem(**i) for i in be_imp],
             frontend_impacts=[ImpactItem(**i) for i in fe_imp],
             predicted_risk=score,
             confidence={"overall": min(1.0, len(details) / 5), "backend": avg_confidence(be_imp), "frontend": avg_confidence(fe_imp)},
             versioning=vfeats,
+            metadata=meta_block,
         )
     except HTTPException:
         raise
@@ -1116,6 +1398,7 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
         raise HTTPException(status_code=500, detail={"error": "report-failed", "message": str(e), "trace": tb.splitlines()[-40:]})
     finally:
         log.info("REPORT duration: %.3fs", time.time() - start)
+
 
 # ---------- analyze endpoint ----------
 @app.post("/api/v1/analyze")

@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-# curated_dataset_full.py  (part 1/4)
+
+# curated_datasets.py
 from __future__ import annotations
 import argparse, csv, datetime, decimal, hashlib, json, logging, random, re, shutil, subprocess, uuid, os
 from copy import deepcopy
@@ -15,7 +15,7 @@ import sys
 # ---------- Logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-# ---------- Default paths and repos (tweak to your local environment)
+# ---------- Default paths and repos (to be tweaked to work in local environment)
 RAW_ROOT = Path("datasets/raw")
 CURATED_ROOT = Path("datasets/curated")
 OPENAPI_REPO = "https://github.com/APIs-guru/openapi-directory.git"
@@ -169,7 +169,7 @@ def is_noise_path(p: Path) -> bool:
     return False
 
 
-# ---------- canonicalization (safe)
+# ---------- canonicalization
 def resolve_local_pointer(root: Any, pointer: str):
     if pointer == "#" or pointer == "#/": return deepcopy(root)
     parts = pointer.lstrip("#/").split("/")
@@ -717,7 +717,7 @@ def get_processing_root(raw_root: Path, curated_root: Path, mode: str, seed: int
     target_root = tgt_parent / out_name
     if target_root.exists(): return target_root
     return generate_noisy_raw_copy(raw_root, target_root, mode="light" if mode=="noisy_light" else "heavy", seed=seed, counts=counts)
-# curated_dataset_full.py  (part 2/4)
+
 
 # ---------- small pair entry normalizer
 def _normalize_pair_entry(entry: Dict[str, Any]) -> Dict[str, Any]:
@@ -975,8 +975,7 @@ def dataset_paths(root: Path, dataset: str):
     base = Path(root) / dataset
     return {"base": base, "canonical": base / "canonical", "ndjson": base / "ndjson", "metadata": base / "metadata"}
 
-# curated_dataset_full.py  (part 3/4)
-# ---------- Curate OpenRewrite (robust) - adapted from part 3 you provided (kept behavior)
+# ---------- Curate OpenRewrite 
 def curate_openrewrite(
     pair_index: Dict,
     version_meta: Dict,
@@ -1347,7 +1346,7 @@ def curate_openrewrite(
     logging.info(f"[openrewrite] completed {curated} pairs")
     return
 
-# ---------- Petclinic curator - robust variant (adopted from your Part 2)
+# ---------- Petclinic curator 
 def curate_petclinic(
     pair_index: Dict,
     version_meta: Dict,
@@ -1631,9 +1630,8 @@ def curate_petclinic(
     logging.info(f"[petclinic] Curated %d pairs", curated)
     return
 
-# curated_dataset_full.py  (part 4/4)
 
-# ---------- Curate OpenAPI (full end-to-end)
+# ---------- Curate OpenAPI 
 def curate_openapi(
     pair_index: Dict,
     producers: Dict,
@@ -1975,7 +1973,7 @@ def run(
     CURATED_ROOT = Path(out_dir)
     _ensure_dir(CURATED_ROOT)
 
-    # --- diagnostic probe (temporary) ---
+    # --- diagnostic probe 
     try:
         probe_dir = Path(out_dir).resolve()
         _ensure_dir(probe_dir)
