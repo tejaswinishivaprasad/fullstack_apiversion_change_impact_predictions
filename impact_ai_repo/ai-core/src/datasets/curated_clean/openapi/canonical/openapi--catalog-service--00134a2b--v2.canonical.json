@@ -920,9 +920,6 @@
               "application/json": {
                 "examples": {
                   "Example 1": {
-                    "value": {
-                      "datasetId": "cd937d46-8e41-43a9-9477-a79158ffd98a"
-                    }
                   }
                 },
                 "schema": {
