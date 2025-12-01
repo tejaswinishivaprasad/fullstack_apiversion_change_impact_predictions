@@ -46,6 +46,24 @@ create_venv_if_needed() {
   fi
 }
 
+# Try to ensure jq is available (best effort). We can't assume sudo in hosted runner.
+ensure_jq() {
+  if command -v jq >/dev/null 2>&1; then
+    return 0
+  fi
+  echo "CI: jq not found in PATH."
+  # Attempt install if apt-get exists and we have sudo
+  if command -v apt-get >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1; then
+    echo "CI: attempting to install jq via apt-get"
+    sudo apt-get update -y && sudo apt-get install -y jq || true
+  elif command -v yum >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1; then
+    echo "CI: attempting to install jq via yum"
+    sudo yum install -y jq || true
+  else
+    echo "CI: cannot auto-install jq (no apt-get/yum or no sudo). Ensure runner has jq or parsing will be degraded."
+  fi
+}
+
 # Post comment to PR and gate the job based on report
 post_and_gate() {
   # $1 = path to JSON report (OUT)
@@ -55,26 +73,36 @@ post_and_gate() {
     return 0
   fi
 
-  # Check prerequisites
-  if ! command -v jq >/dev/null 2>&1; then
-    echo "post_and_gate: jq not found; please install jq in the runner for full functionality"
-    # continue but parsing will be weak
-  fi
+  ensure_jq || true
 
   # read canonical fields with sane fallbacks
-  RISK=$(jq -r 'if .risk_score!=null then .risk_score else ( .predicted_risk // .impact_assessment.score // .score // 0 ) end' "$OUT" 2>/dev/null || echo "0")
+  # prefer predicted_risk or risk_score; fallback to nested common fields
+  if command -v jq >/dev/null 2>&1; then
+    RISK=$(jq -r '(.predicted_risk // .risk_score // .predicted // .impact_assessment?.score // .impact?.score // .score // 0) | tostring' "$OUT" 2>/dev/null || echo "0")
+  else
+    # very weak fallback: try grep -o number, not reliable
+    RISK=$(grep -o '"predicted_risk"[[:space:]]*:[[:space:]]*[0-9.eE+-]*' "$OUT" 2>/dev/null | head -n1 | sed -E 's/.*: *//' || echo "0")
+  fi
+
   # normalize numeric formatting (3 decimals)
   RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
 
-  BAND=$(jq -r '.risk_band // empty' "$OUT" 2>/dev/null || echo "")
+  # band and level
+  if command -v jq >/dev/null 2>&1; then
+    BAND=$(jq -r '.risk_band // (.versioning?.semver_delta // empty) | strings' "$OUT" 2>/dev/null || echo "")
+    LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
+  else
+    BAND=""
+    LEVEL=""
+  fi
+
   # compute level fallback from score if risk_level missing
-  LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
-  if [ -z "$LEVEL" ]; then
+  if [ -z "${LEVEL:-}" ]; then
     SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{print (r+0)}')
-    if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
+    if awk "BEGIN{exit !($SCORE_NUM >= 0.7)}"; then
       LEVEL="BLOCK"
       BAND=${BAND:-"High"}
-    elif (( $(awk "BEGIN {print ($SCORE_NUM >= 0.4)}") )); then
+    elif awk "BEGIN{exit !($SCORE_NUM >= 0.4)}"; then
       LEVEL="WARN"
       BAND=${BAND:-"Medium"}
     else
@@ -84,18 +112,28 @@ post_and_gate() {
   fi
 
   # prefer metadata.pair_id, then backend.pair_id, then scan logs if necessary
-  PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // empty' "$OUT" 2>/dev/null || echo "")
-  if [ -z "$PAIR_ID" ]; then
-    PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? as $l | ($l | capture("pair_id=(?<pid>[^\\s,;]+)"))?.pid // empty' "$OUT" 2>/dev/null || echo "")
+  if command -v jq >/dev/null 2>&1; then
+    PAIR_ID=$(jq -r '.metadata?.pair_id // .backend?.pair_id // empty' "$OUT" 2>/dev/null || echo "")
+    if [ -z "$PAIR_ID" ]; then
+      PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? | capture("pair_id=(?<pid>[^\\s,;]+)")?.pid // empty' "$OUT" 2>/dev/null || echo "")
+    fi
+  else
+    PAIR_ID=""
   fi
 
-  EXPL=$(jq -r '.ai_explanation // empty' "$OUT" 2>/dev/null || echo "")
-
-  # other handy fields
-  ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // 0)' "$OUT" 2>/dev/null || echo "0")
-  BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
-  FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
-  FILES_CHANGED=$(jq -r '.metadata.files_changed // .files_changed // empty' "$OUT" 2>/dev/null || echo "")
+  if command -v jq >/dev/null 2>&1; then
+    EXPL=$(jq -r '.ai_explanation // empty' "$OUT" 2>/dev/null || echo "")
+    ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // 0)' "$OUT" 2>/dev/null || echo "0")
+    BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
+    FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
+    FILES_CHANGED=$(jq -r '.metadata.files_changed // .files_changed // empty' "$OUT" 2>/dev/null || echo "")
+  else
+    EXPL=""
+    ACES="0"
+    BACKEND_IMP="0"
+    FRONTEND_IMP="0"
+    FILES_CHANGED=""
+  fi
 
   # Make a small badge and result string
   BADGE=""
@@ -128,8 +166,11 @@ post_and_gate() {
   fi
 
   # include compact JSON summary for debugging / link back
-  # protect backticks and keep one-line compact JSON inside details
-  BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n$(jq -c '.' "$OUT" | sed 's/`/`/g')\n\`\`\`\n</details>\n"
+  if command -v jq >/dev/null 2>&1; then
+    BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n$(jq -c '.' "$OUT" | sed 's/`/`/g')\n\`\`\`\n</details>\n"
+  else
+    BODY="${BODY}\n\n(Raw report not included because jq is not available on runner)\n"
+  fi
 
   # Post comment: prefer gh CLI; fallback to curl with GITHUB_TOKEN
   if command -v gh >/dev/null 2>&1; then
@@ -160,7 +201,10 @@ post_and_gate() {
         REPO=${GITHUB_REPOSITORY:-}
         API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
         echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
-        curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d "$(jq -nc --arg body "$BODY" '{body:$body}')" "$API_URL" || echo "curl post failed"
+        # use recommended auth header format and explicit content-type
+        curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" \
+             -H "Content-Type: application/json" \
+             -X POST -d "$(jq -nc --arg body "$BODY" '{body:$body}')" "$API_URL" || echo "curl post failed"
       else
         echo "post_and_gate: Cannot determine PR number to post comment. Set PR_NUMBER env or let workflow run on pull_request event."
       fi
@@ -202,6 +246,7 @@ copy_report() {
     if [ -n "${GITHUB_OUTPUT:-}" ]; then
       echo "report=pr-impact-report.json" >> "${GITHUB_OUTPUT}" || true
     else
+      # fallback for older runners
       echo "::set-output name=report::pr-impact-report.json" || true
     fi
     HANDLED=1
@@ -230,6 +275,8 @@ if [ -f "${CI_WRAPPER}" ]; then
     echo "CI: ci_server_run.py finished"
     if copy_report; then
       post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
+    else
+      echo "CI: no report produced by ci_server_run.py"
     fi
     exit 0
   else
@@ -245,6 +292,8 @@ if [ -f "${ANALYSIS_LIGHT}" ]; then
     echo "CI: analysis_light.py finished"
     if copy_report; then
       post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
+    else
+      echo "CI: no report produced by analysis_light.py"
     fi
     exit 0
   else
@@ -261,6 +310,8 @@ if [ -f "${SERVER_PY}" ]; then
     popd > /dev/null || true
     if copy_report; then
       post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
+    else
+      echo "CI: no report produced by server.py --ci-scan"
     fi
     exit 0
   else
