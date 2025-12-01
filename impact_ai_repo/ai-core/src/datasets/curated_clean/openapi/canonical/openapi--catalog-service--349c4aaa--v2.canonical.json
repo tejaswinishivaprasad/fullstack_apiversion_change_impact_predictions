@@ -258,7 +258,7 @@
           "name": "X-Amz-Content-Sha256",
           "in": "header",
           "schema": {
-            "type": "string"
+            "type": "number"
           },
           "required": false
         },
