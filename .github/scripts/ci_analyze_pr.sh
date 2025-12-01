@@ -46,6 +46,138 @@ create_venv_if_needed() {
   fi
 }
 
+# Post comment to PR and gate the job based on report
+post_and_gate() {
+  # $1 = path to JSON report (OUT)
+  OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
+  if [ ! -f "$OUT" ]; then
+    echo "post_and_gate: report not found at $OUT, skipping posting/gating"
+    return 0
+  fi
+
+  # Check prerequisites
+  if ! command -v jq >/dev/null 2>&1; then
+    echo "post_and_gate: jq not found; please install jq in the runner for full functionality"
+    # continue but parsing will be weak
+  fi
+
+  # read canonical fields with sane fallbacks
+  RISK=$(jq -r 'if .risk_score!=null then .risk_score else ( .predicted_risk // .impact_assessment.score // .score // 0 ) end' "$OUT" 2>/dev/null || echo "0")
+  # normalize numeric formatting (3 decimals)
+  RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
+
+  BAND=$(jq -r '.risk_band // empty' "$OUT" 2>/dev/null || echo "")
+  # compute level fallback from score if risk_level missing
+  LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
+  if [ -z "$LEVEL" ]; then
+    SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{print (r+0)}')
+    if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
+      LEVEL="BLOCK"
+      BAND=${BAND:-"High"}
+    elif (( $(awk "BEGIN {print ($SCORE_NUM >= 0.4)}") )); then
+      LEVEL="WARN"
+      BAND=${BAND:-"Medium"}
+    else
+      LEVEL="PASS"
+      BAND=${BAND:-"Low"}
+    fi
+  fi
+
+  # prefer metadata.pair_id, then backend.pair_id, then scan logs if necessary
+  PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // empty' "$OUT" 2>/dev/null || echo "")
+  if [ -z "$PAIR_ID" ]; then
+    PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? as $l | ($l | capture("pair_id=(?<pid>[^\\s,;]+)"))?.pid // empty' "$OUT" 2>/dev/null || echo "")
+  fi
+
+  EXPL=$(jq -r '.ai_explanation // empty' "$OUT" 2>/dev/null || echo "")
+
+  # other handy fields
+  ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // 0)' "$OUT" 2>/dev/null || echo "0")
+  BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
+  FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
+  FILES_CHANGED=$(jq -r '.metadata.files_changed // .files_changed // empty' "$OUT" 2>/dev/null || echo "")
+
+  # Make a small badge and result string
+  BADGE=""
+  if [ "$LEVEL" = "BLOCK" ]; then
+    BADGE="🔴 **BLOCK**"
+  elif [ "$LEVEL" = "WARN" ]; then
+    BADGE="🟡 **WARN**"
+  else
+    BADGE="🟢 **PASS**"
+  fi
+
+  RISK_LINE="**Risk:** ${RISK_FMT} (${BAND:-n/a}) — ${BADGE}"
+  META_LINE=""
+  if [ -n "$PAIR_ID" ]; then
+    META_LINE="$META_LINE • pair_id=${PAIR_ID}"
+  fi
+  if [ -n "$FILES_CHANGED" ]; then
+    META_LINE="$META_LINE • files=${FILES_CHANGED}"
+  fi
+
+  # Build markdown body
+  BODY="### Impact AI — Analysis result\n\n${RISK_LINE}\n\n"
+  BODY="${BODY}- ACES detected: ${ACES:-0}\n- Backend impacts: ${BACKEND_IMP:-0}\n- Frontend impacts: ${FRONTEND_IMP:-0}\n"
+  if [ -n "$META_LINE" ]; then
+    BODY="${BODY}\n${META_LINE}\n"
+  fi
+
+  if [ -n "$EXPL" ]; then
+    BODY="${BODY}\n**Explanation:**\n\n\`\`\`\n${EXPL}\n\`\`\`\n"
+  fi
+
+  # include compact JSON summary for debugging / link back
+  # protect backticks and keep one-line compact JSON inside details
+  BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n$(jq -c '.' "$OUT" | sed 's/`/`/g')\n\`\`\`\n</details>\n"
+
+  # Post comment: prefer gh CLI; fallback to curl with GITHUB_TOKEN
+  if command -v gh >/dev/null 2>&1; then
+    if [ -n "${PR_NUMBER:-}" ]; then
+      echo "post_and_gate: posting PR comment via gh for PR ${PR_NUMBER}"
+      gh pr comment "${PR_NUMBER}" --body "$BODY" || echo "gh comment failed"
+    else
+      if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
+        PR_NUM=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+        if [ -n "$PR_NUM" ]; then
+          echo "post_and_gate: posting PR comment via gh for PR ${PR_NUM}"
+          gh pr comment "${PR_NUM}" --body "$BODY" || echo "gh comment failed"
+        fi
+      else
+        echo "post_and_gate: cannot determine PR number for gh comment (set PR_NUMBER or run on pull_request event)"
+      fi
+    fi
+  else
+    if [ -z "${GITHUB_TOKEN:-}" ]; then
+      echo "Warning: gh not found and GITHUB_TOKEN not set — skipping PR comment."
+    else
+      if [ -z "${PR_NUMBER:-}" ]; then
+        if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
+          PR_NUMBER=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+        fi
+      fi
+      if [ -n "${PR_NUMBER:-}" ]; then
+        REPO=${GITHUB_REPOSITORY:-}
+        API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
+        echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
+        curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d "$(jq -nc --arg body "$BODY" '{body:$body}')" "$API_URL" || echo "curl post failed"
+      else
+        echo "post_and_gate: Cannot determine PR number to post comment. Set PR_NUMBER env or let workflow run on pull_request event."
+      fi
+    fi
+  fi
+
+  # Fail the job if BLOCK (this prevents merging if branch protection requires this job)
+  if [ "$LEVEL" = "BLOCK" ]; then
+    echo "Impact AI gating: BLOCK (risk ${RISK_FMT}). Failing job to prevent merge."
+    # exit non-zero to fail workflow and block PR merge when job is required by branch protection
+    exit 1
+  fi
+
+  echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
+  return 0
+}
+
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
   # prefer explicit names we expect
@@ -96,7 +228,9 @@ if [ -f "${CI_WRAPPER}" ]; then
   echo "CI: running ci_server_run.py (preferred wrapper)"
   if python -u "${CI_WRAPPER}" --pr "${PR_NUMBER:-unknown}" --output-full "${REPO_ROOT}/pr-impact-full.json" --output-summary "${REPO_ROOT}/pr-impact-report.json"; then
     echo "CI: ci_server_run.py finished"
-    copy_report || true
+    if copy_report; then
+      post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
+    fi
     exit 0
   else
     echo "CI: ci_server_run.py returned non-zero; will attempt fallbacks" >&2
@@ -109,7 +243,9 @@ if [ -f "${ANALYSIS_LIGHT}" ]; then
   chmod +x "${ANALYSIS_LIGHT}" || true
   if python3 "${ANALYSIS_LIGHT}" --pr "${PR_NUMBER:-unknown}" --output "${REPO_ROOT}/pr-impact-report.json"; then
     echo "CI: analysis_light.py finished"
-    copy_report || true
+    if copy_report; then
+      post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
+    fi
     exit 0
   else
     echo "CI: analysis_light.py returned non-zero; will attempt server.py fallback" >&2
@@ -123,7 +259,9 @@ if [ -f "${SERVER_PY}" ]; then
   if python3 -u server.py --ci-scan --output "${REPO_ROOT}/pr-impact-report.json"; then
     echo "CI: server.py --ci-scan completed"
     popd > /dev/null || true
-    copy_report || true
+    if copy_report; then
+      post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
+    fi
     exit 0
   else
     echo "CI: server.py --ci-scan failed" >&2
@@ -134,6 +272,7 @@ fi
 # final attempt to copy any report
 if copy_report; then
   echo "CI: found report after fallback attempts"
+  post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
   exit 0
 fi
 
