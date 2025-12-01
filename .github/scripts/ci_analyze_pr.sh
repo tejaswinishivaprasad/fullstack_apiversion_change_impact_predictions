@@ -72,19 +72,21 @@ post_and_gate() {
     return 0
   fi
 
+  # ensure jq available for parsing (best-effort)
   if ! command -v jq >/dev/null 2>&1; then
-    echo "post_and_gate: jq not found; please install jq in the runner for full functionality"
+    echo "post_and_gate: warning: jq not found; some parsing will be degraded"
   fi
 
-  # robust risk extraction with sane fallback
+  # extract core fields with safe fallbacks
   RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
   RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
 
   BAND=$(jq -r '.risk_band // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
   LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
 
+  # derive level if missing
   if [ -z "$LEVEL" ]; then
-    SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{print (r+0)}')
+    SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{printf("%.6f", (r+0))}')
     if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
       LEVEL="BLOCK"; BAND=${BAND:-"High"}
     elif (( $(awk "BEGIN {print ($SCORE_NUM >= 0.4)}") )); then
@@ -94,32 +96,42 @@ post_and_gate() {
     fi
   fi
 
-  # pull other fields
   PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // .pair_id // empty' "$OUT" 2>/dev/null || echo "")
-  if [ -z "$PAIR_ID" ]; then
-    PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? as $l | ($l | capture("pair_id=(?<pid>[^\\s,;]+)"))?.pid // empty' "$OUT" 2>/dev/null || echo "")
-  fi
-  EXPL=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
+  EXPL_RAW=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
 
-  ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // .atomic_change_events | length // 0) // 0' "$OUT" 2>/dev/null || echo "0")
+  # safe truncation for explanation (avoid huge comments)
+  EXPL_MAX_CHARS=${EXPL_MAX_CHARS:-800}
+  if [ -n "$EXPL_RAW" ]; then
+    if [ "${#EXPL_RAW}" -gt "$EXPL_MAX_CHARS" ]; then
+      EXPL_TRIMMED="$(printf '%s' "$EXPL_RAW" | cut -c1-$EXPL_MAX_CHARS) ... (truncated)"
+    else
+      EXPL_TRIMMED="$EXPL_RAW"
+    fi
+  else
+    EXPL_TRIMMED=""
+  fi
+
+  # counts
+  ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // (.atomic_change_events | length) // 0) // 0' "$OUT" 2>/dev/null || echo "0")
   BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
   FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
 
-  # format files changed as readable list (if it's an array)
-  FILES_CHANGED_RAW=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed // empty' "$OUT" 2>/dev/null || echo "")
+  # format files list as markdown bullets
   FILES_MD=""
-  if [ -n "$FILES_CHANGED_RAW" ]; then
-    # if it's a JSON array, list each element
-    if jq -e 'if type=="array" then . else empty end' >/dev/null 2>&1 <<<"$FILES_CHANGED_RAW"; then
-      # This branch unlikely: FILES_CHANGED_RAW contains raw string; parse from file instead
-      FILES_MD=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed | if . == null then "" elif type=="array" then map("- "+.)|.[] else tostring end' "$OUT" 2>/dev/null || echo "")
-    else
-      # try reading from the report directly and format
-      FILES_MD=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed | if . == null then "" elif type=="array" then map("- "+.)|.[] elif type=="string" then . else tostring end' "$OUT" 2>/dev/null || echo "")
-    fi
+  # try reading arrays or strings from report
+  if jq -e '.metadata.files_changed // .files_changed // .api_files_changed' "$OUT" >/dev/null 2>&1; then
+    FILES_MD=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed
+      | if . == null then "" elif type=="array" then map("- "+.)|.[] elif type=="string" then "- "+. else tostring end' "$OUT" 2>/dev/null || echo "")
+  fi
+  # fallback: if not present, try files_changed at top level
+  if [ -z "$FILES_MD" ]; then
+    FILES_MD=$(jq -r '.files_changed // [] | if type=="array" then map("- "+.)|.[] elif type=="string" then "- "+. else empty end' "$OUT" 2>/dev/null || echo "")
+  fi
+  if [ -z "$FILES_MD" ]; then
+    FILES_MD="- (none)"
   fi
 
-  # badges
+  # badge text
   if [ "$LEVEL" = "BLOCK" ]; then
     BADGE="🔴 BLOCK (${BAND:-n/a})"
   elif [ "$LEVEL" = "WARN" ]; then
@@ -129,46 +141,51 @@ post_and_gate() {
   fi
 
   QUICK_LINE="Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE}"
-  echo "$QUICK_LINE"
 
-  # build a markdown body file (preserves real newlines)
+  echo "post_and_gate: $QUICK_LINE"
+
+  # Build markdown body file (preserves real newlines)
   BODY_FILE="$(mktemp --tmpdir pr-impact-body.XXXXXX.md)"
   {
     printf "### Impact AI — Analysis result\n\n"
     printf "**Quick:** %s\n\n" "$QUICK_LINE"
+
     printf "**Summary**\n\n"
     printf "- Files analyzed:\n"
-    if [ -n "$FILES_MD" ]; then
-      # print the files list already in markdown format (each line begins with - )
-      printf "%s\n" "$FILES_MD"
-    else
-      printf "- (none)\n"
-    fi
-    printf "\n- ACES: %s\n" "$ACES"
+    printf "%s\n\n" "$FILES_MD"
+
+    printf "- ACES: %s\n" "$ACES"
     printf "- Backend impacts: %s\n" "$BACKEND_IMP"
     printf "- Frontend impacts: %s\n\n" "$FRONTEND_IMP"
 
-    if [ -n "$PAIR_ID" ]; then
-      printf "pair_id: %s\n\n" "$PAIR_ID"
-    fi
+    [ -n "$PAIR_ID" ] && printf "pair_id: %s\n\n" "$PAIR_ID"
 
-    if [ -n "$EXPL" ]; then
+    if [ -n "$EXPL_TRIMMED" ]; then
       printf "**Explanation**\n\n"
-      printf '```\n%s\n```\n\n' "$EXPL"
+      printf '```\n%s\n```\n\n' "$EXPL_TRIMMED"
     fi
 
+    # Raw report in collapsible block; pretty-print and limit lines
     printf "<details>\n<summary>Raw report (click to expand)</summary>\n\n"
     printf "```json\n"
-    # pretty print JSON into the body file
-    jq -C . "$OUT" 2>/dev/null || cat "$OUT"
+
+    MAX_LINES=${MAX_LINES:-500}
+    if command -v jq >/dev/null 2>&1; then
+      # pretty print and limit lines
+      jq . "$OUT" 2>/dev/null | sed -n "1,${MAX_LINES}p" || cat "$OUT" | sed -n "1,${MAX_LINES}p"
+    else
+      cat "$OUT" | sed -n "1,${MAX_LINES}p"
+    fi
+
     printf "\n```\n</details>\n"
   } > "${BODY_FILE}"
 
-  # post using gh if available (prefer --body-file)
+  # prefer gh --body-file if available
   if command -v gh >/dev/null 2>&1; then
     if [ -z "${GH_TOKEN:-}" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
       export GH_TOKEN="${GITHUB_TOKEN}"
     fi
+
     if [ -n "${PR_NUMBER:-}" ]; then
       echo "post_and_gate: posting PR comment via gh for PR ${PR_NUMBER}"
       gh pr comment "${PR_NUMBER}" --body-file "${BODY_FILE}" || echo "gh comment failed"
@@ -181,9 +198,9 @@ post_and_gate() {
       fi
     fi
   else
-    # fallback to API call using curl, post file contents as JSON body safely
+    # curl fallback using REST API
     if [ -z "${GITHUB_TOKEN:-}" ]; then
-      echo "Warning: gh not found and GITHUB_TOKEN not set — skipping PR comment."
+      echo "post_and_gate: gh not found and GITHUB_TOKEN not set — skipping PR comment."
     else
       if [ -z "${PR_NUMBER:-}" ]; then
         if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
@@ -194,11 +211,14 @@ post_and_gate() {
         REPO=${GITHUB_REPOSITORY:-}
         API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
         echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
-        # read body file into variable safely
-        BODY_CONTENT=$(sed 's/\\/\\\\/g; s/"/\\"/g' "${BODY_FILE}")
-        # build JSON payload with jq to avoid manual escaping
-        jq -nc --arg body "$(<"${BODY_FILE}")" '{body:$body}' | \
-          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d @- "$API_URL" || echo "curl post failed"
+        # Post file content as JSON body using jq for safe escaping
+        if command -v jq >/dev/null 2>&1; then
+          jq -nc --arg body "$(cat "${BODY_FILE}")" '{body:$body}' | \
+            curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d @- "$API_URL" || echo "curl post failed"
+        else
+          # fallback naive approach (may need escaping)
+          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d "{\"body\": \"$(sed ':a;N;$!ba;s/"/\\"/g; s/\n/\\n/g' "${BODY_FILE}")\"}" "$API_URL" || echo "curl post failed"
+        fi
       else
         echo "post_and_gate: Cannot determine PR number to post comment."
       fi
