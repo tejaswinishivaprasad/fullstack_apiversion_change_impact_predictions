@@ -1,4 +1,3 @@
-
 """
 server.py
 
@@ -22,6 +21,11 @@ from urllib.parse import unquote
 
 import networkx as nx
 import yaml
+import math
+try:
+    import joblib  # used to load model.joblib
+except Exception:
+    joblib = None
 from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -47,6 +51,260 @@ VARIANT_MAP = {
     "noisy_light": "curated_noisy_light",
     "noisy_heavy": "curated_noisy_heavy",
 }
+
+
+# Location of model artifact and feature columns relative to server working dir
+MODEL_ARTIFACT_DIR = Path(os.getenv("MODEL_ARTIFACT_DIR", "models"))
+MODEL_FILE = MODEL_ARTIFACT_DIR / "model.joblib"
+FEATURE_COLUMNS_FILE = MODEL_ARTIFACT_DIR / "feature_columns.json"
+MODEL_METADATA_FILE = MODEL_ARTIFACT_DIR / "model_metadata.json"
+
+# runtime-loaded model and feature column list (populated by load_ml_model)
+ML_MODEL = None
+ML_FEATURE_COLS: Optional[List[str]] = None
+ML_METADATA: Dict[str, Any] = {}
+ML_LOADED = False
+
+
+# -------------------------
+# Report normalisation helpers
+# -------------------------
+
+def _normalize_type_token(t: Any) -> str:
+    """Return canonical lowercase token for ACE type."""
+    if t is None:
+        return "unknown"
+    try:
+        s = str(t).strip().lower()
+    except Exception:
+        return "unknown"
+    # common synonyms -> canonical
+    mapping = {
+        "endpoint-add": "endpoint_added",
+        "endpointadded": "endpoint_added",
+        "added": "endpoint_added",
+        "endpoint-remove": "endpoint_removed",
+        "endpointremoved": "endpoint_removed",
+        "removed": "endpoint_removed",
+        "param_required": "param_required_added",
+        "required_param_added": "param_required_added",
+    }
+    return mapping.get(s, s)
+
+
+def _normalize_method(m: Any) -> Optional[str]:
+    """Normalize method values: lowercase or None for parameter-like tokens."""
+    if m is None:
+        return None
+    try:
+        s = str(m).strip().lower()
+    except Exception:
+        return None
+    if s in ("", "null", "none", "parameters", "params", "parameter"):
+        return None
+    return s
+
+
+def normalize_ace_item(raw: Any) -> Dict[str, Any]:
+    """
+    Convert a raw ACE-like object (DiffItem, dict, etc.) into a stable dict:
+    { ace_id, type, path, method, detail } where type is canonical lowercase token,
+    method is normalized or null, and detail is never null (small wrapper if needed).
+    """
+    # tolerant extraction
+    ace_id = None
+    t = None
+    path = None
+    method = None
+    detail = None
+
+    if raw is None:
+        return {"ace_id": None, "type": "unknown", "path": None, "method": None, "detail": {"_note": "missing"}}
+
+    # if Pydantic model with .dict()
+    try:
+        if hasattr(raw, "dict"):
+            obj = raw.dict()
+        elif isinstance(raw, dict):
+            obj = dict(raw)
+        else:
+            obj = {k: getattr(raw, k, None) for k in ("ace_id", "type", "path", "method", "detail")}
+    except Exception:
+        obj = {}
+
+    ace_id = obj.get("ace_id") or obj.get("aceId") or obj.get("id") or None
+    t = _normalize_type_token(obj.get("type") or obj.get("change") or obj.get("kind"))
+    path = obj.get("path") or (obj.get("detail") if isinstance(obj.get("detail"), str) else None) or None
+    method = _normalize_method(obj.get("method") or obj.get("http_method") or obj.get("verb"))
+    det = obj.get("detail", obj.get("detail") if "detail" in obj else None)
+
+    # ensure detail is a dict or wrapper
+    if det is None:
+        detail = {"_note": "no structured detail available"}
+    elif isinstance(det, str):
+        detail = {"_note": "string-detail", "raw": det}
+    elif isinstance(det, (dict, list)):
+        detail = det
+    else:
+        # best-effort stringify for other types
+        try:
+            detail = {"_note": "value", "raw": str(det)}
+        except Exception:
+            detail = {"_note": "unserializable-detail"}
+
+    return {"ace_id": ace_id, "type": t, "path": path, "method": method, "detail": detail}
+
+
+def normalize_details_list(details: List[Any]) -> List[Dict[str, Any]]:
+    """Normalize a list of ACEs/diff items to stable dicts and dedupe by key."""
+    out = []
+    seen = set()
+    for d in details or []:
+        try:
+            nd = normalize_ace_item(d)
+            key = (nd.get("type"), nd.get("path"), nd.get("method"), str(nd.get("detail")))
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(nd)
+        except Exception:
+            # skip a problematic item but keep going
+            continue
+    return out
+
+
+def normalize_impacts_list(impacts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Make backend/frontend impact entries consistent:
+    ensure keys are service, risk_score (float), and optional notes.
+    """
+    out = []
+    for it in (impacts or []):
+        try:
+            if not isinstance(it, dict):
+                # try best-effort extraction
+                svc = getattr(it, "service", None) or getattr(it, "producer", None) or None
+                rs = getattr(it, "risk_score", None) or getattr(it, "risk", None) or getattr(it, "score", None) or 0.0
+                entry = {"service": svc, "risk_score": float(rs or 0.0)}
+            else:
+                svc = it.get("service") or it.get("producer") or it.get("name") or None
+                rs = it.get("risk_score") or it.get("risk") or it.get("score") or 0.0
+                entry = {"service": svc, "risk_score": float(rs or 0.0)}
+            out.append(entry)
+        except Exception:
+            continue
+    return out
+
+
+def normalize_versioning(v: Any) -> Dict[str, Any]:
+    """Ensure versioning block has common keys and canonical types."""
+    if not v:
+        return {}
+    try:
+        if isinstance(v, dict):
+            ver = dict(v)
+        elif hasattr(v, "dict"):
+            ver = v.dict()
+        else:
+            # try to coerce
+            ver = {k: getattr(v, k, None) for k in ("pair_id", "service_name", "semver_old", "semver_new", "semver_delta", "breaking_vs_semver", "generated_at")}
+    except Exception:
+        return {}
+    # canonicalize booleans and strings
+    if "breaking_vs_semver" in ver:
+        try:
+            ver["breaking_vs_semver"] = bool(ver["breaking_vs_semver"])
+        except Exception:
+            ver["breaking_vs_semver"] = False
+    for k in ("semver_old", "semver_new", "semver_delta", "service_name", "pair_id"):
+        if k in ver and ver[k] is not None:
+            ver[k] = str(ver[k])
+    return ver
+
+
+def normalize_metadata(meta: Any) -> Dict[str, Any]:
+    """Canonicalize metadata block with dataset, generated_at, pair_id, commit_hash."""
+    out = {}
+    try:
+        if isinstance(meta, dict):
+            m = dict(meta)
+        elif hasattr(meta, "dict"):
+            m = meta.dict()
+        else:
+            m = {k: getattr(meta, k, None) for k in ("dataset", "generated_at", "pair_id", "commit_hash")}
+    except Exception:
+        m = {}
+    out["dataset"] = str(m.get("dataset")) if m.get("dataset") is not None else None
+    out["generated_at"] = str(m.get("generated_at")) if m.get("generated_at") is not None else time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    if m.get("pair_id"):
+        out["pair_id"] = str(m.get("pair_id"))
+    if m.get("commit_hash"):
+        out["commit_hash"] = str(m.get("commit_hash"))
+    # preserve any other non-sensitive fields safely
+    for extra in ("repo_url", "repo_owner", "repo_name", "files_changed"):
+        if m.get(extra) is not None:
+            out[extra] = m.get(extra)
+    return out
+
+
+
+def load_ml_model():
+    """
+    Try to load a model.joblib and feature_columns.json from models/ directory.
+    This is optional: if files are missing or loading fails we keep ML_MODEL=None
+    and the server will continue to use the deterministic scorer.
+    """
+    global ML_MODEL, ML_FEATURE_COLS, ML_METADATA, ML_LOADED
+    ML_LOADED = False
+    try:
+        if not joblib:
+            log.info("joblib not available; skipping ML model load")
+            return
+        if not MODEL_FILE.exists():
+            log.info("ML model not found at %s; skipping ML scoring", MODEL_FILE)
+            return
+        if not FEATURE_COLUMNS_FILE.exists():
+            log.info("feature_columns.json not found at %s; ML scoring disabled", FEATURE_COLUMNS_FILE)
+            return
+
+        # load feature columns first (verify it's a list)
+        try:
+            with FEATURE_COLUMNS_FILE.open("r", encoding="utf-8") as fh:
+                cols = json.load(fh)
+            if not isinstance(cols, list):
+                log.warning("feature_columns.json does not contain a list; ignoring ML model")
+                return
+            ML_FEATURE_COLS = cols
+        except Exception:
+            log.exception("Failed to read feature_columns.json; ignoring ML model")
+            return
+
+        # load model
+        try:
+            ML_MODEL = joblib.load(str(MODEL_FILE))
+        except Exception:
+            log.exception("Failed to load ML model from %s", MODEL_FILE)
+            ML_MODEL = None
+            return
+
+        # optional metadata
+        try:
+            if MODEL_METADATA_FILE.exists():
+                ML_METADATA = json.loads(MODEL_METADATA_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            ML_METADATA = {}
+
+        ML_LOADED = True
+        log.info("Loaded ML model from %s with %d feature cols", MODEL_FILE, len(ML_FEATURE_COLS))
+    except Exception:
+        log.exception("load_ml_model failed unexpectedly")
+        ML_MODEL = None
+        ML_FEATURE_COLS = None
+        ML_METADATA = {}
+        ML_LOADED = False
+
+# attempt load at import/startup (harmless if missing)
+load_ml_model()
 
 def _discover_container(root: Path) -> Path:
     # return container dir that holds curated_* folders; fallback to parent
@@ -94,6 +352,75 @@ LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Known dataset names (base list)
 KNOWN_DATASETS = list(BASE_DATASETS)
+
+# ---------- normalization helpers ----------
+# map common uppercase/synonym types to canonical lowercase internal types
+TYPE_MAP = {
+    "ENDPOINT_ADDED": "endpoint_added",
+    "ENDPOINT_REMOVED": "endpoint_removed",
+    "ENDPOINT_CHANGED": "endpoint_changed",
+    "PARAM_ADDED": "param_added",
+    "PARAM_REMOVED": "param_removed",
+    "PARAM_CHANGED": "param_changed",
+    "ENUM_NARROWED": "enum_narrowed",
+    "ENUM_WIDENED": "enum_widened",
+    "RESPONSE_CODE_REMOVED": "response_code_removed",
+    "RESPONSE_SCHEMA_CHANGED": "response_schema_changed",
+    "REQUESTBODY_SCHEMA_CHANGED": "requestbody_schema_changed",
+    "REQUESTBODY_ADDED": "requestbody_added",
+    "REQUESTBODY_REMOVED": "requestbody_removed",
+    "PARAM_REQUIRED_ADDED": "param_required_added",
+    "UNKNOWN": "unknown",
+}
+
+def normalize_type(t: Optional[str]) -> str:
+    if not t:
+        return "unknown"
+    try:
+        ts = str(t).strip()
+    except Exception:
+        return "unknown"
+    up = ts.upper()
+    if up in TYPE_MAP:
+        return TYPE_MAP[up]
+    # fallback: snake-case lowercased words
+    return re.sub(r"[^a-z0-9_]", "_", ts).lower()
+
+def compute_has_breaking_changes(details: List["DiffItem"]) -> bool:
+    # conservative: consider these types as breaking
+    breaking_kinds = {
+        "endpoint_removed",
+        "param_removed",
+        "response_schema_changed",
+        "requestbody_schema_changed",
+        "param_required_added",
+        "response_code_removed",
+        "enum_narrowed",
+    }
+    for d in details or []:
+        if normalize_type(d.type) in breaking_kinds:
+            return True
+    return False
+
+# safe_semver_delta: expects "x.y.z" or simple variants; returns "major"|"minor"|"patch"|"none"|None
+def semver_delta(old: str, new: str) -> Optional[str]:
+    try:
+        def parse(v):
+            parts = [int(x) for x in str(v).split(".") if x != ""]
+            while len(parts) < 3:
+                parts.append(0)
+            return parts[:3]
+        o = parse(old)
+        n = parse(new)
+        if n[0] != o[0]:
+            return "major"
+        if n[1] != o[1]:
+            return "minor"
+        if n[2] != o[2]:
+            return "patch"
+        return "none"
+    except Exception:
+        return None
 
 # ---------- helpers to parse dataset keys ----------
 def _parse_dataset_key(ds_key: str) -> Tuple[str, str]:
@@ -404,6 +731,7 @@ def producer_node(service: str) -> str:
     return f"svc:{service}"
 
 
+
 def producer_features(g: nx.DiGraph, service: str) -> Dict[str, Any]:
     node = _fuzzy_find_service_node(g, service) or producer_node(service)
     if node not in g:
@@ -489,7 +817,6 @@ def version_meta_lookup(pair_id: Optional[str]) -> Dict[str, Any]:
     log.info("version_meta_lookup: no version metadata for %s", pair_id)
     return {}
 
-
 # backend/ui impact computations
 def backend_impacts(g: nx.DiGraph, service: str, changed_paths: List[str]) -> List[Dict[str, Any]]:
     node = _fuzzy_find_service_node(g, service) or producer_node(service)
@@ -535,7 +862,7 @@ def assemble_feature_record(details: List[DiffItem], pfeats: Dict[str, Any], vfe
     record["num_changes"] = len(details) if details is not None else 0
     types: Dict[str, int] = {}
     for d in details or []:
-        t = (d.type or "UNKNOWN")
+        t = normalize_type(d.type)
         types[t] = types.get(t, 0) + 1
     for t in ["endpoint_removed", "endpoint_added", "param_removed", "param_added", "param_changed", "response_schema_changed", "requestbody_schema_changed"]:
         record[f"ct_{t}"] = types.get(t, 0)
@@ -551,7 +878,7 @@ def assemble_feature_record(details: List[DiffItem], pfeats: Dict[str, Any], vfe
     has_side_effects = any(((d.method or "").lower() in ("post", "put", "patch", "delete")) for d in (details or []))
     uses_shared_schema = any(
         (isinstance(d.detail, str) and ("schema" in d.detail.lower() or "shared" in d.detail.lower()))
-        or (isinstance(d.detail, list) and any(isinstance(x, str) for x in d.detail))
+        or (isinstance(d.detail, dict) and any(isinstance(x, str) and ("schema" in x.lower() or "shared" in x.lower()) for x in d.detail.keys()))
         for d in (details or [])
     )
     calls_other_services = (len(be_imp) > 0) if be_imp is not None else False
@@ -760,16 +1087,19 @@ def diff_openapi(old: Dict[str, Any], new: Dict[str, Any]) -> List[DiffItem]:
     return details
 
 def dedupe_diffitems(items: List[DiffItem]) -> List[DiffItem]:
-    # dedupe list of DiffItem
+    # dedupe list of DiffItem using canonicalized keys (type normalized, path normalized, method lower)
     seen = set()
     out: List[DiffItem] = []
     for d in items:
         mth = (d.method or "").lower() if d.method else ""
         det_key = _safe_json_for_key(d.detail) if d.detail is not None else ""
-        key = (d.type or "", d.path or "", mth, det_key, d.ace_id or "")
+        key = (normalize_type(d.type), normalize_path(d.path) or "", mth, d.ace_id or "")
         if key in seen:
             continue
         seen.add(key)
+        # ensure type and method normalized in output
+        d.type = normalize_type(d.type)
+        d.method = mth if mth else None
         out.append(d)
     return out
 
@@ -952,7 +1282,7 @@ def score_from_details(details: List[DiffItem], pfeats: Dict[str, Any], vfeats: 
     try:
         s = 0.0
         for d in (details or []):
-            key = (d.type or "").lower()
+            key = normalize_type(d.type)
             mapped = {
                 "endpoint_added": "endpoint_added",
                 "endpoint_removed": "endpoint_removed",
@@ -982,59 +1312,58 @@ def score_from_details(details: List[DiffItem], pfeats: Dict[str, Any], vfeats: 
 
 def _explain_diff_item(d: DiffItem) -> List[str]:
     """
-    Helper: produce 0..N human-readable explanation lines for one DiffItem.
-    Prefers structured d.detail dicts (kind,param,response,requestbody) but
-    falls back to string/detail serialization when necessary.
+    Produce 0..N human-readable explanation lines for one DiffItem.
+    Preserve original `d.type` casing (typically lowercase) so the
+    ai_explanation matches the `details` payload shown to clients.
+    Method is uppercased only for HTTP verbs; None/'parameters' will omit it.
     """
     lines: List[str] = []
     try:
         det = d.detail
-        typ = (d.type or "").lower()
+        typ = (d.type or "").strip()  # preserve original casing (usually lowercase)
         path = d.path or ""
-        method = (d.method or "").upper() or ""
+        method_raw = (d.method or "")
+        method_display = method_raw.upper() if method_raw and isinstance(method_raw, str) and method_raw.lower() not in ("parameters", "") else ""
 
         # Structured detail path: dicts with 'kind' keys
         if isinstance(det, dict):
-            kind = det.get("kind") or ""
+            kind = (det.get("kind") or "").lower()
+
             # PARAM handling
-            if kind == "param":
-                name = det.get("name") or "-"
+            if kind == "param" or typ in ("param_added", "param_removed", "param_changed"):
+                name = det.get("name") or det.get("param") or "-"
                 loc = det.get("in") or "-"
-                # required flip
                 req = det.get("required_changed")
                 if req:
                     if req.get("to"):
-                        lines.append(f"Parameter `{name}` in {loc} became REQUIRED (was optional). Clients omitting it may receive validation errors (400).")
+                        lines.append(f"Parameter `{name}` in {loc} became required (was optional). Clients omitting it may receive validation errors (400).")
                     else:
                         lines.append(f"Parameter `{name}` in {loc} became optional (was required).")
-                # schema/type change
-                sch = det.get("schema_changed")
+
+                sch = det.get("schema_changed") or det.get("old_schema") or det.get("new_schema")
                 if sch:
-                    old_s = sch.get("old")
-                    new_s = sch.get("new")
+                    old_s = sch.get("old") if isinstance(sch, dict) else det.get("old")
+                    new_s = sch.get("new") if isinstance(sch, dict) else det.get("new")
                     def _schema_brief(s):
                         if not s: return "n/a"
                         if isinstance(s, dict):
                             t = s.get("type") or s.get("format") or (s.get("$ref") and f"ref:{s.get('$ref')}")
                             if t: return str(t)
                             props = s.get("properties")
-                            if isinstance(props, dict):
-                                return f"{len(props)} fields"
+                            if isinstance(props, dict): return f"{len(props)} fields"
                         return str(s)[:80]
-                    lines.append(f"Parameter `{name}` in {loc} schema/type changed: {_schema_brief(old_s)} → {_schema_brief(new_s)}. This may break clients that validate or parse the parameter.")
-                    # enum narrow/widen
+                    lines.append(f"Parameter `{name}` schema/type changed: {_schema_brief(old_s)} → {_schema_brief(new_s)}. This may break clients that validate or parse the parameter.")
                     enum_n = det.get("enum_narrowed") or {}
                     enum_w = det.get("enum_widened") or {}
                     if enum_n.get("removed"):
                         lines.append(f"  • Enum narrowed: removed values {enum_n['removed']} — clients using those values may fail.")
                     if enum_w.get("added"):
                         lines.append(f"  • Enum widened: new values {enum_w['added']} (generally safe).")
-                # fallback if structured but no flags
                 if not req and not sch:
                     lines.append(f"Parameter `{name}` in {loc} changed (see ACE for details).")
 
             # RESPONSE handling
-            elif kind in ("response", "response_media", "response_schema"):
+            elif kind in ("response", "response_media", "response_schema") or typ.startswith("response"):
                 code = det.get("status_code") or "-"
                 mt = det.get("media_type") or det.get("media") or "application/json"
                 old_s = det.get("old")
@@ -1043,14 +1372,13 @@ def _explain_diff_item(d: DiffItem) -> List[str]:
                     if not s: return "n/a"
                     if isinstance(s, dict):
                         props = s.get("properties")
-                        if isinstance(props, dict):
-                            return f"{len(props)} fields"
+                        if isinstance(props, dict): return f"{len(props)} fields"
                         return "object"
                     return str(s)[:120]
                 lines.append(f"Response {code} {mt} schema changed ({_summarize(old_s)} → {_summarize(new_s)}). Consumers parsing payloads may break if required fields were removed or types changed.")
 
             # REQUEST BODY handling
-            elif kind in ("requestbody", "requestbody_media", "requestbody_schema"):
+            elif kind in ("requestbody", "requestbody_media", "requestbody_schema") or typ.startswith("requestbody"):
                 mt = det.get("media_type") or det.get("media") or "application/json"
                 old_s = det.get("old")
                 new_s = det.get("new")
@@ -1058,49 +1386,49 @@ def _explain_diff_item(d: DiffItem) -> List[str]:
                     if not s: return "n/a"
                     if isinstance(s, dict):
                         props = s.get("properties")
-                        if isinstance(props, dict):
-                            return f"{len(props)} fields"
+                        if isinstance(props, dict): return f"{len(props)} fields"
                         return "object"
                     return str(s)[:120]
                 lines.append(f"Request body ({mt}) schema changed ({_summarize_rb(old_s)} → {_summarize_rb(new_s)}). Clients sending older payload shapes may fail server validation.")
 
             else:
-                # unknown structured kind: include small debug snippet
                 small = {k: v for k, v in det.items() if k not in ("old", "new")}
-                lines.append(f"{d.type} {method} {path} — details: {json.dumps(small, default=str)[:180]}")
+                if method_display:
+                    lines.append(f"{typ} {method_display} {path} — details: {json.dumps(small, default=str)[:180]}")
+                else:
+                    lines.append(f"{typ} {path} — details: {json.dumps(small, default=str)[:180]}")
 
         else:
-            # Unstructured fallback: try to be helpful with the string/detail
+            # Unstructured fallback
             raw = det if isinstance(det, str) else _safe_json_for_key(det)
             raw_text = (raw or "")[:300]
-            if typ in ("param_changed", "param_removed", "param_added"):
-                lines.append(f"{d.type} {method} {path}: {raw_text}")
-            elif typ.startswith("response") or typ.startswith("requestbody"):
-                lines.append(f"{d.type} {method} {path}: {raw_text}")
+            if method_display:
+                lines.append(f"{typ} {method_display} {path}: {raw_text}")
             else:
-                lines.append(f"{d.type}: {raw_text}")
+                lines.append(f"{typ} {path}: {raw_text}")
 
     except Exception:
         log.exception("explain_diff_item failed for ace=%s", getattr(d, "ace_id", "-"))
-        # minimal fallback
-        lines = [f"{d.type or 'Change'} at {d.path or '-'}"]
+        lines = [f"{(d.type or 'Change')} at {d.path or '-'}"]
 
     return lines
 
 
+
 def make_explanation(score: float, details: List[DiffItem], pfeats: Dict[str, Any], vfeats: Dict[str, Any], be_imp: List[Dict[str, Any]], fe_imp: List[Dict[str, Any]]) -> str:
     """
-    Top-level explanation (compact). Delegates per-ACE text to _explain_diff_item.
-    Keeps the function short for thesis screenshots while producing rich text.
+    Produce a compact multi-line explanation for the report.
+    Ensures change type labels in the human text match the `details` entries
+    (no forced uppercasing). Keeps the output concise and deduped.
     """
     try:
         headline = f"Predicted risk is {_risk_band(score)} ({score:.2f})."
         bullets: List[str] = []
 
-        # summary counts
+        # summary counts (preserve original type strings)
         type_counts: Dict[str, int] = {}
         for d in (details or []):
-            typ = (d.type or "UNKNOWN").upper()
+            typ = (d.type or "UNKNOWN")
             type_counts[typ] = type_counts.get(typ, 0) + 1
         if type_counts:
             top_types = sorted(type_counts.items(), key=lambda x: -x[1])[:6]
@@ -1120,8 +1448,7 @@ def make_explanation(score: float, details: List[DiffItem], pfeats: Dict[str, An
         detailed: List[str] = []
         seen = set()
         for d in (details or []):
-            # dedupe simple combos so explanation doesn't repeat similar lines
-            key = (d.type or "", d.path or "", d.method or "", _safe_json_for_key(d.detail)[:200])
+            key = (d.type or "", d.path or "", (d.method or ""), _safe_json_for_key(d.detail)[:200])
             if key in seen:
                 continue
             seen.add(key)
@@ -1140,6 +1467,8 @@ def make_explanation(score: float, details: List[DiffItem], pfeats: Dict[str, An
     except Exception:
         log.exception("make_explanation failed; returning short message")
         return f"Predicted risk: {_risk_band(score)} ({score:.2f})."
+
+
 
 
 # Replace existing Report model with this (adds risk_level and metadata)
@@ -1165,13 +1494,19 @@ class Report(BaseModel):
 # ---------- main report endpoint (replacement) ----------
 @app.get("/report", response_model=Report)
 def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(...), pair_id: Optional[str] = None) -> Report:
-    # main report handler (enhanced: adds risk_level and metadata/pair_id)
+    """
+    Main report handler (enhanced): returns the Report Pydantic model.
+    - Tries NDJSON ACE read first (if pair_id available).
+    - Falls back to live diff for openapi datasets.
+    - Normalizes ACE type casing and method semantics for consistent UI/CI display.
+    """
     start = time.time()
     try:
         ds = (dataset or "").lower()
         old, new = unquote(old), unquote(new)
         log.info("REPORT request dataset=%s old=%s new=%s incoming_pair_id=%s", ds, old, new, pair_id)
 
+        # Quick no-op case: same file
         if old == new:
             meta = {"dataset": ds, "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
             return Report(
@@ -1194,13 +1529,16 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                 metadata=meta,
             )
 
+        # Validate dataset
         if not is_valid_dataset_key(ds):
             raise HTTPException(404, f"Unknown dataset {dataset}")
 
+        # Prepare metadata/pair lookup
         pair_meta = load_pair_metadata(pair_id, ds) if pair_id else None
         p_old: Optional[Path] = None
         p_new: Optional[Path] = None
 
+        # If pair metadata exists and contains canonical paths, prefer them
         if pair_meta:
             ds_meta = (pair_meta.get("dataset") or "").lower()
             oc = pair_meta.get("old_canonical") or pair_meta.get("old")
@@ -1214,6 +1552,7 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                 if cand.exists():
                     p_new = cand
 
+        # Resolve filenames into actual paths (variant-aware)
         if not p_old:
             p_old = resolve_file_for_dataset(ds, old)
         if not p_new:
@@ -1224,12 +1563,12 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
         if not p_new or not p_new.exists():
             raise HTTPException(404, f"New file not found: {new}")
 
+        # Load documents (JSON/YAML tolerant)
         old_doc = _load_json_or_yaml(p_old)
         new_doc = _load_json_or_yaml(p_new)
 
+        # Attempt to resolve canonical pair_id from index (filename match)
         pair_identifier = pair_id or None
-
-        # Try to resolve pair_identifier from index using normalized filename comparisons
         if not pair_identifier:
             idx = load_pair_index(ds)
             for pid, meta in idx.items():
@@ -1238,12 +1577,8 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                     mn = str(meta.get("new_canonical") or meta.get("new") or "").strip().lower()
                     if not mo or not mn:
                         continue
-                    try:
-                        mo_name = Path(mo).name.lower()
-                        mn_name = Path(mn).name.lower()
-                    except Exception:
-                        mo_name = Path(str(mo)).name.lower() if mo else ""
-                        mn_name = Path(str(mn)).name.lower() if mn else ""
+                    mo_name = Path(mo).name.lower() if mo else ""
+                    mn_name = Path(mn).name.lower() if mn else ""
                     if mo_name == Path(p_old.name).name.lower() and mn_name == Path(p_new.name).name.lower():
                         pair_identifier = pid
                         pair_meta = meta
@@ -1251,8 +1586,8 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                 except Exception:
                     continue
 
+        # Build details: try NDJSON (authoritative) first when pair_id available
         details: List[DiffItem] = []
-
         if pair_identifier:
             ndpath_candidates: List[Path] = []
             if pair_meta and pair_meta.get("dataset"):
@@ -1281,9 +1616,41 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                             except Exception:
                                 log.debug("Skipping malformed NDJSON line %s:%d", found_nd, i)
                                 continue
+
+                            # ace id: prefer explicit ace_id/aceId, otherwise synth from index
                             ace_id = a.get("ace_id") or a.get("aceId") or (f"{pair_identifier}::ace::{a.get('ace_index')}" if "ace_index" in a else None)
-                            detail_val = a.get("detail") if "detail" in a else None
-                            raw_aces.append((ace_id, a.get("type"), a.get("path"), a.get("method"), detail_val))
+
+                            # type: normalize to lowercase string (so CI and UI match)
+                            raw_type = a.get("type")
+                            if raw_type is None:
+                                raw_type_norm = "unknown"
+                            else:
+                                try:
+                                    raw_type_norm = str(raw_type).strip().lower()
+                                except Exception:
+                                    raw_type_norm = "unknown"
+
+                            # method: normalize — treat 'parameters' (or variants) as None
+                            mtd = a.get("method")
+                            if isinstance(mtd, str):
+                                mtd_lower = mtd.strip().lower()
+                                mtd_norm = None if mtd_lower in ("parameters", "params", "parameter") else mtd_lower
+                            else:
+                                mtd_norm = None
+
+                            # detail: if missing create a small placeholder so explanations never show null
+                            if "detail" in a and a.get("detail") is not None:
+                                detail_val = a.get("detail")
+                            else:
+                                detail_val = {"_note": "no structured detail available from source"}
+
+                            # if detail is a raw string (common historical shape), wrap into small object
+                            if isinstance(detail_val, str):
+                                detail_val = {"_note": "string-detail", "raw": detail_val}
+
+                            raw_aces.append((ace_id, raw_type_norm, a.get("path"), mtd_norm, detail_val))
+
+                    # Deduplicate and build DiffItem list (preserve normalized lowercase type)
                     seen = set()
                     for aid, t, pth, mtd, det in raw_aces:
                         mth = (mtd or "").lower() if mtd else ""
@@ -1292,10 +1659,11 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                         if key in seen:
                             continue
                         seen.add(key)
-                        details.append(DiffItem(ace_id=aid, type=(t or "UNKNOWN"), path=pth, method=mtd, detail=(det if det is not None else None)))
+                        details.append(DiffItem(ace_id=aid, type=(t or "unknown"), path=pth, method=mtd, detail=(det if det is not None else {"_note": "no structured detail available"})))
                 except Exception:
                     log.exception("Failed to read NDJSON for pair %s at %s", pair_identifier, found_nd)
 
+        # If NDJSON not found / empty, fallback to live diff for OpenAPI datasets
         if not details:
             base_ds = _parse_dataset_key(ds)[0]
             if base_ds == "openapi":
@@ -1303,8 +1671,10 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
             else:
                 details = []
 
+        # Deduplicate general diffs
         details = dedupe_diffitems(details)
 
+        # Load graph, identify service and compute producer features
         g = load_graph()
         service_guess = None
         if pair_meta:
@@ -1322,13 +1692,56 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
         fe_imp = ui_impacts(g, service, changed)
         feature_record = assemble_feature_record(details, pfeats, vfeats, be_imp, fe_imp)
 
+        # Export single-run features for debugging / offline training pipelines (non-blocking)
         try:
             normalize_and_export_features([feature_record])
         except Exception:
             log.exception("Feature export failed; continuing")
 
-        score = score_from_details(details, pfeats, vfeats, be_imp, fe_imp)
+        # ---------- Scoring: prefer ML if available, else deterministic ----------
+        score = None
+        ml_used = False
+        try:
+            if ML_LOADED and ML_MODEL and ML_FEATURE_COLS:
+                # Build feature vector aligned to the saved feature columns
+                row = [feature_record.get(c, 0) for c in ML_FEATURE_COLS]
+                import numpy as _np
+                X = _np.array([row], dtype=float)
 
+                # predict_proba preferred
+                prob = None
+                if hasattr(ML_MODEL, "predict_proba"):
+                    try:
+                        prob = float(ML_MODEL.predict_proba(X)[:, 1][0])
+                    except Exception:
+                        # Some wrappers or pipelines may behave slightly differently
+                        try:
+                            prob = float(ML_MODEL.predict_proba(X)[0][1])
+                        except Exception:
+                            prob = None
+                else:
+                    # fallback to decision_function -> sigmoid
+                    try:
+                        raw = ML_MODEL.decision_function(X)
+                        prob = float(1.0 / (1.0 + math.exp(-float(raw[0]))))
+                    except Exception:
+                        prob = None
+
+                if prob is not None:
+                    score = round(max(0.0, min(1.0, float(prob))), 3)
+                    ml_used = True
+                    log.info("ML scoring used for pair=%s score=%.3f model=%s", pair_identifier or "<ad-hoc>", score, ML_METADATA.get("model_name", "unknown"))
+        except Exception:
+            log.exception("ML scoring failed; will fallback to heuristic")
+
+        # fallback deterministic scoring (preserves CI behaviour)
+        if not ml_used or score is None:
+            score = score_from_details(details, pfeats, vfeats, be_imp, fe_imp)
+            log.debug("Deterministic scorer used for pair=%s score=%.3f", pair_identifier or "<ad-hoc>", score)
+        else:
+            log.debug("Using ML score for pair=%s score=%.3f", pair_identifier or "<ad-hoc>", score)
+
+        # Helper for average confidence of impacts
         def avg_confidence(items: List[Dict[str, Any]]) -> float:
             vals = []
             for it in items:
@@ -1339,31 +1752,35 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
                     continue
             return round((sum(vals) / len(vals)) if vals else 0.0, 3)
 
-        # Build logs list but avoid injecting 'n/a' or bogus pair ids; prefer no pair_id entry if unknown
+        # Build logs list; include ML usage and pair_id if present
         logs_list = [f"{ds}:{Path(p_old).name}->{Path(p_new).name}", f"risk={score:.2f}"]
         if pair_identifier:
             logs_list.append(f"pair_id={pair_identifier}")
+        if ml_used:
+            logs_list.append("ml=1")
 
-        # include authoritative pair_id in backend dict so client doesn't need to parse logs
+        # Backend dict that clients expect (unchanged shape)
         backend_dict = {"producer": clean_name(service), "features": pfeats}
         if pair_identifier:
             backend_dict["pair_id"] = pair_identifier
 
-        # metadata block: canonical place for clients (UI / CI) to read provenance
+        # Metadata block (canonical place to store provenance)
         meta_block: Dict[str, Any] = {"dataset": ds, "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
         if pair_identifier:
             meta_block["pair_id"] = pair_identifier
-        # include commit hash from versioning if present (a common provenance piece)
-        commit_hash = None
-        try:
-            if isinstance(vfeats, dict):
-                commit_hash = vfeats.get("commit") or vfeats.get("git_commit") or vfeats.get("commit_hash")
-        except Exception:
-            commit_hash = None
-        if commit_hash:
-            meta_block["commit_hash"] = commit_hash
+        if isinstance(vfeats, dict):
+            commit_hash = vfeats.get("commit") or vfeats.get("git_commit") or vfeats.get("commit_hash")
+            if commit_hash:
+                meta_block["commit_hash"] = commit_hash
 
-        # determine risk band / level
+        # Also include ML hints in metadata (non-breaking addition)
+        meta_block["ml_used"] = bool(ml_used)
+        if ml_used and isinstance(ML_METADATA, dict):
+            # record model name/version if available
+            meta_block["model_name"] = ML_METADATA.get("model_name", None)
+            meta_block["model_version"] = ML_METADATA.get("version", None)
+
+        # Determine band/level using existing mapping (keeps CI thresholds unchanged)
         band = _risk_band(score)
         level = "PASS"
         if band == "Medium":
@@ -1371,6 +1788,51 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
         elif band == "High":
             level = "BLOCK"
 
+        # ----------------------------
+        # Normalize report pieces (so UI + CI see stable shapes)
+        # ----------------------------
+        # `details` may be DiffItem objects or dicts; normalize to canonical dicts
+        normalized_details = normalize_details_list(details)
+        normalized_backend_impacts = normalize_impacts_list(be_imp)
+        normalized_frontend_impacts = normalize_impacts_list(fe_imp)
+        normalized_versioning = normalize_versioning(vfeats)
+        normalized_metadata = normalize_metadata(meta_block)
+
+        # convert normalized details back to DiffItem objects for the Pydantic model
+        details_for_report = []
+        for nd in normalized_details:
+            try:
+                # ensure keys match DiffItem; Drop unexpected keys
+                details_for_report.append(DiffItem(**{k: v for k, v in nd.items() if k in DiffItem.__fields__}))
+            except Exception:
+                # best-effort: create a minimal DiffItem
+                try:
+                    details_for_report.append(DiffItem(ace_id=nd.get("ace_id"), type=nd.get("type"), path=nd.get("path"), method=nd.get("method"), detail=nd.get("detail")))
+                except Exception:
+                    continue
+
+        # convert impacts to ImpactItem Pydantic objects
+        backend_impacts_for_report = []
+        for bi in normalized_backend_impacts:
+            try:
+                backend_impacts_for_report.append(ImpactItem(**{k: v for k, v in bi.items() if k in ImpactItem.__fields__}))
+            except Exception:
+                try:
+                    backend_impacts_for_report.append(ImpactItem(service=bi.get("service"), risk_score=bi.get("risk_score", 0.0)))
+                except Exception:
+                    continue
+
+        frontend_impacts_for_report = []
+        for fi in normalized_frontend_impacts:
+            try:
+                frontend_impacts_for_report.append(ImpactItem(**{k: v for k, v in fi.items() if k in ImpactItem.__fields__}))
+            except Exception:
+                try:
+                    frontend_impacts_for_report.append(ImpactItem(service=fi.get("service"), risk_score=fi.get("risk_score", 0.0)))
+                except Exception:
+                    continue
+
+        # Final Report object (shape preserved)
         return Report(
             dataset=ds,
             old_file=str(p_old.name),
@@ -1378,18 +1840,19 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
             risk_score=score,
             risk_band=band,
             risk_level=level,
-            summary=f"{len(details)} change items detected",
-            details=details,
-            ai_explanation=make_explanation(score, details, pfeats, vfeats, be_imp, fe_imp),
+            summary=f"{len(normalized_details)} change items detected",
+            details=details_for_report,
+            ai_explanation=make_explanation(score, normalized_details, pfeats, normalized_versioning, normalized_backend_impacts, normalized_frontend_impacts),
             backend=backend_dict,
             logs=logs_list,
-            backend_impacts=[ImpactItem(**i) for i in be_imp],
-            frontend_impacts=[ImpactItem(**i) for i in fe_imp],
+            backend_impacts=backend_impacts_for_report,
+            frontend_impacts=frontend_impacts_for_report,
             predicted_risk=score,
-            confidence={"overall": min(1.0, len(details) / 5), "backend": avg_confidence(be_imp), "frontend": avg_confidence(fe_imp)},
-            versioning=vfeats,
-            metadata=meta_block,
+            confidence={"overall": min(1.0, len(normalized_details) / 5), "backend": avg_confidence(normalized_backend_impacts), "frontend": avg_confidence(normalized_frontend_impacts)},
+            versioning=normalized_versioning,
+            metadata=normalized_metadata,
         )
+
     except HTTPException:
         raise
     except Exception as e:
@@ -1398,6 +1861,7 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
         raise HTTPException(status_code=500, detail={"error": "report-failed", "message": str(e), "trace": tb.splitlines()[-40:]})
     finally:
         log.info("REPORT duration: %.3fs", time.time() - start)
+
 
 
 # ---------- analyze endpoint ----------
@@ -1566,6 +2030,16 @@ def ace(request: Request, ace_id: str = Query(..., alias="ace_id"), pair_id: Opt
     except Exception as e:
         log.exception("ace handler failed (%s): %s", rid, e)
         raise HTTPException(status_code=500, detail={"error": "ace-failed", "message": str(e), "request_id": rid})
+
+@app.post("/_admin/reload_model")
+def admin_reload_model() -> Dict[str, Any]:
+    try:
+        load_ml_model()
+        return {"ok": True, "loaded": ML_LOADED, "model_file": str(MODEL_FILE), "feature_cols": len(ML_FEATURE_COLS) if ML_FEATURE_COLS else 0}
+    except Exception as e:
+        log.exception("reload_model failed")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # ---------- run (development) ----------
 if __name__ == "__main__":
