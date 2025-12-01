@@ -232,6 +232,9 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any]) -> Dict
     We'll:
       - diff via server.diff_openapi (gives list of DiffItem)
       - call server.api_analyze with JSON payloads to get model-style predictions/summary
+
+    IMPORTANT: produce 'pair_id' and 'ai_explanation' in the 'analyze' payload if available,
+    so the downstream CI summary can pick them up cleanly.
     """
     # run a shallow deref to improve detection of schema changes that use $ref
     try:
@@ -264,6 +267,9 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any]) -> Dict
                 }
         except Exception:
             dd = {"type": str(d)}
+        # normalize type casing to upper (helps UIs show uniform case)
+        if "type" in dd and isinstance(dd["type"], str):
+            dd["type"] = dd["type"].upper()
         diffs_serial.append(dd)
 
     # call server.api_analyze in-process to get predictions & summary
@@ -275,10 +281,67 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any]) -> Dict
         print("WARN: server.api_analyze raised:", e, file=sys.stderr)
         analy = {"run_id": None, "predictions": [], "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
+    # Ensure analy is a dict we can augment
+    if not isinstance(analy, dict):
+        analy = {"summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
+
+    # Try to propagate pair_id from various places (versioning / metadata / backend)
+    pair_id = None
+    try:
+        if isinstance(analy.get("versioning"), dict):
+            pair_id = analy["versioning"].get("pair_id") or pair_id
+        if isinstance(analy.get("metadata"), dict):
+            pair_id = analy["metadata"].get("pair_id") or pair_id
+        if isinstance(analy.get("backend"), dict):
+            pair_id = analy["backend"].get("pair_id") or pair_id
+    except Exception:
+        pass
+
+    # If still not found and diffs contain ace_id with pair prefix, try to extract
+    if not pair_id:
+        for d in diffs_serial:
+            aid = d.get("ace_id") or ""
+            if isinstance(aid, str) and "::" in aid:
+                maybe = aid.split("::")[0]
+                if maybe.startswith("pair-"):
+                    pair_id = maybe
+                    break
+
+    # Prepare ai_explanation: use analy.ai_explanation if available, else call server.make_explanation fallback
+    ai_expl = analy.get("ai_explanation") or analy.get("explanation") or None
+    if not ai_expl:
+        # attempt to build using server.make_explanation if available
+        try:
+            # need pfeats/vfeats/be_imp/fe_imp for server.make_explanation; build minimal defaults
+            fake_pfeats = {}
+            fake_vfeats = analy.get("versioning") or {}
+            # compute some impacts counts heuristically
+            be_imp = analy.get("backend_impacts") or []
+            fe_imp = analy.get("frontend_impacts") or []
+            score = 0.0
+            try:
+                score = float((analy.get("summary") or {}).get("service_risk", 0.0))
+            except Exception:
+                score = 0.0
+            try:
+                ai_expl = server.make_explanation(score, diffs_serial, fake_pfeats, fake_vfeats, be_imp, fe_imp)
+            except Exception:
+                ai_expl = ""
+        except Exception:
+            ai_expl = ""
+
+    # make sure analy contains canonical entries downstream expects
+    analy_out = dict(analy)
+    analy_out.setdefault("summary", analy_out.get("summary") or {})
+    analy_out["summary"].setdefault("service_risk", float((analy_out["summary"].get("service_risk") or 0.0)))
+    analy_out["summary"].setdefault("num_aces", len(diffs_serial))
+    analy_out["pair_id"] = pair_id
+    analy_out["ai_explanation"] = ai_expl
+
     # Build combined result
     out = {
         "diffs": diffs_serial,
-        "analyze": analy,
+        "analyze": analy_out,
     }
     return out
 
@@ -367,6 +430,8 @@ def main():
     max_risk = 0.0
     total_aces = 0
     atomic_aces = []
+    pair_id_top = None
+    ai_expl_top = None
     for e in results:
         analy = e["result"].get("analyze", {}) or {}
         summary = analy.get("summary") or {}
@@ -379,7 +444,25 @@ def main():
         total_aces += naces
         # collect diffs (atomic change events)
         for d in e["result"].get("diffs", []):
+            # ensure type is uniform
+            if isinstance(d.get("type"), str):
+                d["type"] = d["type"].upper()
             atomic_aces.append(d)
+        # pick the first non-empty pair_id and ai_explanation we find (authoritative)
+        if not pair_id_top:
+            pair_id_top = analy.get("pair_id") or (analy.get("versioning") or {}).get("pair_id") or (analy.get("metadata") or {}).get("pair_id")
+        if not ai_expl_top:
+            ai_expl_top = analy.get("ai_explanation") or analy.get("explanation")
+
+    # Compute band / label consistent with other code paths
+    def _band_label(score: float):
+        if score >= 0.7:
+            return "High", "BLOCK"
+        if score >= 0.4:
+            return "Medium", "WARN"
+        return "Low", "PASS"
+
+    band, level = _band_label(max_risk)
 
     compact = {
         "status": full_out["status"],
@@ -390,8 +473,17 @@ def main():
         "impact_assessment": {
             "score": round(float(max_risk), 3),
             "label": "high" if max_risk >= 0.6 else "medium" if max_risk >= 0.25 else "low",
-            "breaking_count": sum(1 for a in atomic_aces if a.get("type", "").lower() in ("param_changed", "response_schema_changed", "requestbody_schema_changed", "endpoint_removed")),
+            "breaking_count": sum(1 for a in atomic_aces if a.get("type", "").lower() in ("param_changed","response_schema_changed","requestbody_schema_changed","endpoint_removed")),
             "total_aces": len(atomic_aces)
+        },
+        # convenience fields expected by downstream scripts
+        "risk_score": round(float(max_risk), 3),
+        "risk_band": band,
+        "risk_level": level,
+        "ai_explanation": ai_expl_top or "",
+        "pair_id": pair_id_top or "",
+        "metadata": {
+            "pair_id": pair_id_top or ""
         }
     }
 
