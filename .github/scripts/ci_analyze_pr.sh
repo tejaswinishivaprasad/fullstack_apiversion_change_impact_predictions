@@ -65,6 +65,7 @@ ensure_jq() {
 }
 
 # Post comment to PR and gate the job based on report
+# Post comment to PR and gate the job based on report
 post_and_gate() {
   # $1 = path to JSON report (OUT)
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
@@ -73,36 +74,27 @@ post_and_gate() {
     return 0
   fi
 
-  ensure_jq || true
-
-  # read canonical fields with sane fallbacks
-  # prefer predicted_risk or risk_score; fallback to nested common fields
-  if command -v jq >/dev/null 2>&1; then
-    RISK=$(jq -r '(.predicted_risk // .risk_score // .predicted // .impact_assessment?.score // .impact?.score // .score // 0) | tostring' "$OUT" 2>/dev/null || echo "0")
-  else
-    # very weak fallback: try grep -o number, not reliable
-    RISK=$(grep -o '"predicted_risk"[[:space:]]*:[[:space:]]*[0-9.eE+-]*' "$OUT" 2>/dev/null | head -n1 | sed -E 's/.*: *//' || echo "0")
+  # Check prerequisites
+  if ! command -v jq >/dev/null 2>&1; then
+    echo "post_and_gate: jq not found; please install jq in the runner for full functionality"
+    # continue but parsing will be weak
   fi
 
+  # read canonical fields with sane fallbacks
+  RISK=$(jq -r 'if .risk_score!=null then .risk_score else ( .predicted_risk // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .score // 0 ) end' "$OUT" 2>/dev/null || echo "0")
   # normalize numeric formatting (3 decimals)
   RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
 
-  # band and level
-  if command -v jq >/dev/null 2>&1; then
-    BAND=$(jq -r '.risk_band // (.versioning?.semver_delta // empty) | strings' "$OUT" 2>/dev/null || echo "")
-    LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
-  else
-    BAND=""
-    LEVEL=""
-  fi
+  # prefer explicit band fields; fallback to impact_assessment.label or compute from score
+  BAND=$(jq -r '.risk_band // .impact_assessment.label // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
+  LEVEL=$(jq -r '.risk_level // .risk_level // empty' "$OUT" 2>/dev/null || echo "")
 
-  # compute level fallback from score if risk_level missing
-  if [ -z "${LEVEL:-}" ]; then
+  if [ -z "$LEVEL" ]; then
     SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{print (r+0)}')
-    if awk "BEGIN{exit !($SCORE_NUM >= 0.7)}"; then
+    if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
       LEVEL="BLOCK"
       BAND=${BAND:-"High"}
-    elif awk "BEGIN{exit !($SCORE_NUM >= 0.4)}"; then
+    elif (( $(awk "BEGIN {print ($SCORE_NUM >= 0.4)}") )); then
       LEVEL="WARN"
       BAND=${BAND:-"Medium"}
     else
@@ -112,31 +104,20 @@ post_and_gate() {
   fi
 
   # prefer metadata.pair_id, then backend.pair_id, then scan logs if necessary
-  if command -v jq >/dev/null 2>&1; then
-    PAIR_ID=$(jq -r '.metadata?.pair_id // .backend?.pair_id // empty' "$OUT" 2>/dev/null || echo "")
-    if [ -z "$PAIR_ID" ]; then
-      PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? | capture("pair_id=(?<pid>[^\\s,;]+)")?.pid // empty' "$OUT" 2>/dev/null || echo "")
-    fi
-  else
-    PAIR_ID=""
+  PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // .pair_id // empty' "$OUT" 2>/dev/null || echo "")
+  if [ -z "$PAIR_ID" ]; then
+    PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? as $l | ($l | capture("pair_id=(?<pid>[^\\s,;]+)"))?.pid // empty' "$OUT" 2>/dev/null || echo "")
   fi
 
-  if command -v jq >/dev/null 2>&1; then
-    EXPL=$(jq -r '.ai_explanation // empty' "$OUT" 2>/dev/null || echo "")
-    ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // 0)' "$OUT" 2>/dev/null || echo "0")
-    BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
-    FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
-    FILES_CHANGED=$(jq -r '.metadata.files_changed // .files_changed // empty' "$OUT" 2>/dev/null || echo "")
-  else
-    EXPL=""
-    ACES="0"
-    BACKEND_IMP="0"
-    FRONTEND_IMP="0"
-    FILES_CHANGED=""
-  fi
+  EXPL=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
+
+  # other handy fields
+  ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // .atomic_change_events | length // 0) // 0' "$OUT" 2>/dev/null || echo "0")
+  BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
+  FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
+  FILES_CHANGED=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed // empty' "$OUT" 2>/dev/null || echo "")
 
   # Make a small badge and result string
-  BADGE=""
   if [ "$LEVEL" = "BLOCK" ]; then
     BADGE="🔴 **BLOCK**"
   elif [ "$LEVEL" = "WARN" ]; then
@@ -146,6 +127,12 @@ post_and_gate() {
   fi
 
   RISK_LINE="**Risk:** ${RISK_FMT} (${BAND:-n/a}) — ${BADGE}"
+
+  # Quick one-line summary for logs & top of PR comment (this is the 'spark' line)
+  QUICK_LINE="Quick: Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE} | Files: ${FILES_CHANGED:-0} | API changes: ${ACES:-0}"
+  # also echo to runner log so it's visible in Actions console
+  echo "$QUICK_LINE"
+
   META_LINE=""
   if [ -n "$PAIR_ID" ]; then
     META_LINE="$META_LINE • pair_id=${PAIR_ID}"
@@ -154,8 +141,8 @@ post_and_gate() {
     META_LINE="$META_LINE • files=${FILES_CHANGED}"
   fi
 
-  # Build markdown body
-  BODY="### Impact AI — Analysis result\n\n${RISK_LINE}\n\n"
+  # Build markdown body (include quick line prominently)
+  BODY="### Impact AI — Analysis result\n\n**${QUICK_LINE}**\n\n${RISK_LINE}\n\n"
   BODY="${BODY}- ACES detected: ${ACES:-0}\n- Backend impacts: ${BACKEND_IMP:-0}\n- Frontend impacts: ${FRONTEND_IMP:-0}\n"
   if [ -n "$META_LINE" ]; then
     BODY="${BODY}\n${META_LINE}\n"
@@ -166,11 +153,7 @@ post_and_gate() {
   fi
 
   # include compact JSON summary for debugging / link back
-  if command -v jq >/dev/null 2>&1; then
-    BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n$(jq -c '.' "$OUT" | sed 's/`/`/g')\n\`\`\`\n</details>\n"
-  else
-    BODY="${BODY}\n\n(Raw report not included because jq is not available on runner)\n"
-  fi
+  BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n$(jq -c '.' "$OUT" | sed 's/`/`/g')\n\`\`\`\n</details>\n"
 
   # Post comment: prefer gh CLI; fallback to curl with GITHUB_TOKEN
   if command -v gh >/dev/null 2>&1; then
@@ -201,10 +184,7 @@ post_and_gate() {
         REPO=${GITHUB_REPOSITORY:-}
         API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
         echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
-        # use recommended auth header format and explicit content-type
-        curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" \
-             -H "Content-Type: application/json" \
-             -X POST -d "$(jq -nc --arg body "$BODY" '{body:$body}')" "$API_URL" || echo "curl post failed"
+        curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d "$(jq -nc --arg body "$BODY" '{body:$body}')" "$API_URL" || echo "curl post failed"
       else
         echo "post_and_gate: Cannot determine PR number to post comment. Set PR_NUMBER env or let workflow run on pull_request event."
       fi
@@ -221,6 +201,7 @@ post_and_gate() {
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
+
 
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
