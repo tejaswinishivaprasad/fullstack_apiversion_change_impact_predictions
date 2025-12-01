@@ -168,8 +168,6 @@ export async function fetchReportsBatch({ dataset, limit = 10, onProgress = null
   return results;
 }
 
-// api.js
-
 // --- fetchAce: prefer export/ace?inline=true, fallback to /ace ---
 export async function fetchAce(pairId, aceId) {
   if (!aceId) throw new Error("aceId required for fetchAce");
@@ -179,8 +177,8 @@ export async function fetchAce(pairId, aceId) {
                              : { ace_id: aceId, inline: "true" };
 
   const candidates = [
-    `${BACKEND_URL}/ace${buildQuery(paramsAce)}`,                       // JSON first
-    `${BACKEND_URL}/export/ace${buildQuery(paramsInline)}`             // blob fallback
+    `${BACKEND_URL}/ace${buildQuery(paramsAce)}`,                       
+    `${BACKEND_URL}/export/ace${buildQuery(paramsInline)}`             
   ];
 
   let lastErr = null;

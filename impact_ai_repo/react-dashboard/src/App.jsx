@@ -133,39 +133,161 @@ const HUMAN_TYPE = {
 };
 
 const explainChange = (d, rpt = {}) => {
-  const t = (d.type || "").toUpperCase();
-  const path = d.path || (typeof d.detail === "string" ? d.detail : "");
+  // normalize type to lowercase for robust matching
+  const t = (d.type || "").toLowerCase();
+  const det = d.detail;
+  const path = d.path || (typeof det === "string" ? det : "");
+
+  // tiny helper to make a readable short schema/type description
+  const shortSchema = (s) => {
+    if (!s) return "n/a";
+    if (typeof s === "string") return s.slice(0, 80);
+    if (typeof s === "object") {
+      if (s.type) return String(s.type);
+      if (s.$ref) return `ref:${String(s.$ref).split("/").pop()}`;
+      if (s.properties && typeof s.properties === "object") return `${Object.keys(s.properties).length} fields`;
+      return JSON.stringify(s).slice(0, 80);
+    }
+    return String(s).slice(0, 80);
+  };
+
+  // Prefer structured detail objects produced by the server
+  if (det && typeof det === "object") {
+    const kind = det.kind || "";
+
+    if (kind === "param") {
+      const name = det.name || "-";
+      const loc = det.in || "-";
+      if (det.required_changed) {
+        if (det.required_changed.to) {
+          return `Parameter '${name}' in ${loc} became required (was optional). Clients that omit it may receive validation errors (400).`;
+        }
+        return `Parameter '${name}' in ${loc} became optional (was required).`;
+      }
+      if (det.schema_changed) {
+        const oldS = shortSchema(det.schema_changed.old);
+        const newS = shortSchema(det.schema_changed.new);
+        let extra = "";
+        if (det.enum_narrowed && Array.isArray(det.enum_narrowed.removed) && det.enum_narrowed.removed.length) {
+          extra = ` Enum narrowed: removed ${JSON.stringify(det.enum_narrowed.removed)}.`;
+        } else if (det.enum_widened && Array.isArray(det.enum_widened.added) && det.enum_widened.added.length) {
+          extra = ` Enum widened: added ${JSON.stringify(det.enum_widened.added)}.`;
+        }
+        return `Parameter '${name}' in ${loc} schema/type changed: ${oldS} → ${newS}.${extra} This may break clients that validate or parse this parameter.`;
+      }
+      return `Parameter '${name}' in ${loc} changed. Review ACE details for the exact diff.`;
+    }
+
+    if (kind === "response" || kind === "response_media" || kind === "response_schema") {
+      const code = det.status_code || "-";
+      const mt = det.media_type || det.media || "application/json";
+      const oldS = shortSchema(det.old);
+      const newS = shortSchema(det.new);
+      return `Response ${code} (${mt}) schema changed: ${oldS} → ${newS}. Consumers parsing the payload may break if required fields or types were removed/changed.`;
+    }
+
+    if (kind === "requestbody" || kind === "requestbody_media" || kind === "requestbody_schema") {
+      const mt = det.media_type || det.media || "application/json";
+      const oldS = shortSchema(det.old);
+      const newS = shortSchema(det.new);
+      return `Request body (${mt}) schema changed: ${oldS} → ${newS}. Clients sending older payload shapes may fail server validation.`;
+    }
+
+    // generic structured fallback
+    if (det.name || det.path) {
+      return `Change: ${det.name || det.path}. Inspect ACE details for full context.`;
+    }
+  }
+
+  // Fallback to older string-based details and normalized type cases
   switch (t) {
-    case "ENDPOINT_ADDED":
     case "endpoint_added":
-      return `This adds a new API endpoint (${path}). New endpoints are normally non-breaking, but increase surface area; check auth and shared DTOs.`;
-    case "ENDPOINT_REMOVED":
+      return `Adds a new API endpoint (${path}). New endpoints are normally non-breaking but increase surface area; check auth and shared DTOs.`;
     case "endpoint_removed":
-      return `This removes an endpoint (${path}). Removing endpoints is breaking for clients that used it; check consumers and replacement paths.`;
-    case "PARAM_REQUIRED_ADDED":
+      return `Removes an API endpoint (${path}). Removing endpoints is breaking for clients that used it; check consumers and replacement paths.`;
     case "param_required_added":
       return `A parameter became required (${path}). Clients omitting this will fail; this is a breaking change unless defaults exist.`;
-    case "ENUM_NARROWED":
+    case "enum_narrowed":
       return `An enum or allowed-value set was narrowed (${path}). Clients using removed values may fail.`;
-    case "RESPONSE_CODE_REMOVED":
     case "response_code_removed":
       return `A response code was removed (${path}). Clients expecting that code may behave incorrectly; check client logic.`;
-    case "PARAM_ADDED":
+    case "param_added":
       return `A parameter was added (${path}). If optional it's non-breaking; if required it's breaking — check defaults.`;
-    case "PARAM_REMOVED":
+    case "param_removed":
       return `A parameter was removed (${path}). Usually non-breaking but verify server validation behavior.`;
-    case "RESPONSE_SCHEMA_CHANGED":
     case "response_schema_changed":
-      return `Response schema changed (${path}). Consumers that parse the payload may break if fields/types changed.`;
-    case "REQUESTBODY_SCHEMA_CHANGED":
+      return `Response schema changed (${path}). Consumers that parse the payload may break if fields or types changed.`;
     case "requestbody_schema_changed":
       return `Request body schema changed (${path}). Clients sending older shapes may fail; validate and communicate.`;
     default:
-      return d.detail
-        ? `Change detected (${d.type}): ${typeof d.detail === "string" ? d.detail : "see ACE details"}.`
-        : `Change detected (${d.type}). Review consumers to judge impact.`;
+      // generic fallback: prefer the textual detail if available
+      if (d.detail) {
+        const txt = typeof d.detail === "string" ? d.detail : JSON.stringify(d.detail);
+        return `Change detected (${d.type || "unknown"}): ${txt}`;
+      }
+      return `Change detected (${d.type || "unknown"}). Review consumers to judge impact.`;
   }
 };
+
+
+// Find best matching newer-version file for a selected 'oldFile' from a list of filenames.
+// Returns filename string or null if none found.
+export function findCorrespondingNewFile(oldFile, files = []) {
+  if (!oldFile || !files || !files.length) return null;
+
+  // normalize helper: extract base (remove version tokens) and version number if present
+  const normalize = (fname) => {
+    // keep extension and rest so we can compare correctly
+    // look for version tokens like -v1, _v1, v1 (word boundary) optionally preceded by separators
+    const m = fname.match(/(.*?)(?:[-_]?v(\d+)|\bv(\d+)\b)(.*)$/i);
+    if (m) {
+      const base = (m[1] + m[4]).replace(/(^[-_.]+|[-_.]+$)/g, "");
+      const ver = parseInt(m[2] || m[3], 10);
+      return { base, ver: Number.isFinite(ver) ? ver : null };
+    }
+    // no explicit version token — try to remove common suffix words like '.canonical' leaving extension
+    const baseNoVer = fname.replace(/[-_.]?v\d+/i, "");
+    return { base: baseNoVer, ver: null };
+  };
+
+  const oldNorm = normalize(oldFile);
+
+  // Construct candidates that appear to share the same base (simple includes + normalized base compare)
+  const candidates = files
+    .filter((f) => f !== oldFile)
+    .map((f) => ({ f, n: normalize(f) }))
+    .filter(({ f, n }) => {
+      // exact base match (ignoring version)
+      const a = oldNorm.base.toLowerCase();
+      const b = n.base.toLowerCase();
+      return a === b || b.includes(a) || a.includes(b);
+    });
+
+  if (!candidates.length) return null;
+
+  // If old has a version number, prefer the smallest candidate with version > old
+  if (oldNorm.ver !== null) {
+    const higher = candidates
+      .filter(({ n }) => n.ver !== null && n.ver > oldNorm.ver)
+      .sort((a, b) => a.n.ver - b.n.ver);
+    if (higher.length) return higher[0].f;
+  }
+
+  // Otherwise try to find v2 specifically
+  const v2 = candidates.find(({ f }) => /(?:[-_]?v2|\bv2\b)/i.test(f));
+  if (v2) return v2.f;
+
+  // fallback: pick candidate with highest version if versions exist
+  const withVers = candidates.filter(({ n }) => n.ver !== null);
+  if (withVers.length) {
+    withVers.sort((a, b) => b.n.ver - a.n.ver);
+    return withVers[0].f;
+  }
+
+  // last resort: try to pick file that shares most token overlap (base includes)
+  return candidates[0].f || null;
+}
+
 
 function downloadJSON(obj, filename = "impact-report.json") {
   const blob = new Blob([JSON.stringify(obj ?? {}, null, 2)], { type: "application/json;charset=utf-8" });
@@ -253,11 +375,63 @@ function computeSummaryFromReport(report) {
 }
 
 // ACE modal component
-function AceModal({ open, ace, loading, error, onClose, onExport }) {
+function AceModal({ open, ace, loading, error, onClose }) {
+  const [showDetailOnly, setShowDetailOnly] = React.useState(false);
+
+  const extractAcePayload = () => {
+    if (!ace) return null;
+    if (ace.ace) return ace.ace;
+    return ace;
+  };
+
+  const payload = extractAcePayload();
+
+  // short one-line preview (what you saw before)
+  const shortPreview = (() => {
+    if (!payload) return "";
+    if (payload.path) return String(payload.path);
+    if (payload.detail && typeof payload.detail === "string") return payload.detail;
+    // try to synthesize from common keys
+    if (payload.type) return `${payload.type} ${payload.ace_id ? `(${payload.ace_id})` : ""}`;
+    return "";
+  })();
+
+  const renderPrettyJSON = (obj) => {
+    try {
+      return JSON.stringify(obj, null, 2);
+    } catch {
+      return String(obj);
+    }
+  };
+
+  const renderBody = () => {
+    if (!payload) return "No ACE data available.";
+
+    if (showDetailOnly) {
+      // if detail exists show it (structured or string). If missing, fall back to full object.
+      if (payload.detail !== undefined && payload.detail !== null) {
+        if (typeof payload.detail === "object") return renderPrettyJSON(payload.detail);
+        return String(payload.detail);
+      }
+      // fallback
+      return renderPrettyJSON(payload);
+    }
+
+    // default: show full ACE object (so you always get everything)
+    return renderPrettyJSON(payload);
+  };
+
+  // derive title text (keep same form you saw)
+  const titleId = payload?.ace_id ? ` — ${payload.ace_id}` : "";
+  const subtitle = shortPreview ? shortPreview : "";
+
   return (
     <Dialog open={!!open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>ACE JSON {ace?.ace_id ? ` — ${ace.ace_id}` : ""}</DialogTitle>
-      <DialogContent dividers style={{ minHeight: 120 }}>
+      <DialogTitle>
+        ACE JSON{titleId}
+      </DialogTitle>
+
+      <DialogContent dividers style={{ minHeight: 140 }}>
         {loading ? (
           <Box display="flex" alignItems="center" justifyContent="center" padding={4}>
             <CircularProgress />
@@ -269,16 +443,51 @@ function AceModal({ open, ace, loading, error, onClose, onExport }) {
                 <Typography variant="body2" color="error">{error}</Typography>
               </Box>
             )}
-            <pre style={{ whiteSpace: "pre-wrap", fontSize: 12 }}>{JSON.stringify(ace || {}, null, 2)}</pre>
+
+            {subtitle ? (
+              <Box marginBottom={1}>
+                <Typography variant="body2" style={{ fontFamily: "monospace", fontSize: 12, color: "#333" }}>
+                  {subtitle}
+                </Typography>
+              </Box>
+            ) : null}
+
+            <Box display="flex" alignItems="center" gap={1} marginBottom={1}>
+              <FormControlLabel
+                control={<Switch checked={showDetailOnly} onChange={(e) => setShowDetailOnly(e.target.checked)} size="small" />}
+                label={<Typography variant="caption">Show detail only</Typography>}
+              />
+              <Button
+                size="small"
+                onClick={() => {
+                  // copy payload (full or detail) to clipboard
+                  const toCopy = (() => {
+                    if (showDetailOnly && payload?.detail !== undefined && payload?.detail !== null) {
+                      return typeof payload.detail === "object" ? renderPrettyJSON(payload.detail) : String(payload.detail);
+                    }
+                    return renderPrettyJSON(payload);
+                  })();
+                  navigator.clipboard?.writeText(toCopy).then(() => {}, () => {});
+                }}
+              >
+                Copy
+              </Button>
+            </Box>
+
+            <pre style={{ whiteSpace: "pre-wrap", fontSize: 12, maxHeight: 480, overflow: "auto", margin: 0 }}>
+              {renderBody()}
+            </pre>
           </>
         )}
       </DialogContent>
+
       <DialogActions>
         <Button onClick={onClose} variant="outlined">Close</Button>
       </DialogActions>
     </Dialog>
   );
 }
+
 
 function renderBarLabel(props) {
   const { x, y, width, value } = props;
@@ -333,9 +542,14 @@ async function openAceModalFn(ace) {
 
   const aceId = ace.ace_id || ace.aceId || null;
   const pidFromReport =
-    latestReportRef.current?.metadata?.pair_id ||
-    report?.metadata?.pair_id ||
-    null;
+      latestReportRef.current?.versioning?.pair_id ||
+      latestReportRef.current?.backend?.pair_id ||
+      latestReportRef.current?.metadata?.pair_id ||
+      report?.versioning?.pair_id ||
+      report?.backend?.pair_id ||
+      report?.metadata?.pair_id ||
+      null;
+
   let pid = pidFromReport || pairId || null;
   if (!pid && aceId && typeof aceId === "string" && aceId.includes("::")) {
     pid = aceId.split("::")[0];
@@ -379,8 +593,6 @@ async function openAceModalFn(ace) {
 }
 
 
-
-
   useEffect(() => {
     (async () => {
       try {
@@ -396,6 +608,17 @@ async function openAceModalFn(ace) {
       }
     })();
   }, []);
+  // keep newSpec auto-synced to oldSpec when enabled (covers manual old changes and late file loads)
+  useEffect(() => {
+    if (!autoSync) return;
+    if (!oldSpec || !availableFiles || !availableFiles.length) return;
+    const suggested = findCorrespondingNewFile(oldSpec, availableFiles);
+    if (suggested && suggested !== newSpec) {
+      setNew(suggested);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [oldSpec, autoSync, availableFiles]);
+
 
   useEffect(() => {
     if (!dataset) return;
@@ -416,14 +639,14 @@ async function openAceModalFn(ace) {
         setFileCount(Number(parsed.count || samples.length || 0));
 
         if (samples.length >= 2) {
-          const v1 = samples.find((s) => /-v1\./i.test(s)) || samples[0];
-          const v2 =
-            samples.find((s) => /-v2\./i.test(s) && s !== v1) ||
-            samples.find((s) => s !== v1) ||
-            samples[0];
+          const firstV1 = samples.find((s) => /(?:[-_.]?v1|\bv1\b)/i.test(s)) || samples[0];
+          const suggestedV2 = findCorrespondingNewFile(firstV1, samples);
+          const v1 = firstV1;
+          const v2 = suggestedV2 || samples.find((s) => s !== v1) || samples[0];
           setOld(v1);
           setNew(v2);
-        } else if (samples.length === 1) {
+        }
+        else if (samples.length === 1) {
           setOld(samples[0]);
           setNew(samples[0]);
         } else {
@@ -444,69 +667,117 @@ async function openAceModalFn(ace) {
   }, [dataset]);
 
   const run = async (opts = {}) => {
-    setErr("");
-    setReport(null);
-    setLoading(true);
-    const usePairId = opts.usePair ?? !!pairId;
-    try {
-      const data = await analyzeAPI(oldSpec, newSpec, dataset, usePairId ? pairId : null);
-      const parsed = parseMaybeJson(data, null) || {};
-      parsed.metadata = parsed.metadata || {};
-      if (!parsed.metadata.dataset) parsed.metadata.dataset = dataset;
-      if (!parsed.metadata.file_name) parsed.metadata.file_name = newSpec || "";
-      if (!parsed.metadata.generated_at) parsed.metadata.generated_at = new Date().toISOString();
-      parsed.metadata.commit_hash = parsed.metadata.commit_hash || parsed.versioning?.commit || parsed.versioning?.git_commit || null;
-      parsed.metadata.repo_url = parsed.metadata.repo_url || (parsed.metadata.repo_owner && parsed.metadata.repo_name ? `https://github.com/${parsed.metadata.repo_owner}/${parsed.metadata.repo_name}` : parsed.metadata.repo_url || null);
+  setErr("");
+  setReport(null);
+  setLoading(true);
+  const usePairId = opts.usePair ?? !!pairId;
 
-      setReport(parsed);
-      latestReportRef.current = parsed;
+  const isBadPid = (p) =>
+    !p ||
+    String(p).trim() === "" ||
+    ["n/a", "na", "null", "undefined"].includes(String(p).toLowerCase());
 
-      // store lastRequest in snake_case pair_id so API wrapper expects that param
-      setLastRequest({ oldSpec, newSpec, dataset, pair_id: usePairId ? pairId : null });
+  try {
+    const data = await analyzeAPI(oldSpec, newSpec, dataset, usePairId ? pairId : null);
+    const parsed = parseMaybeJson(data, null) || {};
+    parsed.metadata = parsed.metadata || {};
+    if (!parsed.metadata.dataset) parsed.metadata.dataset = dataset;
+    if (!parsed.metadata.file_name) parsed.metadata.file_name = newSpec || "";
+    if (!parsed.metadata.generated_at) parsed.metadata.generated_at = new Date().toISOString();
+    parsed.metadata.commit_hash = parsed.metadata.commit_hash || parsed.versioning?.commit || parsed.versioning?.git_commit || null;
+    parsed.metadata.repo_url =
+      parsed.metadata.repo_url ||
+      (parsed.metadata.repo_owner && parsed.metadata.repo_name
+        ? `https://github.com/${parsed.metadata.repo_owner}/${parsed.metadata.repo_name}`
+        : parsed.metadata.repo_url || null);
 
-      if (parsed && parsed.versioning && Object.keys(parsed.versioning).length === 0 && parsed.logs) {
-        const logEntry = (parsed.logs || []).find((l) => typeof l === "string" && l.includes("pair_id="));
+    setReport(parsed);
+    latestReportRef.current = parsed;
+
+    // store lastRequest in snake_case pair_id so API wrapper expects that param
+    setLastRequest({ oldSpec, newSpec, dataset, pair_id: usePairId ? pairId : null });
+
+    // ---------- robust pair_id resolution ----------
+    // Prefer authoritative locations: versioning, backend, metadata, then fallback to logs
+    let resolvedPid =
+      parsed.versioning?.pair_id ||
+      parsed.backend?.pair_id ||
+      parsed.metadata?.pair_id ||
+      parsed.metadata?.pairId ||
+      null;
+
+    if (!resolvedPid || isBadPid(resolvedPid)) {
+      // fallback to parsing logs only if nothing authoritative found
+      if (Array.isArray(parsed.logs) && parsed.logs.length > 0) {
+        const logEntry = parsed.logs.find((l) => typeof l === "string" && l.includes("pair_id="));
         if (logEntry) {
           const m = /pair_id=([^\s,;]+)/.exec(logEntry);
-          if (m) {
-            const pid = m[1];
-            setPairId(pid);
-            try {
-              const v = await fetchVersioning(pid);
-              setReport((r) => ({ ...r, versioning: v }));
-            } catch {}
+          if (m && m[1]) {
+            const pidFromLog = m[1];
+            if (!isBadPid(pidFromLog)) resolvedPid = pidFromLog;
+            else console.info("[UI] ignored invalid pid from logs:", pidFromLog);
           }
         }
       }
+    }
 
-      if (parsed && parsed.backend_impacts && parsed.backend_impacts.length > 0) {
+    if (resolvedPid && !isBadPid(resolvedPid)) {
+      // update UI state with authoritative pid
+      setPairId(resolvedPid);
+
+      // if server didn't return versioning payload, try to fetch it (safe, idempotent)
+      const hasVersioning = parsed.versioning && Object.keys(parsed.versioning || {}).length > 0;
+      if (!hasVersioning) {
         try {
-          const svc = parsed.backend_impacts[0].service;
-          const svcClean = (svc || "").replace(/^svc:/i, "").replace(/^ui:/i, "");
-          const c = await fetchConsumers(svcClean);
-          setConsumers(parseMaybeJson(c, []));
-        } catch {
-          setConsumers([]);
+          const v = await fetchVersioning(resolvedPid);
+          // merge versioning safely into current report
+          setReport((r) => ({ ...(r || {}), versioning: v || {} }));
+          latestReportRef.current = { ...(latestReportRef.current || {}), versioning: v || {} };
+        } catch (verr) {
+          // don't fail the whole run if version lookup fails; just log
+          console.warn("[UI] fetchVersioning failed for pid=", resolvedPid, verr);
         }
-      } else {
+      }
+    } else {
+      // leave pairId alone (or cleared) if nothing valid found
+      if (!resolvedPid) {
+        // don't overwrite a manually entered pairId if usePairId was true
+        if (!usePairId) setPairId("");
+      }
+    }
+
+    // ---------- fetch consumers if backend impacts exist ----------
+    if (parsed && parsed.backend_impacts && parsed.backend_impacts.length > 0) {
+      try {
+        const svc = parsed.backend_impacts[0].service;
+        const svcClean = (svc || "").replace(/^svc:/i, "").replace(/^ui:/i, "");
+        const c = await fetchConsumers(svcClean);
+        setConsumers(parseMaybeJson(c, []));
+      } catch (cerr) {
+        console.warn("[UI] fetchConsumers failed", cerr);
         setConsumers([]);
       }
-    } catch (e) {
-      // show structured server messages if present
-      let msg = "Failed to analyze. Check backend logs.";
-      if (e && e.data) {
-        if (typeof e.data === "string") msg = e.data;
-        else if (e.data.message) msg = e.data.message;
-        else if (e.data.detail) msg = Array.isArray(e.data.detail) ? e.data.detail.join("\n") : e.data.detail;
-        else msg = JSON.stringify(e.data);
-      } else if (e && e.message) {
-        msg = e.message;
-      }
-      setErr(msg);
-    } finally {
-      setLoading(false);
+    } else {
+      setConsumers([]);
     }
-  };
+  } catch (e) {
+    // show structured server messages if present
+    let msg = "Failed to analyze. Check backend logs.";
+    if (e && e.data) {
+      if (typeof e.data === "string") msg = e.data;
+      else if (e.data.message) msg = e.data.message;
+      else if (e.data.detail) msg = Array.isArray(e.data.detail) ? e.data.detail.join("\n") : e.data.detail;
+      else msg = JSON.stringify(e.data);
+    } else if (e && e.message) {
+      msg = e.message;
+    }
+    console.error("[UI] run() failed:", e);
+    setErr(msg);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const retry = async () => {
     if (!lastRequest) return;
@@ -590,37 +861,40 @@ async function openAceModalFn(ace) {
 
   const provenanceLine = (r) => {
     if (!r) return "";
-    const pid = r.metadata?.pair_id || r.logs?.find((l) => l.includes("pair_id="))?.match(/pair_id=([^\s,;]+)/)?.[1];
+    const pid =
+      r.versioning?.pair_id ||
+      r.backend?.pair_id ||
+      r.metadata?.pair_id ||
+      r.logs?.find((l) => typeof l === "string" && l.includes("pair_id="))?.match(/pair_id=([^\s,;]+)/)?.[1] ||
+      null;
     const risk = (r.predicted_risk ?? r.risk_score ?? 0).toFixed(2);
     const gen = r.metadata?.generated_at || "";
     return [pid ? `pair=${pid}` : null, `risk=${risk}`, gen ? `Generated ${gen}` : null].filter(Boolean).join(" • ");
   };
 
-  const compactAceSummary = (d) => {
-    if (!d) return "";
-    if (d.path) return d.path;
-    const det = d.detail;
-    if (!det) return "";
-    if (typeof det === "string") return det.length > 120 ? det.slice(0, 117) + "..." : det;
-    if (typeof det === "object") {
-      const parts = [];
-      if (det.confidence !== undefined && det.confidence !== null) {
-        const num = Number(det.confidence);
-        parts.push(`conf=${Number.isFinite(num) ? num.toFixed(2) : String(det.confidence)}`);
-      }
-      const prov = det.provenance || {};
-      const old_sha = prov.old_sha || prov.old || prov.oldCommit;
-      const new_sha = prov.new_sha || prov.new || prov.newCommit;
-      if (old_sha || new_sha) parts.push(`sha=${String(old_sha || "").slice(0, 8)}→${String(new_sha || "").slice(0, 8)}`);
-      if (det.side_effect !== undefined) parts.push(`side_effects=${det.side_effect ? "yes" : "no"}`);
-      const calls = Array.isArray(det.calls_services || det.calls) ? (det.calls_services || det.calls).length : 0;
-      const shared = Array.isArray(det.shared_schemas) ? det.shared_schemas.length : (det.shared_schemas ? 1 : 0);
-      if (calls) parts.push(`calls=${calls}`);
-      if (shared) parts.push(`shared_schemas=${shared}`);
-      return parts.join(", ") || JSON.stringify(det);
+
+  function compactAceSummary(detail) {
+  if (!detail) return "";
+  if (typeof detail === "string") return detail.slice(0, 120);
+
+  if (typeof detail === "object") {
+    const kind = detail.kind;
+    if (kind === "param") {
+      return `Param '${detail.name}' in ${detail.in}`;
     }
-    return String(det);
-  };
+    if (kind && kind.includes("response")) {
+      return `Response change (${detail.media_type || "json"})`;
+    }
+    if (kind && kind.includes("requestbody")) {
+      return `Request body change (${detail.media_type || "json"})`;
+    }
+    // fallback for odd cases
+    return JSON.stringify(detail).slice(0, 120);
+  }
+
+  return String(detail).slice(0, 120);
+}
+
 
   const renderHumanExplanation = (rpt) => {
     if (!rpt) return null;
@@ -757,9 +1031,14 @@ async function openAceModalFn(ace) {
                 label="Old Spec"
                 value={oldSpec}
                 onChange={(e) => {
-                  setOld(e.target.value);
-                  if (autoSync) setNew(e.target.value);
+                  const chosen = e.target.value;
+                  setOld(chosen);
+                  if (autoSync && availableFiles && availableFiles.length) {
+                    const suggested = findCorrespondingNewFile(chosen, availableFiles);
+                    if (suggested) setNew(suggested);
+                  }
                 }}
+
                 SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 360 } } } }}
                 InputLabelProps={{ shrink: true }}
                 inputProps={{ style: { textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" } }}
@@ -813,10 +1092,6 @@ async function openAceModalFn(ace) {
                   </Button>
                 </span>
               </Tooltip>
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControlLabel control={<Switch checked={autoSync} onChange={(e) => setAutoSync(e.target.checked)} />} label="Auto sync new = old when selecting" />
             </Grid>
 
           </Grid>
