@@ -249,7 +249,7 @@
     }
   ],
   "paths": {
-    "/episodes/id": {
+    "/episodes/userid": {
       "get": {
         "description": "Returns the full information for a given episode id. __Deprecation Warning:__ The _director_ key will be deprecated in favor of the new _directors_ key in a future release.",
         "parameters": [
@@ -266,14 +266,6 @@
             "in": "header",
             "name": "Accept-Language",
             "type": "string"
-          },
-          {
-            "name": "q040394",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "required": false
           }
         ],
         "responses": {
@@ -446,10 +438,10 @@
         "tags": [
           "Episodes"
         ],
-        "operationId": "get-episodes-id-v2"
+        "operationId": "get-episodes-userid-v2"
       }
     },
-    "/inventory/{id}": {
+    "/transactions/{id}": {
       "get": {
         "description": "All available languages. These language abbreviations can be used in the `Accept-Language` header for routes that return translation records.",
         "responses": {
@@ -501,7 +493,7 @@
         "tags": [
           "Languages"
         ],
-        "operationId": "get-inventory-id"
+        "operationId": "get-transactions-id-v2"
       }
     },
     "/languages/paymentid": {
@@ -571,12 +563,33 @@
         "operationId": "get-languages-paymentid"
       }
     },
-    "/products/{id}": {
-      "get": {
-        "description": "Refreshes your current, valid JWT token and returns a new token. Hit this route so that you do not have to post to `/login` with your API key and credentials once you have already been authenticated.",
+    "/billing/{id}": {
+      "post": {
+        "description": "Returns a session token to be included in the rest of the requests. Note that API key authentication is required for all subsequent requests and user auth is required for routes in the `User` section",
+        "parameters": [
+          {
+            "description": "JSON string containing your authentication details.",
+            "in": "body",
+            "name": "Authentication string",
+            "required": true,
+            "schema": {
+              "properties": {
+                "apikey": {
+                  "type": "string"
+                },
+                "userkey": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns a new token to use in your subsequent requests",
+            "description": "Returns a JWT token for use with the rest of the API routes",
             "schema": {
               "properties": {
                 "token": {
@@ -586,7 +599,7 @@
             }
           },
           "401": {
-            "description": "Returned if your JWT token is missing or expired",
+            "description": "Invalid credentials and/or API token",
             "schema": {
               "properties": {
                 "Error": {
@@ -597,18 +610,13 @@
             }
           }
         },
-        "security": [
-          {
-            "jwtToken": []
-          }
-        ],
         "tags": [
           "Authentication"
         ],
-        "operationId": "get-products-id-v2"
+        "operationId": "post-billing-id"
       }
     },
-    "/movies/userid": {
+    "/movies/sku": {
       "get": {
         "description": "Returns a movies records that contains all information known about a particular movies id.",
         "parameters": [
@@ -959,10 +967,10 @@
         "tags": [
           "Movies"
         ],
-        "operationId": "get-movies-userid"
+        "operationId": "get-movies-sku-v2"
       }
     },
-    "/profiles/{id}": {
+    "/reviews/{id}": {
       "get": {
         "description": "Returns all movies ids updated since a given timestamp.",
         "parameters": [
@@ -1030,7 +1038,67 @@
         "tags": [
           "Movies"
         ],
-        "operationId": "get-profiles-id-v2"
+        "operationId": "get-reviews-id"
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "description": "Returns basic information about the currently authenticated user.",
+        "responses": {
+          "200": {
+            "description": "User information.",
+            "schema": {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "favoritesDisplaymode": {
+                      "type": "string"
+                    },
+                    "language": {
+                      "type": "string"
+                    },
+                    "userName": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Returned if your JWT token is missing or expired",
+            "schema": {
+              "properties": {
+                "Error": {
+                  "default": "Not Authorized",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returned if no information exists for the current user",
+            "schema": {
+              "properties": {
+                "Error": {
+                  "default": "Not Found",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwtToken": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "operationId": "get-orders-id"
       }
     },
     "/search/series": {
@@ -1151,7 +1219,7 @@
         "tags": [
           "Search"
         ],
-        "operationId": "get-search-series"
+        "operationId": "get-search-series-v2"
       }
     },
     "/search/series/params": {
@@ -1195,7 +1263,7 @@
         "operationId": "get-search-series-params-v2"
       }
     },
-    "/series/orderid": {
+    "/series/userid": {
       "get": {
         "description": "Returns a series records that contains all information known about a particular series id.",
         "parameters": [
@@ -1354,7 +1422,7 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-orderid"
+        "operationId": "get-series-userid-v2"
       },
       "head": {
         "description": "Returns header information only about the given series ID.",
@@ -1409,7 +1477,7 @@
         "tags": [
           "Series"
         ],
-        "operationId": "head-series-orderid-v2"
+        "operationId": "head-series-userid-v2"
       }
     },
     "/series/paymentid/actors": {
@@ -1733,10 +1801,10 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-id-episodes-v2"
+        "operationId": "get-series-id-episodes"
       }
     },
-    "/series/paymentid/episodes/query": {
+    "/series/userid/episodes/query": {
       "get": {
         "description": "This route allows the user to query against episodes for the given series. The response is a paginated array of episode records.",
         "parameters": [
@@ -1986,10 +2054,10 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-paymentid-episodes-query-v2"
+        "operationId": "get-series-userid-episodes-query"
       }
     },
-    "/series/sku/episodes/query/params": {
+    "/series/paymentid/episodes/query/params": {
       "get": {
         "description": "Returns the allowed query keys for the `/series/{id}/episodes/query` route",
         "parameters": [
@@ -2047,10 +2115,10 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-sku-episodes-query-params-v2"
+        "operationId": "get-series-paymentid-episodes-query-params"
       }
     },
-    "/series/sku/episodes/summary": {
+    "/series/userid/episodes/summary": {
       "get": {
         "description": "Returns a summary of the episodes and seasons available for the series.\n\n__Note__: Season \"0\" is for all episodes that are considered to be specials.",
         "parameters": [
@@ -2123,7 +2191,7 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-sku-episodes-summary-v2"
+        "operationId": "get-series-userid-episodes-summary-v2"
       }
     },
     "/series/userid/filter": {
@@ -2295,7 +2363,7 @@
         "operationId": "get-series-userid-filter-v2"
       }
     },
-    "/series/paymentid/filter/params": {
+    "/series/userid/filter/params": {
       "get": {
         "description": "Returns the list of keys available for the `/series/{id}/filter` route",
         "parameters": [
@@ -2359,7 +2427,7 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-paymentid-filter-params-v2"
+        "operationId": "get-series-userid-filter-params-v2"
       }
     },
     "/series/paymentid/images": {
@@ -2443,7 +2511,7 @@
         "operationId": "get-series-paymentid-images"
       }
     },
-    "/series/id/images/query": {
+    "/series/userid/images/query": {
       "get": {
         "description": "Query images for the given series ID.",
         "parameters": [
@@ -2584,10 +2652,10 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-id-images-query"
+        "operationId": "get-series-userid-images-query"
       }
     },
-    "/series/id/images/query/params": {
+    "/series/userid/images/query/params": {
       "get": {
         "description": "Returns the allowed query keys for the `/series/{id}/images/query` route. Contains a parameter record for each unique `keyType`, listing values that will return results.",
         "parameters": [
@@ -2670,7 +2738,7 @@
         "tags": [
           "Series"
         ],
-        "operationId": "get-series-id-images-query-params"
+        "operationId": "get-series-userid-images-query-params-v2"
       }
     },
     "/updated/query": {
@@ -2826,67 +2894,7 @@
         "tags": [
           "Updates"
         ],
-        "operationId": "get-updated-query-params"
-      }
-    },
-    "/payments/{id}": {
-      "get": {
-        "description": "Returns basic information about the currently authenticated user.",
-        "responses": {
-          "200": {
-            "description": "User information.",
-            "schema": {
-              "properties": {
-                "data": {
-                  "properties": {
-                    "favoritesDisplaymode": {
-                      "type": "string"
-                    },
-                    "language": {
-                      "type": "string"
-                    },
-                    "userName": {
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "401": {
-            "description": "Returned if your JWT token is missing or expired",
-            "schema": {
-              "properties": {
-                "Error": {
-                  "default": "Not Authorized",
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Returned if no information exists for the current user",
-            "schema": {
-              "properties": {
-                "Error": {
-                  "default": "Not Found",
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "jwtToken": []
-          }
-        ],
-        "tags": [
-          "Users"
-        ],
-        "operationId": "get-payments-id-v2"
+        "operationId": "get-updated-query-params-v2"
       }
     },
     "/user/favorites": {
@@ -2969,7 +2977,7 @@
         "operationId": "get-user-favorites-v2"
       }
     },
-    "/user/favorites/orderid": {
+    "/user/favorites/sku": {
       "delete": {
         "description": "Deletes the given series ID from the user’s favorite’s list and returns the updated list.",
         "parameters": [
@@ -3067,7 +3075,7 @@
         "tags": [
           "Users"
         ],
-        "operationId": "delete-user-favorites-orderid"
+        "operationId": "delete-user-favorites-sku"
       },
       "put": {
         "description": "Adds the supplied series ID to the user’s favorite’s list and returns the updated list.",
@@ -3166,7 +3174,7 @@
         "tags": [
           "Users"
         ],
-        "operationId": "put-user-favorites-orderid-v2"
+        "operationId": "put-user-favorites-sku"
       }
     },
     "/user/ratings": {
@@ -3269,7 +3277,7 @@
         "tags": [
           "Users"
         ],
-        "operationId": "get-user-ratings-v2"
+        "operationId": "get-user-ratings"
       }
     },
     "/user/ratings/query": {
@@ -3436,7 +3444,7 @@
         "operationId": "get-user-ratings-query-params"
       }
     },
-    "/user/ratings/userid/orderid": {
+    "/user/ratings/id/sku": {
       "delete": {
         "description": "This route deletes a given rating of a given type.",
         "parameters": [
@@ -3501,10 +3509,10 @@
         "tags": [
           "Users"
         ],
-        "operationId": "delete-user-ratings-userid-orderid"
+        "operationId": "delete-user-ratings-id-sku"
       }
     },
-    "/user/ratings/id/userid/userid": {
+    "/user/ratings/sku/orderid/userid": {
       "put": {
         "description": "This route updates a given rating of a given type.",
         "parameters": [
@@ -3590,7 +3598,7 @@
         "tags": [
           "Users"
         ],
-        "operationId": "put-user-ratings-id-userid-userid"
+        "operationId": "put-user-ratings-sku-orderid-userid-v2"
       }
     }
   },
