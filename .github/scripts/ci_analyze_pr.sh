@@ -65,7 +65,6 @@ ensure_jq() {
 }
 
 # Post comment to PR and gate the job based on report
-# Post comment to PR and gate the job based on report
 post_and_gate() {
   # $1 = path to JSON report (OUT)
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
@@ -74,88 +73,69 @@ post_and_gate() {
     return 0
   fi
 
-  # Check prerequisites
   if ! command -v jq >/dev/null 2>&1; then
     echo "post_and_gate: jq not found; please install jq in the runner for full functionality"
-    # continue but parsing will be weak
   fi
 
-  # read canonical fields with sane fallbacks
-  RISK=$(jq -r 'if .risk_score!=null then .risk_score else ( .predicted_risk // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .impact_assessment.score // .score // 0 ) end' "$OUT" 2>/dev/null || echo "0")
-  # normalize numeric formatting (3 decimals)
+  # robust risk extraction with sane fallback
+  RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
   RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
 
-  # prefer explicit band fields; fallback to impact_assessment.label or compute from score
-  BAND=$(jq -r '.risk_band // .impact_assessment.label // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
-  LEVEL=$(jq -r '.risk_level // .risk_level // empty' "$OUT" 2>/dev/null || echo "")
+  BAND=$(jq -r '.risk_band // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
+  LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
 
   if [ -z "$LEVEL" ]; then
     SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{print (r+0)}')
     if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
-      LEVEL="BLOCK"
-      BAND=${BAND:-"High"}
+      LEVEL="BLOCK"; BAND=${BAND:-"High"}
     elif (( $(awk "BEGIN {print ($SCORE_NUM >= 0.4)}") )); then
-      LEVEL="WARN"
-      BAND=${BAND:-"Medium"}
+      LEVEL="WARN"; BAND=${BAND:-"Medium"}
     else
-      LEVEL="PASS"
-      BAND=${BAND:-"Low"}
+      LEVEL="PASS"; BAND=${BAND:-"Low"}
     fi
   fi
 
-  # prefer metadata.pair_id, then backend.pair_id, then scan logs if necessary
+  # pair id + explanation + counts
   PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // .pair_id // empty' "$OUT" 2>/dev/null || echo "")
   if [ -z "$PAIR_ID" ]; then
     PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? as $l | ($l | capture("pair_id=(?<pid>[^\\s,;]+)"))?.pid // empty' "$OUT" 2>/dev/null || echo "")
   fi
-
   EXPL=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
 
-  # other handy fields
   ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // .atomic_change_events | length // 0) // 0' "$OUT" 2>/dev/null || echo "0")
   BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
   FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
   FILES_CHANGED=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed // empty' "$OUT" 2>/dev/null || echo "")
 
-  # Make a small badge and result string
   if [ "$LEVEL" = "BLOCK" ]; then
-    BADGE="🔴 **BLOCK**"
+    BADGE="🔴 **BLOCK** (${BAND:-n/a})"
   elif [ "$LEVEL" = "WARN" ]; then
-    BADGE="🟡 **WARN**"
+    BADGE="🟡 **WARN** (${BAND:-n/a})"
   else
-    BADGE="🟢 **PASS**"
+    BADGE="🟢 **PASS** (${BAND:-n/a})"
   fi
 
-  RISK_LINE="**Risk:** ${RISK_FMT} (${BAND:-n/a}) — ${BADGE}"
-
-  # Quick one-line summary for logs & top of PR comment (this is the 'spark' line)
   QUICK_LINE="Quick: Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE} | Files: ${FILES_CHANGED:-0} | API changes: ${ACES:-0}"
-  # also echo to runner log so it's visible in Actions console
   echo "$QUICK_LINE"
 
   META_LINE=""
-  if [ -n "$PAIR_ID" ]; then
-    META_LINE="$META_LINE • pair_id=${PAIR_ID}"
-  fi
-  if [ -n "$FILES_CHANGED" ]; then
-    META_LINE="$META_LINE • files=${FILES_CHANGED}"
-  fi
+  [ -n "$PAIR_ID" ] && META_LINE="$META_LINE • pair_id=${PAIR_ID}"
+  [ -n "$FILES_CHANGED" ] && META_LINE="$META_LINE • files=${FILES_CHANGED}"
 
-  # Build markdown body (include quick line prominently)
-  BODY="### Impact AI — Analysis result\n\n**${QUICK_LINE}**\n\n${RISK_LINE}\n\n"
+  BODY="### Impact AI — Analysis result\n\n**${QUICK_LINE}**\n\n**Risk:** ${RISK_FMT} (${BAND:-n/a}) — ${BADGE}\n\n"
   BODY="${BODY}- ACES detected: ${ACES:-0}\n- Backend impacts: ${BACKEND_IMP:-0}\n- Frontend impacts: ${FRONTEND_IMP:-0}\n"
-  if [ -n "$META_LINE" ]; then
-    BODY="${BODY}\n${META_LINE}\n"
-  fi
+  [ -n "$META_LINE" ] && BODY="${BODY}\n${META_LINE}\n"
+  [ -n "$EXPL" ] && BODY="${BODY}\n**Explanation:**\n\n\`\`\`\n${EXPL}\n\`\`\`\n"
 
-  if [ -n "$EXPL" ]; then
-    BODY="${BODY}\n**Explanation:**\n\n\`\`\`\n${EXPL}\n\`\`\`\n"
-  fi
-
-  # include compact JSON summary for debugging / link back
   BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n$(jq -c '.' "$OUT" | sed 's/`/`/g')\n\`\`\`\n</details>\n"
 
-  # Post comment: prefer gh CLI; fallback to curl with GITHUB_TOKEN
+  # ensure gh can use workflow token if available
+  if command -v gh >/dev/null 2>&1; then
+    if [ -z "${GH_TOKEN:-}" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
+      export GH_TOKEN="${GITHUB_TOKEN}"
+    fi
+  fi
+
   if command -v gh >/dev/null 2>&1; then
     if [ -n "${PR_NUMBER:-}" ]; then
       echo "post_and_gate: posting PR comment via gh for PR ${PR_NUMBER}"
@@ -163,12 +143,9 @@ post_and_gate() {
     else
       if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
         PR_NUM=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
-        if [ -n "$PR_NUM" ]; then
-          echo "post_and_gate: posting PR comment via gh for PR ${PR_NUM}"
-          gh pr comment "${PR_NUM}" --body "$BODY" || echo "gh comment failed"
-        fi
+        [ -n "$PR_NUM" ] && gh pr comment "${PR_NUM}" --body "$BODY" || echo "gh comment failed"
       else
-        echo "post_and_gate: cannot determine PR number for gh comment (set PR_NUMBER or run on pull_request event)"
+        echo "post_and_gate: cannot determine PR number for gh comment"
       fi
     fi
   else
@@ -186,21 +163,33 @@ post_and_gate() {
         echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
         curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d "$(jq -nc --arg body "$BODY" '{body:$body}')" "$API_URL" || echo "curl post failed"
       else
-        echo "post_and_gate: Cannot determine PR number to post comment. Set PR_NUMBER env or let workflow run on pull_request event."
+        echo "post_and_gate: Cannot determine PR number to post comment."
       fi
     fi
   fi
 
-  # Fail the job if BLOCK (this prevents merging if branch protection requires this job)
+  # export outputs for downstream steps
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    echo "impact_level=${LEVEL}" >> "${GITHUB_OUTPUT}"
+    echo "impact_risk=${RISK_FMT}" >> "${GITHUB_OUTPUT}"
+  fi
+
+  # configurable gating: default true for backwards compatibility
+  FAIL_ON_BLOCK="${FAIL_ON_BLOCK:-true}"
   if [ "$LEVEL" = "BLOCK" ]; then
-    echo "Impact AI gating: BLOCK (risk ${RISK_FMT}). Failing job to prevent merge."
-    # exit non-zero to fail workflow and block PR merge when job is required by branch protection
-    exit 1
+    if [ "$FAIL_ON_BLOCK" = "true" ] || [ "$FAIL_ON_BLOCK" = "1" ]; then
+      echo "Impact AI gating: BLOCK (risk ${RISK_FMT}). Failing job to prevent merge."
+      exit 1
+    else
+      echo "Impact AI gating: BLOCK (risk ${RISK_FMT}). NOT failing job (FAIL_ON_BLOCK=${FAIL_ON_BLOCK}). Leaving advisory comment only."
+      return 0
+    fi
   fi
 
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
+
 
 
 # copy any generated report(s) to repo root and set github outputs when possible

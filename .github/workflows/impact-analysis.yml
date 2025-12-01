@@ -81,10 +81,15 @@ jobs:
           AI_CORE_DIR: ${{ env.AI_CORE_DIR }}
           GITHUB_WORKSPACE: ${{ github.workspace }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          # IMPORTANT: set to "false" to avoid failing the workflow when the report level is BLOCK.
+          # Set to "true" if you want the job to fail/act as a gate.
+          FAIL_ON_BLOCK: "false"
+          # Provide GH_TOKEN so any 'gh' CLI usage inside the script can authenticate.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -x
           .github/scripts/ci_analyze_pr.sh
-        # NOTE: intentionally NOT continue-on-error so a BLOCK can fail the job and block merges
+        # NOTE: intentionally NOT continue-on-error so you can re-enable gating by flipping FAIL_ON_BLOCK
 
       - name: Upload report artifacts (summary + full if present)
         if: always()
