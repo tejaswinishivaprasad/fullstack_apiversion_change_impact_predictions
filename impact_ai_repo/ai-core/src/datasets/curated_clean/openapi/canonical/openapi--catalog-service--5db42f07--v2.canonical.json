@@ -32,7 +32,7 @@
   "paths": {
     "/carts/{id}": {
       "get": {
-        "description": "Retrieve the location of an IP address",
+        "description": "Retrieve the location of an IP address.",
         "parameters": [
           {
             "explode": true,
