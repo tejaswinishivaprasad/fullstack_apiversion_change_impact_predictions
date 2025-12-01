@@ -66,7 +66,6 @@ ensure_jq() {
 
 # Post comment to PR and gate the job based on report
 post_and_gate() {
-  # $1 = path to JSON report (OUT)
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
   if [ ! -f "$OUT" ]; then
     echo "post_and_gate: report not found at $OUT, skipping posting/gating"
@@ -95,7 +94,7 @@ post_and_gate() {
     fi
   fi
 
-  # pair id + explanation + counts
+  # pull other fields
   PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // .pair_id // empty' "$OUT" 2>/dev/null || echo "")
   if [ -z "$PAIR_ID" ]; then
     PAIR_ID=$(jq -r '[.logs[]? // empty] | map(select(. != "")) | .[]? as $l | ($l | capture("pair_id=(?<pid>[^\\s,;]+)"))?.pid // empty' "$OUT" 2>/dev/null || echo "")
@@ -105,50 +104,84 @@ post_and_gate() {
   ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // .atomic_change_events | length // 0) // 0' "$OUT" 2>/dev/null || echo "0")
   BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
   FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
-  FILES_CHANGED=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed // empty' "$OUT" 2>/dev/null || echo "")
 
-  if [ "$LEVEL" = "BLOCK" ]; then
-    BADGE="🔴 **BLOCK** (${BAND:-n/a})"
-  elif [ "$LEVEL" = "WARN" ]; then
-    BADGE="🟡 **WARN** (${BAND:-n/a})"
-  else
-    BADGE="🟢 **PASS** (${BAND:-n/a})"
+  # format files changed as readable list (if it's an array)
+  FILES_CHANGED_RAW=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed // empty' "$OUT" 2>/dev/null || echo "")
+  FILES_MD=""
+  if [ -n "$FILES_CHANGED_RAW" ]; then
+    # if it's a JSON array, list each element
+    if jq -e 'if type=="array" then . else empty end' >/dev/null 2>&1 <<<"$FILES_CHANGED_RAW"; then
+      # This branch unlikely: FILES_CHANGED_RAW contains raw string; parse from file instead
+      FILES_MD=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed | if . == null then "" elif type=="array" then map("- "+.)|.[] else tostring end' "$OUT" 2>/dev/null || echo "")
+    else
+      # try reading from the report directly and format
+      FILES_MD=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed | if . == null then "" elif type=="array" then map("- "+.)|.[] elif type=="string" then . else tostring end' "$OUT" 2>/dev/null || echo "")
+    fi
   fi
 
-  QUICK_LINE="Quick: Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE} | Files: ${FILES_CHANGED:-0} | API changes: ${ACES:-0}"
+  # badges
+  if [ "$LEVEL" = "BLOCK" ]; then
+    BADGE="🔴 BLOCK (${BAND:-n/a})"
+  elif [ "$LEVEL" = "WARN" ]; then
+    BADGE="🟡 WARN (${BAND:-n/a})"
+  else
+    BADGE="🟢 PASS (${BAND:-n/a})"
+  fi
+
+  QUICK_LINE="Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE}"
   echo "$QUICK_LINE"
 
-  META_LINE=""
-  [ -n "$PAIR_ID" ] && META_LINE="$META_LINE • pair_id=${PAIR_ID}"
-  [ -n "$FILES_CHANGED" ] && META_LINE="$META_LINE • files=${FILES_CHANGED}"
+  # build a markdown body file (preserves real newlines)
+  BODY_FILE="$(mktemp --tmpdir pr-impact-body.XXXXXX.md)"
+  {
+    printf "### Impact AI — Analysis result\n\n"
+    printf "**Quick:** %s\n\n" "$QUICK_LINE"
+    printf "**Summary**\n\n"
+    printf "- Files analyzed:\n"
+    if [ -n "$FILES_MD" ]; then
+      # print the files list already in markdown format (each line begins with - )
+      printf "%s\n" "$FILES_MD"
+    else
+      printf "- (none)\n"
+    fi
+    printf "\n- ACES: %s\n" "$ACES"
+    printf "- Backend impacts: %s\n" "$BACKEND_IMP"
+    printf "- Frontend impacts: %s\n\n" "$FRONTEND_IMP"
 
-  BODY="### Impact AI — Analysis result\n\n**${QUICK_LINE}**\n\n**Risk:** ${RISK_FMT} (${BAND:-n/a}) — ${BADGE}\n\n"
-  BODY="${BODY}- ACES detected: ${ACES:-0}\n- Backend impacts: ${BACKEND_IMP:-0}\n- Frontend impacts: ${FRONTEND_IMP:-0}\n"
-  [ -n "$META_LINE" ] && BODY="${BODY}\n${META_LINE}\n"
-  [ -n "$EXPL" ] && BODY="${BODY}\n**Explanation:**\n\n\`\`\`\n${EXPL}\n\`\`\`\n"
+    if [ -n "$PAIR_ID" ]; then
+      printf "pair_id: %s\n\n" "$PAIR_ID"
+    fi
 
-  BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n$(jq -c '.' "$OUT" | sed 's/`/`/g')\n\`\`\`\n</details>\n"
+    if [ -n "$EXPL" ]; then
+      printf "**Explanation**\n\n"
+      printf '```\n%s\n```\n\n' "$EXPL"
+    fi
 
-  # ensure gh can use workflow token if available
+    printf "<details>\n<summary>Raw report (click to expand)</summary>\n\n"
+    printf "```json\n"
+    # pretty print JSON into the body file
+    jq -C . "$OUT" 2>/dev/null || cat "$OUT"
+    printf "\n```\n</details>\n"
+  } > "${BODY_FILE}"
+
+  # post using gh if available (prefer --body-file)
   if command -v gh >/dev/null 2>&1; then
     if [ -z "${GH_TOKEN:-}" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
       export GH_TOKEN="${GITHUB_TOKEN}"
     fi
-  fi
-
-  if command -v gh >/dev/null 2>&1; then
     if [ -n "${PR_NUMBER:-}" ]; then
       echo "post_and_gate: posting PR comment via gh for PR ${PR_NUMBER}"
-      gh pr comment "${PR_NUMBER}" --body "$BODY" || echo "gh comment failed"
+      gh pr comment "${PR_NUMBER}" --body-file "${BODY_FILE}" || echo "gh comment failed"
     else
       if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
         PR_NUM=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
-        [ -n "$PR_NUM" ] && gh pr comment "${PR_NUM}" --body "$BODY" || echo "gh comment failed"
+        [ -n "$PR_NUM" ] && gh pr comment "${PR_NUM}" --body-file "${BODY_FILE}" || echo "gh comment failed"
       else
         echo "post_and_gate: cannot determine PR number for gh comment"
       fi
     fi
   else
+    # fallback to API call using curl, post file contents as JSON body safely
     if [ -z "${GITHUB_TOKEN:-}" ]; then
       echo "Warning: gh not found and GITHUB_TOKEN not set — skipping PR comment."
     else
@@ -161,12 +194,19 @@ post_and_gate() {
         REPO=${GITHUB_REPOSITORY:-}
         API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
         echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
-        curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d "$(jq -nc --arg body "$BODY" '{body:$body}')" "$API_URL" || echo "curl post failed"
+        # read body file into variable safely
+        BODY_CONTENT=$(sed 's/\\/\\\\/g; s/"/\\"/g' "${BODY_FILE}")
+        # build JSON payload with jq to avoid manual escaping
+        jq -nc --arg body "$(<"${BODY_FILE}")" '{body:$body}' | \
+          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d @- "$API_URL" || echo "curl post failed"
       else
         echo "post_and_gate: Cannot determine PR number to post comment."
       fi
     fi
   fi
+
+  # cleanup
+  rm -f "${BODY_FILE}" || true
 
   # export outputs for downstream steps
   if [ -n "${GITHUB_OUTPUT:-}" ]; then
@@ -174,7 +214,7 @@ post_and_gate() {
     echo "impact_risk=${RISK_FMT}" >> "${GITHUB_OUTPUT}"
   fi
 
-  # configurable gating: default true for backwards compatibility
+  # gating logic unchanged
   FAIL_ON_BLOCK="${FAIL_ON_BLOCK:-true}"
   if [ "$LEVEL" = "BLOCK" ]; then
     if [ "$FAIL_ON_BLOCK" = "true" ] || [ "$FAIL_ON_BLOCK" = "1" ]; then
@@ -189,6 +229,7 @@ post_and_gate() {
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
+
 
 
 
