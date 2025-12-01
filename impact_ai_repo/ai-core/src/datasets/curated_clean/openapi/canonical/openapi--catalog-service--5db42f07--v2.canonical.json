@@ -26,7 +26,7 @@
     "x-serviceName": "geolocation"
   },
   "externalDocs": {
-    "description": "API Documentation",
+    "description": "API Documentation Test",
     "url": "https://www.abstractapi.com/ip-geolocation-api#docs"
   },
   "paths": {
