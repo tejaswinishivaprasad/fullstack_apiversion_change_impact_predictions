@@ -95,7 +95,7 @@
                         "id": {
                           "description": "The id of the account from which purchases are made",
                           "example": "32",
-                          "type": "boolean"
+                          "type": "string"
                         }
                       },
                       "type": "object",
