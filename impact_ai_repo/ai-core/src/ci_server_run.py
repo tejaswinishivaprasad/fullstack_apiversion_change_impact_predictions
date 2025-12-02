@@ -56,23 +56,24 @@ def _resolve_candidate_root(candidate: Optional[str]) -> Optional[Path]:
     if not candidate:
         return None
     p = Path(candidate)
-    try:
-        if p.is_absolute() and p.exists():
-            return p.resolve()
-        p2 = (HERE / candidate)
-        if p2.exists():
-            return p2.resolve()
-        p3 = (REPO_ROOT / candidate)
-        if p3.exists():
-            return p3.resolve()
-        p4 = (HERE / "datasets" / candidate)
-        if p4.exists():
-            return p4.resolve()
-        p5 = (HERE.parent / candidate)
-        if p5.exists():
-            return p5.resolve()
-    except Exception:
-        pass
+    if p.is_absolute() and p.exists():
+        return p
+    # try relative to ai-core/src
+    p2 = (HERE / candidate).resolve()
+    if p2.exists():
+        return p2
+    # try relative to repo root
+    p3 = (REPO_ROOT / candidate).resolve()
+    if p3.exists():
+        return p3
+    # try inside HERE/datasets/<candidate>
+    p4 = (HERE / "datasets" / candidate).resolve()
+    if p4.exists():
+        return p4
+    # try sibling of HERE
+    p5 = (HERE.parent / candidate).resolve()
+    if p5.exists():
+        return p5
     return None
 
 def _find_index_json_under_datasets() -> Optional[Path]:
@@ -150,7 +151,7 @@ def _find_index_json_under_datasets() -> Optional[Path]:
             print(f"DEBUG: located index.json at {idx}", file=sys.stderr)
             return root
         # try common alternative names
-        alt_names = ["dataset_index.json", "index.json", "version_meta.json", "dataset_oindex.json"]
+        alt_names = ["dataset_index.json", "index.json", "version_meta.json", "dataset_oindex.json", "dataset_oindex.json"]
         for alt in alt_names:
             p_alt = root / alt
             if p_alt.exists():
@@ -174,12 +175,13 @@ def _find_index_json_under_datasets() -> Optional[Path]:
 
     return None
 
-# --- Normalize EFFECTIVE_CURATED_ROOT and GRAPH_PATH early so server.report / load_pair_index behave ---
+# --- Try to normalize EFFECTIVE_CURATED_ROOT and GRAPH_PATH ---
 try:
     eff = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
     if eff:
         res = _resolve_candidate_root(str(eff))
         if res:
+            # IMPORTANT: set as Path object to match server expectations (server may do root / "index.json")
             server.EFFECTIVE_CURATED_ROOT = res
             print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT resolved -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
         else:
@@ -201,6 +203,7 @@ except Exception as e:
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
+        # set as Path object
         server.EFFECTIVE_CURATED_ROOT = idx_root.resolve()
         print(f"DEBUG: enforcing server.EFFECTIVE_CURATED_ROOT -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
         try:
@@ -509,11 +512,8 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
                 print(f"DEBUG: checking root {root} -> new_exists: {new_exists} old_exists: {old_exists}", file=sys.stderr)
                 if new_exists and old_exists:
                     print(f"DEBUG: found both canonical files under {root}", file=sys.stderr)
-                    print("DEBUG: pre-report: server.GRAPH_PATH ->", getattr(server, "GRAPH_PATH", None), file=sys.stderr)
-                    print("DEBUG: pre-report: server.EFFECTIVE_CURATED_ROOT ->", getattr(server, "EFFECTIVE_CURATED_ROOT", None), file=sys.stderr)
                     try:
                         report_obj = server.report(dataset=dataset_key, old=old_name, new=new_name, pair_id=None)
-                        print("DEBUG: server.report returned type:", type(report_obj), file=sys.stderr)
                         repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
                         be_imp = repd.get("backend_impacts") or []
                         fe_imp = repd.get("frontend_impacts") or []
@@ -548,10 +548,7 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
                         if mo and mn and new_name and (mn.lower() == new_name.lower() or mo.lower() == new_name.lower()):
                             try:
                                 print(f"DEBUG: calling server.report using pair_id {pid} (index match)", file=sys.stderr)
-                                print("DEBUG: pre-report: server.GRAPH_PATH ->", getattr(server, "GRAPH_PATH", None), file=sys.stderr)
-                                print("DEBUG: pre-report: server.EFFECTIVE_CURATED_ROOT ->", getattr(server, "EFFECTIVE_CURATED_ROOT", None), file=sys.stderr)
                                 report_obj = server.report(dataset=dataset_key, old=mo, new=mn, pair_id=pid)
-                                print("DEBUG: server.report returned type:", type(report_obj), file=sys.stderr)
                                 repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
                                 
                                 be_imp = repd.get("backend_impacts") or []
@@ -712,7 +709,6 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
             "pair_id": analy.get("pair_id") or "",
         },
     }
-
 def ensure_graph_loaded(repo_root: Optional[str] = None, ai_core_dir_env: Optional[str] = None) -> None:
     """
     Best-effort: locate graph.json, set server.GRAPH_PATH to it, and call server.load_graph()
@@ -749,6 +745,7 @@ def ensure_graph_loaded(repo_root: Optional[str] = None, ai_core_dir_env: Option
         # 3) If repo_root and AI_CORE_DIR provided, try those combos
         try:
             if repo_root and ai_core_dir_env:
+                # ai_core_dir_env might be "impact_ai_repo/ai-core/src"
                 ai_core_dir = Path(repo_root) / ai_core_dir_env
                 candidates.append(ai_core_dir / "datasets" / "graph.json")
                 candidates.append(ai_core_dir / "datasets" / "curated_clean" / "graph.json")
@@ -844,9 +841,9 @@ def main():
 
     changed = git_changed_files()
     print("CI: changed files:", changed, file=sys.stderr)
+        # Ensure graph is discoverable & loaded before any server.report()/api_analyze() calls
+    ensure_graph_loaded(repo_root=os.getcwd(), ai_core_dir_env=os.environ.get("AI_CORE_DIR", "impact_ai_repo/ai-core/src"))
 
-    # Ensure graph is discoverable & loaded before any server.report()/api_analyze() calls
-    ensure_graph_loaded(repo_root=str(REPO_ROOT), ai_core_dir_env=str(AI_CORE_DIR_ENV))
 
     api_files = [f for f in changed if f.lower().endswith((".json", ".yaml", ".yml"))]
 
