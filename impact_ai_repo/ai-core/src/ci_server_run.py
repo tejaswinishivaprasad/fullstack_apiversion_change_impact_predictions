@@ -109,18 +109,15 @@ def _find_index_json_under_datasets() -> Optional[Path]:
         for key in server.all_dataset_keys():
             try:
                 dp = server.dataset_paths(key)
-                # dataset_paths returns dict with canonical/ndjson/metadata keys; check parent of canonical
                 for root_candidate in (dp.get("base"), dp.get("canonical"), dp.get("ndjson"), dp.get("metadata")):
                     if root_candidate:
                         rc = _resolve_candidate_root(str(root_candidate))
                         if rc:
-                            # add candidate root itself and its parent (sometimes canonical points to subdir)
                             candidates.append(rc)
                             candidates.append(rc.parent)
             except Exception:
                 continue
     except Exception:
-        # best-effort ignore
         pass
 
     # 5) fallback: scan HERE/datasets immediate children for index.json
@@ -131,7 +128,6 @@ def _find_index_json_under_datasets() -> Optional[Path]:
                 if child.is_dir():
                     if (child / "index.json").exists():
                         candidates.append(child.resolve())
-                    # also check child/<dataset>/index.json
                     if (child / "openapi" / "index.json").exists():
                         candidates.append(child.resolve())
     except Exception:
@@ -154,14 +150,13 @@ def _find_index_json_under_datasets() -> Optional[Path]:
         if idx.exists():
             print(f"DEBUG: located index.json at {idx}", file=sys.stderr)
             return root
-        # sometimes the expected file is named dataset_index.json or version_pairs etc — be helpful
+        # try common alternative names
         alt_names = ["dataset_index.json", "index.json", "version_meta.json", "dataset_oindex.json", "dataset_oindex.json"]
         for alt in alt_names:
             p_alt = root / alt
             if p_alt.exists():
                 print(f"DEBUG: located alternative index file {p_alt}", file=sys.stderr)
                 return root
-        # also check subfolders like root/curated_clean/index.json
         for sub in ("curated_clean", "curated_noisy_light", "curated_noisy_heavy"):
             psub = root / sub / "index.json"
             if psub.exists():
@@ -186,20 +181,20 @@ try:
     if eff:
         res = _resolve_candidate_root(str(eff))
         if res:
-            server.EFFECTIVE_CURATED_ROOT = str(res)
+            # IMPORTANT: set as Path object to match server expectations (server may do root / "index.json")
+            server.EFFECTIVE_CURATED_ROOT = res
             print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT resolved -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
         else:
-            # set to HERE/datasets if present (best-effort)
             fallback = (HERE / "datasets")
             if fallback.exists():
-                server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
+                server.EFFECTIVE_CURATED_ROOT = fallback.resolve()
                 print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT forced -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
             else:
                 print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT ({eff}) could not be resolved", file=sys.stderr)
     else:
         fallback = (HERE / "datasets")
         if fallback.exists():
-            server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
+            server.EFFECTIVE_CURATED_ROOT = fallback.resolve()
             print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT set -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", e, file=sys.stderr)
@@ -208,7 +203,8 @@ except Exception as e:
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
-        server.EFFECTIVE_CURATED_ROOT = str(idx_root)
+        # set as Path object
+        server.EFFECTIVE_CURATED_ROOT = idx_root.resolve()
         print(f"DEBUG: enforcing server.EFFECTIVE_CURATED_ROOT -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
         try:
             idx = server.load_pair_index()
@@ -232,7 +228,6 @@ try:
             server.GRAPH_PATH = str(res_gp)
             print(f"DEBUG: server.GRAPH_PATH resolved -> {server.GRAPH_PATH}", file=sys.stderr)
         else:
-            # try HERE/datasets/graph.json and REPO_ROOT/AI_CORE_DIR_ENV/datasets/graph.json
             cand1 = (HERE / "datasets" / "graph.json")
             cand2 = (REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json")
             if cand1.exists():
