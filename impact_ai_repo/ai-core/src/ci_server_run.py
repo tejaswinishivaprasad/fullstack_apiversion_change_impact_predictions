@@ -441,22 +441,59 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
 def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[str, Any]]:
     """
     Robust try-call to server.report with aggressive diagnostics and graph enrichment fallback.
+    (Drop-in replacement — expects `server`, `_resolve_candidate_root`, `HERE`, `REPO_ROOT`,
+     `AI_CORE_DIR_ENV`, and `diffs_serial` to be available in the module scope.)
     """
     if not dataset_key:
         print("DEBUG: try_call_report called with empty dataset_key", file=sys.stderr)
         return None
 
+    def _safe_serialize_report(report_obj):
+        """
+        Return (repd:dict, ok:bool). repd is a dict representation of report_obj if possible.
+        """
+        try:
+            if hasattr(report_obj, "dict"):
+                repd = report_obj.dict()
+            else:
+                repd = dict(report_obj)
+            if not isinstance(repd, dict):
+                repd = {"_wrapped_report": str(repd)}
+            return repd
+        except Exception:
+            try:
+                # best-effort string fallback
+                return {"_unserializable_report_obj": str(report_obj)}
+            except Exception:
+                return {"_unserializable_report_obj": "<unserializable>"}
+
     def _diagnose_and_extract(report_obj):
-        repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
+        repd = _safe_serialize_report(report_obj)
         try:
             print(f"DEBUG: report keys -> {list(repd.keys())}", file=sys.stderr)
         except Exception:
             pass
-        be_imp = repd.get("backend_impacts") or []
-        fe_imp = repd.get("frontend_impacts") or []
+        # summary / details diagnostics
+        try:
+            summary = repd.get("summary")
+            details_count = len(repd.get("details") or [])
+            print(f"DEBUG: report summary = {summary} repd.details_count = {details_count}", file=sys.stderr)
+        except Exception:
+            pass
+        # backend/frontend impacts
+        be_imp = repd.get("backend_impacts") or repd.get("backend_impacts", []) or []
+        fe_imp = repd.get("frontend_impacts") or repd.get("frontend_impacts", []) or []
+        try:
+            print(f"DEBUG: report backend_impacts count={len(be_imp)} frontend_impacts count={len(fe_imp)}", file=sys.stderr)
+        except Exception:
+            pass
+        # versioning & metadata
         ver = repd.get("versioning") or {}
         meta = repd.get("metadata") or {}
-        print(f"DEBUG: report backend_impacts count={len(be_imp)} frontend_impacts count={len(fe_imp)}", file=sys.stderr)
+        try:
+            print(f"DEBUG: repd.pair_id = {repd.get('pair_id') or meta.get('pair_id') or ver.get('pair_id')}", file=sys.stderr)
+        except Exception:
+            pass
         return repd, be_imp, fe_imp, ver, meta
 
     try:
@@ -525,8 +562,10 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                 candidate_roots_n.append(Path(rp))
         candidate_roots = candidate_roots_n
 
-        # 1) Try direct canonical file report() call
+        # keep trace of attempted roots for final diagnostic
         tried_roots = []
+
+        # 1) Try direct canonical file report() call
         for root in candidate_roots:
             tried_roots.append(str(root))
             new_path = (root / new_name) if new_name else None
@@ -537,9 +576,11 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
             if new_exists and old_exists:
                 print(f"DEBUG: found both canonical files under {root}", file=sys.stderr)
                 try:
+                    # call server.report with the filenames (server.resolve_file_for_dataset will handle variant-aware paths)
                     report_obj = server.report(dataset=dataset_key, old=old_name, new=new_name, pair_id=None)
                     repd, be_imp, fe_imp, ver, meta = _diagnose_and_extract(report_obj)
-                    # gather service candidates
+
+                    # gather service candidates (try to enrich impacts using graph if missing)
                     service_candidates = []
                     if isinstance(ver, dict):
                         ps = ver.get("producers_sample") or ver.get("producers") or []
@@ -558,6 +599,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                                 service_candidates.append(fg)
                     except Exception:
                         pass
+
                     # normalize candidates
                     sc_norm = []
                     seen_s = set()
@@ -581,12 +623,13 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                             except Exception as e:
                                 print("DEBUG: server.load_graph() inside try_call_report raised:", e, file=sys.stderr)
                                 # attempt to force several GRAPH_PATH candidates
-                                candidates = [
+                                gp_candidates = [
                                     getattr(server, "GRAPH_PATH", None),
                                     str(HERE / "datasets" / "graph.json"),
                                     str(REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json"),
+                                    str((Path(getattr(server, '__file__', '.') or '.').parent / 'datasets' / 'graph.json')),
                                 ]
-                                for p in candidates:
+                                for p in gp_candidates:
                                     if not p:
                                         continue
                                     try:
@@ -601,20 +644,19 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                                         continue
 
                             if g is not None:
-                                changed_paths = [server.normalize_path(d.get("path")) for d in diffs_serial if d.get("path")]
+                                changed_paths = [server.normalize_path(d.get("path")) for d in (diffs_serial or []) if d.get("path")]
                                 # try each candidate
                                 for svc in sc_norm + [None]:
                                     try:
-                                        svc_name = svc
-                                        maybe_be = server.backend_impacts(g, svc_name, changed_paths)
-                                        maybe_fe = server.ui_impacts(g, svc_name, changed_paths)
+                                        maybe_be = server.backend_impacts(g, svc, changed_paths)
+                                        maybe_fe = server.ui_impacts(g, svc, changed_paths)
                                         if maybe_be:
-                                            print(f"DEBUG: graph-based backend_impacts found for svc='{svc_name}': {maybe_be}", file=sys.stderr)
+                                            print(f"DEBUG: graph-based backend_impacts found for svc='{svc}': {maybe_be}", file=sys.stderr)
                                             be_imp = maybe_be
                                         if maybe_fe:
-                                            print(f"DEBUG: graph-based frontend_impacts found for svc='{svc_name}': {maybe_fe}", file=sys.stderr)
+                                            print(f"DEBUG: graph-based frontend_impacts found for svc='{svc}': {maybe_fe}", file=sys.stderr)
                                             fe_imp = maybe_fe
-                                        if be_imp:
+                                        if be_imp and fe_imp:
                                             break
                                     except Exception as e:
                                         print("DEBUG: backend/ui impact attempt failed for svc:", svc, e, file=sys.stderr)
@@ -627,7 +669,15 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                     ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
                     pair_id = repd.get("metadata", {}).get("pair_id") or repd.get("pair_id") or repd.get("versioning", {}).get("pair_id", "") or ""
                     summary = repd.get("summary") or {}
-                    service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)))
+                    # support either summary object or flat risk_score
+                    try:
+                        service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)) if isinstance(summary, dict) else repd.get("risk_score", 0.0))
+                    except Exception:
+                        try:
+                            service_risk = float(repd.get("risk_score", 0.0))
+                        except Exception:
+                            service_risk = 0.0
+
                     return {
                         "diffs": diffs_serial,
                         "analyze": {
@@ -641,7 +691,11 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                         }
                     }
                 except Exception as e:
+                    # detailed warn so CI logs show what happened
+                    import traceback as _tb
                     print("WARN: server.report(dataset) call failed at canonical success branch:", e, file=sys.stderr)
+                    for line in _tb.format_exc().splitlines()[:6]:
+                        print("WARN: " + line, file=sys.stderr)
                     # continue to index-based heuristics
 
         # 2) pair-index fallback
@@ -655,8 +709,13 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                         mn = Path(str(meta.get("new_canonical") or meta.get("new") or "")).name if meta.get("new") else None
                         if mo and mn and new_name and (mn.lower() == new_name.lower() or mo.lower() == new_name.lower()):
                             print(f"DEBUG: index match -> pid={pid} mo={mo} mn={mn}", file=sys.stderr)
-                            report_obj = server.report(dataset=dataset_key, old=mo, new=mn, pair_id=pid)
-                            repd, be_imp, fe_imp, ver, meta = _diagnose_and_extract(report_obj)
+                            try:
+                                report_obj = server.report(dataset=dataset_key, old=mo, new=mn, pair_id=pid)
+                                repd, be_imp, fe_imp, ver, meta = _diagnose_and_extract(report_obj)
+                            except Exception as e:
+                                print("WARN: server.report(dataset) call failed at index-match branch:", e, file=sys.stderr)
+                                continue
+
                             # same enrichment logic as above
                             service_candidates = []
                             ps = ver.get("producers_sample") or ver.get("producers") or []
@@ -676,10 +735,11 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                                 if s0 and s0 not in seen_s:
                                     seen_s.add(s0)
                                     sc_norm.append(s0)
+
                             if (not be_imp) or (not fe_imp):
                                 try:
                                     g = server.load_graph()
-                                    changed_paths = [server.normalize_path(d.get("path")) for d in diffs_serial if d.get("path")]
+                                    changed_paths = [server.normalize_path(d.get("path")) for d in (diffs_serial or []) if d.get("path")]
                                     for svc_name in sc_norm + [None]:
                                         try:
                                             maybe_be = server.backend_impacts(g, svc_name, changed_paths)
@@ -688,7 +748,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                                                 be_imp = maybe_be
                                             if maybe_fe:
                                                 fe_imp = maybe_fe
-                                            if be_imp:
+                                            if be_imp and fe_imp:
                                                 break
                                         except Exception:
                                             continue
@@ -698,7 +758,14 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                             ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
                             pair_id = pid or repd.get("metadata", {}).get("pair_id") or ""
                             summary = repd.get("summary") or {}
-                            service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)))
+                            try:
+                                service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)) if isinstance(summary, dict) else repd.get("risk_score", 0.0))
+                            except Exception:
+                                try:
+                                    service_risk = float(repd.get("risk_score", 0.0))
+                                except Exception:
+                                    service_risk = 0.0
+
                             return {
                                 "diffs": diffs_serial,
                                 "analyze": {
@@ -712,7 +779,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                                 }
                             }
                     except Exception as e:
-                        print("DEBUG: skipping index entry due to error:", e, file=sys.stderr)
+                        print("DEBUG: skipping index entry due to error while iterating index:", e, file=sys.stderr)
                         continue
         except Exception as e:
             print("DEBUG: load_pair_index threw:", e, file=sys.stderr)
