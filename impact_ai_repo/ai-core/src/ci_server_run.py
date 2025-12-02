@@ -226,96 +226,193 @@ def load_json_text(text: str) -> Dict[str, Any]:
         except Exception:
             return {}
 
-def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any]) -> Dict[str, Any]:
+def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any], rel_path: str = None) -> Dict[str, Any]:
     """
-    Uses server.report() instead of server.api_analyze() so that backend_impacts,
-    frontend_impacts, model outputs, versioning metadata and full-stack impact
-    propagation are preserved exactly like the dashboard.
+    Robust: prefer calling server.report(dataset, old_name, new_name, pair_id) so
+    backend/frontend impacts and version metadata are filled (like dashboard).
+    If we cannot map to dataset/canonical names, fallback to server.api_analyze
+    plus a heuristics-based backend/frontend via server.backend_impacts/ui_impacts.
+    NOTE: `rel_path` (relative path seen by CI) is passed from caller when available.
     """
-
-    # shallow deref
+    # 1. shallow deref for diffs
     try:
         old2 = dereference_components(old_doc)
         new2 = dereference_components(new_doc)
     except Exception:
         old2, new2 = old_doc, new_doc
 
-    # diff as before
+    # 2. compute diffs (list of DiffItem or simple items)
     try:
         diffs = server.diff_openapi(old2, new2)
     except Exception as e:
         print("WARN: server.diff_openapi failed:", e, file=sys.stderr)
         diffs = []
 
+    # serialize diffs to plain dicts (same as before)
     diffs_serial = []
     for d in diffs:
         try:
-            dd = d.dict() if hasattr(d, "dict") else {
-                "type": getattr(d, "type", None),
-                "path": getattr(d, "path", None),
-                "method": getattr(d, "method", None),
-                "detail": getattr(d, "detail", None),
-                "ace_id": getattr(d, "ace_id", None),
-            }
+            if hasattr(d, "dict"):
+                dd = d.dict()
+            else:
+                dd = {
+                    "type": getattr(d, "type", None),
+                    "path": getattr(d, "path", None),
+                    "method": getattr(d, "method", None),
+                    "detail": getattr(d, "detail", None),
+                    "ace_id": getattr(d, "ace_id", None),
+                }
         except Exception:
             dd = {"type": str(d)}
         if "type" in dd and isinstance(dd["type"], str):
             dd["type"] = dd["type"].upper()
         diffs_serial.append(dd)
 
-    # CALL THE CORRECT ENDPOINT: server.report (full-stack impact)
+    # Helper to try mapping a Path (or rel path) to dataset key + canonical filename
+    def _find_dataset_and_names(p_old: Optional[Path], p_new: Optional[Path], relname: Optional[str]):
+        # Returns (dataset_key, old_name, new_name, pair_id_hint) or (None, None, None, None)
+        try:
+            # candidate names
+            old_name = p_old.name if p_old else (Path(relname).name if relname else None)
+            new_name = p_new.name if p_new else (Path(relname).name if relname else None)
+            # try all dataset keys and check canonical folder existence
+            for key in server.all_dataset_keys():
+                try:
+                    dp = server.dataset_paths(key)
+                    can = dp.get("canonical")
+                    if not can:
+                        continue
+                    # old/new may be same file names in canonical
+                    if old_name and (Path(can) / old_name).exists():
+                        if new_name and (Path(can) / new_name).exists():
+                            return key, old_name, new_name, None
+                        # maybe old is new on this dataset — still ok
+                        if new_name and (Path(can) / new_name).exists():
+                            return key, old_name, new_name, None
+                    # also check index mapping
+                    idx = server.load_pair_index(key)
+                    for pid, meta in idx.items():
+                        mo = Path(str(meta.get("old_canonical") or meta.get("old") or "")).name if meta.get("old") else None
+                        mn = Path(str(meta.get("new_canonical") or meta.get("new") or "")).name if meta.get("new") else None
+                        if mo and mn and old_name and new_name and mo.lower() == old_name.lower() and mn.lower() == new_name.lower():
+                            return key, mo, mn, pid
+                except Exception:
+                    continue
+        except Exception:
+            pass
+        return None, None, None, None
+
+    # attempt to recover Paths used earlier in wrapper: try to derive p_old / p_new
+    p_new = None
+    p_old = None
     try:
-        rep = server.report(
-            baseline_doc=old_doc,
-            candidate_doc=new_doc,
-            dataset=None,     # auto-detect variant
-            include_raw=True  # ensures backend/frontend impacts included
-        )
+        # attempt to re-resolve by checking canonical names among variants if rel_path present
+        if rel_path:
+            p_new = Path(rel_path)
+            # if new file exists on fs (local workspace), use it
+            if not p_new.exists():
+                # try to find in curated variants
+                p_new = find_local_v1_across_variants(Path(rel_path))
+                if not p_new.exists():
+                    p_new = None
+        # if we found a local v1 candidate earlier in ci wrapper, respect it (caller may set find_local)
+    except Exception:
+        p_new = None
+
+    # call dataset resolution
+    dataset_key, old_name, new_name, pair_hint = _find_dataset_and_names(p_old, p_new, rel_path)
+
+    # Try calling server.report with dataset and file names if we discovered dataset
+    if dataset_key and old_name and new_name:
+        try:
+            # server.report signature: report(dataset: str, old: str, new: str, pair_id: Optional[str]=None)
+            report_obj = server.report(dataset=dataset_key, old=old_name, new=new_name, pair_id=pair_hint)
+            # report_obj is a Pydantic Report model instance; convert to dict
+            # We need backend_impacts/frontend_impacts and ai_explanation etc.
+            repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
+            be_imp = repd.get("backend_impacts") or repd.get("backend_impacts", [])
+            fe_imp = repd.get("frontend_impacts") or repd.get("frontend_impacts", [])
+            # normalize the ai_explanation (report provides it)
+            ai_expl = repd.get("ai_explanation") or repd.get("ai_explanation", "")
+            pair_id = repd.get("metadata", {}).get("pair_id") or repd.get("pair_id") or pair_hint
+            # ensure we include numeric summary.service_risk if present
+            summary = repd.get("summary") or {}
+            service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)))
+            return {
+                "diffs": diffs_serial,
+                "analyze": {
+                    "summary": {"service_risk": service_risk, "num_aces": len(diffs_serial)},
+                    "backend_impacts": be_imp,
+                    "frontend_impacts": fe_imp,
+                    "ai_explanation": ai_expl,
+                    "pair_id": pair_id,
+                },
+            }
+        except Exception as e:
+            print("WARN: calling server.report failed:", e, file=sys.stderr)
+            # fall through to fallback
+
+    # FALLBACK: call server.api_analyze (raw docs) to get predictions, then enrich with graph impacts
+    try:
+        baseline_str = json.dumps(old_doc)
+        candidate_str = json.dumps(new_doc)
+        analy = server.api_analyze(baseline=baseline_str, candidate=candidate_str, dataset=None, options=None)
     except Exception as e:
-        print("WARN: server.report failed:", e, file=sys.stderr)
-        rep = {
-            "risk_score": 0.0,
-            "backend_impacts": [],
-            "frontend_impacts": [],
-            "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}
-        }
+        print("WARN: server.api_analyze raised:", e, file=sys.stderr)
+        analy = {"run_id": None, "predictions": [], "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
-    # Read fields
-    summary = rep.get("summary", {})
-    risk = float(summary.get("service_risk", rep.get("risk_score", 0.0)))
-    be_imp = rep.get("backend_impacts", [])
-    fe_imp = rep.get("frontend_impacts", [])
-    pair_id = rep.get("metadata", {}).get("pair_id") or rep.get("pair_id")
+    # ensure analy dict
+    if not isinstance(analy, dict):
+        analy = {"summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
-    # Extract explanation
-    ai_expl = rep.get("ai_explanation") or ""
+    # try to extract score from api_analyze
+    try:
+        score = float((analy.get("summary") or {}).get("service_risk", 0.0))
+    except Exception:
+        score = 0.0
+
+    # Attempt to guess service and compute graph impacts
+    g = server.load_graph()
+    # service guess: use filename stem from rel_path or candidate info
+    service_guess = None
+    if rel_path:
+        try:
+            service_guess = Path(rel_path).stem.split("-v")[0] if "-v" in Path(rel_path).stem else Path(rel_path).stem
+        except Exception:
+            service_guess = None
+    if not service_guess:
+        # fallback: try inspect new_doc.info.title
+        try:
+            service_guess = (new_doc.get("info", {}) or {}).get("title")
+        except Exception:
+            service_guess = "unknown"
+
+    pfeats = server.producer_features(g, service_guess)
+    # changed paths (normalized)
+    changed_paths = [server.normalize_path(d.get("path")) for d in diffs_serial if d.get("path")]
+    be_imp = server.backend_impacts(g, service_guess, changed_paths)
+    fe_imp = server.ui_impacts(g, service_guess, changed_paths)
+
+    # build ai_explanation if analy didn't provide one
+    ai_expl = analy.get("explanation") or analy.get("ai_explanation") or ""
     if not ai_expl:
         try:
-            ai_expl = server.make_explanation(
-                risk,
-                diffs_serial,
-                rep.get("producer_features") or {},
-                rep.get("versioning") or {},
-                be_imp,
-                fe_imp
-            )
+            ai_expl = server.make_explanation(score, diffs, pfeats, {}, be_imp, fe_imp)
         except Exception:
             ai_expl = ""
 
-    # final combined object
+    # assemble final shape similar to report
     return {
         "diffs": diffs_serial,
         "analyze": {
-            "summary": {
-                "service_risk": risk,
-                "num_aces": len(diffs_serial)
-            },
+            "summary": {"service_risk": score, "num_aces": len(diffs_serial)},
             "backend_impacts": be_imp,
             "frontend_impacts": fe_imp,
             "ai_explanation": ai_expl,
-            "pair_id": pair_id,
-        }
+            "pair_id": analy.get("pair_id") or "",
+        },
     }
+
 
 
 def main():
