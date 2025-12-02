@@ -107,6 +107,23 @@ comment_exists() {
 # Post comment to PR and gate the job based on report
 post_and_gate() {
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
+
+  # --- NEW GUARD: allow workflow to opt-out of in-script posting
+  # If SKIP_POST=true or POST_IMPACT_COMMENT=false we skip creating/updating PR comments.
+  if [ "${SKIP_POST:-false}" = "true" ] || [ "${POST_IMPACT_COMMENT:-true}" = "false" ]; then
+    echo "post_and_gate: posting skipped (SKIP_POST=${SKIP_POST:-}, POST_IMPACT_COMMENT=${POST_IMPACT_COMMENT:-})"
+    # still export gating outputs if present so workflow can read them
+    if [ -n "${GITHUB_OUTPUT:-}" ] && [ -f "$OUT" ]; then
+      # best-effort extract level and risk for downstream steps
+      RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
+      RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
+      LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
+      echo "impact_level=${LEVEL}" >> "${GITHUB_OUTPUT}" || true
+      echo "impact_risk=${RISK_FMT}" >> "${GITHUB_OUTPUT}" || true
+    fi
+    return 0
+  fi
+
   if [ ! -f "$OUT" ]; then
     echo "post_and_gate: report not found at $OUT, skipping posting/gating"
     return 0
@@ -297,6 +314,7 @@ PY
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
+
 
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {

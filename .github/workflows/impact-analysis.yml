@@ -20,6 +20,8 @@ jobs:
       PYTHON_VERSION: "3.11"
       AI_CORE_DIR: "impact_ai_repo/ai-core/src"
       CI_SCRIPT: ".github/scripts/ci_analyze_pr.sh"
+      SKIP_POST: "true"    # <<< added: prevents the script from posting comments
+
 
     steps:
       - name: Checkout code (full history needed for diffs)
