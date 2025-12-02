@@ -30,7 +30,7 @@
     "url": "https://www.abstractapi.com/ip-geolocation-api#docs"
   },
   "paths": {
-    "/orders/{id}": {
+    "/carts/{id}": {
       "get": {
         "description": "Retrieve the location of an IP address",
         "parameters": [
@@ -65,6 +65,14 @@
               "type": "string"
             },
             "style": "form"
+          },
+          {
+            "name": "qce2618",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -215,7 +223,7 @@
             "url": "https://ipgeolocation.abstractapi.com"
           }
         ],
-        "operationId": "get-orders-id-v2"
+        "operationId": "get-carts-id"
       },
       "servers": [
         {
