@@ -79,7 +79,7 @@
             "name": "qce2618",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "number"
             },
             "required": false
           }
