@@ -228,10 +228,10 @@ try:
             cand1 = (HERE / "datasets" / "graph.json")
             cand2 = (REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json")
             if cand1.exists():
-                server.GRAPH_PATH = str(cand1.resolve())
+                server.GRAPH_PATH = cand1.resolve()
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             elif cand2.exists():
-                server.GRAPH_PATH = str(cand2.resolve())
+                server.GRAPH_PATH = cand2.resolve()
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             else:
                 print(f"DEBUG: server.GRAPH_PATH ({gp}) could not be resolved", file=sys.stderr)
@@ -792,13 +792,21 @@ def ensure_graph_loaded(repo_root: Optional[str] = None, ai_core_dir_env: Option
             print("WARN: no graph.json located in candidates; backend/frontend impacts may be skipped.", file=sys.stderr)
             return
 
-        # force server.GRAPH_PATH (string path expected by server)
+
+        # force server.GRAPH_PATH (give server a Path object — load_graph expects Path-like)
         old_graph_path = getattr(server, "GRAPH_PATH", None)
         try:
-            server.GRAPH_PATH = str(found)
+            # prefer passing a Path object (server.load_graph uses .exists())
+            server.GRAPH_PATH = found
             print(f"DEBUG: forced server.GRAPH_PATH -> {server.GRAPH_PATH}", file=sys.stderr)
         except Exception as e:
-            print("WARN: failed to set server.GRAPH_PATH:", e, file=sys.stderr)
+            # as a last resort also set the string form to be safe for code that expects str
+            try:
+                server.GRAPH_PATH = str(found)
+                print(f"DEBUG: forced server.GRAPH_PATH (string fallback) -> {server.GRAPH_PATH}", file=sys.stderr)
+            except Exception:
+                print("WARN: failed to set server.GRAPH_PATH:", e, file=sys.stderr)
+
 
         # Attempt to load graph and print diagnostics
         try:
