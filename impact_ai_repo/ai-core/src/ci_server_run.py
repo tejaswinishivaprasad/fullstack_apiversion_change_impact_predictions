@@ -109,15 +109,18 @@ def _find_index_json_under_datasets() -> Optional[Path]:
         for key in server.all_dataset_keys():
             try:
                 dp = server.dataset_paths(key)
+                # dataset_paths returns dict with canonical/ndjson/metadata keys; check parent of canonical
                 for root_candidate in (dp.get("base"), dp.get("canonical"), dp.get("ndjson"), dp.get("metadata")):
                     if root_candidate:
                         rc = _resolve_candidate_root(str(root_candidate))
                         if rc:
+                            # add candidate root itself and its parent (sometimes canonical points to subdir)
                             candidates.append(rc)
                             candidates.append(rc.parent)
             except Exception:
                 continue
     except Exception:
+        # best-effort ignore
         pass
 
     # 5) fallback: scan HERE/datasets immediate children for index.json
@@ -128,6 +131,7 @@ def _find_index_json_under_datasets() -> Optional[Path]:
                 if child.is_dir():
                     if (child / "index.json").exists():
                         candidates.append(child.resolve())
+                    # also check child/<dataset>/index.json
                     if (child / "openapi" / "index.json").exists():
                         candidates.append(child.resolve())
     except Exception:
@@ -150,13 +154,14 @@ def _find_index_json_under_datasets() -> Optional[Path]:
         if idx.exists():
             print(f"DEBUG: located index.json at {idx}", file=sys.stderr)
             return root
-        # try common alternative names
+        # sometimes the expected file is named dataset_index.json or version_pairs etc — be helpful
         alt_names = ["dataset_index.json", "index.json", "version_meta.json", "dataset_oindex.json", "dataset_oindex.json"]
         for alt in alt_names:
             p_alt = root / alt
             if p_alt.exists():
                 print(f"DEBUG: located alternative index file {p_alt}", file=sys.stderr)
                 return root
+        # also check subfolders like root/curated_clean/index.json
         for sub in ("curated_clean", "curated_noisy_light", "curated_noisy_heavy"):
             psub = root / sub / "index.json"
             if psub.exists():
@@ -181,20 +186,20 @@ try:
     if eff:
         res = _resolve_candidate_root(str(eff))
         if res:
-            # IMPORTANT: set as Path object to match server expectations (server may do root / "index.json")
-            server.EFFECTIVE_CURATED_ROOT = res
+            server.EFFECTIVE_CURATED_ROOT = str(res)
             print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT resolved -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
         else:
+            # set to HERE/datasets if present (best-effort)
             fallback = (HERE / "datasets")
             if fallback.exists():
-                server.EFFECTIVE_CURATED_ROOT = fallback.resolve()
+                server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
                 print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT forced -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
             else:
                 print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT ({eff}) could not be resolved", file=sys.stderr)
     else:
         fallback = (HERE / "datasets")
         if fallback.exists():
-            server.EFFECTIVE_CURATED_ROOT = fallback.resolve()
+            server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
             print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT set -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", e, file=sys.stderr)
@@ -203,8 +208,7 @@ except Exception as e:
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
-        # set as Path object
-        server.EFFECTIVE_CURATED_ROOT = idx_root.resolve()
+        server.EFFECTIVE_CURATED_ROOT = str(idx_root)
         print(f"DEBUG: enforcing server.EFFECTIVE_CURATED_ROOT -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
         try:
             idx = server.load_pair_index()
@@ -228,6 +232,7 @@ try:
             server.GRAPH_PATH = str(res_gp)
             print(f"DEBUG: server.GRAPH_PATH resolved -> {server.GRAPH_PATH}", file=sys.stderr)
         else:
+            # try HERE/datasets/graph.json and REPO_ROOT/AI_CORE_DIR_ENV/datasets/graph.json
             cand1 = (HERE / "datasets" / "graph.json")
             cand2 = (REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json")
             if cand1.exists():
@@ -550,7 +555,6 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
                                 print(f"DEBUG: calling server.report using pair_id {pid} (index match)", file=sys.stderr)
                                 report_obj = server.report(dataset=dataset_key, old=mo, new=mn, pair_id=pid)
                                 repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
-                                
                                 be_imp = repd.get("backend_impacts") or []
                                 fe_imp = repd.get("frontend_impacts") or []
                                 ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
@@ -709,128 +713,6 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
             "pair_id": analy.get("pair_id") or "",
         },
     }
-def ensure_graph_loaded(repo_root: Optional[str] = None, ai_core_dir_env: Optional[str] = None) -> None:
-    """
-    Best-effort: locate graph.json, set server.GRAPH_PATH to it, and call server.load_graph()
-    so backend/frontend impact helpers have the graph available in CI.
-
-    - Looks in several sensible places (server.EFFECTIVE_CURATED_ROOT, HERE/datasets,
-      repo_root + ai_core_dir/datasets, datasets/curated_* etc).
-    - Prints lots of DEBUG/WARN lines to stderr so CI logs show what happened.
-    - Non-fatal: never raises (just logs), because missing graph should not crash CI.
-    """
-    try:
-        candidates: List[Path] = []
-
-        # 1) If server exposes EFFECTIVE_CURATED_ROOT, prefer graph under it or its parent
-        try:
-            eff = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
-            if eff:
-                effp = Path(str(eff))
-                candidates.append(effp / "graph.json")
-                candidates.append(effp.parent / "graph.json")
-                # also check curated variants under effective root
-                candidates.append(effp / "curated_clean" / "graph.json")
-                candidates.append(effp / "curated_noisy_light" / "graph.json")
-                candidates.append(effp / "curated_noisy_heavy" / "graph.json")
-        except Exception:
-            print("DEBUG: could not read server.EFFECTIVE_CURATED_ROOT", file=sys.stderr)
-
-        # 2) Common locations relative to this script
-        candidates.append(HERE / "datasets" / "graph.json")
-        candidates.append(HERE / "datasets" / "curated_clean" / "graph.json")
-        candidates.append(HERE / "datasets" / "curated_noisy_light" / "graph.json")
-        candidates.append(HERE / "datasets" / "curated_noisy_heavy" / "graph.json")
-
-        # 3) If repo_root and AI_CORE_DIR provided, try those combos
-        try:
-            if repo_root and ai_core_dir_env:
-                # ai_core_dir_env might be "impact_ai_repo/ai-core/src"
-                ai_core_dir = Path(repo_root) / ai_core_dir_env
-                candidates.append(ai_core_dir / "datasets" / "graph.json")
-                candidates.append(ai_core_dir / "datasets" / "curated_clean" / "graph.json")
-                candidates.append(Path(repo_root) / "datasets" / "graph.json")
-                candidates.append(Path(repo_root) / "datasets" / "curated_clean" / "graph.json")
-        except Exception:
-            pass
-
-        # 4) fallback: relative to server module file location
-        try:
-            server_file = Path(getattr(server, "__file__", "")) if getattr(server, "__file__", None) else None
-            if server_file:
-                candidates.append(server_file.parent / "datasets" / "graph.json")
-                candidates.append(server_file.parent.parent / "datasets" / "graph.json")
-        except Exception:
-            pass
-
-        # normalize and dedupe candidates while logging attempts
-        seen = set()
-        resolved_candidates: List[Path] = []
-        for c in candidates:
-            try:
-                rc = c.resolve()
-            except Exception:
-                rc = c
-            if str(rc) not in seen:
-                seen.add(str(rc))
-                resolved_candidates.append(rc)
-                print(f"DEBUG: graph candidate -> {rc}", file=sys.stderr)
-
-        found: Optional[Path] = None
-        for c in resolved_candidates:
-            try:
-                if c.exists():
-                    found = c
-                    break
-            except Exception:
-                continue
-
-        if not found:
-            print("WARN: no graph.json located in candidates; backend/frontend impacts may be skipped.", file=sys.stderr)
-            return
-
-        # force server.GRAPH_PATH (string path expected by server)
-        old_graph_path = getattr(server, "GRAPH_PATH", None)
-        try:
-            server.GRAPH_PATH = str(found)
-            print(f"DEBUG: forced server.GRAPH_PATH -> {server.GRAPH_PATH}", file=sys.stderr)
-        except Exception as e:
-            print("WARN: failed to set server.GRAPH_PATH:", e, file=sys.stderr)
-
-        # Attempt to load graph and print diagnostics
-        try:
-            g = server.load_graph()
-            # print small diagnostics about loaded graph
-            try:
-                size = len(g) if hasattr(g, "__len__") else "n/a"
-            except Exception:
-                size = "n/a"
-            print(f"DEBUG: server.load_graph() succeeded; type={type(g)} size={size}", file=sys.stderr)
-            # If graph is a dict, print top-level keys sample
-            try:
-                if isinstance(g, dict):
-                    keys_sample = list(g.keys())[:10]
-                    print(f"DEBUG: graph top-level keys (sample 10): {keys_sample}", file=sys.stderr)
-            except Exception:
-                pass
-        except Exception as e:
-            print("WARN: server.load_graph() failed after forcing GRAPH_PATH:", e, file=sys.stderr)
-            # try to emit a tiny snippet of the file so logs help debugging
-            try:
-                snippet = found.read_text(encoding="utf-8")[:800]
-                print("DEBUG: graph.json snippet (first 800 chars):", file=sys.stderr)
-                print(snippet, file=sys.stderr)
-            except Exception:
-                print("DEBUG: unable to read graph.json for snippet", file=sys.stderr)
-
-        # sanity: print what server.GRAPH_PATH is now
-        try:
-            print("DEBUG: server.GRAPH_PATH final value ->", getattr(server, "GRAPH_PATH", None), file=sys.stderr)
-        except Exception:
-            pass
-
-    except Exception as exc:
-        print("WARN: unexpected error in ensure_graph_loaded():", exc, file=sys.stderr)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -841,9 +723,6 @@ def main():
 
     changed = git_changed_files()
     print("CI: changed files:", changed, file=sys.stderr)
-        # Ensure graph is discoverable & loaded before any server.report()/api_analyze() calls
-    ensure_graph_loaded(repo_root=os.getcwd(), ai_core_dir_env=os.environ.get("AI_CORE_DIR", "impact_ai_repo/ai-core/src"))
-
 
     api_files = [f for f in changed if f.lower().endswith((".json", ".yaml", ".yml"))]
 
