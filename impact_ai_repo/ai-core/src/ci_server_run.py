@@ -478,7 +478,7 @@ def main():
 
         # skip trivial empty pairs
         try:
-            pair_res = analyze_pair_files(old_doc, new_doc)
+            pair_res = analyze_pair_files(old_doc, new_doc, rel_path=rel)
         except Exception as e:
             print("WARN: analyze_pair_files exception:", e, file=sys.stderr)
             pair_res = {"diffs": [], "analyze": {"summary": {"service_risk": 0.0, "num_aces": 0}, "predictions": []}}
