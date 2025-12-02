@@ -8,6 +8,10 @@ Lightweight CI wrapper that:
  - lightly dereferences local '#/components/schemas/...' refs (shallow)
  - invokes server.report(...) (preferred) or server.api_analyze(...) (fallback)
  - writes pr-impact-full.json (detailed) and pr-impact-report.json (compact)
+
+This variant adds robust canonical/graph path resolution and verbose tracing
+so CI can find curated datasets and graph.json regardless of relative vs
+absolute path differences between local dev and GitHub Actions runner.
 """
 from __future__ import annotations
 import argparse
@@ -15,7 +19,6 @@ import json
 import os
 import subprocess
 import sys
-import traceback
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -26,64 +29,16 @@ sys.path.insert(0, str(HERE))
 
 try:
     import server  # noqa: E402
-    # Basic debug prints to surface environment/path expectations
+    print("DEBUG: imported server module", file=sys.stderr)
     try:
-        print("DEBUG: server.dataset_paths('openapi') =", server.dataset_paths("openapi"), file=sys.stderr)
-    except Exception as _:
-        print("DEBUG: server.dataset_paths('openapi') -> error (maybe not configured)", file=sys.stderr)
+        print("DEBUG: dataset_paths(openapi) =", server.dataset_paths("openapi"), file=sys.stderr)
+    except Exception:
+        print("DEBUG: server.dataset_paths('openapi') failed", file=sys.stderr)
     print("DEBUG: CWD =", os.getcwd(), file=sys.stderr)
 except Exception as e:
     print("ERROR: failed to import server.py:", e, file=sys.stderr)
     raise
 
-# ------------------ Safe heuristics: help server find datasets/graph ------------------
-try:
-    # If server doesn't already have EFFECTIVE_CURATED_ROOT, try to set a sensible guess
-    if not getattr(server, "EFFECTIVE_CURATED_ROOT", None):
-        guessed = (HERE) / "datasets"
-        if guessed.exists():
-            server.EFFECTIVE_CURATED_ROOT = str(guessed)
-            print(f"DEBUG: forced server.EFFECTIVE_CURATED_ROOT = {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
-        else:
-            # look one level up (repo root)/datasets
-            guessed2 = HERE.parent / "datasets"
-            if guessed2.exists():
-                server.EFFECTIVE_CURATED_ROOT = str(guessed2)
-                print(f"DEBUG: forced server.EFFECTIVE_CURATED_ROOT = {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
-            else:
-                print("DEBUG: no guessed EFFECTIVE_CURATED_ROOT found on disk", file=sys.stderr)
-    else:
-        print("DEBUG: server.EFFECTIVE_CURATED_ROOT already set to", getattr(server, "EFFECTIVE_CURATED_ROOT"), file=sys.stderr)
-except Exception:
-    print("DEBUG: setting EFFECTIVE_CURATED_ROOT failed", file=sys.stderr)
-    traceback.print_exc(file=sys.stderr)
-
-try:
-    # If server expects a GRAPH_PATH, try a few likely locations
-    if not getattr(server, "GRAPH_PATH", None):
-        cand = HERE / "datasets" / "curated_clean" / "graph.json"
-        cand2 = HERE.parent / "datasets" / "curated_clean" / "graph.json"
-        if cand.exists():
-            server.GRAPH_PATH = str(cand)
-            print("DEBUG: forced server.GRAPH_PATH =", server.GRAPH_PATH, file=sys.stderr)
-        elif cand2.exists():
-            server.GRAPH_PATH = str(cand2)
-            print("DEBUG: forced server.GRAPH_PATH =", server.GRAPH_PATH, file=sys.stderr)
-        else:
-            # Try variant location (curated/canonical/graph.json)
-            cand3 = HERE / "datasets" / "curated" / "graph.json"
-            if cand3.exists():
-                server.GRAPH_PATH = str(cand3)
-                print("DEBUG: forced server.GRAPH_PATH =", server.GRAPH_PATH, file=sys.stderr)
-            else:
-                print("DEBUG: server.GRAPH_PATH not present; server.load_graph may need to search", file=sys.stderr)
-    else:
-        print("DEBUG: server.GRAPH_PATH already set to", getattr(server, "GRAPH_PATH"), file=sys.stderr)
-except Exception:
-    print("DEBUG: setting GRAPH_PATH failed", file=sys.stderr)
-    traceback.print_exc(file=sys.stderr)
-
-# -------------------- helper functions --------------------
 def run_cmd(cmd: List[str]) -> Tuple[int, str]:
     try:
         out = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
@@ -148,7 +103,6 @@ def find_local_v1_across_variants(v2path: Path) -> Path:
     if cand.exists():
         return cand
     name_alt = cand.name
-    # try dataset_paths canonical roots
     for key in _all_dataset_keys():
         try:
             dp = server.dataset_paths(key)
@@ -156,37 +110,30 @@ def find_local_v1_across_variants(v2path: Path) -> Path:
             if can:
                 p = Path(can) / name_alt
                 if p.exists():
-                    print(f"DEBUG: found v1 via dataset_paths[{key}] at {p}", file=sys.stderr)
                     return p
         except Exception:
             continue
-    # try variant folders
     for vf in _variant_folders():
         try:
             vroot = server._variant_dir_for(vf)
             p = Path(vroot) / name_alt
             if p.exists():
-                print(f"DEBUG: found v1 in variant folder {vf} at {p}", file=sys.stderr)
                 return p
             for base in getattr(server, "BASE_DATASETS", []):
                 p2 = Path(vroot) / base / "canonical" / name_alt
                 if p2.exists():
-                    print(f"DEBUG: found v1 in variant base {base} at {p2}", file=sys.stderr)
                     return p2
         except Exception:
             continue
-    # try EFFECTIVE_CURATED_ROOT
     try:
-        eff = Path(getattr(server, "EFFECTIVE_CURATED_ROOT", "") or "")
+        eff = Path(getattr(server, "EFFECTIVE_CURATED_ROOT", ""))
         if eff:
             p = eff / name_alt
             if p.exists():
-                print(f"DEBUG: found v1 in EFFECTIVE_CURATED_ROOT at {p}", file=sys.stderr)
                 return p
             for sub in ("canonical", "ndjson", "metadata"):
                 p2 = eff / sub / name_alt
                 if p2.exists():
-                    print(f"DEBUG: found v1 in EFFECTIVE_CURATED_ROOT/{sub} at {p2}", file=sys.stderr)
                     return p2
     except Exception:
         pass
@@ -257,7 +204,124 @@ def load_json_text(text: str) -> Dict[str, Any]:
         except Exception:
             return {}
 
-# ------------- instrumented analyze_pair_files ----------------
+# ----------------- New helpers: robust path resolution -----------------
+def _abs_try_paths(cand_roots: List[Path]) -> List[Tuple[Path, bool]]:
+    out = []
+    for p in cand_roots:
+        try:
+            ex = p.exists()
+        except Exception:
+            ex = False
+        out.append((p, ex))
+    return out
+
+def resolve_canonical_root(candidate: Path) -> Optional[Path]:
+    """
+    Try to resolve a 'canonical' root path returned by server.dataset_paths.
+    We attempt multiple absolute constructions:
+      - as-is (may already be absolute)
+      - relative to HERE (ai-core/src)
+      - relative to GITHUB_WORKSPACE + AI_CORE_DIR parent (repo root / ai-core/src/datasets)
+      - relative to GITHUB_WORKSPACE + AI_CORE_DIR (if AI_CORE_DIR env set)
+      - common curated variants under repo workspace (impact_ai_repo/ai-core/src/datasets/<variant>)
+    Returns first existing Path or None.
+    """
+    tries: List[Path] = []
+    gw = os.environ.get("GITHUB_WORKSPACE", "")
+    ai_core_dir = os.environ.get("AI_CORE_DIR", "")  # e.g. impact_ai_repo/ai-core/src
+    # Candidate as returned (convert to Path)
+    try:
+        cand = Path(candidate)
+    except Exception:
+        cand = Path(str(candidate))
+    tries.append(cand)
+    # If relative, try join with HERE (script dir is ai-core/src)
+    tries.append(HERE / cand)
+    # If the server returned something like curated_clean/openapi/canonical, try GITHUB_WORKSPACE/<AI_CORE_DIR parent>/datasets/<that>
+    if gw:
+        # If AI_CORE_DIR provided (pointing to ai-core/src), build dataset parent
+        if ai_core_dir:
+            # derive repo-root (workspace) + ai_core_dir parent
+            # Some setups use AI_CORE_DIR=impact_ai_repo/ai-core/src
+            candidate_under_ai = Path(gw) / ai_core_dir
+            # if candidate likely points to canonical under datasets, try candidate as relative to that
+            tries.append(candidate_under_ai / "datasets" / cand)
+            # also try joining workspace directly to the candidate (handles when dataset paths are relative to repo root)
+            tries.append(Path(gw) / cand)
+        else:
+            tries.append(Path(gw) / cand)
+            tries.append(Path(gw) / "impact_ai_repo" / "ai-core" / "src" / "datasets" / cand)
+    # Try known curated variants folder names under workspace/ai-core/src/datasets
+    try:
+        for vf in _variant_folders():
+            if gw and ai_core_dir:
+                tries.append(Path(gw) / ai_core_dir / "datasets" / vf)
+                # also try nested dataset canonical root
+                tries.append(Path(gw) / ai_core_dir / "datasets" / vf / cand)
+    except Exception:
+        pass
+
+    # Deduplicate while preserving order
+    seen = set()
+    uniq = []
+    for p in tries:
+        pp = str(p)
+        if pp not in seen:
+            seen.add(pp)
+            uniq.append(p)
+
+    trace = _abs_try_paths(uniq)
+    for p, exists in trace:
+        print(f"RESOLVE: trying candidate path: {p} -> exists={exists}", file=sys.stderr)
+        if exists:
+            return p
+    return None
+
+def resolve_graph_path(raw_graph: Optional[str]) -> Optional[Path]:
+    """
+    Resolve graph path similarly. Prefer explicit env GRAPH_PATH, then server.GRAPH_PATH,
+    then candidate under EFFECTIVE_CURATED_ROOT, HERE, or workspace.
+    """
+    gw = os.environ.get("GITHUB_WORKSPACE", "")
+    ai_core_dir = os.environ.get("AI_CORE_DIR", "")
+    cand_names = []
+    if raw_graph:
+        cand_names.append(Path(raw_graph))
+    # env override
+    env_g = os.environ.get("GRAPH_PATH", "")
+    if env_g:
+        cand_names.insert(0, Path(env_g))
+    # try server.GRAPH_PATH attribute if present
+    try:
+        sp = getattr(server, "GRAPH_PATH", None)
+        if sp:
+            cand_names.append(Path(sp))
+    except Exception:
+        pass
+    # also common location: datasets/graph.json under ai_core
+    if gw and ai_core_dir:
+        cand_names.append(Path(gw) / ai_core_dir / "datasets" / "graph.json")
+        cand_names.append(Path(gw) / "impact_ai_repo" / "ai-core" / "src" / "datasets" / "graph.json")
+    cand_names.append(HERE.parent / "datasets" / "graph.json")
+    # dedupe
+    uniq = []
+    seen = set()
+    for p in cand_names:
+        pp = str(p)
+        if pp not in seen:
+            seen.add(pp)
+            uniq.append(p)
+    for p in uniq:
+        try:
+            exists = p.exists()
+        except Exception:
+            exists = False
+        print(f"RESOLVE: graph candidate: {p} -> exists={exists}", file=sys.stderr)
+        if exists:
+            return p
+    return None
+
+# ----------------- FIXED analyze_pair_files -----------------
 def analyze_pair_files(
     old_doc: Dict[str, Any],
     new_doc: Dict[str, Any],
@@ -282,7 +346,6 @@ def analyze_pair_files(
         diffs = server.diff_openapi(old2, new2)
     except Exception as e:
         print("WARN: server.diff_openapi failed:", e, file=sys.stderr)
-        traceback.print_exc(file=sys.stderr)
         diffs = []
 
     # serialize diffs
@@ -307,19 +370,76 @@ def analyze_pair_files(
 
     # helper to try to find canonical filenames and call server.report
     def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[str, Any]]:
-        print(f"DEBUG: try_call_report: dataset_key={dataset_key} relname={relname}", file=sys.stderr)
+        # relname is the filename (e.g., openapi--catalog-service--...--v2.canonical.json)
         if not dataset_key:
-            print("DEBUG: try_call_report: no dataset_key provided, skipping", file=sys.stderr)
             return None
         try:
             dp = server.dataset_paths(dataset_key)
+            canonical_root_raw = dp.get("canonical")
             print(f"DEBUG: dataset_paths({dataset_key}) -> {dp}", file=sys.stderr)
-            canonical_root = dp.get("canonical")
-            if not canonical_root:
-                print(f"DEBUG: dataset {dataset_key} has no 'canonical' in dataset_paths -> {dp}", file=sys.stderr)
+            print("TRACE: canonical_root_raw =", canonical_root_raw, file=sys.stderr)
+            if not canonical_root_raw:
                 return None
-            canonical_root = Path(canonical_root)
-            print(f"DEBUG: canonical_root resolved to: {canonical_root}", file=sys.stderr)
+            # Resolve canonical root robustly to an absolute path
+            resolved = resolve_canonical_root(Path(canonical_root_raw))
+            if resolved:
+                canonical_root = resolved
+            else:
+                canonical_root = Path(canonical_root_raw)
+            print("DEBUG: canonical_root resolved to:", canonical_root, file=sys.stderr)
+
+            # Ensure server module knows EFFECTIVE_CURATED_ROOT if not already set
+            try:
+                server_effective = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
+            except Exception:
+                server_effective = None
+            # Prefer explicit env EFFECTIVE_CURATED_ROOT if provided
+            env_eff = os.environ.get("EFFECTIVE_CURATED_ROOT", "")
+            if env_eff:
+                eff_path = Path(env_eff)
+                print("TRACE: using EFFECTIVE_CURATED_ROOT from env:", eff_path, file=sys.stderr)
+                server.EFFECTIVE_CURATED_ROOT = str(eff_path)
+            elif server_effective:
+                # if server has some effective root, try to resolve it absolutely
+                try:
+                    eff_res = resolve_canonical_root(Path(server_effective))
+                    if eff_res:
+                        server.EFFECTIVE_CURATED_ROOT = str(eff_res)
+                        print("TRACE: set server.EFFECTIVE_CURATED_ROOT ->", eff_res, file=sys.stderr)
+                except Exception:
+                    pass
+            else:
+                # best-effort: set EFFECTIVE_CURATED_ROOT to parent parent 'datasets' if that exists
+                guess = None
+                try:
+                    # If canonical_root ends with 'canonical' then parent.parent is likely dataset root
+                    if canonical_root.name == "canonical":
+                        guess = canonical_root.parent.parent
+                        if guess.exists():
+                            server.EFFECTIVE_CURATED_ROOT = str(guess)
+                            print("TRACE: setting server.EFFECTIVE_CURATED_ROOT guessed ->", guess, file=sys.stderr)
+                    # also try HERE.parent / 'datasets'
+                    if not guess:
+                        maybe = HERE.parent / "datasets"
+                        if maybe.exists():
+                            server.EFFECTIVE_CURATED_ROOT = str(maybe)
+                            print("TRACE: setting server.EFFECTIVE_CURATED_ROOT ->", maybe, file=sys.stderr)
+                except Exception:
+                    pass
+
+            # also resolve graph.json and set server.GRAPH_PATH so backend_impacts can be computed accurately
+            try:
+                raw_graph = getattr(server, "GRAPH_PATH", None)
+            except Exception:
+                raw_graph = None
+            graph_p = resolve_graph_path(raw_graph)
+            if graph_p:
+                try:
+                    server.GRAPH_PATH = str(graph_p)
+                    print("TRACE: set server.GRAPH_PATH ->", graph_p, file=sys.stderr)
+                except Exception:
+                    pass
+
             # try the filename directly at canonical_root
             new_name = Path(relname).name if relname else None
             old_name = None
@@ -330,24 +450,29 @@ def analyze_pair_files(
                 elif "-v2." in new_name:
                     old_name = new_name.replace("-v2.", "-v1.")
                 else:
+                    # best-effort: replace last '-v2' occurrence
                     old_name = new_name.replace("v2", "v1", 1)
+            # check existence
             new_path = canonical_root / new_name if new_name else None
             old_path = canonical_root / old_name if old_name else None
-            print("DEBUG: candidate new_path exists:", new_path.exists() if new_path else None,
-                  " old_path exists:", old_path.exists() if old_path else None, file=sys.stderr)
+
+            print(f"TRACE: candidate new_path exists: {new_path} -> {new_path.exists() if new_path else False}", file=sys.stderr)
+            print(f"TRACE: candidate old_path exists: {old_path} -> {old_path.exists() if old_path else False}", file=sys.stderr)
 
             if new_path and new_path.exists() and old_path and old_path.exists():
-                print(f"DEBUG: both canonical files found at {new_path} and {old_path}. Calling server.report...", file=sys.stderr)
+                # call report using base filenames
                 try:
+                    print("TRACE: calling server.report(dataset=%s, old=%s, new=%s)" % (dataset_key, old_name, new_name), file=sys.stderr)
                     report_obj = server.report(dataset=dataset_key, old=old_name, new=new_name, pair_id=None)
                     repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
-                    be_imp = repd.get("backend_impacts") or []
-                    fe_imp = repd.get("frontend_impacts") or []
+                    print("TRACE: server.report returned keys:", list(repd.keys()), file=sys.stderr)
+                    # normalize structure expected by caller
+                    be_imp = repd.get("backend_impacts") or repd.get("backend") or []
+                    fe_imp = repd.get("frontend_impacts") or repd.get("frontend") or []
                     ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
                     pair_id = repd.get("metadata", {}).get("pair_id") or repd.get("pair_id") or ""
                     summary = repd.get("summary") or {}
                     service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)))
-                    print(f"DEBUG: server.report returned: be_imp_len={len(be_imp)} fe_imp_len={len(fe_imp)} pair_id={pair_id}", file=sys.stderr)
                     return {
                         "diffs": diffs_serial,
                         "analyze": {
@@ -361,35 +486,30 @@ def analyze_pair_files(
                         }
                     }
                 except Exception as e:
-                    print("ERROR: server.report(dataset) call failed:", e, file=sys.stderr)
-                    traceback.print_exc(file=sys.stderr)
+                    print("WARN: server.report(dataset) call failed:", e, file=sys.stderr)
                     return None
 
             # if file(s) not found, try scanning variant folders inside dataset_paths or server helpers
-            print("DEBUG: canonical files not both found; will attempt load_pair_index and variant scanning", file=sys.stderr)
-
+            # fallback: probe server.load_pair_index to match names if possible
             try:
                 idx = server.load_pair_index(dataset_key)
+                print("TRACE: loaded pair index for %s, entries=%d" % (dataset_key, len(idx) if isinstance(idx, dict) else 0), file=sys.stderr)
                 if isinstance(idx, dict):
-                    print(f"DEBUG: loaded pair index for {dataset_key}, entries={len(idx)}", file=sys.stderr)
-                else:
-                    print("DEBUG: load_pair_index returned non-dict", file=sys.stderr)
-                if isinstance(idx, dict):
+                    # if relname matches either old/new name in index, pick that pair
                     for pid, meta in idx.items():
                         mo = Path(str(meta.get("old_canonical") or meta.get("old") or "")).name if meta.get("old") else None
                         mn = Path(str(meta.get("new_canonical") or meta.get("new") or "")).name if meta.get("new") else None
                         if mo and mn and new_name and (mn.lower() == new_name.lower() or mo.lower() == new_name.lower()):
-                            print(f"DEBUG: index match found pid={pid} mo={mo} mn={mn} -> calling server.report", file=sys.stderr)
                             try:
+                                print("TRACE: attempting server.report using index pair_id", pid, file=sys.stderr)
                                 report_obj = server.report(dataset=dataset_key, old=mo, new=mn, pair_id=pid)
                                 repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
-                                be_imp = repd.get("backend_impacts") or []
-                                fe_imp = repd.get("frontend_impacts") or []
+                                be_imp = repd.get("backend_impacts") or repd.get("backend") or []
+                                fe_imp = repd.get("frontend_impacts") or repd.get("frontend") or []
                                 ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
                                 pair_id = repd.get("metadata", {}).get("pair_id") or repd.get("pair_id") or pid
                                 summary = repd.get("summary") or {}
                                 service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)))
-                                print(f"DEBUG: server.report(index) returned: be_imp_len={len(be_imp)} fe_imp_len={len(fe_imp)} pair_id={pair_id}", file=sys.stderr)
                                 return {
                                     "diffs": diffs_serial,
                                     "analyze": {
@@ -402,21 +522,17 @@ def analyze_pair_files(
                                         "metadata": repd.get("metadata") or {}
                                     }
                                 }
-                            except Exception:
-                                print("WARN: server.report(index) call raised; continuing search", file=sys.stderr)
-                                traceback.print_exc(file=sys.stderr)
+                            except Exception as e:
+                                print("WARN: server.report(index pair) failed:", e, file=sys.stderr)
                                 continue
             except Exception:
-                print("DEBUG: server.load_pair_index failed or absent for", dataset_key, file=sys.stderr)
-                traceback.print_exc(file=sys.stderr)
+                pass
         except Exception:
-            print("DEBUG: try_call_report top-level failure", file=sys.stderr)
-            traceback.print_exc(file=sys.stderr)
+            pass
         return None
 
     # If dataset_hint provided, try the direct report resolution first
     if dataset_hint and rel_path:
-        print(f"DEBUG: dataset_hint provided: {dataset_hint}; trying report-based resolution", file=sys.stderr)
         maybe = try_call_report(dataset_hint, Path(rel_path).name)
         if maybe:
             return maybe
@@ -424,23 +540,18 @@ def analyze_pair_files(
     # If no dataset_hint or it failed, attempt auto-detection across dataset keys using rel_path.filename
     if rel_path:
         fn = Path(rel_path).name
-        print(f"DEBUG: attempting auto-detection across dataset keys for filename {fn}", file=sys.stderr)
         for key in _all_dataset_keys():
             maybe = try_call_report(key, fn)
             if maybe:
-                print(f"DEBUG: try_call_report succeeded for key={key}", file=sys.stderr)
                 return maybe
 
     # If report-based resolution failed, fallback to api_analyze + graph-based enrichment
-    print("DEBUG: falling back to server.api_analyze (no report-based resolution)", file=sys.stderr)
     try:
         baseline_str = json.dumps(old_doc)
         candidate_str = json.dumps(new_doc)
         analy = server.api_analyze(baseline=baseline_str, candidate=candidate_str, dataset=None, options=None)
-        print("DEBUG: server.api_analyze returned type:", type(analy), file=sys.stderr)
     except Exception as e:
         print("WARN: server.api_analyze raised:", e, file=sys.stderr)
-        traceback.print_exc(file=sys.stderr)
         analy = {"run_id": None, "predictions": [], "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
     if not isinstance(analy, dict):
@@ -452,23 +563,19 @@ def analyze_pair_files(
         score = 0.0
 
     # attempt to enrich with graph impacts (best-effort)
-    g = None
     try:
-        print("DEBUG: attempting server.load_graph()", file=sys.stderr)
-        g = server.load_graph()
-        if g is None:
-            print("DEBUG: server.load_graph() returned None", file=sys.stderr)
-        else:
-            # Try to print some small stats about graph if available
+        # ensure server.GRAPH_PATH is resolved (best-effort)
+        raw_graph = getattr(server, "GRAPH_PATH", None)
+        gpath = resolve_graph_path(raw_graph)
+        if gpath:
             try:
-                n_nodes = getattr(g, "number_of_nodes", lambda: None)()
-                n_edges = getattr(g, "number_of_edges", lambda: None)()
-                print(f"DEBUG: loaded graph object: nodes={n_nodes} edges={n_edges}", file=sys.stderr)
+                server.GRAPH_PATH = str(gpath)
+                print("TRACE: enforced server.GRAPH_PATH ->", gpath, file=sys.stderr)
             except Exception:
-                print("DEBUG: loaded graph object (no simple stats available)", file=sys.stderr)
+                pass
+        g = server.load_graph()
     except Exception as e:
-        print("DEBUG: server.load_graph() raised:", e, file=sys.stderr)
-        traceback.print_exc(file=sys.stderr)
+        print("TRACE: server.load_graph failed:", e, file=sys.stderr)
         g = None
 
     service_guess = None
@@ -489,24 +596,21 @@ def analyze_pair_files(
             service_guess = (new_doc.get("info", {}) or {}).get("title")
         except Exception:
             service_guess = "unknown"
-    print(f"DEBUG: service_guess = {service_guess}", file=sys.stderr)
 
     pfeats = {}
     be_imp = []
     fe_imp = []
     try:
         if g is not None:
-            print("DEBUG: attempting to compute impacts using graph-based helpers", file=sys.stderr)
+            print("TRACE: graph loaded, computing impacts for service_guess:", service_guess, file=sys.stderr)
             pfeats = server.producer_features(g, service_guess)
             changed_paths = [server.normalize_path(d.get("path")) for d in diffs_serial if d.get("path")]
             be_imp = server.backend_impacts(g, service_guess, changed_paths)
             fe_imp = server.ui_impacts(g, service_guess, changed_paths)
-            print(f"DEBUG: graph helpers produced be_imp_len={len(be_imp)} fe_imp_len={len(fe_imp)}", file=sys.stderr)
-        else:
-            print("DEBUG: skipping graph-based impact enrichment (no graph)", file=sys.stderr)
-    except Exception:
-        print("WARN: graph-based enrichment raised an exception", file=sys.stderr)
-        traceback.print_exc(file=sys.stderr)
+            print("TRACE: backend_impacts len=", len(be_imp), "frontend_impacts len=", len(fe_imp), file=sys.stderr)
+    except Exception as e:
+        # non-fatal
+        print("TRACE: graph enrichment failed:", e, file=sys.stderr)
         be_imp = []
         fe_imp = []
 
@@ -516,8 +620,6 @@ def analyze_pair_files(
             ai_expl = server.make_explanation(score, diffs, pfeats, {}, be_imp, fe_imp)
         except Exception:
             ai_expl = ""
-
-    print(f"DEBUG: analyze_pair_files result for {rel_path or 'inline'}: score={score} be_imp_len={len(be_imp)} fe_imp_len={len(fe_imp)} pair_id={analy.get('pair_id')}", file=sys.stderr)
 
     return {
         "diffs": diffs_serial,
@@ -537,6 +639,24 @@ def main():
     parser.add_argument("--output-full", default="pr-impact-full.json")
     parser.add_argument("--output-summary", default="pr-impact-report.json")
     args = parser.parse_args()
+
+    # Pre-resolve some server-level roots if envs are provided or if we can guess
+    # Prefer explicit envs if available
+    gw = os.environ.get("GITHUB_WORKSPACE", "")
+    if gw:
+        print("TRACE: GITHUB_WORKSPACE present:", gw, file=sys.stderr)
+    if os.environ.get("EFFECTIVE_CURATED_ROOT", ""):
+        print("TRACE: EFFECTIVE_CURATED_ROOT env set to:", os.environ.get("EFFECTIVE_CURATED_ROOT"), file=sys.stderr)
+        try:
+            server.EFFECTIVE_CURATED_ROOT = os.environ.get("EFFECTIVE_CURATED_ROOT")
+        except Exception:
+            pass
+    if os.environ.get("GRAPH_PATH", ""):
+        print("TRACE: GRAPH_PATH env set to:", os.environ.get("GRAPH_PATH"), file=sys.stderr)
+        try:
+            server.GRAPH_PATH = os.environ.get("GRAPH_PATH")
+        except Exception:
+            pass
 
     changed = git_changed_files()
     print("CI: changed files:", changed, file=sys.stderr)
@@ -571,40 +691,37 @@ def main():
 
         try:
             if p.exists():
+                print("TRACE: path exists on FS:", p, file=sys.stderr)
                 new_doc = read_json_file_if_exists(p)
                 # try to find local v1 counterpart first across curated variants
                 v1cand = find_local_v1_across_variants(p)
-                print(f"DEBUG: v1cand guessed as {v1cand}", file=sys.stderr)
+                print("DEBUG: v1cand guessed as", v1cand, file=sys.stderr)
                 if v1cand.exists():
+                    print("TRACE: found local v1 counterpart at", v1cand, file=sys.stderr)
                     old_doc = read_json_file_if_exists(v1cand)
-                    print(f"DEBUG: found local v1 counterpart at {v1cand}", file=sys.stderr)
                 else:
                     # try to fetch from origin/main (path relative to repo root)
                     blob = git_show_file(f"origin/main:{rel}")
                     if blob:
                         old_doc = load_json_text(blob)
-                        print("DEBUG: loaded old doc from origin/main via git_show_file", file=sys.stderr)
                     else:
                         code, out = run_cmd(["git", "show", "HEAD~1:" + rel])
                         old_doc = load_json_text(out) if code == 0 else {}
-                        print("DEBUG: attempted HEAD~1 fallback for old doc", file=sys.stderr)
             else:
+                print("TRACE: path does not exist on FS, will attempt git show for", rel, file=sys.stderr)
                 ref_branch = os.environ.get("GITHUB_REF_NAME", None) or os.environ.get("BRANCH", None) or "HEAD"
                 blob_new = git_show_file(f"origin/{ref_branch}:{rel}") or git_show_file(f"HEAD:{rel}") or git_show_file(f"origin/main:{rel}")
                 new_doc = load_json_text(blob_new)
                 blob_old = git_show_file(f"origin/main:{rel}")
                 old_doc = load_json_text(blob_old) if blob_old else {}
-                print("DEBUG: loaded docs from git refs for non-local path", file=sys.stderr)
         except Exception as e:
             print(f"WARN: failed to load files for {rel}: {e}", file=sys.stderr)
-            traceback.print_exc(file=sys.stderr)
             old_doc, new_doc = {}, {}
 
         try:
             pair_res = analyze_pair_files(old_doc, new_doc, rel_path=rel, dataset_hint=dataset_hint)
         except Exception as e:
             print("WARN: analyze_pair_files exception:", e, file=sys.stderr)
-            traceback.print_exc(file=sys.stderr)
             pair_res = {"diffs": [], "analyze": {"summary": {"service_risk": 0.0, "num_aces": 0}, "predictions": []}}
 
         results.append({"file": rel, "result": pair_res})
