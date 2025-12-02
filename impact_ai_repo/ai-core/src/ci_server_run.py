@@ -34,7 +34,7 @@ sys.path.insert(0, str(HERE))
 def run_cmd(cmd: List[str]) -> Tuple[int, str]:
     try:
         out = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        return  (0, out.decode())
+        return (0, out.decode())
     except subprocess.CalledProcessError as e:
         return (e.returncode, e.output.decode() if e.output else "")
     except Exception as e:
@@ -486,12 +486,95 @@ def load_json_text(text: str) -> Dict[str, Any]:
             return {}
 
 
+# -------- pair_id lookup helper (index-based, independent of server.report) --------
+def _load_pair_index_any(dataset_key: Optional[str]) -> Optional[Dict[str, Any]]:
+    """
+    Try loading pair index globally, then dataset-specific.
+    This is defensive around different load_pair_index signatures.
+    """
+    idx = None
+    src = "none"
+    try:
+        try:
+            idx = server.load_pair_index()
+            src = "global"
+        except TypeError:
+            idx = None
+    except Exception as e:
+        print("DEBUG: global load_pair_index() raised in helper:", repr(e), file=sys.stderr)
+        idx = None
+
+    if (not isinstance(idx, dict)) or (not idx):
+        if dataset_key:
+            try:
+                try:
+                    idx = server.load_pair_index(dataset_key)
+                    src = f"dataset={dataset_key}"
+                except TypeError:
+                    idx = None
+            except Exception as e:
+                print(
+                    f"DEBUG: dataset load_pair_index({dataset_key}) raised in helper:",
+                    repr(e),
+                    file=sys.stderr,
+                )
+                idx = None
+
+    if isinstance(idx, dict):
+        print(
+            f"DEBUG: _load_pair_index_any loaded {len(idx)} entries from {src}",
+            file=sys.stderr,
+        )
+        return idx
+    print("DEBUG: _load_pair_index_any found no usable index", file=sys.stderr)
+    return None
+
+
+def lookup_pair_id_for_relpath(relname: str, dataset_key: Optional[str] = None) -> Optional[str]:
+    """
+    Best-effort: infer pair_id from index.json based on filename only.
+    This is used even if server.report fails, so CI still surfaces pair_id.
+    """
+    if not relname:
+        return None
+    name = Path(relname).name
+    idx = _load_pair_index_any(dataset_key)
+    if not isinstance(idx, dict) or not idx:
+        return None
+
+    name_lower = name.lower()
+    for pid, meta in idx.items():
+        try:
+            mo_raw = meta.get("old_canonical") or meta.get("old")
+            mn_raw = meta.get("new_canonical") or meta.get("new")
+            if not (mo_raw and mn_raw):
+                continue
+            mo_name = Path(str(mo_raw)).name.lower()
+            mn_name = Path(str(mn_raw)).name.lower()
+            if name_lower in (mo_name, mn_name):
+                print(
+                    f"DEBUG: lookup_pair_id_for_relpath matched rel={name} to pid={pid}",
+                    file=sys.stderr,
+                )
+                return pid
+        except Exception as e:
+            print("DEBUG: error iterating index entry in lookup_pair_id:", repr(e), file=sys.stderr)
+            continue
+    print(f"DEBUG: lookup_pair_id_for_relpath found no match for {name}", file=sys.stderr)
+    return None
+
+
 def analyze_pair_files(
     old_doc: Dict[str, Any],
     new_doc: Dict[str, Any],
     rel_path: Optional[str] = None,
     dataset_hint: Optional[str] = None,
 ) -> Dict[str, Any]:
+    # Try to get pair_id upfront from index, regardless of server.report success.
+    pair_id_hint: Optional[str] = None
+    if rel_path:
+        pair_id_hint = lookup_pair_id_for_relpath(rel_path, dataset_hint)
+
     try:
         old2 = dereference_components(old_doc)
         new2 = dereference_components(new_doc)
@@ -539,34 +622,10 @@ def analyze_pair_files(
                 old_name = new_name.replace("v2", "v1", 1)
 
         # ---------------- 1) Pair-index FIRST (use raw canonical paths from index) ----------------
-        idx = None
-        try:
-            try:
-                idx = server.load_pair_index()
-                src = "global"
-            except TypeError:
-                idx = None
-                src = "none"
-        except Exception as e:
-            print("DEBUG: global load_pair_index() raised:", repr(e), file=sys.stderr)
-            idx = None
-            src = "none"
-
-        if (not isinstance(idx, dict)) or (not idx):
-            try:
-                try:
-                    idx = server.load_pair_index(dataset_key)
-                    src = f"dataset={dataset_key}"
-                except TypeError:
-                    idx = None
-                    src = "none"
-            except Exception as e:
-                print("DEBUG: dataset load_pair_index() raised:", repr(e), file=sys.stderr)
-                idx = None
-                src = "none"
+        idx = _load_pair_index_any(dataset_key)
 
         print(
-            f"DEBUG: loaded pair index from {src} for dataset={dataset_key}, "
+            f"DEBUG: loaded pair index in try_call_report for dataset={dataset_key}, "
             f"entries={len(idx) if isinstance(idx, dict) else 'unknown'}",
             file=sys.stderr,
         )
@@ -622,11 +681,16 @@ def analyze_pair_files(
                             service_risk = float(repd.get("risk_score", 0.0) or 0.0)
 
                         ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
-                        pair_id = (
+                        pair_id_local = (
                             repd.get("metadata", {}).get("pair_id")
                             or repd.get("pair_id")
                             or pid
                         )
+
+                        # If report gives us a better pair_id, override the hint.
+                        nonlocal pair_id_hint
+                        if pair_id_local:
+                            pair_id_hint = pair_id_local
 
                         return {
                             "diffs": diffs_serial,
@@ -638,7 +702,7 @@ def analyze_pair_files(
                                 "backend_impacts": be_imp,
                                 "frontend_impacts": fe_imp,
                                 "ai_explanation": ai_expl,
-                                "pair_id": pair_id,
+                                "pair_id": pair_id_local,
                                 "versioning": repd.get("versioning") or {},
                                 "metadata": repd.get("metadata") or {},
                             },
@@ -758,11 +822,14 @@ def analyze_pair_files(
                             except Exception:
                                 service_risk = float(repd.get("risk_score", 0.0) or 0.0)
                             ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
-                            pair_id = (
+                            pair_id_local = (
                                 repd.get("metadata", {}).get("pair_id")
                                 or repd.get("pair_id")
+                                or pair_id_hint
                                 or ""
                             )
+                            if pair_id_local:
+                                pair_id_hint = pair_id_local
                             return {
                                 "diffs": diffs_serial,
                                 "analyze": {
@@ -773,7 +840,7 @@ def analyze_pair_files(
                                     "backend_impacts": be_imp,
                                     "frontend_impacts": fe_imp,
                                     "ai_explanation": ai_expl,
-                                    "pair_id": pair_id,
+                                    "pair_id": pair_id_local,
                                     "versioning": repd.get("versioning") or {},
                                     "metadata": repd.get("metadata") or {},
                                 },
@@ -956,6 +1023,10 @@ def analyze_pair_files(
         except Exception:
             ai_expl = ""
 
+    # IMPORTANT: ensure we propagate a pair_id if index knew it,
+    # even though api_analyze itself has no concept of pair_id.
+    final_pair_id = pair_id_hint or analy.get("pair_id") or ""
+
     return {
         "diffs": diffs_serial,
         "analyze": {
@@ -963,7 +1034,7 @@ def analyze_pair_files(
             "backend_impacts": be_imp,
             "frontend_impacts": fe_imp,
             "ai_explanation": ai_expl,
-            "pair_id": analy.get("pair_id") or "",
+            "pair_id": final_pair_id,
         },
     }
 
