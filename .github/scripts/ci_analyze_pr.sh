@@ -4,6 +4,7 @@
 # - creates a tiny venv for minimal deps if needed (uses requirements-ci.txt if present)
 # - runs ci_server_run.py (recommended). Falls back to analysis_light.py or server.py if present.
 # - copies any generated impact-report*.json / pr-impact-full.json to $GITHUB_WORKSPACE/pr-impact-report.json
+
 set -euo pipefail
 
 echo "CI: starting ai-core analysis runner"
@@ -64,6 +65,45 @@ ensure_jq() {
   fi
 }
 
+# Check if a similar PR comment already exists (dedupe) using gh or REST API
+comment_exists() {
+  local sentinel="$1"  # the unique sentinel string to search for (HTML comment)
+  local prnum="${PR_NUMBER:-}"
+  if [ -z "$prnum" ]; then
+    # try to extract from GITHUB_REF
+    if [ -n "${GITHUB_REF:-}" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
+      prnum=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+    fi
+  fi
+  if [ -z "$prnum" ]; then
+    echo "comment_exists: PR number unknown; cannot dedupe"
+    return 1
+  fi
+
+  if command -v gh >/dev/null 2>&1; then
+    # list comments bodies and search sentinel
+    if gh api repos/"${GITHUB_REPOSITORY}"/issues/"${prnum}"/comments --jq '.[].body' 2>/dev/null | grep -qF "$sentinel"; then
+      return 0
+    else
+      return 1
+    fi
+  fi
+
+  # fallback to REST API if GITHUB_TOKEN present
+  if [ -n "${GITHUB_TOKEN:-}" ]; then
+    local api_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${prnum}/comments"
+    # Use curl to fetch comment list (may be paginated but usually small)
+    if curl -s -H "Authorization: token ${GITHUB_TOKEN}" "$api_url" | grep -qF "$sentinel"; then
+      return 0
+    else
+      return 1
+    fi
+  fi
+
+  echo "comment_exists: no mechanism to check existing comments (no gh and no GITHUB_TOKEN)."
+  return 1
+}
+
 # Post comment to PR and gate the job based on report
 post_and_gate() {
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
@@ -72,10 +112,7 @@ post_and_gate() {
     return 0
   fi
 
-  # ensure jq available for parsing (best-effort)
-  if ! command -v jq >/dev/null 2>&1; then
-    echo "post_and_gate: warning: jq not found; some parsing will be degraded"
-  fi
+  ensure_jq || true
 
   # extract core fields with safe fallbacks
   RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
@@ -96,6 +133,8 @@ post_and_gate() {
     fi
   fi
 
+  # artifact id sentinel (attempt from report or fallback)
+  ARTIFACT=$(jq -r '.artifact // .report_id // .artifact_id // "pr-impact-report"' "$OUT" 2>/dev/null || echo "pr-impact-report")
   PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // .pair_id // empty' "$OUT" 2>/dev/null || echo "")
   EXPL=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
 
@@ -142,15 +181,12 @@ post_and_gate() {
 
   echo "post_and_gate: $QUICK_LINE"
 
-  # Convert any literal "\n" in EXPL to real newlines (minimal fix for escaped strings)
-  if printf '%s' "${EXPL:-}" | grep -q '\\n'; then
-    EXPL_PRETTY="$(printf '%b' "${EXPL:-}")"
-  else
-    EXPL_PRETTY="${EXPL:-}"
-  fi
+  # Convert any literal "\n" in EXPL to real newlines (normalize)
+  EXPL_PRETTY="$(printf '%b' "${EXPL_TRIMMED:-}")"
 
   # Build markdown body file (preserves real newlines)
   BODY_FILE="$(mktemp --tmpdir pr-impact-body.XXXXXX.md)"
+  SENTINEL="<!-- impact-report-id: ${ARTIFACT} -->"
   {
     printf "### Impact AI — Analysis result\n\n"
     printf "**Quick:** %s\n\n" "$QUICK_LINE"
@@ -180,46 +216,59 @@ post_and_gate() {
       cat "$OUT" | sed -n "1,${MAX_LINES}p"
     fi
 
-    printf "\n```\n</details>\n"
+    printf "\n```\n</details>\n\n"
+    # hidden sentinel to help dedupe of identical comments
+    printf "%s\n" "$SENTINEL"
   } > "${BODY_FILE}"
 
-  # Post using gh if available, else fallback to curl
-  if command -v gh >/dev/null 2>&1; then
-    if [ -z "${GH_TOKEN:-}" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
-      export GH_TOKEN="${GITHUB_TOKEN}"
-    fi
-    if [ -n "${PR_NUMBER:-}" ]; then
-      echo "post_and_gate: posting PR comment via gh for PR ${PR_NUMBER}"
-      gh pr comment "${PR_NUMBER}" --body-file "${BODY_FILE}" || echo "gh comment failed"
-    else
-      if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
-        PR_NUM=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
-        [ -n "$PR_NUM" ] && gh pr comment "${PR_NUM}" --body-file "${BODY_FILE}" || echo "gh comment failed"
-      else
-        echo "post_and_gate: cannot determine PR number for gh comment"
-      fi
-    fi
+  # Dedupe: skip posting if comment with identical sentinel already exists
+  if comment_exists "$SENTINEL"; then
+    echo "post_and_gate: similar impact comment already exists — skipping duplicate post"
   else
-    if [ -z "${GITHUB_TOKEN:-}" ]; then
-      echo "post_and_gate: gh not found and GITHUB_TOKEN not set — skipping PR comment."
-    else
-      if [ -z "${PR_NUMBER:-}" ]; then
-        if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
-          PR_NUMBER=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
-        fi
+    # Post using gh if available, else fallback to safe python+curl approach
+    if command -v gh >/dev/null 2>&1; then
+      if [ -z "${GH_TOKEN:-}" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
+        export GH_TOKEN="${GITHUB_TOKEN}"
       fi
       if [ -n "${PR_NUMBER:-}" ]; then
-        REPO=${GITHUB_REPOSITORY:-}
-        API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
-        echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
-        if command -v jq >/dev/null 2>&1; then
-          jq -nc --arg body "$(cat "${BODY_FILE}")" '{body:$body}' | \
-            curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d @- "$API_URL" || echo "curl post failed"
-        else
-          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d "{\"body\": \"$(sed ':a;N;$!ba;s/"/\\"/g; s/\n/\\n/g' "${BODY_FILE}")\"}" "$API_URL" || echo "curl post failed"
-        fi
+        echo "post_and_gate: posting PR comment via gh for PR ${PR_NUMBER}"
+        gh pr comment "${PR_NUMBER}" --body-file "${BODY_FILE}" || echo "gh comment failed"
       else
-        echo "post_and_gate: Cannot determine PR number to post comment."
+        if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
+          PR_NUM=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+          [ -n "$PR_NUM" ] && gh pr comment "${PR_NUM}" --body-file "${BODY_FILE}" || echo "gh comment failed"
+        else
+          echo "post_and_gate: cannot determine PR number for gh comment"
+        fi
+      fi
+    else
+      if [ -z "${GITHUB_TOKEN:-}" ]; then
+        echo "post_and_gate: gh not found and GITHUB_TOKEN not set — skipping PR comment."
+      else
+        if [ -z "${PR_NUMBER:-}" ]; then
+          if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
+            PR_NUMBER=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+          fi
+        fi
+        if [ -n "${PR_NUMBER:-}" ]; then
+          REPO=${GITHUB_REPOSITORY:-}
+          API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
+          echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
+
+          # safe JSON payload creation using python to avoid brittle sed escaping
+          PAYLOAD="$(python3 - <<PY
+import json,sys
+body_path = "${BODY_FILE}"
+with open(body_path, "r", encoding="utf-8") as fh:
+    body = fh.read()
+print(json.dumps({"body": body}))
+PY
+)"
+          # send payload
+          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d "${PAYLOAD}" "${API_URL}" || echo "curl post failed"
+        else
+          echo "post_and_gate: Cannot determine PR number to post comment."
+        fi
       fi
     fi
   fi
@@ -248,11 +297,6 @@ post_and_gate() {
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
-
-
-
-
-
 
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
@@ -290,7 +334,6 @@ copy_report() {
     return 1
   fi
 }
-
 
 # Activate venv if exists
 if [ -d ".ci-venv" ]; then
