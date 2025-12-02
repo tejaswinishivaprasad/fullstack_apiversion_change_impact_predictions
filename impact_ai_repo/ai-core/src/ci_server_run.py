@@ -45,12 +45,29 @@ try:
     print(f"DEBUG: imported server from {getattr(server, '__file__', 'unknown')}", file=sys.stderr)
     try:
         print("DEBUG: dataset_paths(openapi) =", server.dataset_paths("openapi"), file=sys.stderr)
-    except Exception as _:
+    except Exception:
         print("DEBUG: server.dataset_paths('openapi') failed", file=sys.stderr)
     print("DEBUG: CWD =", os.getcwd(), file=sys.stderr)
 except Exception as e:
     print("ERROR: failed to import server.py:", e, file=sys.stderr)
     raise
+
+# --- instrumentation: debug-wrap resolve_file_for_dataset to surface CI errors ----
+if hasattr(server, "resolve_file_for_dataset"):
+    try:
+        _orig_resolve = server.resolve_file_for_dataset
+        def _dbg_resolve_file_for_dataset(ds, fname):
+            try:
+                print(f"DEBUG: resolve_file_for_dataset called with ds={ds!r} ({type(ds)}), fname={fname!r} ({type(fname)})", file=sys.stderr)
+                r = _orig_resolve(ds, fname)
+                print(f"DEBUG: resolve_file_for_dataset returned {r!r} (type={type(r)})", file=sys.stderr)
+                return r
+            except Exception as ex:
+                print("ERROR: resolve_file_for_dataset threw:", repr(ex), file=sys.stderr)
+                raise
+        server.resolve_file_for_dataset = _dbg_resolve_file_for_dataset
+    except Exception as ex:
+        print("WARN: could not wrap resolve_file_for_dataset:", ex, file=sys.stderr)
 
 # --- helpers to resolve candidate files / roots robustly ----
 def _resolve_candidate_root(candidate: Optional[str]) -> Optional[Path]:
@@ -173,25 +190,35 @@ def _find_index_json_under_datasets() -> Optional[Path]:
 
     return None
 
-# --- Try to normalize EFFECTIVE_CURATED_ROOT and GRAPH_PATH ---
+# --- Try to normalize EFFECTIVE_CURATED_ROOT and GRAPH_PATH (defensive) ---
 try:
     eff = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
     if eff:
         res = _resolve_candidate_root(str(eff))
         if res:
-            server.EFFECTIVE_CURATED_ROOT = str(res)
-            print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT resolved -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
+            # store as Path object for server code that expects Path operations
+            try:
+                server.EFFECTIVE_CURATED_ROOT = Path(res)
+            except Exception:
+                server.EFFECTIVE_CURATED_ROOT = str(res)
+            print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT resolved -> {server.EFFECTIVE_CURATED_ROOT} (type={type(server.EFFECTIVE_CURATED_ROOT)})", file=sys.stderr)
         else:
             fallback = (HERE / "datasets")
             if fallback.exists():
-                server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
+                try:
+                    server.EFFECTIVE_CURATED_ROOT = fallback.resolve()
+                except Exception:
+                    server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
                 print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT forced -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
             else:
                 print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT ({eff}) could not be resolved", file=sys.stderr)
     else:
         fallback = (HERE / "datasets")
         if fallback.exists():
-            server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
+            try:
+                server.EFFECTIVE_CURATED_ROOT = fallback.resolve()
+            except Exception:
+                server.EFFECTIVE_CURATED_ROOT = str(fallback.resolve())
             print(f"DEBUG: server.EFFECTIVE_CURATED_ROOT set -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", e, file=sys.stderr)
@@ -200,44 +227,81 @@ except Exception as e:
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
-        server.EFFECTIVE_CURATED_ROOT = str(idx_root)
-        print(f"DEBUG: enforcing server.EFFECTIVE_CURATED_ROOT -> {server.EFFECTIVE_CURATED_ROOT}", file=sys.stderr)
+        idx_root = Path(idx_root).resolve()
+        # assign Path object to server.EFFECTIVE_CURATED_ROOT where possible
         try:
-            idx = server.load_pair_index()
+            server.EFFECTIVE_CURATED_ROOT = idx_root
+        except Exception:
+            server.EFFECTIVE_CURATED_ROOT = str(idx_root)
+        # also set INDEX_PATH attribute as Path for server code that expects it
+        index_path = idx_root / "index.json"
+        try:
+            server.INDEX_PATH = index_path
+        except Exception:
+            setattr(server, "INDEX_PATH", index_path)
+
+        print(f"DEBUG: enforcing server.EFFECTIVE_CURATED_ROOT -> {server.EFFECTIVE_CURATED_ROOT} (type={type(server.EFFECTIVE_CURATED_ROOT)})", file=sys.stderr)
+        print(f"DEBUG: server.INDEX_PATH -> {getattr(server, 'INDEX_PATH', None)} (exists={index_path.exists()})", file=sys.stderr)
+
+        # Try to load the pair index defensively (many signatures exist across versions)
+        try:
+            try:
+                idx = server.load_pair_index()
+            except TypeError:
+                try:
+                    # some variants take dataset key / path
+                    idx = server.load_pair_index(str(idx_root))
+                except TypeError:
+                    try:
+                        idx = server.load_pair_index(idx_root)
+                    except Exception as e:
+                        raise
             if isinstance(idx, dict):
                 print(f"DEBUG: server.load_pair_index() returned {len(idx)} entries", file=sys.stderr)
             else:
                 print(f"DEBUG: server.load_pair_index() returned type {type(idx)}", file=sys.stderr)
         except Exception as e:
-            print("WARN: server.load_pair_index() raised after enforce:", e, file=sys.stderr)
+            print("WARN: server.load_pair_index() raised after enforce:", repr(e), file=sys.stderr)
     else:
         print("WARN: Could not locate any index.json under candidate dataset roots. server.report may fail.", file=sys.stderr)
 except Exception as e:
-    print("WARN: error while attempting to find/set index root:", e, file=sys.stderr)
+    print("WARN: error while attempting to find/set index root:", repr(e), file=sys.stderr)
 
-# GRAPH_PATH normalization (same idea as earlier)
+# GRAPH_PATH normalization (defensive and Path-typed)
 try:
     gp = getattr(server, "GRAPH_PATH", None)
     if gp:
         res_gp = _resolve_candidate_root(str(gp))
         if res_gp and res_gp.exists():
-            server.GRAPH_PATH = str(res_gp)
+            try:
+                server.GRAPH_PATH = Path(res_gp).resolve()
+            except Exception:
+                server.GRAPH_PATH = str(res_gp)
             print(f"DEBUG: server.GRAPH_PATH resolved -> {server.GRAPH_PATH}", file=sys.stderr)
         else:
             cand1 = (HERE / "datasets" / "graph.json")
             cand2 = (REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json")
             if cand1.exists():
-                server.GRAPH_PATH = str(cand1.resolve())
+                try:
+                    server.GRAPH_PATH = cand1.resolve()
+                except Exception:
+                    server.GRAPH_PATH = str(cand1.resolve())
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             elif cand2.exists():
-                server.GRAPH_PATH = str(cand2.resolve())
+                try:
+                    server.GRAPH_PATH = cand2.resolve()
+                except Exception:
+                    server.GRAPH_PATH = str(cand2.resolve())
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             else:
                 print(f"DEBUG: server.GRAPH_PATH ({gp}) could not be resolved", file=sys.stderr)
     else:
         cand = (HERE / "datasets" / "graph.json")
         if cand.exists():
-            server.GRAPH_PATH = str(cand.resolve())
+            try:
+                server.GRAPH_PATH = cand.resolve()
+            except Exception:
+                server.GRAPH_PATH = str(cand.resolve())
             print(f"DEBUG: server.GRAPH_PATH set -> {server.GRAPH_PATH}", file=sys.stderr)
 except Exception as e:
     print("WARN: error normalizing GRAPH_PATH:", e, file=sys.stderr)
@@ -556,15 +620,27 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
                                 }
                             }
                         except Exception as e:
-                            print("WARN: server.report(dataset) call failed (local-canonical):", e, file=sys.stderr)
+                            print("WARN: server.report(dataset) call failed (local-canonical):", repr(e), file=sys.stderr)
                             # continue to pair-index fallback
                 except Exception as e:
-                    print("DEBUG: error while checking candidate root for local canonical files:", e, file=sys.stderr)
+                    print("DEBUG: error while checking candidate root for local canonical files:", repr(e), file=sys.stderr)
                     continue
 
         # 2) Pair-index fallback using load_pair_index
         try:
-            idx = server.load_pair_index(dataset_key)
+            # call defensively: some server versions accept different args
+            try:
+                idx = server.load_pair_index(dataset_key)
+            except TypeError:
+                try:
+                    idx = server.load_pair_index()
+                except Exception:
+                    try:
+                        idx = server.load_pair_index(str(getattr(server, "EFFECTIVE_CURATED_ROOT", "")))
+                    except Exception as e:
+                        print("DEBUG: server.load_pair_index attempts failed:", repr(e), file=sys.stderr)
+                        idx = None
+
             print(f"DEBUG: loaded pair index entries={len(idx) if isinstance(idx, dict) else 'unknown'}", file=sys.stderr)
             if isinstance(idx, dict) and new_name:
                 for pid, meta in idx.items():
@@ -606,12 +682,12 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
                                     }
                                 }
                             except Exception as e:
-                                print("WARN: server.report(pair-index) failed for pid", pid, "error:", e, file=sys.stderr)
+                                print("WARN: server.report(pair-index) failed for pid " + str(pid) + " error: " + repr(e), file=sys.stderr)
                                 continue
                     except Exception as e:
-                        print("DEBUG: load_pair_index threw:", e, file=sys.stderr)        
+                        print("DEBUG: error iterating index entry:", repr(e), file=sys.stderr)
         except Exception as e:
-            print("DEBUG: load_pair_index threw:", e, file=sys.stderr)
+            print("DEBUG: load_pair_index threw:", repr(e), file=sys.stderr)
 
         # 3) As last-ditch, try calling report with relative path under EFFECTIVE_CURATED_ROOT (some server.report implementations accept this)
         try:
@@ -651,7 +727,7 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
                                 }
                             }
                         except Exception as e:
-                            print("WARN: server.report(eff-root) failed:", e, file=sys.stderr)
+                            print("WARN: server.report(eff-root) failed:", repr(e), file=sys.stderr)
                 except Exception:
                     pass
         except Exception:
@@ -680,7 +756,7 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
         candidate_str = json.dumps(new_doc)
         analy = server.api_analyze(baseline=baseline_str, candidate=candidate_str, dataset=None, options=None)
     except Exception as e:
-        print("WARN: server.api_analyze raised:", e, file=sys.stderr)
+        print("WARN: server.api_analyze raised:", repr(e), file=sys.stderr)
         analy = {"run_id": None, "predictions": [], "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
     if not isinstance(analy, dict):
@@ -698,7 +774,7 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
             g = server.load_graph()
             print("DEBUG: server.load_graph() returned:", type(g), file=sys.stderr)
         except Exception as e:
-            print("DEBUG: server.load_graph() raised:", e, file=sys.stderr)
+            print("DEBUG: server.load_graph() raised:", repr(e), file=sys.stderr)
             g = None
 
         if g is None:
@@ -723,18 +799,22 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
                 if candp.exists():
                     print(f"DEBUG: found graph.json at {candp}", file=sys.stderr)
                     try:
-                        server.GRAPH_PATH = str(candp)
-                        print(f"DEBUG: server.GRAPH_PATH forced to {server.GRAPH_PATH}", file=sys.stderr)
+                        # store as Path where possible
+                        try:
+                            server.GRAPH_PATH = candp
+                        except Exception:
+                            server.GRAPH_PATH = str(candp)
+                        print(f"DEBUG: server.GRAPH_PATH forced to {getattr(server, 'GRAPH_PATH', None)}", file=sys.stderr)
                         g = server.load_graph()
                         print("DEBUG: server.load_graph() after forcing GRAPH_PATH ->", type(g), file=sys.stderr)
                         break
                     except Exception as e:
-                        print("WARN: server.load_graph() after forcing GRAPH_PATH failed:", e, file=sys.stderr)
+                        print("WARN: server.load_graph() after forcing GRAPH_PATH failed:", repr(e), file=sys.stderr)
                         g = None
             if g is None:
                 print("DEBUG: no usable graph loaded after trying candidates", file=sys.stderr)
     except Exception as e:
-        print("WARN: graph enrichment step failed:", e, file=sys.stderr)
+        print("WARN: graph enrichment step failed:", repr(e), file=sys.stderr)
         g = None
 
     service_guess = None
@@ -772,7 +852,7 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
         else:
             print("DEBUG: skipping backend/ui impact heuristics (no graph)", file=sys.stderr)
     except Exception as e:
-        print("WARN: enrichment impact computation failed:", e, file=sys.stderr)
+        print("WARN: enrichment impact computation failed:", repr(e), file=sys.stderr)
         be_imp = []
         fe_imp = []
 
