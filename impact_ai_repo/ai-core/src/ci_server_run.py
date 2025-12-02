@@ -17,8 +17,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
-from typing import Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 # Ensure we can import server.py from the same directory
 HERE = Path(__file__).resolve().parent
@@ -112,7 +111,10 @@ def find_local_v1_across_variants(v2path: Path) -> Path:
     for key in _all_dataset_keys():
         try:
             dp = server.dataset_paths(key)
-            can = Path(dp.get("canonical") if isinstance(dp.get("canonical"), (str, Path)) else dp["canonical"])
+            can_candidate = dp.get("canonical")
+            if not can_candidate:
+                continue
+            can = Path(can_candidate)
             p = can / name_alt
             if p.exists():
                 return p
@@ -128,7 +130,7 @@ def find_local_v1_across_variants(v2path: Path) -> Path:
             if p.exists():
                 return p
             # also check canonical under each base dataset in that variant
-            for base in server.BASE_DATASETS:
+            for base in getattr(server, "BASE_DATASETS", []):
                 p2 = Path(vroot) / base / "canonical" / name_alt
                 if p2.exists():
                     return p2
@@ -137,15 +139,16 @@ def find_local_v1_across_variants(v2path: Path) -> Path:
 
     # legacy effective curated root - server.EFFECTIVE_CURATED_ROOT
     try:
-        eff = Path(server.EFFECTIVE_CURATED_ROOT)
-        p = eff / name_alt
-        if p.exists():
-            return p
-        # also try canonical and ndjson/metadata places
-        for sub in ("canonical", "ndjson", "metadata"):
-            p2 = eff / sub / name_alt
-            if p2.exists():
-                return p2
+        eff = Path(getattr(server, "EFFECTIVE_CURATED_ROOT", ""))
+        if eff and eff.exists():
+            p = eff / name_alt
+            if p.exists():
+                return p
+            # also try canonical and ndjson/metadata places
+            for sub in ("canonical", "ndjson", "metadata"):
+                p2 = eff / sub / name_alt
+                if p2.exists():
+                    return p2
     except Exception:
         pass
 
@@ -218,111 +221,143 @@ def dereference_components(spec: Dict[str, Any]) -> Dict[str, Any]:
     return out
 
 def load_json_text(text: str) -> Dict[str, Any]:
+    # If `text` appears to be file content, attempt json.loads; otherwise attempt server helper (if present)
     try:
         return json.loads(text)
     except Exception:
-        # fallback to server helper if available
         try:
-            return server._load_json_or_yaml(Path(text)) if False else {}
+            # if provided a path-like string, try to read as file (but usually git_show returns content)
+            return server._load_json_or_yaml(Path(text))
         except Exception:
             return {}
 
-
-
 def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any], rel_path: str = None) -> Dict[str, Any]:
     """
-    Corrected version:
-    - Resolves dataset + canonical filenames properly
-    - Calls server.report() whenever possible
-    - Ensures backend_impacts / frontend_impacts flow through
-    - Falls back gracefully to api_analyze + graph impacts
+    Robust: prefer calling server.report(dataset, old_name, new_name, pair_id) so
+    backend/frontend impacts and version metadata are filled (like dashboard).
+    If we cannot map to dataset/canonical names, fallback to server.api_analyze
+    plus a heuristics-based backend/frontend via server.backend_impacts/ui_impacts.
+    NOTE: `rel_path` (relative path seen by CI) is passed from caller when available.
     """
-    # Shallow deref for cleaner diffs
+    # 1. shallow deref for diffs
     try:
         old2 = dereference_components(old_doc)
         new2 = dereference_components(new_doc)
     except Exception:
         old2, new2 = old_doc, new_doc
 
-    # Compute diff events
+    # 2. compute diffs (list of DiffItem or simple items)
     try:
         diffs = server.diff_openapi(old2, new2)
     except Exception as e:
         print("WARN: server.diff_openapi failed:", e, file=sys.stderr)
         diffs = []
 
-    # Serialize
+    # serialize diffs to plain dicts (same as before)
     diffs_serial = []
     for d in diffs:
         try:
-            dd = d.dict() if hasattr(d, "dict") else {
-                "type": getattr(d, "type", None),
-                "path": getattr(d, "path", None),
-                "method": getattr(d, "method", None),
-                "detail": getattr(d, "detail", None),
-                "ace_id": getattr(d, "ace_id", None),
-            }
+            if hasattr(d, "dict"):
+                dd = d.dict()
+            else:
+                dd = {
+                    "type": getattr(d, "type", None),
+                    "path": getattr(d, "path", None),
+                    "method": getattr(d, "method", None),
+                    "detail": getattr(d, "detail", None),
+                    "ace_id": getattr(d, "ace_id", None),
+                }
         except Exception:
             dd = {"type": str(d)}
         if "type" in dd and isinstance(dd["type"], str):
             dd["type"] = dd["type"].upper()
         diffs_serial.append(dd)
 
-    # Reconstruct local paths
-    p_new = Path(rel_path) if rel_path else None
-    p_old = None
-
-    # Try to locate v1 counterpart for dataset resolution
-    if p_new and p_new.exists():
-        cand = find_local_v1_across_variants(p_new)
-        if cand.exists():
-            p_old = cand
-
-    # Dataset resolver
-    def _resolve_dataset(old_path: Optional[Path], new_path: Optional[Path]):
+    # Helper to try mapping a Path (or rel path) to dataset key + canonical filename
+    def _find_dataset_and_names(p_old: Optional[Path], p_new: Optional[Path], relname: Optional[str]):
+        # Returns (dataset_key, old_name, new_name, pair_id_hint) or (None, None, None, None)
         try:
-            old_name = old_path.name if old_path else None
-            new_name = new_path.name if new_path else None
+            old_name = p_old.name if p_old else (Path(relname).name if relname else None)
+            new_name = p_new.name if p_new else (Path(relname).name if relname else None)
             for key in server.all_dataset_keys():
-                dp = server.dataset_paths(key)
-                can = dp.get("canonical")
-
-                if can:
-                    cpath = Path(can)
-                    if old_name and (cpath / old_name).exists():
-                        if new_name and (cpath / new_name).exists():
-                            return key, old_name, new_name
-                    if new_name and (cpath / new_name).exists():
-                        return key, old_name, new_name
-
-                # Also check index
-                idx = server.load_pair_index(key)
-                for pid, meta in idx.items():
-                    mo = Path(str(meta.get("old_canonical") or meta.get("old") or "")).name
-                    mn = Path(str(meta.get("new_canonical") or meta.get("new") or "")).name
-                    if mo == old_name and mn == new_name:
-                        return key, mo, mn
+                try:
+                    dp = server.dataset_paths(key)
+                    can = dp.get("canonical")
+                    if can:
+                        canp = Path(can)
+                        if old_name and (canp / old_name).exists() and new_name and (canp / new_name).exists():
+                            return key, old_name, new_name, None
+                        if new_name and (canp / new_name).exists():
+                            return key, old_name, new_name, None
+                    # also check index mapping if available
+                    try:
+                        idx = server.load_pair_index(key)
+                        for pid, meta in (idx or {}).items():
+                            mo = Path(str(meta.get("old_canonical") or meta.get("old") or "")).name if meta.get("old") else None
+                            mn = Path(str(meta.get("new_canonical") or meta.get("new") or "")).name if meta.get("new") else None
+                            if mo and mn and old_name and new_name and mo.lower() == old_name.lower() and mn.lower() == new_name.lower():
+                                return key, mo, mn, pid
+                    except Exception:
+                        pass
+                except Exception:
+                    continue
         except Exception:
             pass
-        return None, None, None
+        return None, None, None, None
 
-    dataset_key, old_name, new_name = _resolve_dataset(p_old, p_new)
+    # attempt to recover Paths used earlier in wrapper: try to derive p_old / p_new
+    p_new: Optional[Path] = None
+    p_old: Optional[Path] = None
+    try:
+        # attempt to re-resolve by checking canonical names among variants if rel_path present
+        if rel_path:
+            p_new = Path(rel_path)
+            # if new file exists on fs (local workspace), use it
+            if not p_new.exists():
+                # try to find in curated variants
+                cand = find_local_v1_across_variants(Path(rel_path))
+                if cand.exists():
+                    # cand is likely v1 counterpart, but we still want new candidate looked up in canonical sets
+                    p_old = cand
+                # attempt to find new in canonical locations
+                # scan server dataset canonical folders for new file name
+                for key in _all_dataset_keys():
+                    try:
+                        dp = server.dataset_paths(key)
+                        can = dp.get("canonical")
+                        if can:
+                            candidate = Path(can) / Path(rel_path).name
+                            if candidate.exists():
+                                p_new = candidate
+                                break
+                    except Exception:
+                        continue
+                # if still not found, leave p_new as None
+                if p_new and not p_new.exists():
+                    p_new = None
+    except Exception:
+        p_new = None
 
-    # 1. Try server.report() if dataset is known
+    dataset_key, old_name, new_name, pair_hint = _find_dataset_and_names(p_old, p_new, rel_path)
+
+    # Try calling server.report with dataset and file names if we discovered dataset
     if dataset_key and old_name and new_name:
         try:
-            rep = server.report(dataset_key, old_name, new_name)
-            repd = rep.dict()
-
+            # server.report signature likely: report(dataset: str, old: str, new: str, pair_id: Optional[str]=None)
+            report_obj = server.report(dataset=dataset_key, old=old_name, new=new_name, pair_id=pair_hint)
+            # report_obj is a Pydantic Report model instance; convert to dict
+            repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
+            be_imp = repd.get("backend_impacts") or repd.get("backend_impacts", [])
+            fe_imp = repd.get("frontend_impacts") or repd.get("frontend_impacts", [])
+            # normalize the ai_explanation (report provides it)
+            ai_expl = repd.get("ai_explanation") or repd.get("ai_explanation", "")
+            pair_id = repd.get("metadata", {}).get("pair_id") or repd.get("pair_id") or pair_hint
+            # ensure we include numeric summary.service_risk if present
             summary = repd.get("summary") or {}
-            service_risk = float(summary.get("service_risk", 0.0))
-
-            be_imp = repd.get("backend_impacts") or []
-            fe_imp = repd.get("frontend_impacts") or []
-
-            ai_expl = repd.get("ai_explanation") or ""
-            pair_id = repd.get("metadata", {}).get("pair_id", "")
-
+            try:
+                service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)))
+            except Exception:
+                service_risk = float(repd.get("risk_score", 0.0) or 0.0)
             return {
                 "diffs": diffs_serial,
                 "analyze": {
@@ -334,47 +369,102 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any], rel_pat
                 },
             }
         except Exception as e:
-            print("WARN: server.report() failed, falling back:", e, file=sys.stderr)
+            print("WARN: calling server.report failed:", e, file=sys.stderr)
+            # fall through to fallback
 
-    # 2. Fallback: api_analyze + graph impacts
+    # FALLBACK: call server.api_analyze (raw docs) to get predictions, then enrich with graph impacts
     try:
-        analy = server.api_analyze(
-            baseline=json.dumps(old_doc),
-            candidate=json.dumps(new_doc),
-            dataset=None,
-            options=None
-        )
+        baseline_str = json.dumps(old_doc)
+        candidate_str = json.dumps(new_doc)
+        analy = server.api_analyze(baseline=baseline_str, candidate=candidate_str, dataset=None, options=None)
     except Exception as e:
-        print("WARN: api_analyze failed:", e, file=sys.stderr)
-        analy = {"summary": {"service_risk": 0.0}}
+        print("WARN: server.api_analyze raised:", e, file=sys.stderr)
+        analy = {"run_id": None, "predictions": [], "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
-    score = float((analy.get("summary") or {}).get("service_risk", 0.0))
+    # ensure analy dict
+    if not isinstance(analy, dict):
+        analy = {"summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
-    # Graph-based impacts
-    g = server.load_graph()
+    # try to extract score from api_analyze
+    try:
+        score = float((analy.get("summary") or {}).get("service_risk", 0.0))
+    except Exception:
+        score = 0.0
 
-    # Guess service name
+    # Attempt to guess service and compute graph impacts
+    try:
+        g = server.load_graph()
+    except Exception:
+        g = None
+
+    # service guess: use filename stem from rel_path or candidate info
     service_guess = None
     if rel_path:
         try:
-            service_guess = Path(rel_path).stem.split("--")[1]
+            # prefer canonical naming conventions if present: e.g., openapi--<service>--<hash>--v2...
+            stem = Path(rel_path).stem
+            if "--" in stem:
+                # pick the second token as service name (openapi--catalog-service--00134a2b--v2 -> catalog-service)
+                parts = stem.split("--")
+                if len(parts) >= 2:
+                    service_guess = parts[1]
+                else:
+                    service_guess = stem
+            elif "-v" in stem:
+                service_guess = stem.split("-v")[0]
+            else:
+                service_guess = stem
         except Exception:
             service_guess = None
     if not service_guess:
-        service_guess = (new_doc.get("info", {}) or {}).get("title", "unknown")
+        try:
+            service_guess = (new_doc.get("info", {}) or {}).get("title")
+        except Exception:
+            service_guess = "unknown"
 
-    changed_paths = [server.normalize_path(d.get("path")) for d in diffs_serial if d.get("path")]
+    pfeats = {}
+    be_imp = []
+    fe_imp = []
+    try:
+        if g is not None:
+            try:
+                pfeats = server.producer_features(g, service_guess)
+            except Exception:
+                pfeats = {}
+            # changed paths (normalized) - guard server.normalize_path
+            changed_paths = []
+            for d in diffs_serial:
+                path_raw = d.get("path")
+                if path_raw:
+                    try:
+                        changed_paths.append(server.normalize_path(path_raw))
+                    except Exception:
+                        changed_paths.append(path_raw)
+            try:
+                be_imp = server.backend_impacts(g, service_guess, changed_paths)
+            except Exception:
+                be_imp = []
+            try:
+                fe_imp = server.ui_impacts(g, service_guess, changed_paths)
+            except Exception:
+                fe_imp = []
+        else:
+            # unable to load graph; leave impacts empty
+            be_imp = []
+            fe_imp = []
+    except Exception:
+        be_imp = []
+        fe_imp = []
 
-    be_imp = server.backend_impacts(g, service_guess, changed_paths)
-    fe_imp = server.ui_impacts(g, service_guess, changed_paths)
-
-    ai_expl = analy.get("ai_explanation") or analy.get("explanation") or ""
+    # build ai_explanation if analy didn't provide one
+    ai_expl = analy.get("explanation") or analy.get("ai_explanation") or ""
     if not ai_expl:
         try:
-            ai_expl = server.make_explanation(score, diffs_serial, {}, {}, be_imp, fe_imp)
+            ai_expl = server.make_explanation(score, diffs_serial, pfeats, {}, be_imp, fe_imp)
         except Exception:
             ai_expl = ""
 
+    # assemble final shape similar to report
     return {
         "diffs": diffs_serial,
         "analyze": {
@@ -382,11 +472,9 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any], rel_pat
             "backend_impacts": be_imp,
             "frontend_impacts": fe_imp,
             "ai_explanation": ai_expl,
-            "pair_id": analy.get("pair_id", ""),
+            "pair_id": analy.get("pair_id") or "",
         },
     }
-
-
 
 
 def main():
