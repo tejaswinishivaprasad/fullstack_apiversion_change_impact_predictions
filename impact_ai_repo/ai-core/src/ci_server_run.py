@@ -101,8 +101,7 @@ def _resolve_candidate_root(candidate: Optional[str]) -> Optional[Path]:
 def _find_index_json_under_datasets() -> Optional[Path]:
     """
     Search for an index.json (pair index) under plausible dataset roots.
-    Returns path to the directory that should be used as EFFECTIVE_CURATED_ROOT
-    (i.e., directory that contains index.json).
+    Returns path to the directory that contains index.json (e.g. datasets/curated_clean).
     """
     candidates: List[Path] = []
 
@@ -230,15 +229,16 @@ try:
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", e, file=sys.stderr)
 
-# locate index.json and set EFFECTIVE_CURATED_ROOT to container that has it (so load_pair_index() works)
+# locate index.json and set INDEX_PATH ONLY (do NOT override EFFECTIVE_CURATED_ROOT)
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
         idx_root = Path(idx_root).resolve()
-        try:
-            server.EFFECTIVE_CURATED_ROOT = idx_root
-        except Exception:
-            server.EFFECTIVE_CURATED_ROOT = str(idx_root)
+        eff_before = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
+        print(
+            f"DEBUG: index.json root candidate={idx_root}, existing EFFECTIVE_CURATED_ROOT={eff_before}",
+            file=sys.stderr,
+        )
 
         index_path = idx_root / "index.json"
         try:
@@ -247,17 +247,12 @@ try:
             setattr(server, "INDEX_PATH", index_path)
 
         print(
-            f"DEBUG: enforcing server.EFFECTIVE_CURATED_ROOT -> {server.EFFECTIVE_CURATED_ROOT} "
-            f"(type={type(server.EFFECTIVE_CURATED_ROOT)})",
-            file=sys.stderr,
-        )
-        print(
             f"DEBUG: server.INDEX_PATH -> {getattr(server, 'INDEX_PATH', None)} (exists={index_path.exists()})",
             file=sys.stderr,
         )
 
         try:
-            # try a few possible load_pair_index signatures
+            # try a few possible load_pair_index signatures, just for sanity + debug
             try:
                 idx = server.load_pair_index()
             except TypeError:
@@ -270,7 +265,7 @@ try:
             else:
                 print(f"DEBUG: server.load_pair_index() returned type {type(idx)}", file=sys.stderr)
         except Exception as e:
-            print("WARN: server.load_pair_index() raised after enforce:", repr(e), file=sys.stderr)
+            print("WARN: server.load_pair_index() raised after setting INDEX_PATH:", repr(e), file=sys.stderr)
     else:
         print("WARN: Could not locate any index.json under candidate dataset roots. server.report may fail.", file=sys.stderr)
 except Exception as e:
