@@ -89,14 +89,12 @@ jobs:
         run: |
           set -x
           .github/scripts/ci_analyze_pr.sh
-        # NOTE: intentionally NOT continue-on-error so you can re-enable gating by flipping FAIL_ON_BLOCK
 
       - name: Upload report artifacts (summary + full if present)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pr-impact-report-${{ github.event.pull_request.number }}
-          # upload both summary and full if they exist; upload-artifact accepts newline-separated paths
           path: |
             pr-impact-report.json
             pr-impact-full.json
@@ -119,11 +117,9 @@ jobs:
             exit 0
           fi
 
-          # canonical numeric risk field with fallbacks
           RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
           RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
 
-          # band / label fallback
           BAND=$(jq -r '.risk_band // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
           LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
           if [ -z "$LEVEL" ]; then
@@ -219,6 +215,14 @@ jobs:
               BODY="${BODY}- ${line}\n"
             done <<< "$FE"
             BODY="${BODY}\n"
+          fi
+
+          # include a collapsible raw report (safe pretty-print, limited lines)
+          if [ -f "$OUT" ]; then
+            RAW_PRETTY=$(jq . "$OUT" 2>/dev/null | sed -n '1,500p' || cat "$OUT" | sed -n '1,500p' || true)
+            if [ -n "$RAW_PRETTY" ]; then
+              BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n${RAW_PRETTY}\n\`\`\`\n</details>\n\n"
+            fi
           fi
 
           BODY="${BODY}---\n_If you need full ACE JSON or full report, download the artifact attached to this run._"

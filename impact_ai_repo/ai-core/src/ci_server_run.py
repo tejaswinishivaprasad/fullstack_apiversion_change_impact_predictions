@@ -8,6 +8,11 @@ Lightweight CI wrapper that:
  - lightly dereferences local '#/components/schemas/...' refs (shallow)
  - invokes server.api_analyze(...) (in-process) to reuse server logic
  - writes pr-impact-full.json (detailed) and pr-impact-report.json (compact)
+
+Enhancements:
+ - includes deterministic artifact/report_id fields (pr-based) to help dedupe/update PR comments
+ - exposes 'ai_explanation_lines' (list[str]) to allow safe reconstitution of multi-line explanations
+ - ensures pair_id present under top-level and metadata for downstream consumers
 """
 from __future__ import annotations
 import argparse
@@ -15,7 +20,6 @@ import json
 import os
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
@@ -120,14 +124,13 @@ def find_local_v1_across_variants(v2path: Path) -> Path:
 
     # try variant-level index roots
     for vf in _variant_folders():
-        # try both CURATED_CONTAINER/variant and CURATED_ROOT_RAW/variant behaviors via server._variant_dir_for if available
         try:
             vroot = server._variant_dir_for(vf)
             p = Path(vroot) / name_alt
             if p.exists():
                 return p
             # also check canonical under each base dataset in that variant
-            for base in server.BASE_DATASETS:
+            for base in getattr(server, "BASE_DATASETS", []):
                 p2 = Path(vroot) / base / "canonical" / name_alt
                 if p2.exists():
                     return p2
@@ -136,7 +139,7 @@ def find_local_v1_across_variants(v2path: Path) -> Path:
 
     # legacy effective curated root - server.EFFECTIVE_CURATED_ROOT
     try:
-        eff = Path(server.EFFECTIVE_CURATED_ROOT)
+        eff = Path(getattr(server, "EFFECTIVE_CURATED_ROOT", ""))
         p = eff / name_alt
         if p.exists():
             return p
@@ -194,7 +197,7 @@ def dereference_components(spec: Dict[str, Any]) -> Dict[str, Any]:
             return [resolve(x) for x in obj]
         return obj
     out = dict(spec)
-    # Only replace schemas and also go into paths responses and requestBody
+    # Only replace paths entries to inline schema refs where practical
     try:
         if "paths" in spec and isinstance(spec["paths"], dict):
             new_paths = {}
@@ -222,6 +225,7 @@ def load_json_text(text: str) -> Dict[str, Any]:
     except Exception:
         # fallback to server helper if available
         try:
+            # server._load_json_or_yaml expects a Path; emulate via temp file if necessary
             return server._load_json_or_yaml(Path(text)) if False else {}
         except Exception:
             return {}
@@ -312,10 +316,8 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any]) -> Dict
     if not ai_expl:
         # attempt to build using server.make_explanation if available
         try:
-            # need pfeats/vfeats/be_imp/fe_imp for server.make_explanation; build minimal defaults
             fake_pfeats = {}
             fake_vfeats = analy.get("versioning") or {}
-            # compute some impacts counts heuristically
             be_imp = analy.get("backend_impacts") or []
             fe_imp = analy.get("frontend_impacts") or []
             score = 0.0
@@ -330,13 +332,22 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any]) -> Dict
         except Exception:
             ai_expl = ""
 
-    # make sure analy contains canonical entries downstream expects
+    # ensure analy contains canonical entries downstream expects
     analy_out = dict(analy)
     analy_out.setdefault("summary", analy_out.get("summary") or {})
     analy_out["summary"].setdefault("service_risk", float((analy_out["summary"].get("service_risk") or 0.0)))
     analy_out["summary"].setdefault("num_aces", len(diffs_serial))
-    analy_out["pair_id"] = pair_id
-    analy_out["ai_explanation"] = ai_expl
+
+    # ensure pair_id present in analyze payload
+    analy_out["pair_id"] = pair_id or analy_out.get("pair_id") or ""
+    # keep ai_explanation as original string
+    analy_out["ai_explanation"] = ai_expl or ""
+
+    # Also provide a safe lines array for multi-line explanations (helps fragile posters)
+    if analy_out["ai_explanation"] and isinstance(analy_out["ai_explanation"], str):
+        analy_out["ai_explanation_lines"] = analy_out["ai_explanation"].splitlines()
+    else:
+        analy_out["ai_explanation_lines"] = []
 
     # Build combined result
     out = {
@@ -422,7 +433,7 @@ def main():
         "files_analyzed": len(results),
         "entries": results
     }
-    Path(args.output_full).write_text(json.dumps(full_out, indent=2), encoding="utf-8")
+    Path(args.output_full).write_text(json.dumps(full_out, indent=2, ensure_ascii=False), encoding="utf-8")
     print("Wrote full output to", args.output_full, file=sys.stderr)
 
     # Compose compact summary used by workflow comment
@@ -432,6 +443,7 @@ def main():
     atomic_aces = []
     pair_id_top = None
     ai_expl_top = None
+    ai_expl_lines_top: List[str] = []
     for e in results:
         analy = e["result"].get("analyze", {}) or {}
         summary = analy.get("summary") or {}
@@ -453,6 +465,9 @@ def main():
             pair_id_top = analy.get("pair_id") or (analy.get("versioning") or {}).get("pair_id") or (analy.get("metadata") or {}).get("pair_id")
         if not ai_expl_top:
             ai_expl_top = analy.get("ai_explanation") or analy.get("explanation")
+            # lines array fallback
+            if not ai_expl_lines_top:
+                ai_expl_lines_top = analy.get("ai_explanation_lines") or []
 
     # Compute band / label consistent with other code paths
     def _band_label(score: float):
@@ -463,6 +478,11 @@ def main():
         return "Low", "PASS"
 
     band, level = _band_label(max_risk)
+
+    # deterministic artifact / report id so posters can dedupe/update reliably
+    safe_pr = str(args.pr).replace("/", "-")
+    artifact_id = f"pr-impact-report-{safe_pr}"
+    report_id = artifact_id
 
     compact = {
         "status": full_out["status"],
@@ -480,14 +500,21 @@ def main():
         "risk_score": round(float(max_risk), 3),
         "risk_band": band,
         "risk_level": level,
+        # main explanation string (may include newlines)
         "ai_explanation": ai_expl_top or "",
+        # lines array to help robust reconstitution (avoids brittle escaped-newline issues)
+        "ai_explanation_lines": ai_expl_lines_top or (ai_expl_top.splitlines() if ai_expl_top else []),
+        # artifact ids for dedupe/update
+        "artifact": artifact_id,
+        "report_id": report_id,
+        # pair_id surfaced in top-level and metadata
         "pair_id": pair_id_top or "",
         "metadata": {
             "pair_id": pair_id_top or ""
         }
     }
 
-    Path(args.output_summary).write_text(json.dumps(compact, indent=2), encoding="utf-8")
+    Path(args.output_summary).write_text(json.dumps(compact, indent=2, ensure_ascii=False), encoding="utf-8")
     print("Wrote summary to", args.output_summary, file=sys.stderr)
 
     # exit 0 (CI can inspect outputs). If you want to fail on high risk, change policy here.
