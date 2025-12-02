@@ -72,25 +72,19 @@ post_and_gate() {
     return 0
   fi
 
-  # helpers
-  repo="${GITHUB_REPOSITORY:-}"
-  pr="${PR_NUMBER:-}"
-  if [ -z "$pr" ] && [ -n "$GITHUB_REF" ]; then
-    pr=$(printf "%s" "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+  # ensure jq available for parsing (best-effort)
+  if ! command -v jq >/dev/null 2>&1; then
+    echo "post_and_gate: warning: jq not found; some parsing will be degraded"
   fi
 
-  if [ -z "$repo" ] || [ -z "$pr" ]; then
-    echo "post_and_gate: cannot determine repo/pr (repo=${repo}, pr=${pr})"
-    return 0
-  fi
-
-  # parse fields safely with jq if available
+  # extract core fields with safe fallbacks
   RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
   RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
 
   BAND=$(jq -r '.risk_band // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
   LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
 
+  # derive level if missing
   if [ -z "$LEVEL" ]; then
     SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{printf("%.6f", (r+0))}')
     if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
@@ -103,28 +97,39 @@ post_and_gate() {
   fi
 
   PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // .pair_id // empty' "$OUT" 2>/dev/null || echo "")
-  EXPL_RAW=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
+  EXPL=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
 
-  # truncate explanation for top-level display, keep full version in raw JSON block
-  EXPL_MAX_CHARS=${EXPL_MAX_CHARS:-600}
-  if [ -n "$EXPL_RAW" ] && [ "${#EXPL_RAW}" -gt "$EXPL_MAX_CHARS" ]; then
-    EXPL_TRIMMED="$(printf '%s' "$EXPL_RAW" | cut -c1-$EXPL_MAX_CHARS) ... (truncated)"
+  # safe truncation for explanation (avoid huge comments)
+  EXPL_MAX_CHARS=${EXPL_MAX_CHARS:-800}
+  if [ -n "$EXPL" ]; then
+    if [ "${#EXPL}" -gt "$EXPL_MAX_CHARS" ]; then
+      EXPL_TRIMMED="$(printf '%s' "$EXPL" | cut -c1-$EXPL_MAX_CHARS) ... (truncated)"
+    else
+      EXPL_TRIMMED="$EXPL"
+    fi
   else
-    EXPL_TRIMMED="$EXPL_RAW"
+    EXPL_TRIMMED=""
   fi
 
+  # counts
   ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // (.atomic_change_events | length) // 0) // 0' "$OUT" 2>/dev/null || echo "0")
   BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
   FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
 
-  # files list as markdown
-  FILES_MD=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed
-    | if . == null then "" elif type=="array" then map("- "+.)|.[] elif type=="string" then "- "+. else tostring end' "$OUT" 2>/dev/null || echo "")
+  # format files list as markdown bullets
+  FILES_MD=""
+  if jq -e '.metadata.files_changed // .files_changed // .api_files_changed' "$OUT" >/dev/null 2>&1; then
+    FILES_MD=$(jq -r '.metadata.files_changed // .files_changed // .api_files_changed
+      | if . == null then "" elif type=="array" then map("- "+.)|.[] elif type=="string" then "- "+. else tostring end' "$OUT" 2>/dev/null || echo "")
+  fi
+  if [ -z "$FILES_MD" ]; then
+    FILES_MD=$(jq -r '.files_changed // [] | if type=="array" then map("- "+.)|.[] elif type=="string" then "- "+. else empty end' "$OUT" 2>/dev/null || echo "")
+  fi
   if [ -z "$FILES_MD" ]; then
     FILES_MD="- (none)"
   fi
 
-  # badge
+  # badge text
   if [ "$LEVEL" = "BLOCK" ]; then
     BADGE="🔴 BLOCK (${BAND:-n/a})"
   elif [ "$LEVEL" = "WARN" ]; then
@@ -134,81 +139,92 @@ post_and_gate() {
   fi
 
   QUICK_LINE="Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE}"
-  echo "post_and_gate: ${QUICK_LINE}"
 
-  # prepare body file
+  echo "post_and_gate: $QUICK_LINE"
+
+  # Convert any literal "\n" in EXPL to real newlines (minimal fix for escaped strings)
+  if printf '%s' "${EXPL:-}" | grep -q '\\n'; then
+    EXPL_PRETTY="$(printf '%b' "${EXPL:-}")"
+  else
+    EXPL_PRETTY="${EXPL:-}"
+  fi
+
+  # Build markdown body file (preserves real newlines)
   BODY_FILE="$(mktemp --tmpdir pr-impact-body.XXXXXX.md)"
   {
     printf "### Impact AI — Analysis result\n\n"
     printf "**Quick:** %s\n\n" "$QUICK_LINE"
+
     printf "**Summary**\n\n"
     printf "%s\n\n" "$FILES_MD"
+
     printf "- ACES: %s\n" "$ACES"
     printf "- Backend impacts: %s\n" "$BACKEND_IMP"
     printf "- Frontend impacts: %s\n\n" "$FRONTEND_IMP"
+
     [ -n "$PAIR_ID" ] && printf "pair_id: %s\n\n" "$PAIR_ID"
 
-    if [ -n "$EXPL_TRIMMED" ]; then
+    if [ -n "$EXPL_PRETTY" ]; then
       printf "**Explanation**\n\n"
-      printf '```\n%s\n```\n\n' "$EXPL_TRIMMED"
+      printf '```\n%s\n```\n\n' "$EXPL_PRETTY"
     fi
 
+    # Raw report in collapsible block; pretty-print and limit lines
     printf "<details>\n<summary>Raw report (click to expand)</summary>\n\n"
     printf "```json\n"
-    MAX_LINES=${MAX_LINES:-800}
+
+    MAX_LINES=${MAX_LINES:-500}
     if command -v jq >/dev/null 2>&1; then
-      # pretty print and cap to MAX_LINES
       jq . "$OUT" 2>/dev/null | sed -n "1,${MAX_LINES}p" || cat "$OUT" | sed -n "1,${MAX_LINES}p"
     else
       cat "$OUT" | sed -n "1,${MAX_LINES}p"
     fi
+
     printf "\n```\n</details>\n"
   } > "${BODY_FILE}"
 
-  # find existing comment by bot that contains our marker text
-  existing_comment_id=""
+  # Post using gh if available, else fallback to curl
   if command -v gh >/dev/null 2>&1; then
-    # List comments and filter by body contents and by bot user
-    # We use gh api to fetch comments and jq to find the id
-    existing_comment_id=$(gh api -H "Accept: application/vnd.github.v3+json" \
-      "/repos/${repo}/issues/${pr}/comments" --paginate -q \
-      '.[] | select(.user.login=="github-actions[bot]" or .user.login=="github-actions") | select(.body | test("Impact AI — Analysis result")) | .id' 2>/dev/null || true)
-  else
-    # fallback: use curl + jq if available
-    if [ -n "${GITHUB_TOKEN:-}" ] && command -v jq >/dev/null 2>&1; then
-      existing_comment_id=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.v3+json" \
-        "https://api.github.com/repos/${repo}/issues/${pr}/comments" | jq -r '.[] | select(.user.login=="github-actions[bot]" or .user.login=="github-actions") | select(.body | test("Impact AI — Analysis result")) | .id' 2>/dev/null || true)
+    if [ -z "${GH_TOKEN:-}" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
+      export GH_TOKEN="${GITHUB_TOKEN}"
     fi
-  fi
-
-  # Post or update: prefer gh api update if comment exists
-  if [ -n "$existing_comment_id" ]; then
-    echo "post_and_gate: updating existing comment id=${existing_comment_id}"
-    if command -v gh >/dev/null 2>&1; then
-      gh api -X PATCH -H "Accept: application/vnd.github.v3+json" "/repos/${repo}/issues/comments/${existing_comment_id}" -F body="$(cat "${BODY_FILE}")" >/dev/null 2>&1 || echo "gh update failed"
+    if [ -n "${PR_NUMBER:-}" ]; then
+      echo "post_and_gate: posting PR comment via gh for PR ${PR_NUMBER}"
+      gh pr comment "${PR_NUMBER}" --body-file "${BODY_FILE}" || echo "gh comment failed"
     else
-      # curl patch fallback
-      if [ -n "${GITHUB_TOKEN:-}" ]; then
-        jq -nc --arg body "$(cat "${BODY_FILE}")" '{body:$body}' | \
-          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X PATCH --data @- "https://api.github.com/repos/${repo}/issues/comments/${existing_comment_id}" >/dev/null 2>&1 || echo "curl patch failed"
+      if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
+        PR_NUM=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+        [ -n "$PR_NUM" ] && gh pr comment "${PR_NUM}" --body-file "${BODY_FILE}" || echo "gh comment failed"
       else
-        echo "post_and_gate: cannot update comment (no gh and no GITHUB_TOKEN)"
+        echo "post_and_gate: cannot determine PR number for gh comment"
       fi
     fi
   else
-    echo "post_and_gate: posting new comment"
-    if command -v gh >/dev/null 2>&1; then
-      gh pr comment "${pr}" --body-file "${BODY_FILE}" >/dev/null 2>&1 || echo "gh comment failed"
+    if [ -z "${GITHUB_TOKEN:-}" ]; then
+      echo "post_and_gate: gh not found and GITHUB_TOKEN not set — skipping PR comment."
     else
-      if [ -n "${GITHUB_TOKEN:-}" ]; then
-        jq -nc --arg body "$(cat "${BODY_FILE}")" '{body:$body}' | \
-          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST --data @- "https://api.github.com/repos/${repo}/issues/${pr}/comments" >/dev/null 2>&1 || echo "curl post failed"
+      if [ -z "${PR_NUMBER:-}" ]; then
+        if [ -n "$GITHUB_REF" ] && echo "$GITHUB_REF" | grep -q "refs/pull/"; then
+          PR_NUMBER=$(echo "$GITHUB_REF" | sed -n 's@refs/pull/\([0-9]\+\)/.*@\1@p')
+        fi
+      fi
+      if [ -n "${PR_NUMBER:-}" ]; then
+        REPO=${GITHUB_REPOSITORY:-}
+        API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
+        echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
+        if command -v jq >/dev/null 2>&1; then
+          jq -nc --arg body "$(cat "${BODY_FILE}")" '{body:$body}' | \
+            curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d @- "$API_URL" || echo "curl post failed"
+        else
+          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d "{\"body\": \"$(sed ':a;N;$!ba;s/"/\\"/g; s/\n/\\n/g' "${BODY_FILE}")\"}" "$API_URL" || echo "curl post failed"
+        fi
       else
-        echo "post_and_gate: cannot post comment (no gh and no GITHUB_TOKEN)"
+        echo "post_and_gate: Cannot determine PR number to post comment."
       fi
     fi
   fi
 
+  # cleanup
   rm -f "${BODY_FILE}" || true
 
   # export outputs for downstream steps
@@ -217,7 +233,7 @@ post_and_gate() {
     echo "impact_risk=${RISK_FMT}" >> "${GITHUB_OUTPUT}"
   fi
 
-  # gating behavior (unchanged)
+  # gating logic unchanged
   FAIL_ON_BLOCK="${FAIL_ON_BLOCK:-true}"
   if [ "$LEVEL" = "BLOCK" ]; then
     if [ "$FAIL_ON_BLOCK" = "true" ] || [ "$FAIL_ON_BLOCK" = "1" ]; then
@@ -232,6 +248,7 @@ post_and_gate() {
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
+
 
 
 
