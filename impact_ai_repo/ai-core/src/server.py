@@ -1673,6 +1673,13 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
 
         # Deduplicate general diffs
         details = dedupe_diffitems(details)
+        # DEBUG SNIPPET: dump details summary for CI troubleshooting
+        try:
+            log.info("DEBUG_REPORT: details_count=%d sample_details=%s", len(details),
+                    json.dumps([{"type": getattr(d,"type",None),"path":getattr(d,"path",None),"method":getattr(d,"method",None)} for d in details[:8]], default=str))
+        except Exception:
+            log.exception("DEBUG_REPORT: failed to serialize details")
+
 
         # Load graph, identify service and compute producer features
         g = load_graph()
@@ -1701,6 +1708,9 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
         be_imp = backend_impacts(g, service, changed)
         fe_imp = ui_impacts(g, service, changed)
         feature_record = assemble_feature_record(details, pfeats, vfeats, be_imp, fe_imp)
+        log.info("DEBUG_REPORT: service_guess=%s service=%s changed_paths=%s", service_guess, service, changed[:8])
+        log.info("DEBUG_REPORT: backend_impacts_count=%d frontend_impacts_count=%d", len(be_imp), len(fe_imp))
+
 
         # Export single-run features for debugging / offline training pipelines (non-blocking)
         try:
