@@ -28,6 +28,7 @@ try:
     print("DEBUG: dataset_paths(openapi) =", server.dataset_paths("openapi"), file=sys.stderr)
     print("DEBUG: CWD =", os.getcwd(), file=sys.stderr)
 
+
 except Exception as e:
     print("ERROR: failed to import server.py:", e, file=sys.stderr)
     raise
@@ -196,7 +197,6 @@ def load_json_text(text: str) -> Dict[str, Any]:
             return server._load_json_or_yaml(Path(text))
         except Exception:
             return {}
-print("DEBUG: rel_path =", rel, file=sys.stderr)
 
 
 # ------------- FIXED analyze_pair_files ----------------
@@ -450,6 +450,7 @@ def main():
     files_processed: List[str] = []
 
     for rel in api_files:
+        print("DEBUG: rel_path =", rel, file=sys.stderr)
         p = Path(rel)
         files_processed.append(rel)
 
