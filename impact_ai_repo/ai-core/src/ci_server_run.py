@@ -517,8 +517,8 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
 
 def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[str, Any]]:
     """
-    Robust attempt to call server.report(...) for a dataset + relname.
-    Returns structured {"diffs": diffs_serial, "analyze": {...}} or None on failure.
+    Robustly attempt to call server.report(...) for dataset_key + relname.
+    Returns {"diffs": diffs_serial, "analyze": {...}} or None on failure.
     Emits DEBUG logs to stderr to help diagnose missing backend/frontend impacts.
     """
     if not dataset_key:
@@ -526,7 +526,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
 
     print(f"DEBUG: try_call_report START dataset_key={dataset_key} relname={relname}", file=sys.stderr)
 
-    # Prepare dataset canonical root
+    # 1) dataset paths / canonical root resolution
     try:
         dp = server.dataset_paths(dataset_key)
     except Exception as e:
@@ -558,7 +558,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
     else:
         print(f"DEBUG: canonical_root NOT resolved for dataset {dataset_key} (candidate: {canonical_root})", file=sys.stderr)
 
-    # Prepare filename hints
+    # 2) name mapping (v2 -> v1)
     new_name = Path(relname).name if relname else None
     old_name = None
     if new_name:
@@ -569,7 +569,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
         else:
             old_name = new_name.replace("v2", "v1", 1)
 
-    # Candidate roots list
+    # 3) gather candidate roots to check (preserve order, dedupe)
     candidate_roots: List[Path] = []
     if croot:
         candidate_roots.append(croot)
@@ -595,17 +595,16 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
     except Exception:
         pass
 
-    # dedupe preserving order
     seen = set()
-    candidate_roots_n: List[Path] = []
+    deduped_roots: List[Path] = []
     for r in candidate_roots:
         rp = str(r)
         if rp not in seen:
             seen.add(rp)
-            candidate_roots_n.append(Path(rp))
-    candidate_roots = candidate_roots_n
+            deduped_roots.append(Path(rp))
+    candidate_roots = deduped_roots
 
-    # try name-based calls -> absolute-path calls -> index-based pair_id calls
+    # 4) Try name-based and absolute-path server.report calls on candidate roots
     for root in candidate_roots:
         try:
             new_path = (root / new_name) if new_name else None
@@ -614,15 +613,15 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
             old_exists = old_path.exists() if old_path else False
             print(f"DEBUG: checking root {root} -> new_exists: {new_exists} old_exists: {old_exists}", file=sys.stderr)
 
-            # 1) Name-only server.report if both exist under same root
+            # If both present, try server.report with name-only (old/new names)
             if new_exists and old_exists:
-                print(f"DEBUG: trying server.report(dataset={dataset_key}, old={old_name}, new={new_name})", file=sys.stderr)
                 try:
+                    print(f"DEBUG: trying server.report(dataset={dataset_key}, old={old_name}, new={new_name})", file=sys.stderr)
                     report_obj = server.report(dataset=dataset_key, old=old_name, new=new_name, pair_id=None)
                     repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
                     be_imp = repd.get("backend_impacts") or []
                     fe_imp = repd.get("frontend_impacts") or []
-                    print(f"DEBUG: server.report(name-only) backend_impacts={len(be_imp)} frontend_impacts={len(fe_imp)}", file=sys.stderr)
+                    print(f"DEBUG: server.report(name) backend_impacts={len(be_imp)} frontend_impacts={len(fe_imp)}", file=sys.stderr)
                     if be_imp:
                         try:
                             print("DEBUG: sample backend_impacts:", json.dumps(be_imp[:4], default=str), file=sys.stderr)
@@ -634,13 +633,11 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                         except Exception:
                             print("DEBUG: frontend_impacts present but dump failed", file=sys.stderr)
 
-                    # coerce risk safely
                     summary = repd.get("summary") or {}
                     try:
                         service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0) or 0.0)) if isinstance(summary, dict) else float(repd.get("risk_score", 0.0) or 0.0)
                     except Exception:
                         service_risk = float(repd.get("risk_score", 0.0) or 0.0)
-
                     ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
                     pair_id = repd.get("metadata", {}).get("pair_id") or repd.get("pair_id") or ""
                     return {
@@ -656,10 +653,10 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                         }
                     }
                 except Exception as e:
-                    print("WARN: server.report(name-only) failed:", e, file=sys.stderr)
-                    # fall through to absolute-path attempt
+                    print("WARN: server.report(name) failed:", e, file=sys.stderr)
+                    # fall through to attempting absolute paths below
 
-            # 2) Absolute-path server.report if both exist
+            # Absolute paths attempt (some older server.report variants accept absolute paths)
             if new_exists and old_exists:
                 try:
                     abs_old = str(old_path.resolve())
@@ -669,7 +666,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                     repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
                     be_imp = repd.get("backend_impacts") or []
                     fe_imp = repd.get("frontend_impacts") or []
-                    print(f"DEBUG: server.report(abs-paths) backend_impacts={len(be_imp)} frontend_impacts={len(fe_imp)}", file=sys.stderr)
+                    print(f"DEBUG: server.report(abs) backend_impacts={len(be_imp)} frontend_impacts={len(fe_imp)}", file=sys.stderr)
                     summary = repd.get("summary") or {}
                     try:
                         service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0) or 0.0)) if isinstance(summary, dict) else float(repd.get("risk_score", 0.0) or 0.0)
@@ -690,13 +687,13 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                         }
                     }
                 except Exception as e:
-                    print("WARN: server.report(abs-paths) failed:", e, file=sys.stderr)
-                    # continue checking other roots
+                    print("WARN: server.report(abs) failed:", e, file=sys.stderr)
+                    # continue to next root
         except Exception as e:
             print("DEBUG: candidate root loop threw:", e, file=sys.stderr)
             continue
 
-    # 3) index-based pair_id call from load_pair_index
+    # 5) index-based pair_id fallback using load_pair_index
     try:
         idx = server.load_pair_index(dataset_key)
         print(f"DEBUG: loaded pair index entries={len(idx) if isinstance(idx, dict) else 'unknown'}", file=sys.stderr)
@@ -716,7 +713,7 @@ def try_call_report(dataset_key: str, relname: Optional[str]) -> Optional[Dict[s
                             repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
                             be_imp = repd.get("backend_impacts") or []
                             fe_imp = repd.get("frontend_impacts") or []
-                            print(f"DEBUG: server.report(pair_id={pid}) backend_impacts={len(be_imp)} frontend_impacts={len(fe_imp)}", file=sys.stderr)
+                            print(f"DEBUG: server.report(pair={pid}) backend_impacts={len(be_imp)} frontend_impacts={len(fe_imp)}", file=sys.stderr)
                             summary = repd.get("summary") or {}
                             try:
                                 service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0) or 0.0)) if isinstance(summary, dict) else float(repd.get("risk_score", 0.0) or 0.0)
