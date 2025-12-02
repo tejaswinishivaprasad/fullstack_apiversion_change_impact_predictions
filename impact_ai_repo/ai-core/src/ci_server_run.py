@@ -221,10 +221,12 @@ try:
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", repr(e), file=sys.stderr)
 
+INDEX_ROOT: Optional[Path] = None
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
         idx_root = Path(idx_root).resolve()
+        INDEX_ROOT = idx_root
         eff_before = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
         print(
             f"DEBUG: index.json root candidate={idx_root}, existing EFFECTIVE_CURATED_ROOT={eff_before}",
@@ -232,12 +234,7 @@ try:
         )
 
         # Enforce EFFECTIVE_CURATED_ROOT to the container that actually has index.json
-        server.EFFECTIVE_CURATED_ROOT = idx_root
-        print(
-            f"DEBUG: enforcing server.EFFECTIVE_CURATED_ROOT -> {server.EFFECTIVE_CURATED_ROOT} "
-            f"(type={type(server.EFFECTIVE_CURATED_ROOT)})",
-            file=sys.stderr,
-        )
+
 
         index_path = idx_root / "index.json"
         try:
@@ -924,6 +921,10 @@ def analyze_pair_files(
                     gp_candidates.append(eff / "graph.json")
                 else:
                     gp_candidates.append(Path(str(eff)) / "graph.json")
+            from_ci_index_root = globals().get("INDEX_ROOT")
+            if from_ci_index_root:
+                gp_candidates.append(from_ci_index_root / "graph.json")
+        
             seen = set()
             for cand in gp_candidates:
                 try:
