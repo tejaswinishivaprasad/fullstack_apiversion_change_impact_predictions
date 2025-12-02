@@ -230,6 +230,7 @@ except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", e, file=sys.stderr)
 
 # locate index.json and set INDEX_PATH ONLY (do NOT override EFFECTIVE_CURATED_ROOT)
+# locate index.json (for debug only; do NOT override EFFECTIVE_CURATED_ROOT or INDEX_PATH)
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
@@ -239,37 +240,15 @@ try:
             f"DEBUG: index.json root candidate={idx_root}, existing EFFECTIVE_CURATED_ROOT={eff_before}",
             file=sys.stderr,
         )
-
-        index_path = idx_root / "index.json"
-        try:
-            server.INDEX_PATH = index_path
-        except Exception:
-            setattr(server, "INDEX_PATH", index_path)
-
+    else:
         print(
-            f"DEBUG: server.INDEX_PATH -> {getattr(server, 'INDEX_PATH', None)} (exists={index_path.exists()})",
+            "WARN: Could not locate any index.json under candidate dataset roots. "
+            "server.report/load_pair_index may rely on internal defaults.",
             file=sys.stderr,
         )
-
-        try:
-            # try a few possible load_pair_index signatures, just for sanity + debug
-            try:
-                idx = server.load_pair_index()
-            except TypeError:
-                try:
-                    idx = server.load_pair_index("openapi")
-                except TypeError:
-                    idx = server.load_pair_index(str(idx_root))
-            if isinstance(idx, dict):
-                print(f"DEBUG: server.load_pair_index() returned {len(idx)} entries", file=sys.stderr)
-            else:
-                print(f"DEBUG: server.load_pair_index() returned type {type(idx)}", file=sys.stderr)
-        except Exception as e:
-            print("WARN: server.load_pair_index() raised after setting INDEX_PATH:", repr(e), file=sys.stderr)
-    else:
-        print("WARN: Could not locate any index.json under candidate dataset roots. server.report may fail.", file=sys.stderr)
 except Exception as e:
-    print("WARN: error while attempting to find/set index root:", repr(e), file=sys.stderr)
+    print("WARN: error while attempting to find index root:", repr(e), file=sys.stderr)
+
 
 # GRAPH_PATH normalization (defensive and Path-typed)
 try:
@@ -509,7 +488,6 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
             print("DEBUG: try_call_report called with empty dataset_key", file=sys.stderr)
             return None
 
-        # new/old file names (just the basename of the rel path)
         new_name = Path(relname).name if relname else None
         old_name = None
         if new_name:
@@ -520,91 +498,108 @@ def analyze_pair_files(old_doc: Dict[str, Any], new_doc: Dict[str, Any],
             else:
                 old_name = new_name.replace("v2", "v1", 1)
 
-        # ---------------- 1) Pair-index FIRST (what UI likely uses) ----------------
+        # ---------------- 1) Pair-index FIRST (use raw canonical paths from index) ----------------
         try:
-            # try a few possible load_pair_index signatures
             try:
                 idx = server.load_pair_index(dataset_key)
             except TypeError:
-                try:
-                    idx = server.load_pair_index()
-                except Exception:
-                    idx = server.load_pair_index(str(getattr(server, "EFFECTIVE_CURATED_ROOT", "")))
-
+                # some implementations don't take dataset_key
+                idx = server.load_pair_index()
             print(
                 f"DEBUG: loaded pair index for dataset={dataset_key}, "
                 f"entries={len(idx) if isinstance(idx, dict) else 'unknown'}",
                 file=sys.stderr,
             )
+
             if isinstance(idx, dict) and new_name:
                 for pid, meta in idx.items():
                     try:
                         mo_raw = meta.get("old_canonical") or meta.get("old")
                         mn_raw = meta.get("new_canonical") or meta.get("new")
-                        mo = Path(str(mo_raw)).name if mo_raw else None
-                        mn = Path(str(mn_raw)).name if mn_raw else None
-                        if not (mo and mn):
+                        if not (mo_raw and mn_raw):
                             continue
-                        # match on either old or new canonical name
-                        if mn.lower() == new_name.lower() or mo.lower() == new_name.lower():
+
+                        # Use names only for matching; keep full raw paths for report()
+                        mo_name = Path(str(mo_raw)).name
+                        mn_name = Path(str(mn_raw)).name
+
+                        if new_name.lower() not in (mo_name.lower(), mn_name.lower()):
+                            continue
+
+                        print(
+                            "DEBUG: index match pid={pid} mo={mo_name} mn={mn_name} -> "
+                            "calling server.report with full canonical paths".format(
+                                pid=pid, mo_name=mo_name, mn_name=mn_name
+                            ),
+                            file=sys.stderr,
+                        )
+
+                        try:
+                            report_obj = server.report(
+                                dataset=dataset_key,
+                                old=mo_raw,
+                                new=mn_raw,
+                                pair_id=pid,
+                            )
+                            repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
+
+                            be_imp = repd.get("backend_impacts") or []
+                            fe_imp = repd.get("frontend_impacts") or []
                             print(
-                                f"DEBUG: index match pid={pid} mo={mo} mn={mn} -> "
-                                f"calling server.report(dataset={dataset_key}, pair_id={pid})",
+                                f"DEBUG: server.report(pair={pid}) backend_impacts={len(be_imp)} "
+                                f"frontend_impacts={len(fe_imp)}",
                                 file=sys.stderr,
                             )
+
+                            summary = repd.get("summary") or {}
                             try:
-                                # Use pair_id as primary selector (mimics UI)
-                                report_obj = server.report(dataset=dataset_key, old=mo, new=mn, pair_id=pid)
-                                repd = report_obj.dict() if hasattr(report_obj, "dict") else dict(report_obj)
-                                be_imp = repd.get("backend_impacts") or []
-                                fe_imp = repd.get("frontend_impacts") or []
-                                print(
-                                    f"DEBUG: server.report(pair={pid}) backend_impacts={len(be_imp)} "
-                                    f"frontend_impacts={len(fe_imp)}",
-                                    file=sys.stderr,
-                                )
+                                if isinstance(summary, dict):
+                                    service_risk = float(
+                                        summary.get("service_risk", repd.get("risk_score", 0.0))
+                                    )
+                                else:
+                                    service_risk = float(repd.get("risk_score", 0.0))
+                            except Exception:
+                                service_risk = float(repd.get("risk_score", 0.0) or 0.0)
 
-                                summary = repd.get("summary") or {}
-                                try:
-                                    if isinstance(summary, dict):
-                                        service_risk = float(summary.get("service_risk", repd.get("risk_score", 0.0)))
-                                    else:
-                                        service_risk = float(repd.get("risk_score", 0.0))
-                                except Exception:
-                                    service_risk = float(repd.get("risk_score", 0.0) or 0.0)
+                            ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
+                            pair_id = (
+                                repd.get("metadata", {}).get("pair_id")
+                                or repd.get("pair_id")
+                                or pid
+                            )
 
-                                ai_expl = repd.get("ai_explanation") or repd.get("explanation") or ""
-                                pair_id = (
-                                    repd.get("metadata", {}).get("pair_id")
-                                    or repd.get("pair_id")
-                                    or pid
-                                )
-                                return {
-                                    "diffs": diffs_serial,
-                                    "analyze": {
-                                        "summary": {
-                                            "service_risk": service_risk,
-                                            "num_aces": len(diffs_serial),
-                                        },
-                                        "backend_impacts": be_imp,
-                                        "frontend_impacts": fe_imp,
-                                        "ai_explanation": ai_expl,
-                                        "pair_id": pair_id,
-                                        "versioning": repd.get("versioning") or {},
-                                        "metadata": repd.get("metadata") or {},
+                            return {
+                                "diffs": diffs_serial,
+                                "analyze": {
+                                    "summary": {
+                                        "service_risk": service_risk,
+                                        "num_aces": len(diffs_serial),
                                     },
-                                }
-                            except Exception as e:
-                                print(
-                                    "WARN: server.report(pair-index) failed for pid "
-                                    f"{pid} error: {repr(e)}",
-                                    file=sys.stderr,
-                                )
-                                continue
+                                    "backend_impacts": be_imp,
+                                    "frontend_impacts": fe_imp,
+                                    "ai_explanation": ai_expl,
+                                    "pair_id": pair_id,
+                                    "versioning": repd.get("versioning") or {},
+                                    "metadata": repd.get("metadata") or {},
+                                },
+                            }
+                        except Exception as e:
+                            print(
+                                "WARN: server.report(pair-index) failed for pid {pid} error: {err}".format(
+                                    pid=pid, err=repr(e)
+                                ),
+                                file=sys.stderr,
+                            )
+                            continue
                     except Exception as e:
                         print("DEBUG: error iterating index entry:", repr(e), file=sys.stderr)
         except Exception as e:
             print("DEBUG: load_pair_index in try_call_report threw:", repr(e), file=sys.stderr)
+
+        # ---------------- 2) Dataset path / local canonical heuristic (filenames) ----------------
+        # (keep your existing block from here onward)
+
 
         # ---------------- 2) Dataset path / local canonical heuristic (filenames) ----------------
         try:
