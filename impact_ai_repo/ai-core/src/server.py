@@ -1677,10 +1677,20 @@ def report(dataset: str = Query(...), old: str = Query(...), new: str = Query(..
         # Load graph, identify service and compute producer features
         g = load_graph()
         service_guess = None
+
         if pair_meta:
             service_guess = pair_meta.get("service_name") or pair_meta.get("producer") or pair_meta.get("service")
+
         if not service_guess:
-            service_guess = Path(p_new.name).stem.split("-v")[0] if "-v" in Path(p_new.name).stem else Path(p_new.name).stem
+            stem = Path(p_new.name).stem
+            # try: openapi--catalog-service--ABC--v2.canonical
+            m = re.match(r"openapi--(?P<svc>[^-]+(?:-[^-]+)*)--", stem)
+            if m:
+                service_guess = m.group("svc")
+            else:
+                # fallback to last resort
+                service_guess = stem.replace(".canonical", "").split("--")[1] if "--" in stem else stem
+
 
         node_in_graph = _fuzzy_find_service_node(g, service_guess)
         service = node_in_graph.replace("svc:", "") if node_in_graph else (list(g.nodes)[0].replace("svc:", "") if any(isinstance(n, str) and n.startswith("svc:") for n in g.nodes) else service_guess)
