@@ -219,6 +219,7 @@ jobs:
             BODY="${BODY}\n"
           fi
 
+
           # include a collapsible raw report (safe pretty-print, limited lines)
           if [ -f "$OUT" ]; then
             RAW_PRETTY=$(jq . "$OUT" 2>/dev/null | sed -n '1,500p' || cat "$OUT" | sed -n '1,500p' || true)
