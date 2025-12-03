@@ -11,7 +11,7 @@
       "name": "Codat",
       "url": "https://www.codat.io/"
     },
-    "description": "The API for Sync for Expenses.\nSync for Expenses is an API and a set of supporting tools. It has been built to enable corporate card and expense management platforms to provide high-quality integrations with multiple accounting platforms through a standardized API.\n\n[Read more...](https://docs.codat.io/sync-for-expenses/overview)\n\n[See our OpenAPI spec](https://github.com/codatio/oas)",
+    "description": "The API for Sync for Expenses.Sync for Expenses is an API and a set of supporting tools. It has been built to enable corporate card and expense management platforms to provide high-quality integrations with multiple accounting platforms through a standardized API.\n\n[Read more...](https://docs.codat.io/sync-for-expenses/overview)\n\n[See our OpenAPI spec](https://github.com/codatio/oas)",
     "termsOfService": "https://www.codat.io/legals/",
     "title": "Codat Expense API",
     "version": "prealpha",
@@ -67,13 +67,21 @@
     }
   ],
   "paths": {
-    "/companies/paymentid/sync/expenses/config": {
+    "/companies/id/sync/expenses/config": {
       "get": {
         "description": "Gets a companies expense sync configuration",
         "operationId": "get-company-configuration",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
+          },
+          {
+            "name": "qce2618",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -419,10 +427,10 @@
         ]
       }
     },
-    "/companies/paymentid/sync/expenses/connections/partnerexpense": {
+    "/companies/id/sync/expenses/connections/partnerexpense": {
       "post": {
         "description": "Creates a Partner Expense data connection",
-        "operationId": "create-partner-expense-connection-v2",
+        "operationId": "create-partner-expense-connection",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -618,7 +626,7 @@
         ]
       }
     },
-    "/companies/paymentid/sync/expenses/data/expense-transactions": {
+    "/companies/userid/sync/expenses/data/expense-transactions": {
       "parameters": [
         {
           "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -626,7 +634,7 @@
       ],
       "post": {
         "description": "Create an expense transaction",
-        "operationId": "create-expense-dataset",
+        "operationId": "create-expense-dataset-v2",
         "requestBody": {
           "content": {
             "application/json": {
@@ -941,7 +949,7 @@
         ]
       }
     },
-    "/companies/paymentid/sync/expenses/mappingoptions": {
+    "/companies/sku/sync/expenses/mappingoptions": {
       "get": {
         "description": "Gets the expense mapping options for a companies accounting software",
         "operationId": "get-mapping-options-v2",
@@ -1191,7 +1199,7 @@
         }
       ]
     },
-    "/companies/paymentid/sync/expenses/syncs": {
+    "/companies/orderid/sync/expenses/syncs": {
       "parameters": [
         {
           "in": "path",
@@ -1207,7 +1215,7 @@
       ],
       "post": {
         "description": "Initiate sync of pending transactions.",
-        "operationId": "intiate-sync-v2",
+        "operationId": "intiate-sync",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -1678,7 +1686,7 @@
         ]
       }
     },
-    "/companies/userid/sync/expenses/syncs/lastsuccessful/status": {
+    "/companies/orderid/sync/expenses/syncs/lastsuccessful/status": {
       "get": {
         "description": "Gets the status of the last successfull sync",
         "operationId": "get-last-successful-sync-v2",
@@ -1780,10 +1788,10 @@
         }
       ]
     },
-    "/companies/userid/sync/expenses/syncs/latest/status": {
+    "/companies/paymentid/sync/expenses/syncs/latest/status": {
       "get": {
         "description": "Gets the latest sync status",
-        "operationId": "get-latest-sync-v2",
+        "operationId": "get-latest-sync",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -1987,10 +1995,10 @@
         }
       ]
     },
-    "/companies/orderid/sync/expenses/syncs/id/status": {
+    "/companies/orderid/sync/expenses/syncs/sku/status": {
       "get": {
         "description": "Get the sync status for a specified sync",
-        "operationId": "get-sync-by-id",
+        "operationId": "get-sync-by-id-v2",
         "parameters": [
           {
             "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -2111,7 +2119,7 @@
         }
       ]
     },
-    "/companies/id/sync/expenses/syncs/orderid/transactions": {
+    "/companies/paymentid/sync/expenses/syncs/paymentid/transactions": {
       "get": {
         "description": "Get's the transactions and status for a sync",
         "operationId": "list-sync-transactions-v2",
@@ -2395,7 +2403,7 @@
         }
       ]
     },
-    "/companies/paymentid/sync/expenses/syncs/sku/transactions/sku": {
+    "/companies/paymentid/sync/expenses/syncs/sku/transactions/id": {
       "get": {
         "description": "Gets the status of a transaction for a sync",
         "operationId": "get-sync-transaction",
@@ -2528,7 +2536,7 @@
         }
       ]
     },
-    "/companies/sku/sync/expenses/syncs/id/transactions/id/attachments": {
+    "/companies/id/sync/expenses/syncs/paymentid/transactions/userid/attachments": {
       "parameters": [
         {
           "__unresolved_ref__": "#/paths/~1companies~1%7BcompanyId%7D~1sync~1expenses~1syncs/parameters/0"
@@ -2558,7 +2566,7 @@
       ],
       "post": {
         "description": "Creates an attachment in the accounting software against the given transactionId",
-        "operationId": "upload-attachment-v2",
+        "operationId": "upload-attachment",
         "requestBody": {
           "content": {
             "multipart/form-data": {
