@@ -20,8 +20,8 @@ jobs:
       PYTHON_VERSION: "3.11"
       AI_CORE_DIR: "impact_ai_repo/ai-core/src"
       CI_SCRIPT: ".github/scripts/ci_analyze_pr.sh"
-      SKIP_POST: "false"    # <<< added: prevents the script from posting comments
-
+      SKIP_POST: "false"   # <<< IMPORTANT: ENABLE posting from CI script
+      FAIL_ON_BLOCK: "false"
 
     steps:
       - name: Checkout code (full history needed for diffs)
@@ -53,26 +53,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools wheel
           if [ -f impact_ai_repo/ai-core/src/requirements-ci.txt ]; then
-            echo "Using requirements-ci.txt (fast deps for PR runs)"
             python -m pip install --prefer-binary -r impact_ai_repo/ai-core/src/requirements-ci.txt
-          else
-            echo "No requirements-ci.txt found. Skipping heavy installs for PR run."
           fi
 
-      - name: Debug git state (helpful when files_changed == 0)
+      - name: Debug git state
         run: |
           echo "=== git branch/ref ==="
           git rev-parse --abbrev-ref HEAD || true
-          git show --no-patch --pretty=format:'HEAD: %H' HEAD || true
           echo "=== recent commits ==="
           git --no-pager log --oneline -n 20 || true
-          echo "=== remote heads (top) ==="
-          git ls-remote --heads origin | sed -n '1,20p' || true
-          echo "=== try diff origin/main...HEAD ==="
+          echo "=== diff origin/main...HEAD ==="
           git fetch origin main --depth=1 || true
           git diff --name-only origin/main...HEAD || true
-          echo "=== list curated canonical folder (if present) ==="
-          ls -la impact_ai_repo/ai-core/src/datasets/curated/canonical || true
 
       - name: Make CI script executable
         run: chmod +x .github/scripts/ci_analyze_pr.sh || true
@@ -83,16 +75,12 @@ jobs:
           AI_CORE_DIR: ${{ env.AI_CORE_DIR }}
           GITHUB_WORKSPACE: ${{ github.workspace }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          # IMPORTANT: set to "false" to avoid failing the workflow when the report level is BLOCK.
-          # Set to "true" if you want the job to fail/act as a gate.
-          FAIL_ON_BLOCK: "false"
-          # Provide GH_TOKEN so any 'gh' CLI usage inside the script can authenticate.
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -x
           .github/scripts/ci_analyze_pr.sh
 
-      - name: Upload report artifacts (summary + full if present)
+      - name: Upload report artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -100,148 +88,3 @@ jobs:
           path: |
             pr-impact-report.json
             pr-impact-full.json
-
-      - name: Read short summary for comment
-        id: summary
-        if: always()
-        run: |
-          OUT="./pr-impact-report.json"
-          if [ ! -f "$OUT" ]; then
-            if [ -f "./pr-impact-full.json" ]; then
-              OUT="./pr-impact-full.json"
-            else
-              OUT="$(ls impact-report*.json 2>/dev/null | head -n1 || true)"
-            fi
-          fi
-
-          if [ -z "$OUT" ] || [ ! -f "$OUT" ]; then
-            echo "summary=No report produced" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
-          RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
-          RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
-
-          BAND=$(jq -r '.risk_band // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
-          LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
-          if [ -z "$LEVEL" ]; then
-            SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{print (r+0)}')
-            if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
-              LEVEL="BLOCK"
-              BAND=${BAND:-"High"}
-            elif (( $(awk "BEGIN {print ($SCORE_NUM >= 0.4)}") )); then
-              LEVEL="WARN"
-              BAND=${BAND:-"Medium"}
-            else
-              LEVEL="PASS"
-              BAND=${BAND:-"Low"}
-            fi
-          fi
-
-          FILES=$(jq -r '.files_changed | length // (.files_changed // 0 | if type=="array" then length else . end) // 0' "$OUT" 2>/dev/null || echo 0)
-          API=$(jq -r '.atomic_change_events | length // .api_files_changed | length // .api_changes // (.atomic_change_events // .atomic_changes // [] | length) // 0' "$OUT" 2>/dev/null || echo 0)
-
-          echo "summary=Risk: ${RISK_FMT} (${BAND:-n/a}) | Files: ${FILES} | API changes: ${API} | Level: ${LEVEL}" >> $GITHUB_OUTPUT
-
-      - name: Read detailed summary for comment
-        id: detailed_summary
-        if: always()
-        shell: bash
-        run: |
-          OUT="./pr-impact-report.json"
-          if [ ! -f "$OUT" ]; then
-            echo "body=**PR Impact Analysis — No report produced**" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
-          # extract metrics with robust fallbacks
-          RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
-          RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
-          BAND=$(jq -r '.risk_band // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
-          LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
-
-          if [ -z "$LEVEL" ]; then
-            SCORE_NUM=$(awk -v r="$RISK" 'BEGIN{print (r+0)}')
-            if (( $(awk "BEGIN {print ($SCORE_NUM >= 0.7)}") )); then
-              LEVEL="BLOCK"; BAND=${BAND:-"High"}
-            elif (( $(awk "BEGIN {print ($SCORE_NUM >= 0.4)}") )); then
-              LEVEL="WARN"; BAND=${BAND:-"Medium"}
-            else
-              LEVEL="PASS"; BAND=${BAND:-"Low"}
-            fi
-          fi
-
-          if [ "$LEVEL" = "BLOCK" ]; then
-            BADGE="🔴 **BLOCK** (${BAND})"
-          elif [ "$LEVEL" = "WARN" ]; then
-            BADGE="🟡 **WARN** (${BAND})"
-          else
-            BADGE="🟢 **PASS** (${BAND})"
-          fi
-
-          FILES=$(jq -r '.files_changed | length // (.files_changed // 0 | if type=="array" then length else . end) // 0' "$OUT" 2>/dev/null || echo 0)
-          API=$(jq -r '.atomic_change_events | length // .api_files_changed | length // .api_changes // (.atomic_change_events // .atomic_changes // [] | length) // 0' "$OUT" 2>/dev/null || echo 0)
-
-          # support multiple shapes for ACE lists
-          ACE_LINES=""
-          if jq -e '.atomic_change_events' "$OUT" >/dev/null 2>&1; then
-            ACE_LINES=$(jq -r '.atomic_change_events[] | "\(.type) \(.method // "") `\(.path // "-")` — \(.detail // .description // "")"' "$OUT" 2>/dev/null | sed -n '1,20p' || true)
-          else
-            ACE_LINES=$(jq -r '.entries[]?.result?.diffs[]? | "\(.type) \(.method // "") `\(.path // "-")` — \(.detail // "")"' "$OUT" 2>/dev/null | sed -n '1,20p' || true)
-          fi
-
-          BE=$(jq -r '.backend_impacts[]? | "\(.service // .producer // \"-\") (risk:\(.risk // .risk_score // 0))"' "$OUT" 2>/dev/null | sed -n '1,8p' || true)
-          FE=$(jq -r '.frontend_impacts[]? | "\(.service // \"-\") (risk:\(.risk_score // 0))"' "$OUT" 2>/dev/null | sed -n '1,8p' || true)
-
-          BODY="<!-- pr-impact-bot -->\n### PR Impact Analysis — Summary\n\n**Risk:** ${RISK_FMT}  |  **Files:** ${FILES}  |  **API changes:** ${API}\n\n**Result:** ${BADGE}\n\n**Artifact:** pr-impact-report-${{ github.event.pull_request.number }}\n\n"
-
-          if [ -n "$ACE_LINES" ]; then
-            BODY="${BODY}**Top change items (up to 20):**\n"
-            while IFS= read -r line; do
-              BODY="${BODY}- ${line}\n"
-            done <<< "$ACE_LINES"
-            BODY="${BODY}\n"
-          fi
-
-          if [ -n "$BE" ]; then
-            BODY="${BODY}**Backend impacts (sample):**\n"
-            while IFS= read -r line; do
-              BODY="${BODY}- ${line}\n"
-            done <<< "$BE"
-            BODY="${BODY}\n"
-          fi
-
-          if [ -n "$FE" ]; then
-            BODY="${BODY}**Frontend impacts (sample):**\n"
-            while IFS= read -r line; do
-              BODY="${BODY}- ${line}\n"
-            done <<< "$FE"
-            BODY="${BODY}\n"
-          fi
-
-
-          # include a collapsible raw report (safe pretty-print, limited lines)
-          if [ -f "$OUT" ]; then
-            RAW_PRETTY=$(jq . "$OUT" 2>/dev/null | sed -n '1,500p' || cat "$OUT" | sed -n '1,500p' || true)
-            if [ -n "$RAW_PRETTY" ]; then
-              BODY="${BODY}\n<details>\n<summary>Raw report (click to expand)</summary>\n\n\`\`\`json\n${RAW_PRETTY}\n\`\`\`\n</details>\n\n"
-            fi
-          fi
-
-          BODY="${BODY}---\n_If you need full ACE JSON or full report, download the artifact attached to this run._"
-
-          echo "body<<EOF" >> $GITHUB_OUTPUT
-          echo -e "$BODY" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Update or create single PR comment (replace previous bot comment)
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            <!-- pr-impact-bot -->
-            **Quick:** ${{ steps.summary.outputs.summary }}
-
-            ${{ steps.detailed_summary.outputs.body }}
-          edit-mode: replace

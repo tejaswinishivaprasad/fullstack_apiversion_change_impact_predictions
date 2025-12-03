@@ -109,12 +109,10 @@ post_and_gate() {
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
 
   # --- NEW GUARD: allow workflow to opt-out of in-script posting
-  # If SKIP_POST=true or POST_IMPACT_COMMENT=false we skip creating/updating PR comments.
   if [ "${SKIP_POST:-false}" = "true" ] || [ "${POST_IMPACT_COMMENT:-true}" = "false" ]; then
     echo "post_and_gate: posting skipped (SKIP_POST=${SKIP_POST:-}, POST_IMPACT_COMMENT=${POST_IMPACT_COMMENT:-})"
     # still export gating outputs if present so workflow can read them
     if [ -n "${GITHUB_OUTPUT:-}" ] && [ -f "$OUT" ]; then
-      # best-effort extract level and risk for downstream steps
       RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
       RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
       LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
@@ -167,80 +165,65 @@ post_and_gate() {
     EXPL_TRIMMED=""
   fi
 
-  # counts
+  # counts: ACES, then BE/FE count (we'll recompute from lists)
   ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // (.atomic_change_events | length) // 0) // 0' "$OUT" 2>/dev/null || echo "0")
-  BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
-  FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
 
-    # --------------------------------------------------------------------
-  # Safe backend/frontend impact extraction for PR comment
-  # --------------------------------------------------------------------
-
-  # Try summary first
-  BACKEND_IMPACT_LINES=$(jq -r '
-    if (.backend_impacts // [] | length) == 0
-    then "none"
-    else
-      (.backend_impacts // [])[0:5][] |
-        "- " +
-        ((.service // .target // .name // "unknown") | tostring) +
-        " (risk=" +
-        ((.risk_score // .score // 0) | tostring) +
-        ")"
-    end
-  ' "$OUT" 2>/dev/null || echo "none")
-
-  FRONTEND_IMPACT_LINES=$(jq -r '
-    if (.frontend_impacts // [] | length) == 0
-    then "none"
-    else
-      (.frontend_impacts // [])[0:5][] |
-        "- " +
-        ((.service // .target // .name // "unknown") | tostring) +
-        " (risk=" +
-        ((.risk_score // .score // 0) | tostring) +
-        ")"
-    end
-  ' "$OUT" 2>/dev/null || echo "none")
-
-  # If summary produced "none", fall back to full report
+  # --- NEW: resolve backend/frontend impact *lists* robustly (any nesting) ---
   FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
 
-  if [ "$BACKEND_IMPACT_LINES" = "none" ] && [ -f "$FULL_JSON" ]; then
+  BACKEND_IMPACT_LINES=$(jq -r '
+    [ .. | objects | .backend_impacts? | select(type=="array") ][0] // [] |
+    .[0:5][]? |
+      "- " + (
+        .service // .producer // .target // .name // "Unknown"
+      ) + " (risk ~ " + (
+        (.risk_score // .score // .risk // 0) | tostring
+      ) + ")"
+  ' "$OUT" 2>/dev/null || echo "")
+
+  FRONTEND_IMPACT_LINES=$(jq -r '
+    [ .. | objects | .frontend_impacts? | select(type=="array") ][0] // [] |
+    .[0:5][]? |
+      "- " + (
+        .service // .consumer // .target // .name // "Unknown"
+      ) + " (risk ~ " + (
+        (.risk_score // .score // .risk // 0) | tostring
+      ) + ")"
+  ' "$OUT" 2>/dev/null || echo "")
+
+  # fallback to full JSON if summary doesn't contain impacts
+  if [ -z "$BACKEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
     BACKEND_IMPACT_LINES=$(jq -r '
-      if (.backend_impacts // [] | length) == 0
-      then "none"
-      else
-        (.backend_impacts // [])[0:5][] |
-          "- " +
-          ((.service // .target // .name // "unknown") | tostring) +
-          " (risk=" +
-          ((.risk_score // .score // 0) | tostring) +
-          ")"
-      end
-    ' "$FULL_JSON" 2>/dev/null || echo "none")
+      [ .. | objects | .backend_impacts? | select(type=="array") ][0] // [] |
+      .[0:5][]? |
+        "- " + (
+          .service // .producer // .target // .name // "Unknown"
+        ) + " (risk ~ " + (
+          (.risk_score // .score // .risk // 0) | tostring
+        ) + ")"
+    ' "$FULL_JSON" 2>/dev/null || echo "")
   fi
 
-  if [ "$FRONTEND_IMPACT_LINES" = "none" ] && [ -f "$FULL_JSON" ]; then
+  if [ -z "$FRONTEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
     FRONTEND_IMPACT_LINES=$(jq -r '
-      if (.frontend_impacts // [] | length) == 0
-      then "none"
-      else
-        (.frontend_impacts // [])[0:5][] |
-          "- " +
-          ((.service // .target // .name // "unknown") | tostring) +
-          " (risk=" +
-          ((.risk_score // .score // 0) | tostring) +
-          ")"
-      end
-    ' "$FULL_JSON" 2>/dev/null || echo "none")
+      [ .. | objects | .frontend_impacts? | select(type=="array") ][0] // [] |
+      .[0:5][]? |
+        "- " + (
+          .service // .consumer // .target // .name // "Unknown"
+        ) + " (risk ~ " + (
+          (.risk_score // .score // .risk // 0) | tostring
+        ) + ")"
+    ' "$FULL_JSON" 2>/dev/null || echo "")
   fi
 
-  echo "DEBUG backend impacts:"
-  printf '%s\n' "$BACKEND_IMPACT_LINES"
-  echo "DEBUG frontend impacts:"
-  printf '%s\n' "$FRONTEND_IMPACT_LINES"
+  echo "DEBUG: backend impact lines:"
+  printf '%s\n' "${BACKEND_IMPACT_LINES:-<empty>}"
+  echo "DEBUG: frontend impact lines:"
+  printf '%s\n' "${FRONTEND_IMPACT_LINES:-<empty>}"
 
+  # derive counts from lines (more robust than trusting schema)
+  BACKEND_IMP="$(printf '%s\n' "${BACKEND_IMPACT_LINES}" | sed '/^\s*$/d' | wc -l | tr -d ' ' || echo 0)"
+  FRONTEND_IMP="$(printf '%s\n' "${FRONTEND_IMPACT_LINES}" | sed '/^\s*$/d' | wc -l | tr -d ' ' || echo 0)"
 
   # format files list as markdown bullets
   FILES_MD=""
@@ -273,7 +256,6 @@ post_and_gate() {
 
   # Build markdown body file (preserves real newlines)
   BODY_FILE="$(mktemp --tmpdir pr-impact-body.XXXXXX.md)"
-  # Make sentinel include core numbers so only *identical* results are deduped
   SENTINEL="<!-- impact-report-id: ${ARTIFACT} | risk:${RISK_FMT} | aces:${ACES} | be:${BACKEND_IMP} | fe:${FRONTEND_IMP} -->"
   echo "post_and_gate: using sentinel: ${SENTINEL}"
 
@@ -285,20 +267,17 @@ post_and_gate() {
     printf "%s\n\n" "$FILES_MD"
 
     printf "- ACES: %s\n" "$ACES"
-    printf "**Backend Impacts**\n\n"
-    printf "%s\n\n" "$BACKEND_IMPACT_LINES"
+    printf "- Backend impacts: %s\n" "$BACKEND_IMP"
+    printf "- Frontend impacts: %s\n\n" "$FRONTEND_IMP"
 
-    printf "**Frontend Impacts**\n\n"
-    printf "%s\n\n" "$FRONTEND_IMPACT_LINES"
-
-
-    # --- NEW: pretty print the actual impacted services ---
+    # pretty-print backend/frontend impact samples
     if [ -n "$BACKEND_IMPACT_LINES" ]; then
-      printf "**Backend impact candidates**\n\n"
+      printf "**Backend impacts (sample)**\n\n"
       printf "%s\n\n" "$BACKEND_IMPACT_LINES"
     fi
+
     if [ -n "$FRONTEND_IMPACT_LINES" ]; then
-      printf "**Frontend impact candidates**\n\n"
+      printf "**Frontend impacts (sample)**\n\n"
       printf "%s\n\n" "$FRONTEND_IMPACT_LINES"
     fi
 
@@ -321,7 +300,6 @@ post_and_gate() {
     fi
 
     printf "\n```\n</details>\n\n"
-    # hidden sentinel to help dedupe of identical comments
     printf "%s\n" "$SENTINEL"
   } > "${BODY_FILE}"
 
@@ -359,7 +337,6 @@ post_and_gate() {
           API_URL="https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments"
           echo "post_and_gate: posting PR comment via REST API for PR ${PR_NUMBER}"
 
-          # safe JSON payload creation using python to avoid brittle sed escaping
           PAYLOAD="$(python3 - <<PY
 import json,sys
 body_path = "${BODY_FILE}"
@@ -368,7 +345,6 @@ with open(body_path, "r", encoding="utf-8") as fh:
 print(json.dumps({"body": body}))
 PY
 )"
-          # send payload
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -X POST -d "${PAYLOAD}" "${API_URL}" || echo "curl post failed"
         else
           echo "post_and_gate: Cannot determine PR number to post comment."
@@ -386,7 +362,6 @@ PY
     echo "impact_risk=${RISK_FMT}" >> "${GITHUB_OUTPUT}"
   fi
 
-  # gating logic unchanged
   FAIL_ON_BLOCK="${FAIL_ON_BLOCK:-true}"
   if [ "$LEVEL" = "BLOCK" ]; then
     if [ "$FAIL_ON_BLOCK" = "true" ] || [ "$FAIL_ON_BLOCK" = "1" ]; then
@@ -404,11 +379,9 @@ PY
 
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
-  # prefer explicit names we expect
   REPORT_FULL="$(find "${REPO_ROOT}" -maxdepth 4 -type f -name 'pr-impact-full.json' -print -quit || true)"
   REPORT_SUM="$(find "${REPO_ROOT}" -maxdepth 4 -type f -name 'pr-impact-report.json' -print -quit || true)"
 
-  # fallback to any impact-report* files (older naming)
   if [ -z "${REPORT_SUM}" ]; then
     REPORT_SUM="$(find "${REPO_ROOT}" -maxdepth 4 -type f -iname 'impact-report*.json' -print -quit || true)"
   fi
@@ -426,7 +399,6 @@ copy_report() {
     if [ -n "${GITHUB_OUTPUT:-}" ]; then
       echo "report=pr-impact-report.json" >> "${GITHUB_OUTPUT}" || true
     else
-      # fallback for older runners
       echo "::set-output name=report::pr-impact-report.json" || true
     fi
     HANDLED=1
