@@ -172,66 +172,75 @@ post_and_gate() {
   BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
   FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
 
-  # --- NEW: try to build human-readable impact lists (summary first, then full report) ---
-  BACKEND_IMPACT_LINES=""
-  FRONTEND_IMPACT_LINES=""
+    # --------------------------------------------------------------------
+  # Safe backend/frontend impact extraction for PR comment
+  # --------------------------------------------------------------------
 
-  # helper fields: we try several keys so we don't break if schema is slightly different
+  # Try summary first
   BACKEND_IMPACT_LINES=$(jq -r '
-    (.backend_impacts // [])[0:5][]? |
-      "- " + (
-        .service // .target // .name // "Unknown"
-      ) + " (risk ~ " + (
-        (.risk_score // .score // 0) | tostring
-      ) + ")"
-  ' "$OUT" 2>/dev/null || echo "")
+    if (.backend_impacts // [] | length) == 0
+    then "none"
+    else
+      (.backend_impacts // [])[0:5][] |
+        "- " +
+        ((.service // .target // .name // "unknown") | tostring) +
+        " (risk=" +
+        ((.risk_score // .score // 0) | tostring) +
+        ")"
+    end
+  ' "$OUT" 2>/dev/null || echo "none")
 
   FRONTEND_IMPACT_LINES=$(jq -r '
-    (.frontend_impacts // [])[0:5][]? |
-      "- " + (
-        .service // .target // .name // "Unknown"
-      ) + " (risk ~ " + (
-        (.risk_score // .score // 0) | tostring
-      ) + ")"
-  ' "$OUT" 2>/dev/null || echo "")
+    if (.frontend_impacts // [] | length) == 0
+    then "none"
+    else
+      (.frontend_impacts // [])[0:5][] |
+        "- " +
+        ((.service // .target // .name // "unknown") | tostring) +
+        " (risk=" +
+        ((.risk_score // .score // 0) | tostring) +
+        ")"
+    end
+  ' "$OUT" 2>/dev/null || echo "none")
 
-  # If summary doesn't contain them, fall back to full report JSON
+  # If summary produced "none", fall back to full report
   FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
-  if [ -z "$BACKEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
+
+  if [ "$BACKEND_IMPACT_LINES" = "none" ] && [ -f "$FULL_JSON" ]; then
     BACKEND_IMPACT_LINES=$(jq -r '
-      (.backend_impacts // [])[0:5][]? |
-        "- " + (
-          .service // .target // .name // "Unknown"
-        ) + " (risk ~ " + (
-          (.risk_score // .score // 0) | tostring
-        ) + ")"
-    ' "$FULL_JSON" 2>/dev/null || echo "")
+      if (.backend_impacts // [] | length) == 0
+      then "none"
+      else
+        (.backend_impacts // [])[0:5][] |
+          "- " +
+          ((.service // .target // .name // "unknown") | tostring) +
+          " (risk=" +
+          ((.risk_score // .score // 0) | tostring) +
+          ")"
+      end
+    ' "$FULL_JSON" 2>/dev/null || echo "none")
   fi
-  if [ -z "$FRONTEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
+
+  if [ "$FRONTEND_IMPACT_LINES" = "none" ] && [ -f "$FULL_JSON" ]; then
     FRONTEND_IMPACT_LINES=$(jq -r '
-      (.frontend_impacts // [])[0:5][]? |
-        "- " + (
-          .service // .target // .name // "Unknown"
-        ) + " (risk ~ " + (
-          (.risk_score // .score // 0) | tostring
-        ) + ")"
-    ' "$FULL_JSON" 2>/dev/null || echo "")
+      if (.frontend_impacts // [] | length) == 0
+      then "none"
+      else
+        (.frontend_impacts // [])[0:5][] |
+          "- " +
+          ((.service // .target // .name // "unknown") | tostring) +
+          " (risk=" +
+          ((.risk_score // .score // 0) | tostring) +
+          ")"
+      end
+    ' "$FULL_JSON" 2>/dev/null || echo "none")
   fi
 
-  echo "DEBUG: backend impact lines:"
-  printf '%s\n' "${BACKEND_IMPACT_LINES:-<empty>}"
-  echo "DEBUG: frontend impact lines:"
-  printf '%s\n' "${FRONTEND_IMPACT_LINES:-<empty>}"
+  echo "DEBUG backend impacts:"
+  printf '%s\n' "$BACKEND_IMPACT_LINES"
+  echo "DEBUG frontend impacts:"
+  printf '%s\n' "$FRONTEND_IMPACT_LINES"
 
-
-  # If summary doesn't contain them, fall back to full report JSON
-  FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
-  if [ -z "$BACKEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
-    BACKEND_IMPACT_LINES=$(jq -r '.backend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$FULL_JSON" 2>/dev/null || echo "")
-  fi
-  if [ -z "$FRONTEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
-    FRONTEND_IMPACT_LINES=$(jq -r '.frontend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$FULL_JSON" 2>/dev/null || echo "")
-  fi
 
   # format files list as markdown bullets
   FILES_MD=""
@@ -276,8 +285,12 @@ post_and_gate() {
     printf "%s\n\n" "$FILES_MD"
 
     printf "- ACES: %s\n" "$ACES"
-    printf "- Backend impacts: %s\n" "$BACKEND_IMP"
-    printf "- Frontend impacts: %s\n\n" "$FRONTEND_IMP"
+    printf "**Backend Impacts**\n\n"
+    printf "%s\n\n" "$BACKEND_IMPACT_LINES"
+
+    printf "**Frontend Impacts**\n\n"
+    printf "%s\n\n" "$FRONTEND_IMPACT_LINES"
+
 
     # --- NEW: pretty print the actual impacted services ---
     if [ -n "$BACKEND_IMPACT_LINES" ]; then
