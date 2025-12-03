@@ -294,19 +294,16 @@ post_and_gate() {
 
     if [ -f "$OUT" ]; then
       if command -v jq >/dev/null 2>&1; then
-        # pretty-print, but if jq fails, fall back to raw file
         jq . "$OUT" 2>/dev/null || cat "$OUT"
       else
         cat "$OUT"
       fi
     else
-      printf '{ "error": "report file not found at %s" }\n' "$OUT"
+      printf "{ \"error\": \"report file not found at %s\" }\n" "$OUT"
     fi
 
     printf "\n```\n</details>\n\n"
 
-
-    printf "\n```\n</details>\n\n"
     printf "%s\n" "$SENTINEL"
   } > "${BODY_FILE}"
 
