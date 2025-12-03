@@ -820,8 +820,14 @@ def analyze_pair_files(
                     file=sys.stderr,
                 )
                 try:
-                    be_imp2 = server.backend_impacts(g, service_guess, [])
-                    fe_imp2 = server.ui_impacts(g, service_guess, [])
+                    # Try calling like server-side (no path filter)
+                    try:
+                        be_imp2 = server.backend_impacts(g, service_guess, None)
+                        fe_imp2 = server.ui_impacts(g, service_guess, None)
+                    except TypeError:
+                        be_imp2 = server.backend_impacts(g, service_guess)
+                        fe_imp2 = server.ui_impacts(g, service_guess)
+
                     print(
                         f"DEBUG: fallback impacts (no path filter) -> backend:{len(be_imp2)} frontend:{len(fe_imp2)}",
                         file=sys.stderr,
@@ -848,13 +854,6 @@ def analyze_pair_files(
         be_imp = []
         fe_imp = []
 
-
-    ai_expl = analy.get("explanation") or analy.get("ai_explanation") or ""
-    if not ai_expl:
-        try:
-            ai_expl = server.make_explanation(score, diffs, pfeats, {}, be_imp, fe_imp)
-        except Exception:
-            ai_expl = ""
 
     # Ensure we propagate a pair_id if index knew it,
     # even though api_analyze itself has no concept of pair_id.
