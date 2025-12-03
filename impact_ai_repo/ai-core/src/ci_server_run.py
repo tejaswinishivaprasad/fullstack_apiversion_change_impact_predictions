@@ -186,6 +186,8 @@ def _find_index_json_under_datasets() -> Optional[Path]:
 
 # --- Normalize EFFECTIVE_CURATED_ROOT only (do not override INDEX_PATH) ---
 INDEX_ROOT: Optional[Path] = None
+PAIR_INDEX: Optional[Dict[str, Any]] = None
+
 
 try:
     eff = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
@@ -236,25 +238,44 @@ try:
             file=sys.stderr,
         )
 
-        # Tell server where the global pair index lives
+        # Load pair index directly from curated_clean/index.json (or similar)
         index_path = idx_root / "index.json"
-        try:
-            server.INDEX_PATH = index_path
-        except Exception:
-            setattr(server, "INDEX_PATH", index_path)
-        print(
-            f"DEBUG: server.INDEX_PATH -> {getattr(server, 'INDEX_PATH', None)} "
-            f"(exists={index_path.exists()})",
-            file=sys.stderr,
-        )
+        if index_path.exists():
+            try:
+                txt = index_path.read_text(encoding="utf-8")
+                obj = json.loads(txt)
+                if isinstance(obj, dict):
+                    PAIR_INDEX = obj
+                    print(
+                        f"DEBUG: loaded PAIR_INDEX from {index_path} with {len(PAIR_INDEX)} entries",
+                        file=sys.stderr,
+                    )
+                else:
+                    print(
+                        f"WARN: index.json at {index_path} is not a dict; type={type(obj)}",
+                        file=sys.stderr,
+                    )
+            except Exception as e:
+                print(
+                    f"WARN: failed to load PAIR_INDEX from {index_path}: {repr(e)}",
+                    file=sys.stderr,
+                )
+        else:
+            print(
+                f"WARN: index.json expected at {index_path} but file does not exist",
+                file=sys.stderr,
+            )
+
+        # DO NOT touch server.INDEX_PATH here; CI uses its own PAIR_INDEX
     else:
         print(
             "WARN: Could not locate any index.json under candidate dataset roots. "
-            "server.load_pair_index may rely on internal defaults.",
+            "PAIR_INDEX will remain None; pair_id lookup may not work.",
             file=sys.stderr,
         )
 except Exception as e:
     print("WARN: error while attempting to find index root:", repr(e), file=sys.stderr)
+
 
 
 
@@ -472,9 +493,19 @@ def load_json_text(text: str) -> Dict[str, Any]:
 # -------- pair_id lookup helper (index-based, independent of server.report) --------
 def _load_pair_index_any(dataset_key: Optional[str]) -> Optional[Dict[str, Any]]:
     """
-    Try loading pair index globally, then dataset-specific.
-    This is defensive around different load_pair_index signatures.
+    In CI, prefer the locally loaded PAIR_INDEX (from curated index.json).
+    Fall back to server.load_pair_index only if PAIR_INDEX is missing.
     """
+    global PAIR_INDEX
+
+    if isinstance(PAIR_INDEX, dict) and PAIR_INDEX:
+        print(
+            f"DEBUG: _load_pair_index_any using PAIR_INDEX with {len(PAIR_INDEX)} entries",
+            file=sys.stderr,
+        )
+        return PAIR_INDEX
+
+    # Fallback: try server.load_pair_index (in case local load failed)
     idx = None
     src = "none"
     try:
@@ -503,14 +534,16 @@ def _load_pair_index_any(dataset_key: Optional[str]) -> Optional[Dict[str, Any]]
                 )
                 idx = None
 
-    if isinstance(idx, dict):
+    if isinstance(idx, dict) and idx:
         print(
             f"DEBUG: _load_pair_index_any loaded {len(idx)} entries from {src}",
             file=sys.stderr,
         )
         return idx
+
     print("DEBUG: _load_pair_index_any found no usable index", file=sys.stderr)
     return None
+
 
 
 def lookup_pair_meta_for_relpath(
@@ -522,33 +555,42 @@ def lookup_pair_meta_for_relpath(
     """
     if not relname:
         return None
-    name = Path(relname).name
+
+    name = Path(relname).name.lower()
     idx = _load_pair_index_any(dataset_key)
+
     if not isinstance(idx, dict) or not idx:
+        print(
+            f"DEBUG: lookup_pair_meta_for_relpath: no index loaded for dataset={dataset_key}",
+            file=sys.stderr,
+        )
         return None
 
-    name_lower = name.lower()
     for pid, meta in idx.items():
         try:
             mo_raw = meta.get("old_canonical") or meta.get("old")
             mn_raw = meta.get("new_canonical") or meta.get("new")
             if not (mo_raw and mn_raw):
                 continue
+
             mo_name = Path(str(mo_raw)).name.lower()
             mn_name = Path(str(mn_raw)).name.lower()
-            if name_lower in (mo_name, mn_name):
+
+            if name in (mo_name, mn_name):
+                out = dict(meta)
+                out.setdefault("pair_id", pid)
                 print(
                     f"DEBUG: lookup_pair_meta_for_relpath matched rel={name} to pid={pid}",
                     file=sys.stderr,
                 )
-                out = dict(meta)
-                out.setdefault("pair_id", pid)
                 return out
+
         except Exception as e:
             print("DEBUG: error iterating index entry in lookup_pair_meta:", repr(e), file=sys.stderr)
-            continue
-    print(f"DEBUG: lookup_pair_meta_for_relpath found no match for {name}", file=sys.stderr)
+
+    print(f"DEBUG: lookup_pair_meta_for_relpath no match for {name}", file=sys.stderr)
     return None
+
 
 
 
@@ -560,6 +602,7 @@ def analyze_pair_files(
 ) -> Dict[str, Any]:
     # Try to get pair_id upfront from index, regardless of server.report.
 
+    # Try to get pair metadata (pair_id, service_name) upfront from index.
     pair_id_hint: Optional[str] = None
     service_from_index: Optional[str] = None
     if rel_path:
@@ -567,6 +610,7 @@ def analyze_pair_files(
         if meta:
             pair_id_hint = meta.get("pair_id")
             service_from_index = meta.get("service_name")
+
 
 
     try:
@@ -709,7 +753,7 @@ def analyze_pair_files(
     if service_from_index:
         service_guess = service_from_index
 
-    # 2) Fallback: derive from filename if index had nothing
+    # 2) Fallback: derive from filename if needed
     if not service_guess and rel_path:
         try:
             stem = Path(rel_path).stem
@@ -728,6 +772,7 @@ def analyze_pair_files(
             service_guess = (new_doc.get("info", {}) or {}).get("title")
         except Exception:
             service_guess = "unknown"
+
 
 
     pfeats: Dict[str, Any] = {}
