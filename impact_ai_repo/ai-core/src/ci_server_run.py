@@ -746,18 +746,23 @@ def analyze_pair_files(
     if service_from_index:
         service_guess = service_from_index
 
-    # 1b) If index didn’t carry service_name, try full metadata (like server.report)
+    # 1b) If index didn't have service_name, pull it from curated metadata
     if not service_guess and pair_id_hint:
         try:
             meta2 = server.load_pair_metadata(pair_id_hint)
-            if isinstance(meta2, dict) and meta2.get("service_name"):
-                service_guess = meta2["service_name"]
+            if isinstance(meta2, dict):
+                svc = meta2.get("service_name")
                 print(
-                    f"DEBUG: loaded service from metadata for pair_id={pair_id_hint}: {service_guess}",
+                    f"DEBUG: load_pair_metadata({pair_id_hint}) -> service_name={svc}",
                     file=sys.stderr,
                 )
+                if svc:
+                    service_guess = svc
         except Exception as e:
-            print("DEBUG: metadata load failed:", repr(e), file=sys.stderr)
+            print(
+                f"DEBUG: load_pair_metadata({pair_id_hint}) failed: {repr(e)}",
+                file=sys.stderr,
+            )
 
     # 2) Fallback: derive from filename if needed
     if not service_guess and rel_path:
@@ -778,6 +783,9 @@ def analyze_pair_files(
             service_guess = (new_doc.get("info", {}) or {}).get("title")
         except Exception:
             service_guess = "unknown"
+
+    print(f"DEBUG: service_guess used for graph = {service_guess}", file=sys.stderr)
+
 
 
     pfeats: Dict[str, Any] = {}
