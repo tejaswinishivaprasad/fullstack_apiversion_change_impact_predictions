@@ -292,12 +292,19 @@ post_and_gate() {
     printf "<details>\n<summary>Raw report (click to expand)</summary>\n\n"
     printf "```json\n"
 
-    MAX_LINES=${MAX_LINES:-500}
-    if command -v jq >/dev/null 2>&1; then
-      jq . "$OUT" 2>/dev/null | sed -n "1,${MAX_LINES}p" || cat "$OUT" | sed -n "1,${MAX_LINES}p"
+    if [ -f "$OUT" ]; then
+      if command -v jq >/dev/null 2>&1; then
+        # pretty-print, but if jq fails, fall back to raw file
+        jq . "$OUT" 2>/dev/null || cat "$OUT"
+      else
+        cat "$OUT"
+      fi
     else
-      cat "$OUT" | sed -n "1,${MAX_LINES}p"
+      printf '{ "error": "report file not found at %s" }\n' "$OUT"
     fi
+
+    printf "\n```\n</details>\n\n"
+
 
     printf "\n```\n</details>\n\n"
     printf "%s\n" "$SENTINEL"
