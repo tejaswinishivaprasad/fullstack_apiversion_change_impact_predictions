@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "description": "Abstract IP geolocation API allows developers to retrieve the region, country and city behind any IP worldwide. The API covers the geolocation of IPv4 and IPv6 addresses in 180+ countries worldwide. Extra information can be retrieved like the currency, flag or language associated to an IP.",
+    "description": "Abstract IP geolocation API allows  developers to retrieve the region, country and city behind any IP worldwide. The API covers the geolocation of IPv4 and IPv6 addresses in 180+ countries worldwide. Extra information can be retrieved like the currency, flag or language associated to an IP.",
     "title": "IP geolocation API",
     "version": "1.0.0",
     "x-apisguru-categories": [
