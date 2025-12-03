@@ -993,6 +993,37 @@ def main() -> int:
         if not ai_expl_top:
             ai_expl_top = analy.get("ai_explanation") or analy.get("explanation")
 
+        # Heuristic fallback: if model risk is 0 but we clearly have breaking ACES,
+    # bump the risk so CI output is not misleading in no-model environments.
+    if max_risk == 0.0 and atomic_aces:
+        breaking = sum(
+            1
+            for a in atomic_aces
+            if a.get("type", "").lower()
+            in (
+                "param_changed",
+                "response_schema_changed",
+                "requestbody_schema_changed",
+                "endpoint_removed",
+            )
+        )
+        if breaking > 0:
+            print(
+                f"DEBUG: model risk was 0.0 but breaking_aces={breaking}; "
+                f"applying heuristic High risk for CI",
+                file=sys.stderr,
+            )
+            max_risk = 1.0
+        else:
+            # Non-breaking noise but still changes -> set to Medium-ish
+            print(
+                "DEBUG: model risk was 0.0 but non-breaking ACES present; "
+                "applying heuristic Medium risk for CI",
+                file=sys.stderr,
+            )
+            max_risk = 0.4
+        
+
     def _band_label(score: float) -> Tuple[str, str]:
         if score >= 0.7:
             return "High", "BLOCK"
