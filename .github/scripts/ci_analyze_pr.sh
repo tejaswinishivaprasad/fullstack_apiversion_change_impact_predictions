@@ -176,13 +176,53 @@ post_and_gate() {
   BACKEND_IMPACT_LINES=""
   FRONTEND_IMPACT_LINES=""
 
-  # Try from summary JSON ($OUT)
-  if jq -e '.backend_impacts' "$OUT" >/dev/null 2>&1; then
-    BACKEND_IMPACT_LINES=$(jq -r '.backend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$OUT" 2>/dev/null || echo "")
+  # helper fields: we try several keys so we don't break if schema is slightly different
+  BACKEND_IMPACT_LINES=$(jq -r '
+    (.backend_impacts // [])[0:5][]? |
+      "- " + (
+        .service // .target // .name // "Unknown"
+      ) + " (risk ~ " + (
+        (.risk_score // .score // 0) | tostring
+      ) + ")"
+  ' "$OUT" 2>/dev/null || echo "")
+
+  FRONTEND_IMPACT_LINES=$(jq -r '
+    (.frontend_impacts // [])[0:5][]? |
+      "- " + (
+        .service // .target // .name // "Unknown"
+      ) + " (risk ~ " + (
+        (.risk_score // .score // 0) | tostring
+      ) + ")"
+  ' "$OUT" 2>/dev/null || echo "")
+
+  # If summary doesn't contain them, fall back to full report JSON
+  FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
+  if [ -z "$BACKEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
+    BACKEND_IMPACT_LINES=$(jq -r '
+      (.backend_impacts // [])[0:5][]? |
+        "- " + (
+          .service // .target // .name // "Unknown"
+        ) + " (risk ~ " + (
+          (.risk_score // .score // 0) | tostring
+        ) + ")"
+    ' "$FULL_JSON" 2>/dev/null || echo "")
   fi
-  if jq -e '.frontend_impacts' "$OUT" >/dev/null 2>&1; then
-    FRONTEND_IMPACT_LINES=$(jq -r '.frontend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$OUT" 2>/dev/null || echo "")
+  if [ -z "$FRONTEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
+    FRONTEND_IMPACT_LINES=$(jq -r '
+      (.frontend_impacts // [])[0:5][]? |
+        "- " + (
+          .service // .target // .name // "Unknown"
+        ) + " (risk ~ " + (
+          (.risk_score // .score // 0) | tostring
+        ) + ")"
+    ' "$FULL_JSON" 2>/dev/null || echo "")
   fi
+
+  echo "DEBUG: backend impact lines:"
+  printf '%s\n' "${BACKEND_IMPACT_LINES:-<empty>}"
+  echo "DEBUG: frontend impact lines:"
+  printf '%s\n' "${FRONTEND_IMPACT_LINES:-<empty>}"
+
 
   # If summary doesn't contain them, fall back to full report JSON
   FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
@@ -224,7 +264,10 @@ post_and_gate() {
 
   # Build markdown body file (preserves real newlines)
   BODY_FILE="$(mktemp --tmpdir pr-impact-body.XXXXXX.md)"
-  SENTINEL="<!-- impact-report-id: ${ARTIFACT} -->"
+  # Make sentinel include core numbers so only *identical* results are deduped
+  SENTINEL="<!-- impact-report-id: ${ARTIFACT} | risk:${RISK_FMT} | aces:${ACES} | be:${BACKEND_IMP} | fe:${FRONTEND_IMP} -->"
+  echo "post_and_gate: using sentinel: ${SENTINEL}"
+
   {
     printf "### Impact AI — Analysis result\n\n"
     printf "**Quick:** %s\n\n" "$QUICK_LINE"
