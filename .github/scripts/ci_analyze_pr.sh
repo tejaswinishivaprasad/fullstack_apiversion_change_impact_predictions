@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# CI runner for AI Core analysis — prefer in-process server wrapper (ci_server_run.py)
+# CI runner for AI Core analysis — now prefers analysis_light.py
 # - runs from repo root so git diff paths and filesystem paths align
 # - creates a tiny venv for minimal deps if needed (uses requirements-ci.txt if present)
-# - runs ci_server_run.py (recommended). Falls back to analysis_light.py or server.py if present.
+# - runs analysis_light.py (preferred). Falls back to ci_server_run.py or server.py if present.
 # - copies any generated impact-report*.json / pr-impact-full.json to $GITHUB_WORKSPACE/pr-impact-report.json
 
 set -euo pipefail
@@ -315,7 +315,6 @@ PY
   return 0
 }
 
-
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
   # prefer explicit names we expect
@@ -353,35 +352,32 @@ copy_report() {
   fi
 }
 
+########################################
+# EXECUTION ORDER
+# 1) analysis_light.py (preferred)
+# 2) ci_server_run.py (fallback)
+# 3) server.py --ci-scan (fallback)
+########################################
+
 # Activate venv if exists
 if [ -d ".ci-venv" ]; then
   # shellcheck disable=SC1091
   source .ci-venv/bin/activate || true
 fi
 
-# create venv if wrapper exists and dependencies look missing
-if [ -f "${CI_WRAPPER}" ]; then
+# create venv if any wrapper exists and dependencies look missing
+if [ -f "${ANALYSIS_LIGHT}" ] || [ -f "${CI_WRAPPER}" ]; then
   create_venv_if_needed
-  chmod +x "${CI_WRAPPER}" || true
-  echo "CI: running ci_server_run.py (preferred wrapper)"
-  if python -u "${CI_WRAPPER}" --pr "${PR_NUMBER:-unknown}" --output-full "${REPO_ROOT}/pr-impact-full.json" --output-summary "${REPO_ROOT}/pr-impact-report.json"; then
-    echo "CI: ci_server_run.py finished"
-    if copy_report; then
-      post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
-    else
-      echo "CI: no report produced by ci_server_run.py"
-    fi
-    exit 0
-  else
-    echo "CI: ci_server_run.py returned non-zero; will attempt fallbacks" >&2
-  fi
 fi
 
-# Fallback 1: analysis_light.py (old fast script)
+# PRIMARY: analysis_light.py (pure CI path-based analyzer)
 if [ -f "${ANALYSIS_LIGHT}" ]; then
-  echo "CI: running analysis_light.py (repo-root execution)"
   chmod +x "${ANALYSIS_LIGHT}" || true
-  if python3 "${ANALYSIS_LIGHT}" --pr "${PR_NUMBER:-unknown}" --output "${REPO_ROOT}/pr-impact-report.json"; then
+  echo "CI: running analysis_light.py (preferred wrapper)"
+  if python -u "${ANALYSIS_LIGHT}" \
+        --pr "${PR_NUMBER:-unknown}" \
+        --output-full "${REPO_ROOT}/pr-impact-full.json" \
+        --output-summary "${REPO_ROOT}/pr-impact-report.json"; then
     echo "CI: analysis_light.py finished"
     if copy_report; then
       post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
@@ -390,7 +386,27 @@ if [ -f "${ANALYSIS_LIGHT}" ]; then
     fi
     exit 0
   else
-    echo "CI: analysis_light.py returned non-zero; will attempt server.py fallback" >&2
+    echo "CI: analysis_light.py returned non-zero; will attempt ci_server_run.py fallback" >&2
+  fi
+fi
+
+# Fallback 1: ci_server_run.py (legacy wrapper that uses server.py)
+if [ -f "${CI_WRAPPER}" ]; then
+  chmod +x "${CI_WRAPPER}" || true
+  echo "CI: running ci_server_run.py (fallback wrapper)"
+  if python -u "${CI_WRAPPER}" \
+        --pr "${PR_NUMBER:-unknown}" \
+        --output-full "${REPO_ROOT}/pr-impact-full.json" \
+        --output-summary "${REPO_ROOT}/pr-impact-report.json"; then
+    echo "CI: ci_server_run.py finished"
+    if copy_report; then
+      post_and_gate "${REPO_ROOT}/pr-impact-report.json" || true
+    else
+      echo "CI: no report produced by ci_server_run.py"
+    fi
+    exit 0
+  else
+    echo "CI: ci_server_run.py returned non-zero; will attempt server.py fallback" >&2
   fi
 fi
 
@@ -421,10 +437,10 @@ if copy_report; then
 fi
 
 echo "CI: no impact report generated, writing placeholder"
-cat > "${REPO_ROOT}/pr-impact-report.json" <<'JSON'
+cat > "${REPO_ROOT}/pr-impact-report.json" <<JSON
 {
   "status": "partial",
-  "pr": "'"${PR_NUMBER:-unknown}"'",
+  "pr": "${PR_NUMBER:-unknown}",
   "note": "no_impact_report_generated",
   "files_changed": []
 }
