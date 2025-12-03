@@ -1,42 +1,42 @@
 {
   "edges": [
     {
-      "src": "ui:customer-portal",
+      "src": "ui:portal-ui",
       "dst": "svc:search-service",
       "path": "/reference-data/locations/pois",
       "evidence": "curation",
       "confidence": 0.46
     },
     {
-      "src": "svc:order-service",
+      "src": "svc:petclinic-order-service",
       "dst": "svc:search-service",
       "path": "/v3/ci/lint",
       "evidence": "curation-svc",
       "confidence": 0.45
     },
     {
-      "src": "ui:customer-portal",
+      "src": "ui:portal-ui",
       "dst": "svc:search-service",
       "path": "/orderid/xrefexists/paymentid/userid",
       "evidence": "curation",
       "confidence": 0.42
     },
     {
-      "src": "ui:customer-portal",
+      "src": "ui:portal-ui",
       "dst": "svc:search-service",
       "path": "/account/users",
       "evidence": "curation",
       "confidence": 0.68
     },
     {
-      "src": "ui:customer-portal",
+      "src": "ui:portal-ui",
       "dst": "svc:search-service",
       "path": "/travel/predictions/flight-delay",
       "evidence": "curation",
       "confidence": 0.51
     },
     {
-      "src": "ui:ops-console",
+      "src": "ui:admin-ui",
       "dst": "svc:catalog-service",
       "path": "/api/part/userid",
       "evidence": "curation",
@@ -44,96 +44,95 @@
     },
     {
       "src": "svc:catalog-service",
-      "dst": "svc:order-service",
+      "dst": "svc:catalog-service",
       "path": "/ipaccesssettings/orderid",
       "evidence": "curation-svc",
       "confidence": 0.78
     },
     {
-      "src": "ui:ops-console",
+      "src": "ui:admin-ui",
       "dst": "svc:catalog-service",
       "path": "/map/orderid/copyrights/sku/sku/id-orderid",
       "evidence": "curation",
       "confidence": 0.49
     },
     {
-      "src": "svc:invoice-service",
+      "src": "svc:petclinic-analytics-service",
       "dst": "svc:catalog-service",
       "path": "/food/ingredient/search-php",
       "evidence": "curation-svc",
       "confidence": 0.46
     },
     {
-      "src": "ui:ops-console",
+      "src": "ui:admin-ui",
       "dst": "svc:catalog-service",
       "path": "/id/spells",
       "evidence": "curation",
       "confidence": 0.6
     },
     {
-      "src": "svc:order-service",
-      "dst": "svc:invoice-service",
+      "src": "svc:petclinic-order-service",
+      "dst": "svc:petclinic-analytics-service",
       "path": "/analytics-service/new0",
       "evidence": "curation-svc",
       "confidence": 0.47
     },
     {
       "src": "svc:search-service",
-      "dst": "svc:invoice-service",
+      "dst": "svc:petclinic-analytics-service",
       "path": "/analytics-service",
       "evidence": "curation-svc",
       "confidence": 0.7
     },
     {
-      "src": "svc:order-service",
-      "dst": "svc:invoice-service",
+      "src": "svc:petclinic-order-service",
+      "dst": "svc:petclinic-analytics-service",
       "path": "/analytics-service/new5",
       "evidence": "curation-svc",
       "confidence": 0.89
     },
     {
-      "src": "ui:customer-portal",
-      "dst": "svc:notification-service",
+      "src": "ui:portal-ui",
+      "dst": "svc:petclinic-shipping-service",
       "path": "/shipping-service/new5",
       "evidence": "curation",
       "confidence": 0.53
     },
     {
-      "src": "ui:customer-portal",
-      "dst": "svc:notification-service",
+      "src": "ui:portal-ui",
+      "dst": "svc:petclinic-shipping-service",
       "path": "/shipping-service/new0",
       "evidence": "curation",
       "confidence": 0.44
     },
     {
-      "src": "ui:customer-portal",
-      "dst": "svc:notification-service",
+      "src": "ui:portal-ui",
+      "dst": "svc:petclinic-shipping-service",
       "path": "/shipping-service",
       "evidence": "curation",
       "confidence": 0.46
     },
     {
-      "src": "ui:ops-console",
-      "dst": "svc:order-service",
+      "src": "ui:admin-ui",
+      "dst": "svc:petclinic-order-service",
       "path": "/order-service",
       "evidence": "curation",
       "confidence": 0.6
     },
     {
       "src": "svc:search-service",
-      "dst": "svc:order-service",
+      "dst": "svc:petclinic-order-service",
       "path": "/order-service/new0",
       "evidence": "curation-svc",
       "confidence": 0.74
     },
     {
-      "src": "ui:ops-console",
-      "dst": "svc:order-service",
+      "src": "ui:admin-ui",
+      "dst": "svc:petclinic-order-service",
       "path": "/order-service/new5",
       "evidence": "curation",
       "confidence": 0.8
     }
-
   ],
   "producers": {
     "search-service": [
@@ -1667,21 +1666,20 @@
       "/codereviews/userid",
       "/applications/orderid/batch-job"
     ],
-    "invoice-service": [
+    "petclinic-analytics-service": [
       "/analytics-service/new5",
       "/analytics-service/new0",
       "/analytics-service"
     ],
-    "notification-service": [
+    "petclinic-shipping-service": [
       "/shipping-service/new0",
       "/shipping-service/new5",
       "/shipping-service"
     ],
-    "order-service": [
+    "petclinic-order-service": [
       "/order-service/new5",
       "/order-service",
       "/order-service/new0"
     ]
-
   }
 }
