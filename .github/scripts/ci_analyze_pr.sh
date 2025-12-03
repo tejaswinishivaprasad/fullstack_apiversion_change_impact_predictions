@@ -172,6 +172,27 @@ post_and_gate() {
   BACKEND_IMP=$(jq -r '.backend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
   FRONTEND_IMP=$(jq -r '.frontend_impacts | length // 0' "$OUT" 2>/dev/null || echo "0")
 
+  # --- NEW: try to build human-readable impact lists (summary first, then full report) ---
+  BACKEND_IMPACT_LINES=""
+  FRONTEND_IMPACT_LINES=""
+
+  # Try from summary JSON ($OUT)
+  if jq -e '.backend_impacts' "$OUT" >/dev/null 2>&1; then
+    BACKEND_IMPACT_LINES=$(jq -r '.backend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$OUT" 2>/dev/null || echo "")
+  fi
+  if jq -e '.frontend_impacts' "$OUT" >/dev/null 2>&1; then
+    FRONTEND_IMPACT_LINES=$(jq -r '.frontend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$OUT" 2>/dev/null || echo "")
+  fi
+
+  # If summary doesn't contain them, fall back to full report JSON
+  FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
+  if [ -z "$BACKEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
+    BACKEND_IMPACT_LINES=$(jq -r '.backend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$FULL_JSON" 2>/dev/null || echo "")
+  fi
+  if [ -z "$FRONTEND_IMPACT_LINES" ] && [ -f "$FULL_JSON" ]; then
+    FRONTEND_IMPACT_LINES=$(jq -r '.frontend_impacts[0:5][]? | "- " + (.service // "Unknown") + " (risk ~ " + ((.risk_score // 0) | tostring) + ")"' "$FULL_JSON" 2>/dev/null || echo "")
+  fi
+
   # format files list as markdown bullets
   FILES_MD=""
   if jq -e '.metadata.files_changed // .files_changed // .api_files_changed' "$OUT" >/dev/null 2>&1; then
@@ -214,6 +235,16 @@ post_and_gate() {
     printf "- ACES: %s\n" "$ACES"
     printf "- Backend impacts: %s\n" "$BACKEND_IMP"
     printf "- Frontend impacts: %s\n\n" "$FRONTEND_IMP"
+
+    # --- NEW: pretty print the actual impacted services ---
+    if [ -n "$BACKEND_IMPACT_LINES" ]; then
+      printf "**Backend impact candidates**\n\n"
+      printf "%s\n\n" "$BACKEND_IMPACT_LINES"
+    fi
+    if [ -n "$FRONTEND_IMPACT_LINES" ]; then
+      printf "**Frontend impact candidates**\n\n"
+      printf "%s\n\n" "$FRONTEND_IMPACT_LINES"
+    fi
 
     [ -n "$PAIR_ID" ] && printf "pair_id: %s\n\n" "$PAIR_ID"
 
@@ -314,7 +345,6 @@ PY
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
-
 
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
