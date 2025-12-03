@@ -5,13 +5,14 @@ ci_server_run.py
 Lightweight CI wrapper that:
  - finds changed files in a PR (git)
  - maps canonical v2 -> v1 or fetches base from origin/main
- - calls server.report(...) to reuse the full HTTP/report pipeline logic
+ - lightly dereferences local '#/components/schemas/...' refs (shallow)
+ - primarily uses server.api_analyze(...) plus graph enrichment
  - writes pr-impact-full.json (detailed) and pr-impact-report.json (compact)
 
 This version:
- - uses curated index.json to infer pair_id from filenames
- - normalises EFFECTIVE_CURATED_ROOT and GRAPH_PATH
- - delegates risk + backend/frontend impacts to server.report (same as React dashboard)
+ - tries hard to locate curated datasets and graph.json
+ - uses index.json only to infer pair_id from filenames
+ - avoids calling server.report() in CI (it is tightly coupled to HTTP/runtime paths)
 """
 from __future__ import annotations
 import argparse
@@ -224,6 +225,8 @@ try:
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", repr(e), file=sys.stderr)
 
+INDEX_ROOT = None
+
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
@@ -234,6 +237,7 @@ try:
             file=sys.stderr,
         )
 
+        # Load pair index directly from curated_clean/index.json (or similar)
         index_path = idx_root / "index.json"
         if index_path.exists():
             try:
@@ -260,6 +264,8 @@ try:
                 f"WARN: index.json expected at {index_path} but file does not exist",
                 file=sys.stderr,
             )
+
+        # DO NOT touch server.INDEX_PATH here; CI uses its own PAIR_INDEX
     else:
         print(
             "WARN: Could not locate any index.json under candidate dataset roots. "
@@ -276,29 +282,30 @@ try:
     if gp:
         res_gp = _resolve_candidate_root(str(gp))
         if res_gp and res_gp.exists():
-            server.GRAPH_PATH = str(res_gp)
+            # IMPORTANT: keep GRAPH_PATH as a Path, not a string
+            server.GRAPH_PATH = res_gp
             print(f"DEBUG: server.GRAPH_PATH resolved -> {server.GRAPH_PATH}", file=sys.stderr)
         else:
             cand1 = (HERE / "datasets" / "graph.json")
             cand2 = (REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json")
             if cand1.exists():
-                server.GRAPH_PATH = str(cand1.resolve())
+                server.GRAPH_PATH = cand1.resolve()
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             elif cand2.exists():
-                server.GRAPH_PATH = str(cand2.resolve())
+                server.GRAPH_PATH = cand2.resolve()
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             else:
                 print(f"DEBUG: server.GRAPH_PATH ({gp}) could not be resolved", file=sys.stderr)
     else:
         cand = (HERE / "datasets" / "graph.json")
         if cand.exists():
-            server.GRAPH_PATH = str(cand.resolve())
+            server.GRAPH_PATH = cand.resolve()
             print(f"DEBUG: server.GRAPH_PATH set -> {server.GRAPH_PATH}", file=sys.stderr)
 except Exception as e:
     print("WARN: error normalizing GRAPH_PATH:", repr(e), file=sys.stderr)
 
 
-# ----------------- git helpers -----------------
+# ----------------- rest of wrapper -----------------
 def git_changed_files() -> List[str]:
     code, out = run_cmd(["git", "diff", "--name-only", "origin/main...HEAD"])
     if code == 0 and out.strip():
@@ -321,7 +328,6 @@ def git_show_file(ref_path: str) -> str:
     return out if code == 0 else ""
 
 
-# ----------------- dataset / file helpers -----------------
 def find_counterpart_v1(v2path: Path) -> Path:
     name = v2path.name
     if "--v2." in name:
@@ -416,13 +422,59 @@ def read_json_file_if_exists(p: Path) -> Dict[str, Any]:
     try:
         if p and p.exists():
             txt = p.read_text(encoding="utf-8")
-            return json.loads(txt)
+            try:
+                return json.loads(txt)
+            except Exception:
+                try:
+                    return server._load_json_or_yaml(p)
+                except Exception:
+                    return {}
         return {}
     except Exception:
-        try:
-            return server._load_json_or_yaml(p)
-        except Exception:
-            return {}
+        return {}
+
+
+def dereference_components(spec: Dict[str, Any]) -> Dict[str, Any]:
+    if not isinstance(spec, dict):
+        return spec
+    comp = spec.get("components") or {}
+    schemas = comp.get("schemas") or {}
+
+    def resolve(obj):
+        if isinstance(obj, dict):
+            if "$ref" in obj and isinstance(obj["$ref"], str):
+                ref = obj["$ref"]
+                if ref.startswith("#/components/schemas/"):
+                    key = ref.split("/")[-1]
+                    target = schemas.get(key)
+                    if isinstance(target, dict):
+                        return resolve(dict(target))
+                    return target
+            return {k: resolve(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [resolve(x) for x in obj]
+        return obj
+
+    out = dict(spec)
+    try:
+        if "paths" in spec and isinstance(spec["paths"], dict):
+            new_paths = {}
+            for p, methods in spec["paths"].items():
+                if not isinstance(methods, dict):
+                    new_paths[p] = methods
+                    continue
+                new_methods = {}
+                for m, op in methods.items():
+                    new_methods[m] = resolve(op)
+                new_paths[p] = new_methods
+            out["paths"] = new_paths
+    except Exception:
+        pass
+    try:
+        out["components"] = dict(out.get("components") or {})
+    except Exception:
+        pass
+    return out
 
 
 def load_json_text(text: str) -> Dict[str, Any]:
@@ -435,7 +487,7 @@ def load_json_text(text: str) -> Dict[str, Any]:
             return {}
 
 
-# -------- pair_id lookup helper (index-based) --------
+# -------- pair_id lookup helper (index-based, independent of server.report) --------
 def _load_pair_index_any(dataset_key: Optional[str]) -> Optional[Dict[str, Any]]:
     """
     In CI, prefer the locally loaded PAIR_INDEX (from curated index.json).
@@ -450,6 +502,7 @@ def _load_pair_index_any(dataset_key: Optional[str]) -> Optional[Dict[str, Any]]
         )
         return PAIR_INDEX
 
+    # Fallback: try server.load_pair_index (in case local load failed)
     idx = None
     src = "none"
     try:
@@ -535,22 +588,15 @@ def lookup_pair_meta_for_relpath(
     return None
 
 
-# ----------------- MAIN ANALYSIS (using server.report) -----------------
 def analyze_pair_files(
     old_doc: Dict[str, Any],
     new_doc: Dict[str, Any],
     rel_path: Optional[str] = None,
     dataset_hint: Optional[str] = None,
 ) -> Dict[str, Any]:
-    """
-    Core CI analysis:
-      - infer pair_id from index.json (by filename)
-      - diff old/new via server.diff_openapi(...)
-      - call server.api_analyze(...) for risk
-      - enrich with backend/ui impacts from the graph
-    """
+    # Try to get pair_id upfront from index, regardless of server.report.
 
-    # ---------- 1. Pair / service hints from index ----------
+    # Try to get pair metadata (pair_id, service_name) upfront from index.
     pair_id_hint: Optional[str] = None
     service_from_index: Optional[str] = None
     if rel_path:
@@ -559,7 +605,6 @@ def analyze_pair_files(
             pair_id_hint = meta.get("pair_id")
             service_from_index = meta.get("service_name")
 
-    # ---------- 2. Diff old vs new to get ACEs ----------
     try:
         old2 = dereference_components(old_doc)
         new2 = dereference_components(new_doc)
@@ -591,50 +636,136 @@ def analyze_pair_files(
             dd["type"] = dd["type"].upper()
         diffs_serial.append(dd)
 
-    # ---------- 3. Call api_analyze for risk ----------
-    ds = dataset_hint or "openapi"
+    # CI path: do NOT call server.report here.
+    # Use api_analyze + graph enrichment instead.
+
+    # fallback to api_analyze
     try:
         baseline_str = json.dumps(old_doc)
         candidate_str = json.dumps(new_doc)
-        analy_raw = server.api_analyze(
+        analy = server.api_analyze(
             baseline=baseline_str,
             candidate=candidate_str,
-            dataset=ds,
+            dataset=None,
             options=None,
         )
     except Exception as e:
         print("WARN: server.api_analyze raised:", e, file=sys.stderr)
-        analy_raw = {}
+        analy = {
+            "run_id": None,
+            "predictions": [],
+            "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)},
+        }
 
-    if not isinstance(analy_raw, dict):
-        analy_raw = {}
+    if not isinstance(analy, dict):
+        analy = {"summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
 
-    summary = analy_raw.get("summary") or {}
     try:
-        score = float(
-            summary.get("service_risk", summary.get("risk_score", 0.0))
-        )
+        score = float((analy.get("summary") or {}).get("service_risk", 0.0))
     except Exception:
         score = 0.0
 
-    # ---------- 4. Graph-based backend / frontend impacts ----------
-    g = None
-    backend_impacts: List[Dict[str, Any]] = []
-    frontend_impacts: List[Dict[str, Any]] = []
-    producer_feats: Dict[str, Any] = {}
-
+    # enrichment: try to load graph if available
     try:
-        g = server.load_graph()
-        print("DEBUG: server.load_graph() returned:", type(g), file=sys.stderr)
+        g = None
+        try:
+            g = server.load_graph()
+            print("DEBUG: server.load_graph() returned:", type(g), file=sys.stderr)
+        except Exception as e:
+            print("DEBUG: server.load_graph() raised:", e, file=sys.stderr)
+            g = None
+
+        if g is None:
+            gp_candidates = []
+            gp = getattr(server, "GRAPH_PATH", None)
+            if gp:
+                gp_candidates.append(Path(str(gp)))
+
+            # default guesses
+            gp_candidates.append(HERE / "datasets" / "graph.json")
+            gp_candidates.append(REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json")
+
+            eff = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
+            if eff:
+                if isinstance(eff, Path):
+                    gp_candidates.append(eff / "graph.json")
+                else:
+                    gp_candidates.append(Path(str(eff)) / "graph.json")
+
+            # use same root where index.json lives (e.g. curated_clean)
+            from_ci_index_root = INDEX_ROOT
+            if from_ci_index_root:
+                try:
+                    from_ci_index_root = Path(from_ci_index_root)
+                    gp_candidates.append(from_ci_index_root / "graph.json")
+                except Exception:
+                    pass
+
+            seen = set()
+            for cand in gp_candidates:
+                try:
+                    candp = cand.resolve()
+                except Exception:
+                    candp = Path(cand)
+                if str(candp) in seen:
+                    continue
+                seen.add(str(candp))
+                if candp.exists():
+                    print(f"DEBUG: found graph.json at {candp}", file=sys.stderr)
+                    try:
+                        # IMPORTANT: keep GRAPH_PATH as a Path, not a string
+                        server.GRAPH_PATH = candp
+                        print(
+                            f"DEBUG: server.GRAPH_PATH forced to {server.GRAPH_PATH}",
+                            file=sys.stderr,
+                        )
+                        g = server.load_graph()
+                        print(
+                            "DEBUG: server.load_graph() after forcing GRAPH_PATH ->",
+                            type(g),
+                            file=sys.stderr,
+                        )
+                        break
+                    except Exception as e:
+                        print(
+                            "WARN: server.load_graph() after forcing GRAPH_PATH failed:",
+                            e,
+                            file=sys.stderr,
+                        )
+                        g = None
+
+            if g is None:
+                print("DEBUG: no usable graph loaded after trying candidates", file=sys.stderr)
     except Exception as e:
-        print("DEBUG: server.load_graph() raised:", e, file=sys.stderr)
+        print("WARN: graph enrichment step failed:", e, file=sys.stderr)
         g = None
 
-    # Service name to use in graph
-    service_guess: Optional[str] = None
+    service_guess = None
+
+    # 1) Prefer service_name from index.json
     if service_from_index:
         service_guess = service_from_index
-    elif rel_path:
+
+    # 1b) If index didn't have service_name, pull it from curated metadata
+    if not service_guess and pair_id_hint:
+        try:
+            meta2 = server.load_pair_metadata(pair_id_hint)
+            if isinstance(meta2, dict):
+                svc = meta2.get("service_name")
+                print(
+                    f"DEBUG: load_pair_metadata({pair_id_hint}) -> service_name={svc}",
+                    file=sys.stderr,
+                )
+                if svc:
+                    service_guess = svc
+        except Exception as e:
+            print(
+                f"DEBUG: load_pair_metadata({pair_id_hint}) failed: {repr(e)}",
+                file=sys.stderr,
+            )
+
+    # 2) Fallback: derive from filename if needed
+    if not service_guess and rel_path:
         try:
             stem = Path(rel_path).stem
             if "--v" in stem:
@@ -645,6 +776,8 @@ def analyze_pair_files(
                 service_guess = stem
         except Exception:
             service_guess = None
+
+    # 3) Final fallback: OpenAPI info.title
     if not service_guess:
         try:
             service_guess = (new_doc.get("info", {}) or {}).get("title")
@@ -653,98 +786,92 @@ def analyze_pair_files(
 
     print(f"DEBUG: service_guess used for graph = {service_guess}", file=sys.stderr)
 
-    if g is not None and service_guess:
-        try:
-            producer_feats = server.producer_features(g, service_guess)
 
+
+    pfeats: Dict[str, Any] = {}
+    be_imp: List[Dict[str, Any]] = []
+    fe_imp: List[Dict[str, Any]] = []
+    try:
+        if g is not None:
+            pfeats = server.producer_features(g, service_guess)
+
+            # 1) First try with explicit changed paths (path-aware)
             changed_paths = [
                 server.normalize_path(d.get("path"))
                 for d in diffs_serial
                 if d.get("path")
             ]
             print(
-                "DEBUG: changed_paths for impacts =",
-                changed_paths,
+                f"DEBUG: changed_paths for impacts = {changed_paths}",
                 file=sys.stderr,
             )
 
-            # 1) Normal path-filtered impacts
-            backend_impacts = server.backend_impacts(g, service_guess, changed_paths)
-            frontend_impacts = server.ui_impacts(g, service_guess, changed_paths)
+            be_imp = server.backend_impacts(g, service_guess, changed_paths)
+            fe_imp = server.ui_impacts(g, service_guess, changed_paths)
             print(
-                f"DEBUG: initial enriched impacts -> backend:{len(backend_impacts)} "
-                f"frontend:{len(frontend_impacts)}",
+                f"DEBUG: initial enriched impacts -> backend:{len(be_imp)} frontend:{len(fe_imp)}",
                 file=sys.stderr,
             )
 
-            # 2) Fallback: if nothing matched by path, try "any impact for this service"
-            if not backend_impacts and not frontend_impacts:
+            # 2) If nothing found, relax path filter and retry
+            if (not be_imp) or (not fe_imp):
                 print(
                     "DEBUG: impacts empty with path filter; retrying without path filter",
                     file=sys.stderr,
                 )
-                backend_impacts = server.backend_impacts(g, service_guess, None)
-                frontend_impacts = server.ui_impacts(g, service_guess, None)
-                print(
-                    f"DEBUG: fallback impacts (no path filter) -> "
-                    f"backend:{len(backend_impacts)} frontend:{len(frontend_impacts)}",
-                    file=sys.stderr,
-                )
-        except Exception as e:
-            print("WARN: enrichment impact computation failed:", e, file=sys.stderr)
-            backend_impacts = []
-            frontend_impacts = []
+                try:
+                    be_imp2 = server.backend_impacts(g, service_guess, [])
+                    fe_imp2 = server.ui_impacts(g, service_guess, [])
+                    print(
+                        f"DEBUG: fallback impacts (no path filter) -> backend:{len(be_imp2)} frontend:{len(fe_imp2)}",
+                        file=sys.stderr,
+                    )
+                    if be_imp2:
+                        be_imp = be_imp2
+                    if fe_imp2:
+                        fe_imp = fe_imp2
+                except Exception as e2:
+                    print(
+                        "WARN: fallback backend/ui impacts without path filter failed:",
+                        e2,
+                        file=sys.stderr,
+                    )
 
-    # ---------- 5. Explanation + pair id ----------
-    ai_expl = (
-        analy_raw.get("ai_explanation")
-        or analy_raw.get("explanation")
-        or ""
-    )
+            print(
+                f"DEBUG: final enriched impacts -> backend:{len(be_imp)} frontend:{len(fe_imp)}",
+                file=sys.stderr,
+            )
+        else:
+            print("DEBUG: skipping backend/ui impact heuristics (no graph)", file=sys.stderr)
+    except Exception as e:
+        print("WARN: enrichment impact computation failed:", e, file=sys.stderr)
+        be_imp = []
+        fe_imp = []
 
+
+    ai_expl = analy.get("explanation") or analy.get("ai_explanation") or ""
     if not ai_expl:
         try:
-            ai_expl = server.make_explanation(
-                score,
-                diffs,
-                producer_feats,
-                {},
-                backend_impacts,
-                frontend_impacts,
-            )
+            ai_expl = server.make_explanation(score, diffs, pfeats, {}, be_imp, fe_imp)
         except Exception:
             ai_expl = ""
 
-    final_pair_id = (
-        analy_raw.get("pair_id")
-        or pair_id_hint
-        or ""
-    )
-
-    print(
-        f"DEBUG: final summary.service_risk={score}, "
-        f"backend_impacts={len(backend_impacts)}, "
-        f"frontend_impacts={len(frontend_impacts)}",
-        file=sys.stderr,
-    )
+    # Ensure we propagate a pair_id if index knew it,
+    # even though api_analyze itself has no concept of pair_id.
+    final_pair_id = pair_id_hint or analy.get("pair_id") or ""
 
     return {
         "diffs": diffs_serial,
         "analyze": {
-            "summary": {
-                "service_risk": score,
-                "num_aces": len(diffs_serial),
-                **{k: v for k, v in summary.items() if k not in ("service_risk", "risk_score")},
-            },
-            "backend_impacts": backend_impacts,
-            "frontend_impacts": frontend_impacts,
+            "summary": {"service_risk": score, "num_aces": len(diffs_serial)},
+            "backend_impacts": be_imp,
+            "frontend_impacts": fe_imp,
             "ai_explanation": ai_expl,
             "pair_id": final_pair_id,
         },
     }
 
 
-# ----------------- main() -----------------
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--pr", default=os.environ.get("PR_NUMBER", "unknown"))
@@ -828,13 +955,7 @@ def main() -> int:
             print("WARN: analyze_pair_files exception:", e, file=sys.stderr)
             pair_res = {
                 "diffs": [],
-                "analyze": {
-                    "summary": {"service_risk": 0.0, "num_aces": 0},
-                    "backend_impacts": [],
-                    "frontend_impacts": [],
-                    "ai_explanation": "",
-                    "pair_id": "",
-                },
+                "analyze": {"summary": {"service_risk": 0.0, "num_aces": 0}, "predictions": []},
             }
 
         results.append({"file": rel, "result": pair_res})
@@ -852,26 +973,22 @@ def main() -> int:
     )
     print("Wrote full output to", args.output_full, file=sys.stderr)
 
-    # ----- compact summary (CI-friendly) -----
     max_risk = 0.0
     atomic_aces: List[Dict[str, Any]] = []
     pair_id_top = None
     ai_expl_top = None
-
     for e in results:
         analy = e["result"].get("analyze", {}) or {}
         summary = analy.get("summary") or {}
         try:
-            s_r = float(summary.get("service_risk", summary.get("risk_score", 0.0)))
+            s_r = float(summary.get("service_risk", 0.0))
         except Exception:
             s_r = 0.0
         max_risk = max(max_risk, s_r)
-
         for d in e["result"].get("diffs", []):
             if isinstance(d.get("type"), str):
                 d["type"] = d["type"].upper()
             atomic_aces.append(d)
-
         if not pair_id_top:
             pair_id_top = analy.get("pair_id")
         if not ai_expl_top:
