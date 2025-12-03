@@ -66,6 +66,7 @@ ML_METADATA: Dict[str, Any] = {}
 ML_LOADED = False
 
 
+
 # -------------------------
 # Report normalisation helpers
 # -------------------------
@@ -372,6 +373,46 @@ TYPE_MAP = {
     "PARAM_REQUIRED_ADDED": "param_required_added",
     "UNKNOWN": "unknown",
 }
+
+def _resolve_graph_path() -> Path:
+    """
+    Try to resolve graph.json in a variant-agnostic way.
+    This makes CI robust even if CURATED_ROOT is misconfigured.
+    """
+    candidates = []
+
+    # 1) All known curated_* variants (clean, noisy_light, noisy_heavy)
+    for vf in VARIANT_MAP.values():
+        try:
+            vdir = _variant_dir_for(vf)
+            candidates.append(vdir / "graph.json")
+        except Exception:
+            continue
+
+    # 2) Effective curated root (in case graph lives directly under it)
+    candidates.append(EFFECTIVE_CURATED_ROOT / "graph.json")
+
+    # 3) Container-level graph.json (fallback)
+    candidates.append(CURATED_CONTAINER / "graph.json")
+
+    # 4) Legacy fallback: datasets/curated/graph.json
+    candidates.append(Path("datasets/curated/graph.json"))
+
+    for p in candidates:
+        try:
+            if p and p.exists():
+                log.info("Resolved GRAPH_PATH -> %s", p)
+                return p
+        except Exception:
+            continue
+
+    # If nothing exists, log and fall back (graph will be empty but at least it is explicit)
+    fallback = EFFECTIVE_CURATED_ROOT / "graph.json"
+    log.warning("Could not resolve graph.json from candidates; falling back to %s", fallback)
+    return fallback
+
+# Use the resolver instead of hardcoding
+GRAPH_PATH = _resolve_graph_path()
 
 def normalize_type(t: Optional[str]) -> str:
     if not t:

@@ -188,7 +188,6 @@ def _find_index_json_under_datasets() -> Optional[Path]:
 INDEX_ROOT: Optional[Path] = None
 PAIR_INDEX: Optional[Dict[str, Any]] = None
 
-
 try:
     eff = getattr(server, "EFFECTIVE_CURATED_ROOT", None)
     if eff:
@@ -226,7 +225,7 @@ try:
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", repr(e), file=sys.stderr)
 
-INDEX_ROOT: Optional[Path] = None
+INDEX_ROOT = None
 
 try:
     idx_root = _find_index_json_under_datasets()
@@ -277,32 +276,30 @@ except Exception as e:
     print("WARN: error while attempting to find index root:", repr(e), file=sys.stderr)
 
 
-
-
-
 # GRAPH_PATH normalization (lightweight)
 try:
     gp = getattr(server, "GRAPH_PATH", None)
     if gp:
         res_gp = _resolve_candidate_root(str(gp))
         if res_gp and res_gp.exists():
-            server.GRAPH_PATH = str(res_gp)
+            # IMPORTANT: keep GRAPH_PATH as a Path, not a string
+            server.GRAPH_PATH = res_gp
             print(f"DEBUG: server.GRAPH_PATH resolved -> {server.GRAPH_PATH}", file=sys.stderr)
         else:
             cand1 = (HERE / "datasets" / "graph.json")
             cand2 = (REPO_ROOT / AI_CORE_DIR_ENV / "datasets" / "graph.json")
             if cand1.exists():
-                server.GRAPH_PATH = str(cand1.resolve())
+                server.GRAPH_PATH = cand1.resolve()
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             elif cand2.exists():
-                server.GRAPH_PATH = str(cand2.resolve())
+                server.GRAPH_PATH = cand2.resolve()
                 print(f"DEBUG: server.GRAPH_PATH forced -> {server.GRAPH_PATH}", file=sys.stderr)
             else:
                 print(f"DEBUG: server.GRAPH_PATH ({gp}) could not be resolved", file=sys.stderr)
     else:
         cand = (HERE / "datasets" / "graph.json")
         if cand.exists():
-            server.GRAPH_PATH = str(cand.resolve())
+            server.GRAPH_PATH = cand.resolve()
             print(f"DEBUG: server.GRAPH_PATH set -> {server.GRAPH_PATH}", file=sys.stderr)
 except Exception as e:
     print("WARN: error normalizing GRAPH_PATH:", repr(e), file=sys.stderr)
@@ -545,7 +542,6 @@ def _load_pair_index_any(dataset_key: Optional[str]) -> Optional[Dict[str, Any]]
     return None
 
 
-
 def lookup_pair_meta_for_relpath(
     relname: str, dataset_key: Optional[str] = None
 ) -> Optional[Dict[str, Any]]:
@@ -592,8 +588,6 @@ def lookup_pair_meta_for_relpath(
     return None
 
 
-
-
 def analyze_pair_files(
     old_doc: Dict[str, Any],
     new_doc: Dict[str, Any],
@@ -610,8 +604,6 @@ def analyze_pair_files(
         if meta:
             pair_id_hint = meta.get("pair_id")
             service_from_index = meta.get("service_name")
-
-
 
     try:
         old2 = dereference_components(old_doc)
@@ -721,7 +713,8 @@ def analyze_pair_files(
                 if candp.exists():
                     print(f"DEBUG: found graph.json at {candp}", file=sys.stderr)
                     try:
-                        server.GRAPH_PATH = str(candp)
+                        # IMPORTANT: keep GRAPH_PATH as a Path, not a string
+                        server.GRAPH_PATH = candp
                         print(
                             f"DEBUG: server.GRAPH_PATH forced to {server.GRAPH_PATH}",
                             file=sys.stderr,
@@ -772,8 +765,6 @@ def analyze_pair_files(
             service_guess = (new_doc.get("info", {}) or {}).get("title")
         except Exception:
             service_guess = "unknown"
-
-
 
     pfeats: Dict[str, Any] = {}
     be_imp: List[Dict[str, Any]] = []
