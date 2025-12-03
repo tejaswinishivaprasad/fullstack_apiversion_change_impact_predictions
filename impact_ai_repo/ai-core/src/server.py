@@ -52,7 +52,6 @@ VARIANT_MAP = {
     "noisy_heavy": "curated_noisy_heavy",
 }
 
-
 # Location of model artifact and feature columns relative to server working dir
 MODEL_ARTIFACT_DIR = Path(os.getenv("MODEL_ARTIFACT_DIR", "models"))
 MODEL_FILE = MODEL_ARTIFACT_DIR / "model.joblib"
@@ -64,6 +63,61 @@ ML_MODEL = None
 ML_FEATURE_COLS: Optional[List[str]] = None
 ML_METADATA: Dict[str, Any] = {}
 ML_LOADED = False
+
+
+def _discover_container(root: Path) -> Path:
+    # return container dir that holds curated_* folders; fallback to parent
+    try:
+        if root.exists():
+            # datasets/curated_* or datasets/index.json etc.
+            if (root / "index.json").exists() or (root / "canonical").exists() or root.name.startswith("curated"):
+                return root.parent
+            if any(p.is_dir() and p.name.startswith("curated") for p in root.iterdir()):
+                return root
+        return root.parent
+    except Exception:
+        return root.parent
+
+
+CURATED_CONTAINER = _discover_container(CURATED_ROOT_RAW)
+
+
+def _variant_dir_for(variant_folder: str) -> Path:
+    # return the directory for a variant name, try multiple sensible locations
+    cand = CURATED_CONTAINER / variant_folder
+    if cand.exists():
+        return cand
+    alt = CURATED_ROOT_RAW / variant_folder
+    if alt.exists():
+        return alt
+    # if CURATED_ROOT_RAW itself is a curated folder, use it
+    if CURATED_ROOT_RAW.exists() and (CURATED_ROOT_RAW / "index.json").exists():
+        return CURATED_ROOT_RAW
+    return cand  # may not exist, caller will handle
+
+
+# effective default curated root uses curated_clean if present else CURATED_ROOT_RAW
+DEFAULT_VARIANT = VARIANT_MAP["clean"]
+
+_effective = _variant_dir_for(DEFAULT_VARIANT)
+if isinstance(_effective, str):
+    _effective = Path(_effective)
+if not _effective.exists():
+    _effective = CURATED_ROOT_RAW
+EFFECTIVE_CURATED_ROOT: Path = _effective
+
+# global file paths bound to effective curated root (clean by default)
+INDEX_PATH = EFFECTIVE_CURATED_ROOT / "index.json"
+VERSION_META_PATH = EFFECTIVE_CURATED_ROOT / "version_meta.json"
+DATASET_OINDEX_PATH = EFFECTIVE_CURATED_ROOT / "dataset_oindex.json"
+VERSION_PAIRS_CSV = EFFECTIVE_CURATED_ROOT / "version_pairs.csv"
+
+log.info(
+    "Curated container=%s effective_curated=%s variant_override=%s",
+    CURATED_CONTAINER,
+    EFFECTIVE_CURATED_ROOT,
+    CURATION_VARIANT,
+)
 
 
 
@@ -377,9 +431,9 @@ TYPE_MAP = {
 def _resolve_graph_path() -> Path:
     """
     Try to resolve graph.json in a variant-agnostic way.
-    This makes CI robust even if CURATED_ROOT is misconfigured.
+    Always returns a Path. CI-safe even if CURATED_ROOT is misconfigured.
     """
-    candidates = []
+    candidates: List[Path] = []
 
     # 1) All known curated_* variants (clean, noisy_light, noisy_heavy)
     for vf in VARIANT_MAP.values():
@@ -392,27 +446,33 @@ def _resolve_graph_path() -> Path:
     # 2) Effective curated root (in case graph lives directly under it)
     candidates.append(EFFECTIVE_CURATED_ROOT / "graph.json")
 
-    # 3) Container-level graph.json (fallback)
+    # 3) Container-level graph.json (e.g., datasets/graph.json)
     candidates.append(CURATED_CONTAINER / "graph.json")
 
-    # 4) Legacy fallback: datasets/curated/graph.json
+    # 4) Also try directly under CURATED_ROOT_RAW
+    candidates.append(CURATED_ROOT_RAW / "graph.json")
+
+    # 5) Legacy fallback: datasets/curated/graph.json
     candidates.append(Path("datasets/curated/graph.json"))
 
     for p in candidates:
         try:
-            if p and p.exists():
+            p = Path(p)
+            if p.exists():
                 log.info("Resolved GRAPH_PATH -> %s", p)
                 return p
         except Exception:
             continue
 
     # If nothing exists, log and fall back (graph will be empty but at least it is explicit)
-    fallback = EFFECTIVE_CURATED_ROOT / "graph.json"
+    fallback = Path(EFFECTIVE_CURATED_ROOT) / "graph.json"
     log.warning("Could not resolve graph.json from candidates; falling back to %s", fallback)
     return fallback
 
+
 # Use the resolver instead of hardcoding
-GRAPH_PATH = _resolve_graph_path()
+GRAPH_PATH: Path = _resolve_graph_path()
+
 
 def normalize_type(t: Optional[str]) -> str:
     if not t:
@@ -568,7 +628,15 @@ def _load_json_or_yaml(p: Path) -> Any:
             log.warning("Failed to parse JSON/YAML at %s", p)
             return {}
 
-def read_json(p: Path) -> Dict[str, Any]:
+def read_json(p: Union[str, Path]) -> Dict[str, Any]:
+    """
+    Safe JSON reader that accepts either str or Path and never raises on missing files.
+    """
+    try:
+        p = Path(p)
+    except Exception:
+        log.warning("read_json: invalid path %r", p)
+        return {}
     if not p.exists():
         return {}
     try:
@@ -576,6 +644,7 @@ def read_json(p: Path) -> Dict[str, Any]:
     except Exception:
         log.warning("Failed to parse JSON at %s", p)
         return {}
+
 
 def _safe_json_for_key(obj: Any) -> str:
     try:
@@ -757,13 +826,32 @@ def load_pair_metadata(pair_id: Optional[str], dataset_hint: Optional[str] = Non
 
 # ---------- graph loader ----------
 def load_graph() -> nx.DiGraph:
-    data = read_json(GRAPH_PATH)
+    """
+    Load the dependency graph from GRAPH_PATH.
+    Never raises; returns an empty DiGraph on failure.
+    """
     g = nx.DiGraph()
-    for e in data.get("edges", []):
-        src = e.get("src"); dst = e.get("dst")
-        if src and dst:
-            g.add_edge(src, dst, path=e.get("path"), evidence=e.get("evidence"), confidence=e.get("confidence", 0.5), provenance=e.get("provenance", {}))
+    try:
+        data = read_json(GRAPH_PATH)
+        if not isinstance(data, dict):
+            log.warning("load_graph: unexpected JSON structure at %s", GRAPH_PATH)
+            return g
+        for e in data.get("edges", []):
+            src = e.get("src")
+            dst = e.get("dst")
+            if src and dst:
+                g.add_edge(
+                    src,
+                    dst,
+                    path=e.get("path"),
+                    evidence=e.get("evidence"),
+                    confidence=e.get("confidence", 0.5),
+                    provenance=e.get("provenance", {}),
+                )
+    except Exception:
+        log.exception("load_graph: failed to load graph from %s", GRAPH_PATH)
     return g
+
 
 # ---------- simple graph helpers ----------
 def producer_node(service: str) -> str:
