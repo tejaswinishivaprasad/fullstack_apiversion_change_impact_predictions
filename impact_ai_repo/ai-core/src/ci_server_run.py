@@ -545,9 +545,12 @@ def analyze_pair_files(
     """
     Core CI analysis:
       - infer pair_id from index.json (by filename)
-      - call server.report(...) to reuse full pipeline (diff + ML + graph)
-      - normalise into { "diffs": [...], "analyze": {...} } for downstream
+      - diff old/new via server.diff_openapi(...)
+      - call server.api_analyze(...) for risk
+      - enrich with backend/ui impacts from the graph
     """
+
+    # ---------- 1. Pair / service hints from index ----------
     pair_id_hint: Optional[str] = None
     service_from_index: Optional[str] = None
     if rel_path:
@@ -556,87 +559,188 @@ def analyze_pair_files(
             pair_id_hint = meta.get("pair_id")
             service_from_index = meta.get("service_name")
 
-    # dataset fallback
-    ds = dataset_hint or "openapi"
-
-    # Convert docs to strings for server.report
-    old_str = json.dumps(old_doc) if old_doc else "{}"
-    new_str = json.dumps(new_doc) if new_doc else "{}"
-
-    # Call server.report (FastAPI route handler, but callable directly)
+    # ---------- 2. Diff old vs new to get ACEs ----------
     try:
-        rep = server.report(
-            dataset=ds,
-            old=old_str,
-            new=new_str,
-            pair_id=pair_id_hint,
-        )
-    except Exception as e:
-        print("WARN: server.report raised during CI:", e, file=sys.stderr)
-        # Fallback minimal skeleton
-        return {
-            "diffs": [],
-            "analyze": {
-                "summary": {"service_risk": 0.0, "num_aces": 0},
-                "backend_impacts": [],
-                "frontend_impacts": [],
-                "ai_explanation": "",
-                "pair_id": pair_id_hint or "",
-            },
-        }
-
-    # Pydantic model → dict
-    try:
-        if hasattr(rep, "model_dump"):
-            rep_dict = rep.model_dump()
-        elif hasattr(rep, "dict"):
-            rep_dict = rep.dict()
-        else:
-            rep_dict = dict(rep)
+        old2 = dereference_components(old_doc)
+        new2 = dereference_components(new_doc)
     except Exception:
-        rep_dict = rep if isinstance(rep, dict) else {}
+        old2, new2 = old_doc, new_doc
 
-    # Extract atomic change events
+    try:
+        diffs = server.diff_openapi(old2, new2)
+    except Exception as e:
+        print("WARN: server.diff_openapi failed:", e, file=sys.stderr)
+        diffs = []
+
     diffs_serial: List[Dict[str, Any]] = []
-    raw_aces = rep_dict.get("atomic_change_events") or rep_dict.get("aces") or []
-    for d in raw_aces:
+    for d in diffs:
         try:
-            dd = dict(d)
+            if hasattr(d, "dict"):
+                dd = d.dict()
+            else:
+                dd = {
+                    "type": getattr(d, "type", None),
+                    "path": getattr(d, "path", None),
+                    "method": getattr(d, "method", None),
+                    "detail": getattr(d, "detail", None),
+                    "ace_id": getattr(d, "ace_id", None),
+                }
         except Exception:
             dd = {"type": str(d)}
         if "type" in dd and isinstance(dd["type"], str):
             dd["type"] = dd["type"].upper()
         diffs_serial.append(dd)
 
-    summary = rep_dict.get("summary") or {}
+    # ---------- 3. Call api_analyze for risk ----------
+    ds = dataset_hint or "openapi"
     try:
-        score = float(summary.get("service_risk", summary.get("risk_score", 0.0)))
+        baseline_str = json.dumps(old_doc)
+        candidate_str = json.dumps(new_doc)
+        analy_raw = server.api_analyze(
+            baseline=baseline_str,
+            candidate=candidate_str,
+            dataset=ds,
+            options=None,
+        )
+    except Exception as e:
+        print("WARN: server.api_analyze raised:", e, file=sys.stderr)
+        analy_raw = {}
+
+    if not isinstance(analy_raw, dict):
+        analy_raw = {}
+
+    summary = analy_raw.get("summary") or {}
+    try:
+        score = float(
+            summary.get("service_risk", summary.get("risk_score", 0.0))
+        )
     except Exception:
         score = 0.0
 
-    backend_impacts = rep_dict.get("backend_impacts") or []
-    frontend_impacts = rep_dict.get("frontend_impacts") or []
-    ai_expl = rep_dict.get("ai_explanation") or rep_dict.get("explanation") or ""
-    final_pair_id = rep_dict.get("pair_id") or pair_id_hint or ""
+    # ---------- 4. Graph-based backend / frontend impacts ----------
+    g = None
+    backend_impacts: List[Dict[str, Any]] = []
+    frontend_impacts: List[Dict[str, Any]] = []
+    producer_feats: Dict[str, Any] = {}
 
-    # Log for sanity
+    try:
+        g = server.load_graph()
+        print("DEBUG: server.load_graph() returned:", type(g), file=sys.stderr)
+    except Exception as e:
+        print("DEBUG: server.load_graph() raised:", e, file=sys.stderr)
+        g = None
+
+    # Service name to use in graph
+    service_guess: Optional[str] = None
+    if service_from_index:
+        service_guess = service_from_index
+    elif rel_path:
+        try:
+            stem = Path(rel_path).stem
+            if "--v" in stem:
+                service_guess = stem.split("--v")[0]
+            elif "-v" in stem:
+                service_guess = stem.split("-v")[0]
+            else:
+                service_guess = stem
+        except Exception:
+            service_guess = None
+    if not service_guess:
+        try:
+            service_guess = (new_doc.get("info", {}) or {}).get("title")
+        except Exception:
+            service_guess = "unknown"
+
+    print(f"DEBUG: service_guess used for graph = {service_guess}", file=sys.stderr)
+
+    if g is not None and service_guess:
+        try:
+            producer_feats = server.producer_features(g, service_guess)
+
+            changed_paths = [
+                server.normalize_path(d.get("path"))
+                for d in diffs_serial
+                if d.get("path")
+            ]
+            print(
+                "DEBUG: changed_paths for impacts =",
+                changed_paths,
+                file=sys.stderr,
+            )
+
+            # 1) Normal path-filtered impacts
+            backend_impacts = server.backend_impacts(g, service_guess, changed_paths)
+            frontend_impacts = server.ui_impacts(g, service_guess, changed_paths)
+            print(
+                f"DEBUG: initial enriched impacts -> backend:{len(backend_impacts)} "
+                f"frontend:{len(frontend_impacts)}",
+                file=sys.stderr,
+            )
+
+            # 2) Fallback: if nothing matched by path, try "any impact for this service"
+            if not backend_impacts and not frontend_impacts:
+                print(
+                    "DEBUG: impacts empty with path filter; retrying without path filter",
+                    file=sys.stderr,
+                )
+                backend_impacts = server.backend_impacts(g, service_guess, None)
+                frontend_impacts = server.ui_impacts(g, service_guess, None)
+                print(
+                    f"DEBUG: fallback impacts (no path filter) -> "
+                    f"backend:{len(backend_impacts)} frontend:{len(frontend_impacts)}",
+                    file=sys.stderr,
+                )
+        except Exception as e:
+            print("WARN: enrichment impact computation failed:", e, file=sys.stderr)
+            backend_impacts = []
+            frontend_impacts = []
+
+    # ---------- 5. Explanation + pair id ----------
+    ai_expl = (
+        analy_raw.get("ai_explanation")
+        or analy_raw.get("explanation")
+        or ""
+    )
+
+    if not ai_expl:
+        try:
+            ai_expl = server.make_explanation(
+                score,
+                diffs,
+                producer_feats,
+                {},
+                backend_impacts,
+                frontend_impacts,
+            )
+        except Exception:
+            ai_expl = ""
+
+    final_pair_id = (
+        analy_raw.get("pair_id")
+        or pair_id_hint
+        or ""
+    )
+
     print(
-        f"DEBUG: report summary.service_risk={score}, "
-        f"backend_impacts={len(backend_impacts)}, frontend_impacts={len(frontend_impacts)}",
+        f"DEBUG: final summary.service_risk={score}, "
+        f"backend_impacts={len(backend_impacts)}, "
+        f"frontend_impacts={len(frontend_impacts)}",
         file=sys.stderr,
     )
 
-    analyze_block = {
-        "summary": summary or {"service_risk": score, "num_aces": len(diffs_serial)},
-        "backend_impacts": backend_impacts,
-        "frontend_impacts": frontend_impacts,
-        "ai_explanation": ai_expl,
-        "pair_id": final_pair_id,
-    }
-
     return {
         "diffs": diffs_serial,
-        "analyze": analyze_block,
+        "analyze": {
+            "summary": {
+                "service_risk": score,
+                "num_aces": len(diffs_serial),
+                **{k: v for k, v in summary.items() if k not in ("service_risk", "risk_score")},
+            },
+            "backend_impacts": backend_impacts,
+            "frontend_impacts": frontend_impacts,
+            "ai_explanation": ai_expl,
+            "pair_id": final_pair_id,
+        },
     }
 
 
