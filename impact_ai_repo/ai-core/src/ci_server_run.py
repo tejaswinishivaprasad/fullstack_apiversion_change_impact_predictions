@@ -794,35 +794,60 @@ def analyze_pair_files(
     try:
         if g is not None:
             pfeats = server.producer_features(g, service_guess)
+
+            # 1) First try with explicit changed paths (path-aware)
             changed_paths = [
                 server.normalize_path(d.get("path"))
                 for d in diffs_serial
                 if d.get("path")
             ]
+            print(
+                f"DEBUG: changed_paths for impacts = {changed_paths}",
+                file=sys.stderr,
+            )
+
             be_imp = server.backend_impacts(g, service_guess, changed_paths)
             fe_imp = server.ui_impacts(g, service_guess, changed_paths)
             print(
-                f"DEBUG: enriched impacts -> backend:{len(be_imp)} frontend:{len(fe_imp)}",
+                f"DEBUG: initial enriched impacts -> backend:{len(be_imp)} frontend:{len(fe_imp)}",
                 file=sys.stderr,
             )
-            if not be_imp:
+
+            # 2) If nothing found, relax path filter and retry
+            if (not be_imp) or (not fe_imp):
                 print(
-                    "DEBUG: backend_impacts empty; possible reasons: graph has no svc->svc "
-                    "predecessors for service or changed_paths didn't match edge path fields",
+                    "DEBUG: impacts empty with path filter; retrying without path filter",
                     file=sys.stderr,
                 )
-            if not fe_imp:
-                print(
-                    "DEBUG: frontend_impacts empty; possible reasons: no ui predecessors or "
-                    "path mismatch",
-                    file=sys.stderr,
-                )
+                try:
+                    be_imp2 = server.backend_impacts(g, service_guess, [])
+                    fe_imp2 = server.ui_impacts(g, service_guess, [])
+                    print(
+                        f"DEBUG: fallback impacts (no path filter) -> backend:{len(be_imp2)} frontend:{len(fe_imp2)}",
+                        file=sys.stderr,
+                    )
+                    if be_imp2:
+                        be_imp = be_imp2
+                    if fe_imp2:
+                        fe_imp = fe_imp2
+                except Exception as e2:
+                    print(
+                        "WARN: fallback backend/ui impacts without path filter failed:",
+                        e2,
+                        file=sys.stderr,
+                    )
+
+            print(
+                f"DEBUG: final enriched impacts -> backend:{len(be_imp)} frontend:{len(fe_imp)}",
+                file=sys.stderr,
+            )
         else:
             print("DEBUG: skipping backend/ui impact heuristics (no graph)", file=sys.stderr)
     except Exception as e:
         print("WARN: enrichment impact computation failed:", e, file=sys.stderr)
         be_imp = []
         fe_imp = []
+
 
     ai_expl = analy.get("explanation") or analy.get("ai_explanation") or ""
     if not ai_expl:
