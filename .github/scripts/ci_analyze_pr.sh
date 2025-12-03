@@ -288,24 +288,27 @@ post_and_gate() {
       printf '```\n%s\n```\n\n' "$EXPL_PRETTY"
     fi
 
-    # Raw report in collapsible block; pretty-print and limit lines
-    printf "<details>\n<summary>Raw report (click to expand)</summary>\n\n"
-    printf "```json\n"
+       # Raw report in collapsible block; pretty-print and limit lines
+    MAX_LINES=${MAX_LINES:-500}
+    RAW_PRETTY=""
 
     if [ -f "$OUT" ]; then
       if command -v jq >/dev/null 2>&1; then
-        jq . "$OUT" 2>/dev/null || cat "$OUT"
+        RAW_PRETTY="$(jq . "$OUT" 2>/dev/null | sed -n "1,${MAX_LINES}p" || sed -n "1,${MAX_LINES}p" "$OUT")"
       else
-        cat "$OUT"
+        RAW_PRETTY="$(sed -n "1,${MAX_LINES}p" "$OUT")"
       fi
     else
-      printf "{ \"error\": \"report file not found at %s\" }\n" "$OUT"
+      RAW_PRETTY="{ \"error\": \"report file not found at $OUT\" }"
     fi
 
-    printf "\n```\n</details>\n\n"
+    printf "<details>\n<summary>Raw report (click to expand)</summary>\n\n"
+    printf '```json\n%s\n```\n' "$RAW_PRETTY"
+    printf "\n</details>\n\n"
 
     printf "%s\n" "$SENTINEL"
   } > "${BODY_FILE}"
+
 
   # Dedupe: skip posting if comment with identical sentinel already exists
   if comment_exists "$SENTINEL"; then
