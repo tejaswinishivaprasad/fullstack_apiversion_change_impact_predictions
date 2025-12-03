@@ -104,6 +104,8 @@ comment_exists() {
   return 1
 }
 
+
+
 # Post comment to PR and gate the job based on report
 post_and_gate() {
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
@@ -247,7 +249,7 @@ post_and_gate() {
     BADGE="🟢 PASS (${BAND:-n/a})"
   fi
 
-  QUICK_LINE="Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE}"
+  QUICK_LINE="Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE} | ACE Count: ${ACES}"
 
   echo "post_and_gate: $QUICK_LINE"
 

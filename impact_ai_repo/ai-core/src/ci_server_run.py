@@ -723,14 +723,23 @@ def analyze_pair_files(
     except Exception:
         model_score = 0.0
 
-    # Risk from heuristic (always defined)
+    # Risk from heuristic (fallback only)
     heuristic_score = heuristic_risk_from_diffs(diffs_serial)
-    final_score = max(model_score, heuristic_score)
+
+    # If model is available, trust it. Otherwise, fall back to heuristic.
+    if model_score > 0:
+        final_score = model_score
+        source = "model"
+    else:
+        final_score = heuristic_score
+        source = "heuristic"
 
     print(
-        f"DEBUG: risk model={model_score:.3f} heuristic={heuristic_score:.3f} final={final_score:.3f}",
+        f"DEBUG: risk model={model_score:.3f} heuristic={heuristic_score:.3f} "
+        f"final={final_score:.3f} source={source}",
         file=sys.stderr,
     )
+
 
     # enrichment: try to load graph if available
     g = None
@@ -829,7 +838,16 @@ def analyze_pair_files(
 
     # Ensure we propagate a pair_id if index knew it,
     # even though api_analyze itself has no concept of pair_id.
+    # Ensure we propagate a pair_id if index knew it,
+    # even though api_analyze itself has no concept of pair_id.
     final_pair_id = pair_id_hint or analy_raw.get("pair_id") or ""
+
+    # Attach deterministic ace_id if missing, same style as UI:
+    #   <pair_id>::ace::<index>
+    if final_pair_id:
+        for idx, dd in enumerate(diffs_serial):
+            if not dd.get("ace_id"):
+                dd["ace_id"] = f"{final_pair_id}::ace::{idx}"
 
     return {
         "diffs": diffs_serial,
@@ -840,6 +858,8 @@ def analyze_pair_files(
             "ai_explanation": ai_expl,
             "pair_id": final_pair_id,
         },
+    
+
     }
 
 
