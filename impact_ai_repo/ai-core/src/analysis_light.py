@@ -11,18 +11,12 @@ It:
  - runs diff_openapi + api_analyze
  - loads graph.json for backend/frontend impact heuristics
  - writes:
-     pr-impact-full.json   (detailed)
+     pr-impact-full.json  (detailed)
      pr-impact-report.json (compact summary)
-
-CLI (all optional, for CI integration):
-  --pr <num>                       PR number (for metadata only)
-  --output-full <path>             path for full JSON (default: pr-impact-full.json in repo root)
-  --output-summary / --output <p>  path for summary JSON (default: pr-impact-report.json in repo root)
 """
 
 from __future__ import annotations
 
-import argparse
 import json
 import os
 import subprocess
@@ -54,11 +48,6 @@ def run_cmd(cmd: List[str]) -> Tuple[int, str]:
         return e.returncode, e.output.decode() if e.output else ""
     except Exception as e:
         return 1, str(e)
-
-
-def git_show_file(ref_path: str) -> str:
-    code, out = run_cmd(["git", "show", ref_path])
-    return out if code == 0 else ""
 
 
 def git_changed_files() -> List[str]:
@@ -103,6 +92,7 @@ def load_json_text(text: str) -> Dict[str, Any]:
         return json.loads(text)
     except Exception:
         try:
+            # text may actually be path content; be forgiving
             return server._load_json_or_yaml(Path(text))  # type: ignore[attr-defined]
         except Exception:
             return {}
@@ -166,7 +156,7 @@ def detect_variant_root(rel: str) -> Optional[Path]:
     """
     From a changed path like:
       impact_ai_repo/ai-core/src/datasets/curated_clean/openapi/canonical/...
-    derive variant_root = HERE/datasets/curated_clean
+    we derive variant_root = HERE/datasets/curated_clean
     """
     parts = Path(rel).parts
     if "datasets" not in parts:
@@ -180,8 +170,12 @@ def detect_variant_root(rel: str) -> Optional[Path]:
 
 
 def ensure_graph_loaded_for_variant(variant_root: Optional[Path]) -> Optional[Any]:
+    """
+    Try to load graph.json for the given variant, with sane fallbacks.
+    """
     g = None
     try:
+        # Try existing graph first
         g = server.load_graph()
         if g is not None:
             print("DEBUG[analysis_light]: server.load_graph() already returns", type(g), file=sys.stderr)
@@ -196,10 +190,7 @@ def ensure_graph_loaded_for_variant(variant_root: Optional[Path]) -> Optional[An
 
     seen = set()
     for c in candidates:
-        try:
-            cp = c.resolve()
-        except Exception:
-            cp = c
+        cp = c.resolve()
         if str(cp) in seen:
             continue
         seen.add(str(cp))
@@ -248,7 +239,6 @@ def analyze_pair_files(old_doc: Dict[str, Any],
                     "ace_id": getattr(d, "ace_id", None),
                 }
         except Exception:
-        # worst case we preserve str
             dd = {"type": str(d)}
         if isinstance(dd.get("type"), str):
             dd["type"] = dd["type"].upper()
@@ -310,10 +300,8 @@ def analyze_pair_files(old_doc: Dict[str, Any],
                              for d in diffs_serial if d.get("path")]
             be_imp = server.backend_impacts(g, service_guess, changed_paths)
             fe_imp = server.ui_impacts(g, service_guess, changed_paths)
-            print(
-                f"DEBUG[analysis_light]: enriched impacts -> backend={len(be_imp)} frontend={len(fe_imp)}",
-                file=sys.stderr,
-            )
+            print(f"DEBUG[analysis_light]: enriched impacts -> backend={len(be_imp)} frontend={len(fe_imp)}",
+                  file=sys.stderr)
         else:
             print("DEBUG[analysis_light]: skipping backend/ui impact enrichment (no graph)", file=sys.stderr)
     except Exception as e:
@@ -338,36 +326,15 @@ def analyze_pair_files(old_doc: Dict[str, Any],
     }
 
 
-def _band_label(score: float) -> Tuple[str, str]:
-    if score >= 0.7:
-        return "High", "BLOCK"
-    if score >= 0.4:
-        return "Medium", "WARN"
-    return "Low", "PASS"
-
-
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--pr", default=os.environ.get("PR_NUMBER", "unknown"))
-    parser.add_argument("--output-full", default=None)
-    # support both --output-summary and legacy --output
-    parser.add_argument("--output-summary", "--output", dest="output_summary", default=None)
-    args = parser.parse_args()
-
-    pr_number = str(args.pr)
-
     changed = git_changed_files()
     print("CI[analysis_light]: changed files:", changed, file=sys.stderr)
 
     api_files = [f for f in changed if f.lower().endswith((".json", ".yaml", ".yml"))]
 
-    # focus on dataset canonical files in any curated variant
-    curated_markers = [
-        "datasets/curated_clean",
-        "datasets/curated_noisy_light",
-        "datasets/curated_noisy_heavy",
-        "/canonical/",
-    ]
+    # focus only on dataset canonical files (any curated variant)
+    curated_markers = ["datasets/curated_clean", "datasets/curated_noisy_light",
+                       "datasets/curated_noisy_heavy", "/canonical/"]
     api_files = [f for f in api_files if any(tok in f for tok in curated_markers)] or api_files
 
     results: List[Dict[str, Any]] = []
@@ -390,6 +357,7 @@ def main() -> int:
                     blob = git_show_file(f"origin/main:{rel}")
                     old_doc = load_json_text(blob) if blob else {}
             else:
+                # purely historical file (unlikely in your workflow, but keep it safe)
                 blob_new = git_show_file(f"HEAD:{rel}")
                 new_doc = load_json_text(blob_new) if blob_new else {}
                 blob_old = git_show_file(f"origin/main:{rel}")
@@ -406,19 +374,14 @@ def main() -> int:
 
         results.append({"file": rel, "result": pair_res})
 
-    # decide output paths
-    full_path = Path(args.output_full) if args.output_full else (REPO_ROOT / "pr-impact-full.json")
-    summary_path = Path(args.output_summary) if args.output_summary else (REPO_ROOT / "pr-impact-report.json")
-
     full_out = {
         "status": "ok" if results else "partial",
-        "pr": pr_number,
         "files_changed": files_processed,
         "files_analyzed": len(results),
         "entries": results,
     }
-    full_path.write_text(json.dumps(full_out, indent=2), encoding="utf-8")
-    print(f"CI[analysis_light]: wrote full output to {full_path}", file=sys.stderr)
+    (REPO_ROOT / "pr-impact-full.json").write_text(json.dumps(full_out, indent=2), encoding="utf-8")
+    print("CI[analysis_light]: wrote full output to pr-impact-full.json", file=sys.stderr)
 
     max_risk = 0.0
     atomic_aces: List[Dict[str, Any]] = []
@@ -439,11 +402,17 @@ def main() -> int:
         if not ai_expl_top:
             ai_expl_top = analy.get("ai_explanation") or analy.get("explanation")
 
+    def _band_label(score: float):
+        if score >= 0.7:
+            return "High", "BLOCK"
+        if score >= 0.4:
+            return "Medium", "WARN"
+        return "Low", "PASS"
+
     band, level = _band_label(max_risk)
 
     compact = {
         "status": full_out["status"],
-        "pr": pr_number,
         "files_changed": files_processed,
         "api_files_changed": files_processed,
         "atomic_change_events": atomic_aces,
@@ -451,10 +420,13 @@ def main() -> int:
             "score": round(float(max_risk), 3),
             "label": "high" if max_risk >= 0.6 else "medium" if max_risk >= 0.25 else "low",
             "breaking_count": sum(
-                1
-                for a in atomic_aces
-                if a.get("type", "").lower()
-                in ("param_changed", "response_schema_changed", "requestbody_schema_changed", "endpoint_removed")
+                1 for a in atomic_aces
+                if a.get("type", "").lower() in (
+                    "param_changed",
+                    "response_schema_changed",
+                    "requestbody_schema_changed",
+                    "endpoint_removed",
+                )
             ),
             "total_aces": len(atomic_aces),
         },
@@ -464,9 +436,14 @@ def main() -> int:
         "ai_explanation": ai_expl_top or "",
     }
 
-    summary_path.write_text(json.dumps(compact, indent=2), encoding="utf-8")
-    print(f"CI[analysis_light]: wrote summary to {summary_path}", file=sys.stderr)
+    (REPO_ROOT / "pr-impact-report.json").write_text(json.dumps(compact, indent=2), encoding="utf-8")
+    print("CI[analysis_light]: wrote summary to pr-impact-report.json", file=sys.stderr)
     return 0
+
+
+def git_show_file(ref_path: str) -> str:
+    code, out = run_cmd(["git", "show", ref_path])
+    return out if code == 0 else ""
 
 
 if __name__ == "__main__":
