@@ -44,7 +44,7 @@
     },
     {
       "src": "svc:catalog-service",
-      "dst": "svc:catalog-service",
+      "dst": "svc:petclinic-order-service",
       "path": "/ipaccesssettings/orderid",
       "evidence": "curation-svc",
       "confidence": 0.78
