@@ -30,7 +30,7 @@
     "url": "https://www.abstractapi.com/ip-geolocation-api#docs"
   },
   "paths": {
-    "/orders/{id}": {
+    "/carts/{id}": {
       "get": {
         "description": "Retrieve the location of an IP address",
         "parameters": [
@@ -215,7 +215,7 @@
             "url": "https://ipgeolocation.abstractapi.com"
           }
         ],
-        "operationId": "get-orders-id-v2"
+        "operationId": "get-carts-id-v2"
       },
       "servers": [
         {
