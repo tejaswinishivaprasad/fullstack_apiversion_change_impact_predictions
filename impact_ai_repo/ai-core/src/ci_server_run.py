@@ -224,6 +224,8 @@ try:
 except Exception as e:
     print("WARN: error normalizing EFFECTIVE_CURATED_ROOT:", repr(e), file=sys.stderr)
 
+INDEX_ROOT: Optional[Path] = None
+
 try:
     idx_root = _find_index_json_under_datasets()
     if idx_root:
@@ -233,8 +235,18 @@ try:
             f"DEBUG: index.json root candidate={idx_root}, existing EFFECTIVE_CURATED_ROOT={getattr(server, 'EFFECTIVE_CURATED_ROOT', None)}",
             file=sys.stderr,
         )
-        # IMPORTANT: do NOT override server.INDEX_PATH here.
-        # Let server.load_pair_index() use its own defaults (which worked before).
+
+        # Tell server where the global pair index lives
+        index_path = idx_root / "index.json"
+        try:
+            server.INDEX_PATH = index_path
+        except Exception:
+            setattr(server, "INDEX_PATH", index_path)
+        print(
+            f"DEBUG: server.INDEX_PATH -> {getattr(server, 'INDEX_PATH', None)} "
+            f"(exists={index_path.exists()})",
+            file=sys.stderr,
+        )
     else:
         print(
             "WARN: Could not locate any index.json under candidate dataset roots. "
@@ -243,6 +255,8 @@ try:
         )
 except Exception as e:
     print("WARN: error while attempting to find index root:", repr(e), file=sys.stderr)
+
+
 
 
 # GRAPH_PATH normalization (lightweight)
@@ -499,10 +513,12 @@ def _load_pair_index_any(dataset_key: Optional[str]) -> Optional[Dict[str, Any]]
     return None
 
 
-def lookup_pair_id_for_relpath(relname: str, dataset_key: Optional[str] = None) -> Optional[str]:
+def lookup_pair_meta_for_relpath(
+    relname: str, dataset_key: Optional[str] = None
+) -> Optional[Dict[str, Any]]:
     """
-    Best-effort: infer pair_id from index.json based on filename only.
-    This is used even if server.report is not called, so CI still surfaces pair_id.
+    Best-effort: infer pair metadata (pair_id, service_name, etc.)
+    from index.json based on filename only.
     """
     if not relname:
         return None
@@ -522,15 +538,18 @@ def lookup_pair_id_for_relpath(relname: str, dataset_key: Optional[str] = None) 
             mn_name = Path(str(mn_raw)).name.lower()
             if name_lower in (mo_name, mn_name):
                 print(
-                    f"DEBUG: lookup_pair_id_for_relpath matched rel={name} to pid={pid}",
+                    f"DEBUG: lookup_pair_meta_for_relpath matched rel={name} to pid={pid}",
                     file=sys.stderr,
                 )
-                return pid
+                out = dict(meta)
+                out.setdefault("pair_id", pid)
+                return out
         except Exception as e:
-            print("DEBUG: error iterating index entry in lookup_pair_id:", repr(e), file=sys.stderr)
+            print("DEBUG: error iterating index entry in lookup_pair_meta:", repr(e), file=sys.stderr)
             continue
-    print(f"DEBUG: lookup_pair_id_for_relpath found no match for {name}", file=sys.stderr)
+    print(f"DEBUG: lookup_pair_meta_for_relpath found no match for {name}", file=sys.stderr)
     return None
+
 
 
 def analyze_pair_files(
@@ -540,9 +559,15 @@ def analyze_pair_files(
     dataset_hint: Optional[str] = None,
 ) -> Dict[str, Any]:
     # Try to get pair_id upfront from index, regardless of server.report.
+
     pair_id_hint: Optional[str] = None
+    service_from_index: Optional[str] = None
     if rel_path:
-        pair_id_hint = lookup_pair_id_for_relpath(rel_path, dataset_hint)
+        meta = lookup_pair_meta_for_relpath(rel_path, dataset_hint)
+        if meta:
+            pair_id_hint = meta.get("pair_id")
+            service_from_index = meta.get("service_name")
+
 
     try:
         old2 = dereference_components(old_doc)
@@ -679,7 +704,13 @@ def analyze_pair_files(
         g = None
 
     service_guess = None
-    if rel_path:
+
+    # 1) Prefer service_name from index.json
+    if service_from_index:
+        service_guess = service_from_index
+
+    # 2) Fallback: derive from filename if index had nothing
+    if not service_guess and rel_path:
         try:
             stem = Path(rel_path).stem
             if "--v" in stem:
@@ -690,11 +721,14 @@ def analyze_pair_files(
                 service_guess = stem
         except Exception:
             service_guess = None
+
+    # 3) Final fallback: OpenAPI info.title
     if not service_guess:
         try:
             service_guess = (new_doc.get("info", {}) or {}).get("title")
         except Exception:
             service_guess = "unknown"
+
 
     pfeats: Dict[str, Any] = {}
     be_imp: List[Dict[str, Any]] = []
