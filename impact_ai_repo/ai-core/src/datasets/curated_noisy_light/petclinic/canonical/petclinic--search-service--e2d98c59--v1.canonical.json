@@ -3,9 +3,7 @@
     "/pets": {
       "get": {
         "responses": {
-          "200": {
-            "description": "ok"
-          }
+          "200": { "description": "ok" }
         },
         "parameters": [
           {
@@ -13,11 +11,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": [
-                "available",
-                "adopted",
-                "foster"
-              ]
+              "enum": ["available", "adopted", "foster"]
             },
             "required": false
           }
@@ -26,69 +20,44 @@
       "post": {
         "requestBody": {
           "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
+            "application/json": { "schema": { "type": "object" } }
           }
         },
-        "responses": {
-          "201": {
-            "description": "created"
-          }
-        }
+        "responses": { "201": { "description": "created" } }
       }
     },
+
     "/owners": {
       "get": {
         "responses": {
-          "200": {
-            "description": "ok"
-          }
+          "200": { "description": "ok" },
+          "404": { "description": "not found" }
         }
       },
       "post": {
         "requestBody": {
           "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
+            "application/json": { "schema": { "type": "object" } }
           }
         },
-        "responses": {
-          "201": {
-            "description": "created"
-          }
-        }
+        "responses": { "201": { "description": "created" } }
       }
     },
+
     "/appointments": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "ok"
-          }
-        }
-      },
+      "get": { "responses": { "200": { "description": "ok" } } },
       "post": {
         "requestBody": {
           "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
+            "application/json": { "schema": { "type": "object" } }
           }
         },
-        "responses": {
-          "201": {
-            "description": "created"
-          }
-        }
+        "responses": { "201": { "description": "created" } }
       }
+    },
+
+    "/reports": {
+      "get": { "responses": { "200": { "description": "ok" } } }
     }
   }
 }
