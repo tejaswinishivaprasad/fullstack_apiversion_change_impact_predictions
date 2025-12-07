@@ -6,7 +6,7 @@
   "recipeList": [
     {
       "org.openrewrite.text.ChangeText": {
-        "toText": "Hello Jon!"
+        "toText": "Hello John!"
       }
     }
   ],
