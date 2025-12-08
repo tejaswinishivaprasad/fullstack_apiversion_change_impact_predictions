@@ -6,15 +6,14 @@ Lightweight CI wrapper that:
  - finds changed files in a PR (git)
  - maps canonical v2 -> v1 or fetches base from origin/main
  - lightly dereferences local '#/components/schemas/...' refs (shallow)
- - primarily uses server diff / scoring / impacts logic
+ - primarily uses server.api_analyze(...) plus graph enrichment
  - writes pr-impact-full.json (detailed) and pr-impact-report.json (compact)
 
 This version:
  - locates curated datasets and index.json robustly
  - uses index.json only to infer pair_id / service_name from filenames
  - DOES NOT rely on model.joblib being present in CI
- - computes risk score via server.score_from_details(...) when available,
-   falling back to a simple heuristic if server scoring is unavailable
+ - computes risk score via a heuristic over ACEs, with model score as a lower-bound
 """
 
 from __future__ import annotations
@@ -696,6 +695,52 @@ def analyze_pair_files(
             dd["type"] = dd["type"].upper()
         diffs_serial.append(dd)
 
+    # Call api_analyze for features / explanation,
+    # but DO NOT trust its risk blindly (model might be missing).
+    try:
+        baseline_str = json.dumps(old_doc)
+        candidate_str = json.dumps(new_doc)
+        analy_raw = server.api_analyze(
+            baseline=baseline_str,
+            candidate=candidate_str,
+            dataset=None,   # keep None so this path works even without model.joblib
+            options=None,
+        )
+    except Exception as e:
+        print("WARN: server.api_analyze raised:", e, file=sys.stderr)
+        analy_raw = {
+            "run_id": None,
+            "predictions": [],
+            "summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)},
+        }
+
+    if not isinstance(analy_raw, dict):
+        analy_raw = {"summary": {"service_risk": 0.0, "num_aces": len(diffs_serial)}}
+
+    # Risk from model (if any)
+    try:
+        model_score = float((analy_raw.get("summary") or {}).get("service_risk", 0.0))
+    except Exception:
+        model_score = 0.0
+
+    # Risk from heuristic (fallback only)
+    heuristic_score = heuristic_risk_from_diffs(diffs_serial)
+
+    # If model is available, trust it. Otherwise, fall back to heuristic.
+    if model_score > 0:
+        final_score = model_score
+        source = "model"
+    else:
+        final_score = heuristic_score
+        source = "heuristic"
+
+    print(
+        f"DEBUG: risk model={model_score:.3f} heuristic={heuristic_score:.3f} "
+        f"final={final_score:.3f} source={source}",
+        file=sys.stderr,
+    )
+
+
     # enrichment: try to load graph if available
     g = None
     pfeats: Dict[str, Any] = {}
@@ -723,8 +768,6 @@ def analyze_pair_files(
         except Exception:
             service_guess = "unknown"
 
-    vfeats: Dict[str, Any] = {}
-
     try:
         try:
             g = server.load_graph()
@@ -750,6 +793,7 @@ def analyze_pair_files(
 
         if g is not None:
             pfeats = server.producer_features(g, service_guess)
+            # first attempt: with changed_paths as filter
             be_imp = server.backend_impacts(g, service_guess, changed_paths)
             fe_imp = server.ui_impacts(g, service_guess, changed_paths)
             print(
@@ -757,6 +801,7 @@ def analyze_pair_files(
                 file=sys.stderr,
             )
 
+            # if totally empty, retry without path filter (show all known dependents)
             if not be_imp and not fe_imp:
                 print(
                     "DEBUG: impacts empty with path filter; retrying without path filter",
@@ -780,48 +825,22 @@ def analyze_pair_files(
         be_imp = []
         fe_imp = []
 
-    # versioning metadata (same style as server.report)
-    if pair_id_hint:
-        try:
-            vfeats = server.version_meta_lookup(pair_id_hint) or {}
-        except Exception as e:
-            print("DEBUG: version_meta_lookup failed:", e, file=sys.stderr)
-            vfeats = {}
-    else:
-        vfeats = {}
-
-    # Risk: prefer server.score_from_details (same as server.report),
-    # fallback to local heuristic if that fails for some reason.
-    try:
-        final_score = float(
-            server.score_from_details(
-                diffs,
-                pfeats,
-                vfeats,
-                be_imp,
-                fe_imp,
-            )
-        )
-        source = "server_score"
-    except Exception as e:
-        print("WARN: server.score_from_details failed, using heuristic:", e, file=sys.stderr)
-        final_score = heuristic_risk_from_diffs(diffs_serial)
-        source = "heuristic"
-
-    print(
-        f"DEBUG: CI risk final={final_score:.3f} source={source}",
-        file=sys.stderr,
+    ai_expl = (
+        analy_raw.get("ai_explanation")
+        or analy_raw.get("explanation")
+        or ""
     )
+    if not ai_expl:
+        try:
+            ai_expl = server.make_explanation(final_score, diffs, pfeats, {}, be_imp, fe_imp)
+        except Exception:
+            ai_expl = ""
 
-    # Explanation: use server.make_explanation so CI text matches dashboard
-    try:
-        ai_expl = server.make_explanation(final_score, diffs, pfeats, vfeats, be_imp, fe_imp)
-    except Exception as e:
-        print("WARN: make_explanation failed:", e, file=sys.stderr)
-        ai_expl = ""
-
-    # Propagate pair_id consistently
-    final_pair_id = pair_id_hint or ""
+    # Ensure we propagate a pair_id if index knew it,
+    # even though api_analyze itself has no concept of pair_id.
+    # Ensure we propagate a pair_id if index knew it,
+    # even though api_analyze itself has no concept of pair_id.
+    final_pair_id = pair_id_hint or analy_raw.get("pair_id") or ""
 
     # Attach deterministic ace_id if missing, same style as UI:
     #   <pair_id>::ace::<index>
@@ -839,6 +858,8 @@ def analyze_pair_files(
             "ai_explanation": ai_expl,
             "pair_id": final_pair_id,
         },
+    
+
     }
 
 
