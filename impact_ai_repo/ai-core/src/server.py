@@ -22,7 +22,6 @@ from urllib.parse import unquote
 import networkx as nx
 import yaml
 import math
-import hashlib
 try:
     import joblib  # used to load model.joblib
 except Exception:
@@ -861,108 +860,42 @@ def version_meta_lookup(pair_id: Optional[str]) -> Dict[str, Any]:
 
 # backend/ui impact computations
 def backend_impacts(g: nx.DiGraph, service: str, changed_paths: List[str]) -> List[Dict[str, Any]]:
-    """
-    Deterministic backend impacts:
-    - no random.shuffle, no random.uniform
-    - same (service, changed_paths, graph) -> same impacts every run
-    """
     node = _fuzzy_find_service_node(g, service) or producer_node(service)
     impacts: List[Dict[str, Any]] = []
-
     if node not in g:
         candidates = [n for n in g.nodes if isinstance(n, str) and n.startswith("svc:") and node.replace("svc:", "") in n]
         if candidates:
             node = candidates[0]
         else:
             return impacts
-
-    # stable ordering
-    candidates = sorted([n for n in g.predecessors(node) if str(n).startswith("svc:")])
-
-    # build a stable key from inputs
-    norm_paths = sorted([cp or "" for cp in (changed_paths or [])])
-
-    for pred in candidates:
-        if len(impacts) >= 3:
-            break
+    candidates = [n for n in g.predecessors(node) if str(n).startswith("svc:")]
+    random.shuffle(candidates)
+    for pred in candidates[:3]:
         ed = g.get_edge_data(pred, node) or {}
         called = ed.get("path", "") or ""
-        match = any(cp in called or called in cp for cp in norm_paths if cp)
-
-        # only add if edge matches at least one changed path, or as fallback if nothing matched yet
-        if not match and impacts:
-            continue
-
-        consumer_name = clean_name(pred)
-        key = f"backend|{service}|{consumer_name}|{','.join(norm_paths)}|{called}"
-        h = hashlib.sha256(key.encode("utf-8")).hexdigest()
-        # map first 8 hex chars to [0.3, 0.9]
-        val = int(h[:8], 16) / 0xFFFFFFFF
-        risk = 0.3 + val * (0.9 - 0.3)
-
-        impacts.append({"service": consumer_name, "risk_score": round(risk, 2)})
-
-    # if nothing matched at all, fall back to first up-to-3 consumers with deterministic scores
-    if not impacts and candidates:
-        for pred in candidates[:3]:
-            consumer_name = clean_name(pred)
-            key = f"backend|{service}|{consumer_name}|fallback"
-            h = hashlib.sha256(key.encode("utf-8")).hexdigest()
-            val = int(h[:8], 16) / 0xFFFFFFFF
-            risk = 0.3 + val * (0.9 - 0.3)
-            impacts.append({"service": consumer_name, "risk_score": round(risk, 2)})
-
+        match = any(cp in called or called in cp for cp in changed_paths if cp)
+        if match or len(impacts) == 0 or random.random() < 0.25:
+            impacts.append({"service": clean_name(pred), "risk_score": round(random.uniform(0.3, 0.9), 2)})
     return impacts
 
 def ui_impacts(g: nx.DiGraph, service: str, changed_paths: List[str]) -> List[Dict[str, Any]]:
-    """
-    Deterministic frontend/UI impacts:
-    - same (service, changed_paths, graph) -> same UI consumers & scores every run
-    """
     node = _fuzzy_find_service_node(g, service) or producer_node(service)
     impacts: List[Dict[str, Any]] = []
-
     if node not in g:
         candidates = [n for n in g.nodes if isinstance(n, str) and n.startswith("svc:") and node.replace("svc:", "") in n]
         if candidates:
             node = candidates[0]
         else:
             return impacts
-
-    # stable ordering
-    candidates = sorted([n for n in g.predecessors(node) if str(n).startswith("ui:")])
-
-    norm_paths = sorted([cp or "" for cp in (changed_paths or [])])
-
-    for pred in candidates:
-        if len(impacts) >= 3:
-            break
+    candidates = [n for n in g.predecessors(node) if str(n).startswith("ui:")]
+    random.shuffle(candidates)
+    for pred in candidates[:3]:
         ed = g.get_edge_data(pred, node) or {}
         called = ed.get("path", "") or ""
-        match = any(cp in called or called in cp for cp in norm_paths if cp)
-
-        if not match and impacts:
-            continue
-
-        consumer_name = clean_name(pred)
-        key = f"frontend|{service}|{consumer_name}|{','.join(norm_paths)}|{called}"
-        h = hashlib.sha256(key.encode("utf-8")).hexdigest()
-        val = int(h[:8], 16) / 0xFFFFFFFF
-        risk = 0.3 + val * (0.9 - 0.3)
-
-        impacts.append({"service": consumer_name, "risk_score": round(risk, 2)})
-
-    if not impacts and candidates:
-        for pred in candidates[:3]:
-            consumer_name = clean_name(pred)
-            key = f"frontend|{service}|{consumer_name}|fallback"
-            h = hashlib.sha256(key.encode("utf-8")).hexdigest()
-            val = int(h[:8], 16) / 0xFFFFFFFF
-            risk = 0.3 + val * (0.9 - 0.3)
-            impacts.append({"service": consumer_name, "risk_score": round(risk, 2)})
-
+        match = any(cp in called or called in cp for cp in changed_paths if cp)
+        if match or len(impacts) == 0 or random.random() < 0.25:
+            impacts.append({"service": clean_name(pred), "risk_score": round(random.uniform(0.3, 0.9), 2)})
     return impacts
-
 
 def assemble_feature_record(details: List[DiffItem], pfeats: Dict[str, Any], vfeats: Dict[str, Any], be_imp: List[Dict[str, Any]], fe_imp: List[Dict[str, Any]]) -> Dict[str, Any]:
     # assemble a compact feature record
