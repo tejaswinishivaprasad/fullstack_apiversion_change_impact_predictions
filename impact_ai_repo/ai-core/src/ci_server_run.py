@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ci_server_run.py
 
