@@ -168,7 +168,12 @@ post_and_gate() {
   fi
 
   # counts: ACES, then BE/FE count (we'll recompute from lists)
-  ACES=$(jq -r '.details | length // (.summary_counts?.aces // .summary?.aces // .impact_assessment?.total_aces // (.atomic_change_events | length) // 0) // 0' "$OUT" 2>/dev/null || echo "0")
+   ACES=$(jq -r '
+    .impact_assessment.total_aces
+    // (.atomic_change_events | length)
+    // 0
+  ' "$OUT" 2>/dev/null || echo "0")
+
 
   # --- NEW: resolve backend/frontend impact *lists* robustly (any nesting) ---
   FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
