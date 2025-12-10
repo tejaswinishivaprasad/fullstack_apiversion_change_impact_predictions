@@ -107,10 +107,11 @@ comment_exists() {
 
 
 # Post comment to PR and gate the job based on report
+# Post comment to PR and gate the job based on report
 post_and_gate() {
   OUT="${1:-"${REPO_ROOT}/pr-impact-report.json"}"
 
-  # --- NEW GUARD: allow workflow to opt-out of in-script posting
+  # --- GUARD: allow workflow to opt-out of in-script posting
   if [ "${SKIP_POST:-false}" = "true" ] || [ "${POST_IMPACT_COMMENT:-true}" = "false" ]; then
     echo "post_and_gate: posting skipped (SKIP_POST=${SKIP_POST:-}, POST_IMPACT_COMMENT=${POST_IMPACT_COMMENT:-})"
     # still export gating outputs if present so workflow can read them
@@ -134,6 +135,7 @@ post_and_gate() {
   # extract core fields with safe fallbacks
   RISK=$(jq -r '( .risk_score // .predicted_risk // .impact_assessment.score // 0 )' "$OUT" 2>/dev/null || echo "0")
   RISK_FMT=$(awk -v r="$RISK" 'BEGIN{printf "%.3f", (r+0)}')
+  RISK_HUMAN=$(awk -v r="$RISK" 'BEGIN{printf "%.2f", (r+0)}')
 
   BAND=$(jq -r '.risk_band // .impact_assessment.label // empty' "$OUT" 2>/dev/null || echo "")
   LEVEL=$(jq -r '.risk_level // empty' "$OUT" 2>/dev/null || echo "")
@@ -155,7 +157,7 @@ post_and_gate() {
   PAIR_ID=$(jq -r '.metadata.pair_id // .backend.pair_id // .pair_id // empty' "$OUT" 2>/dev/null || echo "")
   EXPL=$(jq -r '.ai_explanation // .explanation // empty' "$OUT" 2>/dev/null || echo "")
 
-  # safe truncation for explanation (avoid huge comments)
+  # safe truncation for raw explanation (fallback only)
   EXPL_MAX_CHARS=${EXPL_MAX_CHARS:-800}
   if [ -n "$EXPL" ]; then
     if [ "${#EXPL}" -gt "$EXPL_MAX_CHARS" ]; then
@@ -231,6 +233,52 @@ post_and_gate() {
   BACKEND_IMP="$(printf '%s\n' "${BACKEND_IMPACT_LINES}" | sed '/^\s*$/d' | wc -l | tr -d ' ' || echo 0)"
   FRONTEND_IMP="$(printf '%s\n' "${FRONTEND_IMPACT_LINES}" | sed '/^\s*$/d' | wc -l | tr -d ' ' || echo 0)"
 
+  # --- NEW: change-type summary (endpoint_removed=4, endpoint_added=4) ---
+  TYPE_SUMMARY=$(jq -r '
+    (.atomic_change_events // [])
+    | map((.type // "" | ascii_downcase))
+    | map(select(. != ""))
+    | group_by(.)
+    | map("\(.[0])=\(length)")
+    | join(", ")
+  ' "$OUT" 2>/dev/null || echo "")
+
+  # --- NEW: per-ACE explanations mirroring React switch (first 8 ACEs) ---
+  ACE_EXPLANATIONS=$(jq -r '
+    (.atomic_change_events // [])[0:8][]
+    | .type as $raw_type
+    | .path as $path
+    | .detail as $detail
+    | ($raw_type // "" | ascii_downcase) as $t
+    | ($path // "<unknown-path>") as $p
+    | if $t == "endpoint_added" then
+        "• Adds a new API endpoint (" + $p + "). New endpoints are normally non-breaking but increase surface area; check auth and shared DTOs."
+      elif $t == "endpoint_removed" then
+        "• Removes an API endpoint (" + $p + "). Removing endpoints is breaking for clients that used it; check consumers and replacement paths."
+      elif $t == "param_required_added" then
+        "• A parameter became required (" + $p + "). Clients omitting this will fail; this is a breaking change unless defaults exist."
+      elif $t == "enum_narrowed" then
+        "• An enum or allowed-value set was narrowed (" + $p + "). Clients using removed values may fail."
+      elif $t == "response_code_removed" then
+        "• A response code was removed (" + $p + "). Clients expecting that code may behave incorrectly; check client logic."
+      elif $t == "param_added" then
+        "• A parameter was added (" + $p + "). If optional it is non-breaking; if required it is breaking — check defaults."
+      elif $t == "param_removed" then
+        "• A parameter was removed (" + $p + "). Usually non-breaking but verify server validation behaviour."
+      elif $t == "response_schema_changed" then
+        "• Response schema changed (" + $p + "). Consumers that parse the payload may break if fields or types changed."
+      elif $t == "requestbody_schema_changed" then
+        "• Request body schema changed (" + $p + "). Clients sending older shapes may fail; validate and communicate."
+      else
+        if $detail != null then
+          "• Change detected (" + ($raw_type // "unknown") + "): " +
+          (if ($detail | type) == "string" then $detail else ($detail | tostring) end)
+        else
+          "• Change detected (" + ($raw_type // "unknown") + "). Review consumers to judge impact."
+        end
+      end
+  ' "$OUT" 2>/dev/null || echo "")
+
   # format files list as markdown bullets
   FILES_MD=""
   if jq -e '.metadata.files_changed // .files_changed // .api_files_changed' "$OUT" >/dev/null 2>&1; then
@@ -256,9 +304,6 @@ post_and_gate() {
   QUICK_LINE="Risk: ${RISK_FMT} | Band: ${BAND:-n/a} | ${BADGE} | ACE Count: ${ACES}"
 
   echo "post_and_gate: $QUICK_LINE"
-
-  # Convert any literal "\n" in EXPL to real newlines (normalize)
-  EXPL_PRETTY="$(printf '%b' "${EXPL_TRIMMED:-}")"
 
   # Build markdown body file (preserves real newlines)
   BODY_FILE="$(mktemp --tmpdir pr-impact-body.XXXXXX.md)"
@@ -289,10 +334,32 @@ post_and_gate() {
 
     [ -n "$PAIR_ID" ] && printf "pair_id: %s\n\n" "$PAIR_ID"
 
-    if [ -n "$EXPL_PRETTY" ]; then
-      printf "**Explanation**\n\n"
-      printf '```\n%s\n```\n\n' "$EXPL_PRETTY"
+    # --- NEW: Explanation block with React-style semantics ---
+    printf "**Explanation**\n\n"
+    printf '```\n'
+    BAND_CAP="$(printf '%s' "$BAND" | sed 's/^\(.\)/\U\1/')"  # High / Medium / Low
+    if [ -z "$BAND_CAP" ]; then BAND_CAP="Unknown"; fi
+
+    printf "Predicted risk is %s (%s).\n" "$BAND_CAP" "$RISK_HUMAN"
+
+    if [ -n "$TYPE_SUMMARY" ]; then
+      printf "• Change types: %s\n" "$TYPE_SUMMARY"
     fi
+    if [ "$FRONTEND_IMP" -gt 0 ] 2>/dev/null; then
+      printf "• %s frontend module(s) possibly affected\n" "$FRONTEND_IMP"
+    fi
+    if [ "$BACKEND_IMP" -gt 0 ] 2>/dev/null; then
+      printf "• %s backend dependency(ies) impacted\n" "$BACKEND_IMP"
+    fi
+
+    if [ -n "$ACE_EXPLANATIONS" ]; then
+      printf "• Sample changes (detailed):\n"
+      printf "%s\n" "$ACE_EXPLANATIONS"
+    elif [ -n "$EXPL_TRIMMED" ]; then
+      # fallback to original server explanation if jq-based one is empty
+      printf "%s\n" "$EXPL_TRIMMED"
+    fi
+    printf '```\n\n'
 
     # Raw report in collapsible block; pretty-print and limit lines
     MAX_LINES=${MAX_LINES:-500}
@@ -314,7 +381,6 @@ post_and_gate() {
 
     printf "%s\n" "$SENTINEL"
   } > "${BODY_FILE}"
-
 
   # Dedupe: skip posting if comment with identical sentinel already exists
   if comment_exists "$SENTINEL"; then
@@ -389,6 +455,7 @@ PY
   echo "Impact AI gating: ${LEVEL} (risk ${RISK_FMT}). Continuing."
   return 0
 }
+
 
 # copy any generated report(s) to repo root and set github outputs when possible
 copy_report() {
