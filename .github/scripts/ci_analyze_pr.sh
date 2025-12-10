@@ -168,12 +168,47 @@ post_and_gate() {
   fi
 
   # counts: ACES, then BE/FE count (we'll recompute from lists)
-   ACES=$(jq -r '
+  ACES=$(jq -r '
     .impact_assessment.total_aces
     // (.atomic_change_events | length)
     // 0
   ' "$OUT" 2>/dev/null || echo "0")
 
+  # --- NEW: per-ACE explanations that mirror React switch logic ---
+  ACE_EXPLANATIONS=$(jq -r '
+    (.atomic_change_events // [])[]
+    | .type as $raw_type
+    | .path as $path
+    | .detail as $detail
+    | ($raw_type // "" | ascii_downcase) as $t
+    | ($path // "<unknown-path>") as $p
+    | if $t == "endpoint_added" then
+        "• Adds a new API endpoint (" + $p + "). New endpoints are normally non-breaking but increase surface area; check auth and shared DTOs."
+      elif $t == "endpoint_removed" then
+        "• Removes an API endpoint (" + $p + "). Removing endpoints is breaking for clients that used it; check consumers and replacement paths."
+      elif $t == "param_required_added" then
+        "• A parameter became required (" + $p + "). Clients omitting this will fail; this is a breaking change unless defaults exist."
+      elif $t == "enum_narrowed" then
+        "• An enum or allowed-value set was narrowed (" + $p + "). Clients using removed values may fail."
+      elif $t == "response_code_removed" then
+        "• A response code was removed (" + $p + "). Clients expecting that code may behave incorrectly; check client logic."
+      elif $t == "param_added" then
+        "• A parameter was added (" + $p + "). If optional it is non-breaking; if required it is breaking — check defaults."
+      elif $t == "param_removed" then
+        "• A parameter was removed (" + $p + "). Usually non-breaking but verify server validation behaviour."
+      elif $t == "response_schema_changed" then
+        "• Response schema changed (" + $p + "). Consumers that parse the payload may break if fields or types changed."
+      elif $t == "requestbody_schema_changed" then
+        "• Request body schema changed (" + $p + "). Clients sending older shapes may fail; validate and communicate."
+      else
+        if $detail != null then
+          "• Change detected (" + ($raw_type // "unknown") + "): " +
+          (if ($detail | type) == "string" then $detail else ($detail | tostring) end)
+        else
+          "• Change detected (" + ($raw_type // "unknown") + "). Review consumers to judge impact."
+        end
+      end
+  ' "$OUT" 2>/dev/null || echo "")
 
   # --- NEW: resolve backend/frontend impact *lists* robustly (any nesting) ---
   FULL_JSON="${REPO_ROOT:-.}/pr-impact-full.json"
@@ -290,12 +325,17 @@ post_and_gate() {
 
     [ -n "$PAIR_ID" ] && printf "pair_id: %s\n\n" "$PAIR_ID"
 
+    if [ -n "$ACE_EXPLANATIONS" ]; then
+      printf "**Change impact summary (per ACE)**\n\n"
+      printf "%s\n\n" "$ACE_EXPLANATIONS"
+    fi
+
     if [ -n "$EXPL_PRETTY" ]; then
-      printf "**Explanation**\n\n"
+      printf "**AI Explanation (raw)**\n\n"
       printf '```\n%s\n```\n\n' "$EXPL_PRETTY"
     fi
 
-       # Raw report in collapsible block; pretty-print and limit lines
+    # Raw report in collapsible block; pretty-print and limit lines
     MAX_LINES=${MAX_LINES:-500}
     RAW_PRETTY=""
 
