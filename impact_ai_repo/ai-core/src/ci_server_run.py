@@ -601,31 +601,34 @@ def heuristic_risk_from_diffs(diffs: List[Dict[str, Any]]) -> float:
     """
     Simple, deterministic risk heuristic based purely on ACEs.
 
-    - Endpoint removals / schema changes drive score toward 1.0
-    - Non-breaking but numerous changes still give medium-ish scores
+    - If there is at least one structurally breaking change, treat as high-ish risk (0.7)
+    - If there are only additive / minor changes, treat as medium-low risk (0.3)
+    - No ACEs => 0.0
+
+    Same input list of diffs => same score every single time.
     """
     if not diffs:
         return 0.0
 
-    total = len(diffs)
     types_upper = [str(d.get("type", "")).upper() for d in diffs]
-    breaking = sum(1 for t in types_upper if t in BREAKING_TYPES)
-    removed = sum(1 for t in types_upper if t == "ENDPOINT_REMOVED")
+    total = len(diffs)
 
     # No changes? No risk.
     if total == 0:
         return 0.0
 
-    score = 0.0
+    # Breaking signal:
+    # - anything in BREAKING_TYPES
+    # - or explicit ENDPOINT_REMOVED (kept for clarity even if BREAKING_TYPES already contains it)
+    breaking = any(t in BREAKING_TYPES for t in types_upper)
+    removed_endpoint = any(t == "ENDPOINT_REMOVED" for t in types_upper)
 
-    if breaking or removed:
-        # Strongly breaking changes – go high.
-        score = 0.7 + 0.01 * min(total, 30)
+    if breaking or removed_endpoint:
+        score = 0.7
     else:
-        # Mostly additive / minor tweaks.
-        score = 0.3 + 0.01 * min(total, 20)
+        score = 0.3
 
-    # Clamp to [0, 1]
+    # Clamp and round to keep it tidy (even though values are discrete)
     score = max(0.0, min(1.0, score))
     return round(score, 3)
 
@@ -989,7 +992,7 @@ def main() -> int:
     def _band_label(score: float) -> Tuple[str, str]:
         if score >= 0.7:
             return "High", "BLOCK"
-        if score >= 0.4:
+        if score >= 0.3:
             return "Medium", "WARN"
         return "Low", "PASS"
 

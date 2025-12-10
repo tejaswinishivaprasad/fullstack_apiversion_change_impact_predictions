@@ -670,7 +670,7 @@ BASE_WEIGHTS = {
 }
 
 def _risk_band(s: float) -> str:
-    return "High" if s >= 0.7 else "Medium" if s >= 0.4 else "Low" if s > 0 else "None"
+    return "High" if s >= 0.7 else "Medium" if s >= 0.3 else "Low" if s > 0 else "None"
 
 def normalize_path(p: Optional[str]) -> Optional[str]:
     if not p:
