@@ -1,0 +1,114 @@
+{
+  "version": "0.1",
+  "generated_at": "2025-12-05T20:22:26.546077Z",
+  "seed": 42,
+  "models": {
+    "LogisticRegression": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "brier_score": 3.054005615986473e-06,
+      "n_train": 3334,
+      "n_test": 1112,
+      "train_time_seconds": 0.016266822814941406,
+      "model_path": "analysis_outputs/curated_noisy_heavy/models/LogisticRegression.pkl"
+    },
+    "RandomForest": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "brier_score": 9.712230215827356e-06,
+      "n_train": 3334,
+      "n_test": 1112,
+      "train_time_seconds": 0.2950305938720703,
+      "model_path": "analysis_outputs/curated_noisy_heavy/models/RandomForest.pkl"
+    },
+    "GradientBoosting": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "brier_score": 2.008375349891926e-16,
+      "n_train": 3334,
+      "n_test": 1112,
+      "train_time_seconds": 0.20110511779785156,
+      "model_path": "analysis_outputs/curated_noisy_heavy/models/GradientBoosting.pkl"
+    }
+  },
+  "calibration": {
+    "bins": [
+      [
+        0.0,
+        0.1
+      ],
+      [
+        0.1,
+        0.2
+      ],
+      [
+        0.2,
+        0.30000000000000004
+      ],
+      [
+        0.30000000000000004,
+        0.4
+      ],
+      [
+        0.4,
+        0.5
+      ],
+      [
+        0.5,
+        0.6000000000000001
+      ],
+      [
+        0.6000000000000001,
+        0.7000000000000001
+      ],
+      [
+        0.7000000000000001,
+        0.8
+      ],
+      [
+        0.8,
+        0.9
+      ],
+      [
+        0.9,
+        1.0
+      ]
+    ],
+    "predicted": [
+      0.0010902896569534824,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.9971242425179229
+    ],
+    "observed": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  }
+}

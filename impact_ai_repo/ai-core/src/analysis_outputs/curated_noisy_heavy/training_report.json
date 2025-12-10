@@ -1,0 +1,34 @@
+{
+  "best_model": "RandomForest",
+  "best_auc": 0.556567064590504,
+  "results": {
+    "LogisticRegression": {
+      "accuracy": 0.7426966292134831,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5447548705481307,
+      "train_time": 0.028084993362426758
+    },
+    "RandomForest": {
+      "accuracy": 0.7460674157303371,
+      "precision": 1.0,
+      "recall": 0.013100436681222707,
+      "f1": 0.02586206896551724,
+      "roc_auc": 0.556567064590504,
+      "train_time": 0.31299400329589844
+    },
+    "GradientBoosting": {
+      "accuracy": 0.7460674157303371,
+      "precision": 1.0,
+      "recall": 0.013100436681222707,
+      "f1": 0.02586206896551724,
+      "roc_auc": 0.556567064590504,
+      "train_time": 0.2210681438446045
+    }
+  },
+  "generated_at": "2025-12-05T14:22:57.855552Z",
+  "seed": 42,
+  "n_train": 3556,
+  "n_test": 890
+}

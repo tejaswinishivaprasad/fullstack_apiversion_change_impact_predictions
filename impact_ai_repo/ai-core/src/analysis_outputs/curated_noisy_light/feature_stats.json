@@ -1,0 +1,84 @@
+{
+  "rows": 4339,
+  "columns": [
+    "ace_id",
+    "pair_id",
+    "project",
+    "old_version",
+    "new_version",
+    "type",
+    "raw_type",
+    "method",
+    "path",
+    "path_depth",
+    "breaking_change",
+    "shared_schemas_count",
+    "calls_services_count",
+    "has_request_body",
+    "has_response_body",
+    "detail_len",
+    "is_add",
+    "is_remove",
+    "detail"
+  ],
+  "nan_counts": {
+    "ace_id": 0,
+    "pair_id": 0,
+    "project": 0,
+    "old_version": 0,
+    "new_version": 0,
+    "type": 0,
+    "raw_type": 0,
+    "method": 0,
+    "path": 0,
+    "path_depth": 0,
+    "breaking_change": 0,
+    "shared_schemas_count": 0,
+    "calls_services_count": 0,
+    "has_request_body": 0,
+    "has_response_body": 0,
+    "detail_len": 0,
+    "is_add": 0,
+    "is_remove": 0,
+    "detail": 0
+  },
+  "numeric_summary": {
+    "path_depth": {
+      "min": 0.0,
+      "max": 2.0
+    },
+    "breaking_change": {
+      "min": 0.0,
+      "max": 1.0
+    },
+    "shared_schemas_count": {
+      "min": 0.0,
+      "max": 0.0
+    },
+    "calls_services_count": {
+      "min": 0.0,
+      "max": 0.0
+    },
+    "has_request_body": {
+      "min": 0.0,
+      "max": 0.0
+    },
+    "has_response_body": {
+      "min": 0.0,
+      "max": 0.0
+    },
+    "detail_len": {
+      "min": 0.0,
+      "max": 23.0
+    },
+    "is_add": {
+      "min": 0.0,
+      "max": 0.0
+    },
+    "is_remove": {
+      "min": 0.0,
+      "max": 0.0
+    }
+  },
+  "features_csv_sha1": "7e36e4a5dcd94e742055df94056df8052fe56d99"
+}

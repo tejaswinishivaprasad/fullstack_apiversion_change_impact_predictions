@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "generated_at": "2025-11-19T15:26:20.896265Z",
+  "generated_at": "2025-12-05T20:50:51.969985Z",
   "seed": 42,
   "models": {
     "LogisticRegression": {
@@ -9,12 +9,12 @@
       "recall": 1.0,
       "f1": 1.0,
       "roc_auc": 1.0,
-      "pr_auc": 1.0,
-      "brier_score": 0.0018017005722782615,
-      "n_train": 388,
-      "n_test": 130,
-      "train_time_seconds": 0.0722501277923584,
-      "model_path": "src/analysis_outputs/models/LogisticRegression.pkl"
+      "pr_auc": 0.9999999999999999,
+      "brier_score": 4.5544441709764896e-07,
+      "n_train": 11517,
+      "n_test": 3840,
+      "train_time_seconds": 0.036621809005737305,
+      "model_path": "analysis_outputs/curated_clean/models/LogisticRegression.pkl"
     },
     "RandomForest": {
       "accuracy": 1.0,
@@ -23,11 +23,11 @@
       "f1": 1.0,
       "roc_auc": 1.0,
       "pr_auc": 1.0,
-      "brier_score": 1.7307692307692338e-06,
-      "n_train": 388,
-      "n_test": 130,
-      "train_time_seconds": 0.27628588676452637,
-      "model_path": "src/analysis_outputs/models/RandomForest.pkl"
+      "brier_score": 2.591145833333337e-06,
+      "n_train": 11517,
+      "n_test": 3840,
+      "train_time_seconds": 0.5502212047576904,
+      "model_path": "analysis_outputs/curated_clean/models/RandomForest.pkl"
     },
     "GradientBoosting": {
       "accuracy": 1.0,
@@ -36,11 +36,11 @@
       "f1": 1.0,
       "roc_auc": 1.0,
       "pr_auc": 1.0,
-      "brier_score": 2.1628237590853917e-16,
-      "n_train": 388,
-      "n_test": 130,
-      "train_time_seconds": 0.13103914260864258,
-      "model_path": "src/analysis_outputs/models/GradientBoosting.pkl"
+      "brier_score": 1.6746270925947057e-16,
+      "n_train": 11517,
+      "n_test": 3840,
+      "train_time_seconds": 0.5447797775268555,
+      "model_path": "analysis_outputs/curated_clean/models/GradientBoosting.pkl"
     }
   },
   "calibration": {
@@ -87,7 +87,7 @@
       ]
     ],
     "predicted": [
-      0.020452043698393575,
+      0.0006710533551179651,
       0.0,
       0.0,
       0.0,
@@ -96,7 +96,7 @@
       0.0,
       0.0,
       0.0,
-      0.9077957520188247
+      0.999329268348873
     ],
     "observed": [
       0.0,

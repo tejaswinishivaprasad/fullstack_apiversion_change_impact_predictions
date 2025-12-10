@@ -1,0 +1,13 @@
+[
+  "project",
+  "old_version",
+  "new_version",
+  "path_depth",
+  "shared_schemas_count",
+  "calls_services_count",
+  "has_request_body",
+  "has_response_body",
+  "detail_len",
+  "is_add",
+  "is_remove"
+]
