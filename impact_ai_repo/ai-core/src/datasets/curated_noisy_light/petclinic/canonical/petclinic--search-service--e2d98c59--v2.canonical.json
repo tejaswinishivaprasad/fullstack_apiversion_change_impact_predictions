@@ -30,8 +30,8 @@
     "/owners": {
       "get": {
         "responses": {
-          "200": { "description": "ok" },
-          "404": { "description": "not found" }
+          "200": { "description": "ok" }
+
         }
       },
       "post": {
